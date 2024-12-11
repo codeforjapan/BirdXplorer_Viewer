@@ -21,16 +21,21 @@ export default defineConfig({
         operations: {
           get_notes_api_v1_data_notes_get: {
             query: {
+              useQuery: true,
               useInfinite: true,
               useInfiniteQueryParam: "offset",
             },
           },
           get_posts_api_v1_data_posts_get: {
             query: {
+              useQuery: true,
               useInfinite: true,
               useInfiniteQueryParam: "offset",
             },
           },
+        },
+        query: {
+          useQuery: true,
         },
       },
     },

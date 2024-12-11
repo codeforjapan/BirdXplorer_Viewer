@@ -817,6 +817,144 @@ export function useGetNotesApiV1DataNotesGetInfinite<
   return query;
 }
 
+export const getGetNotesApiV1DataNotesGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetNotesApiV1DataNotesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+) => {
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetNotesApiV1DataNotesGetQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>
+  > = ({ signal }) =>
+    getNotesApiV1DataNotesGet(params, { signal, ...fetchOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type GetNotesApiV1DataNotesGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>
+>;
+export type GetNotesApiV1DataNotesGetQueryError = HTTPValidationError;
+
+export function useGetNotesApiV1DataNotesGet<
+  TData = Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+  TError = HTTPValidationError
+>(
+  params: undefined | GetNotesApiV1DataNotesGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    fetch?: RequestInit;
+  }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useGetNotesApiV1DataNotesGet<
+  TData = Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetNotesApiV1DataNotesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useGetNotesApiV1DataNotesGet<
+  TData = Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetNotesApiV1DataNotesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+/**
+ * @summary Get Notes
+ */
+
+export function useGetNotesApiV1DataNotesGet<
+  TData = Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetNotesApiV1DataNotesGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getNotesApiV1DataNotesGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetNotesApiV1DataNotesGetQueryOptions(
+    params,
+    options
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 /**
  * Post のデータを取得するエンドポイント
  * @summary Get Posts
@@ -1044,6 +1182,144 @@ export function useGetPostsApiV1DataPostsGetInfinite<
     TData,
     TError
   > & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getGetPostsApiV1DataPostsGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetPostsApiV1DataPostsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+) => {
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetPostsApiV1DataPostsGetQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>
+  > = ({ signal }) =>
+    getPostsApiV1DataPostsGet(params, { signal, ...fetchOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type GetPostsApiV1DataPostsGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>
+>;
+export type GetPostsApiV1DataPostsGetQueryError = HTTPValidationError;
+
+export function useGetPostsApiV1DataPostsGet<
+  TData = Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+  TError = HTTPValidationError
+>(
+  params: undefined | GetPostsApiV1DataPostsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    fetch?: RequestInit;
+  }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useGetPostsApiV1DataPostsGet<
+  TData = Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetPostsApiV1DataPostsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useGetPostsApiV1DataPostsGet<
+  TData = Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetPostsApiV1DataPostsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+/**
+ * @summary Get Posts
+ */
+
+export function useGetPostsApiV1DataPostsGet<
+  TData = Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+  TError = HTTPValidationError
+>(
+  params?: GetPostsApiV1DataPostsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPostsApiV1DataPostsGet>>,
+        TError,
+        TData
+      >
+    >;
+    fetch?: RequestInit;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetPostsApiV1DataPostsGetQueryOptions(
+    params,
+    options
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+  };
 
   query.queryKey = queryOptions.queryKey;
 
