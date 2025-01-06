@@ -14,7 +14,7 @@ import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -24,7 +24,7 @@ export default function handleRequest(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
-  return isbot(request.headers.get("user-agent") || "")
+  return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
         request,
         responseStatusCode,
@@ -39,7 +39,7 @@ export default function handleRequest(
       );
 }
 
-function handleBotRequest(
+async function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -71,6 +71,7 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error);
         },
         onError(error: unknown) {
@@ -89,7 +90,7 @@ function handleBotRequest(
   });
 }
 
-function handleBrowserRequest(
+async function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -121,6 +122,7 @@ function handleBrowserRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
+          // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
           reject(error);
         },
         onError(error: unknown) {
