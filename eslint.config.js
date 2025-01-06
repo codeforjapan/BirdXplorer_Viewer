@@ -111,5 +111,8 @@ export default tseslint.config(
         version: "detect",
       },
     },
+  },
+  {
+    ignores: ["app/generated/**"],
   }
 );

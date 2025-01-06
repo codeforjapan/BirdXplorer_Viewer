@@ -8,7 +8,8 @@
     "dev": "remix vite:dev",
     "lint": "eslint --max-warnings 0",
     "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "orval": "orval"
   },
   "dependencies": {
     "@mantine/charts": "7.15.2",
@@ -20,6 +21,7 @@
     "@remix-run/node": "2.15.2",
     "@remix-run/react": "2.15.2",
     "@remix-run/serve": "2.15.2",
+    "@tanstack/react-query": "5.62.15",
     "dayjs": "1.11.13",
     "isbot": "4.1.0",
     "react": "18.3.1",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",
     "@eslint/js": "9.17.0",
+    "@faker-js/faker": "9.3.0",
     "@remix-run/dev": "2.15.2",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
@@ -41,6 +44,8 @@
     "eslint-plugin-react-refresh": "0.4.16",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "globals": "15.14.0",
+    "msw": "2.7.0",
+    "orval": "7.3.0",
     "postcss": "8.4.49",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
