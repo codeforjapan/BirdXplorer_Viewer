@@ -23,6 +23,9 @@ export default tseslint.config(
     ...js.configs.recommended,
   },
   {
+    ignores: ["app/generated/**"],
+  },
+  {
     files: [tsFiles],
     extends: [
       ...tseslint.configs.recommendedTypeChecked,
