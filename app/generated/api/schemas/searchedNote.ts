@@ -13,7 +13,7 @@ export interface SearchedNote {
   /**
    * コミュニティノートの作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1734933018527
+   * @maximum 1736905314328
    */
   createdAt: number;
   /** コミュニティノートの現在の評価状態 */

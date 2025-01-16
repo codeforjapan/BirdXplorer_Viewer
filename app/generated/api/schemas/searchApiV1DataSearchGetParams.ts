@@ -92,7 +92,7 @@ ISO 639-1 に準拠した 2 文字の言語コードを指定することで、�
   /**
    * Postのお気に入り数。
    */
-  post_favorite_count_from?: number | null;
+  post_like_count_from?: number | null;
   /**
    * Postのリポスト数。
    */
