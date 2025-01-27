@@ -1,7 +1,7 @@
 import { defineConfig } from "orval";
 
 export default defineConfig({
-  birdxplorer: {
+  birdxplorer_api: {
     input: "https://birdxplorer.onrender.com/openapi.json",
     output: {
       clean: true,
@@ -9,34 +9,13 @@ export default defineConfig({
       mode: "split",
       schemas: "app/generated/api/schemas",
       target: "app/generated/api/client.ts",
-      client: "react-query",
+      client: "fetch",
       httpClient: "fetch",
       baseUrl: "https://birdxplorer.onrender.com",
       urlEncodeParameters: true,
       mock: {
         type: "msw",
         useExamples: true,
-      },
-      override: {
-        operations: {
-          get_notes_api_v1_data_notes_get: {
-            query: {
-              useQuery: true,
-              useInfinite: true,
-              useInfiniteQueryParam: "offset",
-            },
-          },
-          get_posts_api_v1_data_posts_get: {
-            query: {
-              useQuery: true,
-              useInfinite: true,
-              useInfiniteQueryParam: "offset",
-            },
-          },
-        },
-        query: {
-          useQuery: true,
-        },
       },
     },
   },
