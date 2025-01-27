@@ -1,18 +1,11 @@
-import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps, getSelectProps } from "@conform-to/react";
 import {
-  Container,
-  Group,
-  Modal,
-  ModalCloseButton,
-  NativeSelect,
-  Stack,
-  Text,
-  TextInput,
-  UnstyledButton,
-} from "@mantine/core";
+  getFormProps,
+  getInputProps,
+  getSelectProps,
+  type SubmissionResult,
+} from "@conform-to/react";
+import { Group, NativeSelect, Stack, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { useDisclosure } from "@mantine/hooks";
 import { Form } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
@@ -23,21 +16,20 @@ import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
 import { useNoteSearchForm } from "../useForm";
-import { AdvancedSearchForm } from "./AdvancedSearchForm";
 
-type SearchFormProps = {
+export type AdvancedSearchFormProps = {
   defaultValue?: NoteSearchParams;
   lastResult?: SubmissionResult<string[]>;
+  onSubmit?: Parameters<typeof useNoteSearchForm>[0]["onSubmit"];
 };
 
-export const SearchForm = (props: SearchFormProps) => {
-  const { defaultValue, lastResult } = props;
-
-  const [opened, { open, close }] = useDisclosure(false);
+export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
+  const { defaultValue, lastResult, onSubmit } = props;
 
   const [form, fields] = useNoteSearchForm({
     lastResult,
     defaultValue,
+    onSubmit,
   });
 
   const {
@@ -55,6 +47,11 @@ export const SearchForm = (props: SearchFormProps) => {
   return (
     <>
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
+        <Group justify="flex-end">
+          <SubmitButton disabled={!form.valid} color="pink">
+            検索
+          </SubmitButton>
+        </Group>
         <Stack gap="lg">
           <TextInput
             error={
@@ -112,34 +109,8 @@ export const SearchForm = (props: SearchFormProps) => {
             onFocus={focusNoteCreatedDate}
             value={noteCreatedRangeValue}
           />
-          <UnstyledButton c="pink" onClick={open} type="button" variant="link">
-            詳細な条件で検索
-          </UnstyledButton>
-          <SubmitButton disabled={!form.valid} color="pink">
-            検索
-          </SubmitButton>
         </Stack>
       </Form>
-      <Modal fullScreen withCloseButton={false} opened={opened} onClose={close}>
-        <Container size="md">
-          <Stack gap="md">
-            <Group justify="space-between">
-              <Text>詳細な条件で検索</Text>
-              <ModalCloseButton aria-label="簡易検索に戻る" />
-            </Group>
-            <AdvancedSearchForm
-              defaultValue={defaultValue}
-              lastResult={lastResult}
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              onSubmit={(e, ctx) => {
-                close();
-                // どうにかしてここで詳細検索じゃないフォームを再レンダリングしたい！
-                // なぜなら、詳細検索の結果を使ってクエリ文字列の変更と Note の再フェッチが走るのに詳細検索じゃないフォームの値が更新されないから！
-              }}
-            />
-          </Stack>
-        </Container>
-      </Modal>
     </>
   );
 };
