@@ -1,6 +1,9 @@
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "dayjs/locale/ja";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
 import {
   Links,
   Meta,
@@ -8,6 +11,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,7 +27,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
+            {children}
+          </DatesProvider>
+        </MantineProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
