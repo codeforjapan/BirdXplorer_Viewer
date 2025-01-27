@@ -19,4 +19,13 @@ export default defineConfig({
       },
     },
   },
+  birdxplorer_zod: {
+    input: "https://birdxplorer.onrender.com/openapi.json",
+    output: {
+      clean: true,
+      prettier: true,
+      target: "app/generated/api/zod/schema.ts",
+      client: "zod",
+    },
+  },
 });
