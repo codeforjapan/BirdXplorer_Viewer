@@ -45,72 +45,70 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   });
 
   return (
-    <>
-      <Form method="POST" preventScrollReset {...getFormProps(form)}>
-        <Group justify="flex-end">
-          <SubmitButton disabled={!form.valid} color="pink">
-            検索
-          </SubmitButton>
-        </Group>
-        <Stack gap="lg">
-          <TextInput
-            error={
-              arrayContainsNonNullItem(fields.note_includes_text.errors) && (
-                <FormError errors={[fields.note_includes_text.errors]} />
-              )
-            }
-            label="コミュニティノートに含まれるテキスト"
-            {...getInputProps(fields.note_includes_text, { type: "text" })}
-          />
-          <NativeSelect
-            error={
-              arrayContainsNonNullItem(fields.topic_ids.errors) && (
-                <FormError errors={[fields.topic_ids.errors]} />
-              )
-            }
-            label="トピック"
-            {...getSelectProps(fields.topic_ids)}
-          />
-          <NativeSelect
-            error={
-              arrayContainsNonNullItem(fields.language.errors) && (
-                <FormError errors={[fields.language.errors]} />
-              )
-            }
-            label="言語"
-            {...getSelectProps(fields.language)}
-          >
-            {Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => (
-              <option key={id} value={id}>
-                {label}
-              </option>
-            ))}
-          </NativeSelect>
-          <DatePickerInput
-            clearable
-            type="range"
-            valueFormat="YYYY.MM.DD (ddd)"
-            label="コミュニティノートの作成日"
-            error={
-              arrayContainsNonNullItem(
-                fields.note_created_at_from.errors,
-                fields.note_created_at_to.errors
-              ) && (
-                <FormError
-                  errors={[
-                    fields.note_created_at_from.errors,
-                    fields.note_created_at_to.errors,
-                  ]}
-                />
-              )
-            }
-            onBlur={blurNoteCreatedDate}
-            onChange={changeNoteCreatedDate}
-            onFocus={focusNoteCreatedDate}
-            value={noteCreatedRangeValue}
-          />
-        </Stack>
-      </Form>
-    </>
+    <Form method="POST" preventScrollReset {...getFormProps(form)}>
+      <Group justify="flex-end">
+        <SubmitButton disabled={!form.valid} color="pink">
+          検索
+        </SubmitButton>
+      </Group>
+      <Stack gap="lg">
+        <TextInput
+          error={
+            arrayContainsNonNullItem(fields.note_includes_text.errors) && (
+              <FormError errors={[fields.note_includes_text.errors]} />
+            )
+          }
+          label="コミュニティノートに含まれるテキスト"
+          {...getInputProps(fields.note_includes_text, { type: "text" })}
+        />
+        <NativeSelect
+          error={
+            arrayContainsNonNullItem(fields.topic_ids.errors) && (
+              <FormError errors={[fields.topic_ids.errors]} />
+            )
+          }
+          label="トピック"
+          {...getSelectProps(fields.topic_ids)}
+        />
+        <NativeSelect
+          error={
+            arrayContainsNonNullItem(fields.language.errors) && (
+              <FormError errors={[fields.language.errors]} />
+            )
+          }
+          label="言語"
+          {...getSelectProps(fields.language)}
+        >
+          {Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </NativeSelect>
+        <DatePickerInput
+          clearable
+          type="range"
+          valueFormat="YYYY.MM.DD (ddd)"
+          label="コミュニティノートの作成日"
+          error={
+            arrayContainsNonNullItem(
+              fields.note_created_at_from.errors,
+              fields.note_created_at_to.errors
+            ) && (
+              <FormError
+                errors={[
+                  fields.note_created_at_from.errors,
+                  fields.note_created_at_to.errors,
+                ]}
+              />
+            )
+          }
+          onBlur={blurNoteCreatedDate}
+          onChange={changeNoteCreatedDate}
+          onFocus={focusNoteCreatedDate}
+          value={noteCreatedRangeValue}
+        />
+      </Stack>
+    </Form>
   );
 };

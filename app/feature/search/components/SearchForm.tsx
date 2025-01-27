@@ -14,6 +14,7 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { Form } from "@remix-run/react";
+import { objectHash } from "ohash";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
@@ -38,6 +39,9 @@ export const SearchForm = (props: SearchFormProps) => {
   const [form, fields] = useNoteSearchForm({
     lastResult,
     defaultValue,
+    // 検索条件が変わったときに明示的に Input を再レンダリングするために、defaultValue から一意な id を生成する
+    // こうすることで、モーダル内の AdvancedSearchForm を submit した際に新しい条件がページ側のフォームに反映される
+    id: objectHash(defaultValue),
   });
 
   const {
@@ -130,12 +134,7 @@ export const SearchForm = (props: SearchFormProps) => {
             <AdvancedSearchForm
               defaultValue={defaultValue}
               lastResult={lastResult}
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              onSubmit={(e, ctx) => {
-                close();
-                // どうにかしてここで詳細検索じゃないフォームを再レンダリングしたい！
-                // なぜなら、詳細検索の結果を使ってクエリ文字列の変更と Note の再フェッチが走るのに詳細検索じゃないフォームの値が更新されないから！
-              }}
+              onSubmit={close}
             />
           </Stack>
         </Container>

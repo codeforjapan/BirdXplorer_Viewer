@@ -8,6 +8,12 @@ import { noteSearchParamSchema } from "./validation";
 
 type UseNoteSearchForm = {
   defaultValue?: NoteSearchParams;
+  /**
+   * この値を変更するとフォームをリセットできる
+   *
+   * @see {@link https://ja.conform.guide/api/react/useForm#tips `id` が変更されたときに自動的にフォームをリセットします。}
+   */
+  id?: string;
   lastResult: SubmissionResult<string[]> | undefined;
   onSubmit?: Parameters<
     typeof useForm<z.infer<typeof noteSearchParamSchema>>
