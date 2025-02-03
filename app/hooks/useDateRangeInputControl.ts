@@ -10,6 +10,8 @@ type DateRangeInputControlOptions = {
    * DatePickerInput から送られてきた Date をフォームの文字列に変換する処理
    *
    * この処理は冪等である必要がある
+   *
+   * 空文字 or undefined を返すと、フォームの値が空になる
    */
   convertDateToString: (date: Date | null) => string | undefined;
   /**
@@ -53,8 +55,8 @@ export const useDateRangeInputControl = (
 
   const change = useCallback(
     (dateRange: DatePickerValue<"range">) => {
-      fromControl.change(convertDateToString(dateRange[0]));
-      toControl.change(convertDateToString(dateRange[1]));
+      fromControl.change(convertDateToString(dateRange[0]) ?? "");
+      toControl.change(convertDateToString(dateRange[1]) ?? "");
     },
     [fromControl, toControl]
   );

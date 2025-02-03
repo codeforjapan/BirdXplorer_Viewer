@@ -70,7 +70,7 @@ export const noteSearchParamSchema = z.object({
     .min(0)
     .max(
       new Date().valueOf(),
-      "作成日の下限を現在より先の日時に設定することはできません"
+      "作成期間の最初を現在より先の日時に設定することはできません"
     )
     .or(z.null())
     .optional(),
@@ -79,7 +79,7 @@ export const noteSearchParamSchema = z.object({
     .min(0)
     .max(
       new Date().valueOf(),
-      "作成日の上限を現在より先の日時に設定することはできません"
+      "作成期間の最後を現在より先の日時に設定することはできません"
     )
     .or(z.null())
     .optional(),
