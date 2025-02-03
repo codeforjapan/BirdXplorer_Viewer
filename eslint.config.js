@@ -59,6 +59,20 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-declaration-merging": "off",
       "@typescript-eslint/prefer-function-type": "off",
       "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              allowTypeImports: true,
+              name: "@mantine/core",
+              importNames: ["TextInput"],
+              message:
+                "Please use TextInput from '~/components/TextInput' instead.",
+            },
+          ],
+        },
+      ],
     },
   },
   {

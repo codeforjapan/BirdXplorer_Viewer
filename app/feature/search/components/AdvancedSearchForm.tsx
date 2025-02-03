@@ -4,12 +4,13 @@ import {
   getSelectProps,
   type SubmissionResult,
 } from "@conform-to/react";
-import { Group, MultiSelect, Select, Stack, TextInput } from "@mantine/core";
+import { Group, MultiSelect, Select, Stack } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { Form, useNavigation } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
+import { TextInput } from "../../../components/TextInput";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguatge";
@@ -85,7 +86,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
       <Stack gap="lg">
         <TextInput
           autoComplete="off"
-          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.note_includes_text.errors) && (
@@ -97,7 +97,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
         />
         <TextInput
           autoComplete="off"
-          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.note_excludes_text.errors) && (
@@ -109,7 +108,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
         />
         <TextInput
           autoComplete="off"
-          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.post_includes_text.errors) && (
@@ -121,7 +119,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
         />
         <TextInput
           autoComplete="off"
-          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.post_excludes_text.errors) && (
