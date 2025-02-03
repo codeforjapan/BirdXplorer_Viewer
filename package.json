@@ -12,6 +12,7 @@
     "orval": "orval"
   },
   "dependencies": {
+    "@conform-to/dom": "1.2.2",
     "@conform-to/react": "1.2.2",
     "@conform-to/zod": "1.2.2",
     "@mantine/charts": "7.15.2",

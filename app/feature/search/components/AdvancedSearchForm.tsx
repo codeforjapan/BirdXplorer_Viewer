@@ -65,7 +65,21 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     change: changeTopicIds,
     focus: focusTopicIds,
     blur: blurTopicIds,
-  } = useMultiSelectInputControl({ field: fields.topic_ids });
+  } = useMultiSelectInputControl({
+    field: fields.topic_ids,
+    convertFormValueToMantine(formValue) {
+      if (formValue == null) {
+        return [];
+      }
+      if (typeof formValue === "string") {
+        return [formValue];
+      }
+      return formValue.filter((v) => v != null);
+    },
+    convertMantineValueToForm(mantineValue) {
+      return mantineValue.length > 0 ? mantineValue : "";
+    },
+  });
 
   return (
     <Form method="POST" preventScrollReset {...getFormProps(form)}>
