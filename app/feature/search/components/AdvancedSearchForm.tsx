@@ -24,12 +24,12 @@ import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
-import { useNoteSearchForm } from "../useForm";
+import { useAdvancedNoteSearchForm } from "../useForm";
 
 export type AdvancedSearchFormProps = {
   defaultValue?: NoteSearchParams;
   lastResult?: SubmissionResult<string[]>;
-  onSubmit?: Parameters<typeof useNoteSearchForm>[0]["onSubmit"];
+  onSubmit?: Parameters<typeof useAdvancedNoteSearchForm>[0]["onSubmit"];
   topics: Topic[];
 };
 
@@ -42,7 +42,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   const navigation = useNavigation();
   const searchInProgress = navigation.state !== "idle";
 
-  const [form, fields] = useNoteSearchForm({
+  const [form, fields] = useAdvancedNoteSearchForm({
     lastResult,
     defaultValue,
     onSubmit,

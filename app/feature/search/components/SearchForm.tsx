@@ -15,7 +15,6 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
-import { objectHash } from "ohash";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
@@ -27,7 +26,7 @@ import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
-import { useNoteSearchForm } from "../useForm";
+import { useSimpleNoteSearchForm } from "../useForm";
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
 
 type SearchFormProps = {
@@ -39,7 +38,10 @@ type SearchFormProps = {
 export const SearchForm = (props: SearchFormProps) => {
   const { defaultValue, lastResult, topics } = props;
 
-  const [opened, { open, close }] = useDisclosure(false);
+  const [
+    mountAdvancedSearchModal,
+    { open: openAdvancedSearch, close: closeAdvancedSearch },
+  ] = useDisclosure(false);
 
   const language = useLanguage("ja");
   const shortLanguage = language.slice(0, 2);
@@ -47,12 +49,9 @@ export const SearchForm = (props: SearchFormProps) => {
   const navigation = useNavigation();
   const searchInProgress = navigation.state !== "idle";
 
-  const [form, fields] = useNoteSearchForm({
+  const [form, fields] = useSimpleNoteSearchForm({
     lastResult,
     defaultValue,
-    // 検索条件が変わったときに明示的に Input を再レンダリングするために、defaultValue から一意な id を生成する
-    // モーダル内の AdvancedSearchForm を submit した際に新しい条件がページ側のフォームに反映される
-    id: objectHash(defaultValue),
   });
 
   const {
@@ -147,7 +146,12 @@ export const SearchForm = (props: SearchFormProps) => {
             onFocus={focusNoteCreatedDate}
             value={noteCreatedRangeValue}
           />
-          <UnstyledButton c="pink" onClick={open} type="button" variant="link">
+          <UnstyledButton
+            c="pink"
+            onClick={openAdvancedSearch}
+            type="button"
+            variant="link"
+          >
             詳細な条件で検索
           </UnstyledButton>
           <SubmitButton
@@ -159,7 +163,12 @@ export const SearchForm = (props: SearchFormProps) => {
           </SubmitButton>
         </Stack>
       </Form>
-      <Modal fullScreen withCloseButton={false} opened={opened} onClose={close}>
+      <Modal
+        fullScreen
+        opened={mountAdvancedSearchModal}
+        onClose={closeAdvancedSearch}
+        withCloseButton={false}
+      >
         <Container size="md">
           <Stack gap="md">
             <Group justify="space-between">
@@ -169,7 +178,7 @@ export const SearchForm = (props: SearchFormProps) => {
             <AdvancedSearchForm
               defaultValue={defaultValue}
               lastResult={lastResult}
-              onSubmit={close}
+              onSubmit={closeAdvancedSearch}
               topics={topics}
             />
           </Stack>
