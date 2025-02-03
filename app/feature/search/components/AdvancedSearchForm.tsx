@@ -93,6 +93,36 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           label="コミュニティノートに含まれるテキスト"
           {...getInputProps(fields.note_includes_text, { type: "text" })}
         />
+        <TextInput
+          disabled={searchInProgress}
+          error={
+            arrayContainsNonNullItem(fields.note_excludes_text.errors) && (
+              <FormError errors={[fields.note_excludes_text.errors]} />
+            )
+          }
+          label="コミュニティノートに含まれないテキスト"
+          {...getInputProps(fields.note_excludes_text, { type: "text" })}
+        />
+        <TextInput
+          disabled={searchInProgress}
+          error={
+            arrayContainsNonNullItem(fields.post_includes_text.errors) && (
+              <FormError errors={[fields.post_includes_text.errors]} />
+            )
+          }
+          label="X のポストに含まれるテキスト"
+          {...getInputProps(fields.post_includes_text, { type: "text" })}
+        />
+        <TextInput
+          disabled={searchInProgress}
+          error={
+            arrayContainsNonNullItem(fields.post_excludes_text.errors) && (
+              <FormError errors={[fields.post_excludes_text.errors]} />
+            )
+          }
+          label="X のポストに含まれないテキスト"
+          {...getInputProps(fields.post_excludes_text, { type: "text" })}
+        />
         <MultiSelect
           label="トピック"
           data={topics.map((t) => ({
