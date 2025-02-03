@@ -17,8 +17,12 @@ import { searchApiV1DataSearchGetQueryParams } from "../generated/api/zod/schema
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "BirdXPlorer Viewer" },
+    {
+      name: "description",
+      content:
+        "BirdXPlorer Viewer is a X community note viewer with search functionality.",
+    },
   ];
 };
 
