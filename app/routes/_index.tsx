@@ -5,7 +5,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
-import { redirect, useActionData, useLoaderData } from "@remix-run/react";
+import { data, redirect, useActionData, useLoaderData } from "@remix-run/react";
 import { getQuery, withQuery } from "ufo";
 
 import { Notes } from "../components/note/Notes";
@@ -36,13 +36,15 @@ export const loader = async (args: LoaderFunctionArgs) => {
   );
 
   if (!searchQuery.success) {
-    // eslint-disable-next-line @typescript-eslint/only-throw-error
-    throw Response.json(
+    return data(
       {
         message: "Invalid search query",
         errors: searchQuery.error.errors,
       },
-      { status: 400, statusText: "Bad Request" }
+      {
+        status: 400,
+        statusText: "Bad Request",
+      }
     );
   }
 
