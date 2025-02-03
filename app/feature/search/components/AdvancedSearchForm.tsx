@@ -4,7 +4,13 @@ import {
   getSelectProps,
   type SubmissionResult,
 } from "@conform-to/react";
-import { Group, NativeSelect, Stack, TextInput } from "@mantine/core";
+import {
+  Group,
+  MultiSelect,
+  NativeSelect,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { Form } from "@remix-run/react";
 
@@ -13,6 +19,7 @@ import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguatge";
+import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
@@ -50,6 +57,13 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     convertStringToDate: safeDateFromUnixMs,
   });
 
+  const {
+    value: topicIdsValue,
+    change: changeTopicIds,
+    focus: focusTopicIds,
+    blur: blurTopicIds,
+  } = useMultiSelectInputControl({ field: fields.topic_ids });
+
   return (
     <Form method="POST" preventScrollReset {...getFormProps(form)}>
       <Group justify="flex-end">
@@ -67,22 +81,22 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           label="コミュニティノートに含まれるテキスト"
           {...getInputProps(fields.note_includes_text, { type: "text" })}
         />
-        <NativeSelect
+        <MultiSelect
+          label="トピック"
+          data={topics.map((t) => ({
+            value: t.topicId.toString(),
+            label: t.label[shortLanguage] ?? t.topicId.toString(),
+          }))}
+          value={topicIdsValue}
           error={
             arrayContainsNonNullItem(fields.topic_ids.errors) && (
               <FormError errors={[fields.topic_ids.errors]} />
             )
           }
-          label="トピック"
-          {...getSelectProps(fields.topic_ids)}
-        >
-          <option value="">トピックを選択</option>
-          {topics.map((topic) => (
-            <option key={topic.topicId} value={topic.topicId}>
-              {topic.label[shortLanguage] ?? topic.label.ja}
-            </option>
-          ))}
-        </NativeSelect>
+          onChange={changeTopicIds}
+          onFocus={focusTopicIds}
+          onBlur={blurTopicIds}
+        />
         <NativeSelect
           error={
             arrayContainsNonNullItem(fields.language.errors) && (

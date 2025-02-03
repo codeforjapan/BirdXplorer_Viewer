@@ -5,6 +5,7 @@ import {
   Group,
   Modal,
   ModalCloseButton,
+  MultiSelect,
   NativeSelect,
   Stack,
   Text,
@@ -21,6 +22,7 @@ import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguatge";
+import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
@@ -65,6 +67,13 @@ export const SearchForm = (props: SearchFormProps) => {
     convertStringToDate: safeDateFromUnixMs,
   });
 
+  const {
+    value: topicIdsValue,
+    change: changeTopicIds,
+    focus: focusTopicIds,
+    blur: blurTopicIds,
+  } = useMultiSelectInputControl({ field: fields.topic_ids });
+
   return (
     <>
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
@@ -78,22 +87,23 @@ export const SearchForm = (props: SearchFormProps) => {
             label="コミュニティノートに含まれるテキスト"
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
-          <NativeSelect
+          <MultiSelect
+            label="トピック"
+            data={topics.map((t) => ({
+              value: t.topicId.toString(),
+              label: t.label[shortLanguage] ?? t.topicId.toString(),
+            }))}
+            searchable
+            value={topicIdsValue}
             error={
               arrayContainsNonNullItem(fields.topic_ids.errors) && (
                 <FormError errors={[fields.topic_ids.errors]} />
               )
             }
-            label="トピック"
-            {...getSelectProps(fields.topic_ids)}
-          >
-            <option value="">トピックを選択</option>
-            {topics.map((topic) => (
-              <option key={topic.topicId} value={topic.topicId}>
-                {topic.label[shortLanguage] ?? topic.label.ja}
-              </option>
-            ))}
-          </NativeSelect>
+            onChange={changeTopicIds}
+            onFocus={focusTopicIds}
+            onBlur={blurTopicIds}
+          />
           <NativeSelect
             error={
               arrayContainsNonNullItem(fields.language.errors) && (
