@@ -10,7 +10,9 @@ import { Form } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
+import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
+import { useLanguage } from "../../../hooks/useLanguatge";
 import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
@@ -21,10 +23,14 @@ export type AdvancedSearchFormProps = {
   defaultValue?: NoteSearchParams;
   lastResult?: SubmissionResult<string[]>;
   onSubmit?: Parameters<typeof useNoteSearchForm>[0]["onSubmit"];
+  topics: Topic[];
 };
 
 export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
-  const { defaultValue, lastResult, onSubmit } = props;
+  const { defaultValue, lastResult, onSubmit, topics } = props;
+
+  const language = useLanguage("ja");
+  const shortLanguage = language.slice(0, 2);
 
   const [form, fields] = useNoteSearchForm({
     lastResult,
@@ -69,7 +75,14 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           }
           label="トピック"
           {...getSelectProps(fields.topic_ids)}
-        />
+        >
+          <option value="">トピックを選択</option>
+          {topics.map((topic) => (
+            <option key={topic.topicId} value={topic.topicId}>
+              {topic.label[shortLanguage] ?? topic.label.ja}
+            </option>
+          ))}
+        </NativeSelect>
         <NativeSelect
           error={
             arrayContainsNonNullItem(fields.language.errors) && (

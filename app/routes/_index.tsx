@@ -11,7 +11,10 @@ import { getQuery, withQuery } from "ufo";
 import { Notes } from "../components/note/Notes";
 import { SearchForm } from "../feature/search/components/SearchForm";
 import { noteSearchParamSchema } from "../feature/search/validation";
-import { searchApiV1DataSearchGet } from "../generated/api/client";
+import {
+  getTopicsApiV1DataTopicsGet,
+  searchApiV1DataSearchGet,
+} from "../generated/api/client";
 import type { SearchApiV1DataSearchGetParams } from "../generated/api/schemas";
 import { searchApiV1DataSearchGetQueryParams } from "../generated/api/zod/schema";
 
@@ -28,7 +31,9 @@ export const meta: MetaFunction = () => {
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const rawSearchParams = getQuery(args.request.url);
-  const searchQuery = await noteSearchParamSchema.safeParseAsync(rawSearchParams);
+  const searchQuery = await noteSearchParamSchema.safeParseAsync(
+    rawSearchParams
+  );
 
   if (!searchQuery.success) {
     // eslint-disable-next-line @typescript-eslint/only-throw-error
@@ -46,25 +51,33 @@ export const loader = async (args: LoaderFunctionArgs) => {
     post_includes_text: "biden",
   } satisfies SearchApiV1DataSearchGetParams;
 
-  const response = await searchApiV1DataSearchGet(query);
+  const [topics, response] = await Promise.all([
+    getTopicsApiV1DataTopicsGet(),
+    searchApiV1DataSearchGet(query),
+  ]);
 
   return {
     searchQuery: searchQuery.data,
-    data: response.data,
+    notes: response.data,
+    topics: topics.data.data,
   };
 };
 
 export default function Index() {
-  const { data, searchQuery } = useLoaderData<typeof loader>();
+  const { notes, searchQuery, topics } = useLoaderData<typeof loader>();
   const lastResult = useActionData<typeof action>();
 
   return (
     <Container size="md">
       <Title>BirdXPlorer Viewer</Title>
       <Stack gap="xl">
-        <SearchForm defaultValue={searchQuery} lastResult={lastResult} />
+        <SearchForm
+          defaultValue={searchQuery}
+          lastResult={lastResult}
+          topics={topics}
+        />
         <Group>
-          <Notes notes={data.data} />
+          <Notes notes={notes.data} />
         </Group>
       </Stack>
     </Container>

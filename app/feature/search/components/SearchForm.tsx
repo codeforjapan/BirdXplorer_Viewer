@@ -18,7 +18,9 @@ import { objectHash } from "ohash";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
+import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
+import { useLanguage } from "../../../hooks/useLanguatge";
 import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
@@ -29,12 +31,19 @@ import { AdvancedSearchForm } from "./AdvancedSearchForm";
 type SearchFormProps = {
   defaultValue?: NoteSearchParams;
   lastResult?: SubmissionResult<string[]>;
+  topics: Topic[];
 };
 
 export const SearchForm = (props: SearchFormProps) => {
-  const { defaultValue, lastResult } = props;
+  const { defaultValue, lastResult, topics } = props;
 
   const [opened, { open, close }] = useDisclosure(false);
+
+  const language = useLanguage("ja");
+  const shortLanguage = language.slice(0, 2);
+
+  const navigation = useNavigation();
+  const searchInProgress = navigation.state !== "idle";
 
   const [form, fields] = useNoteSearchForm({
     lastResult,
@@ -77,7 +86,14 @@ export const SearchForm = (props: SearchFormProps) => {
             }
             label="トピック"
             {...getSelectProps(fields.topic_ids)}
-          />
+          >
+            <option value="">トピックを選択</option>
+            {topics.map((topic) => (
+              <option key={topic.topicId} value={topic.topicId}>
+                {topic.label[shortLanguage] ?? topic.label.ja}
+              </option>
+            ))}
+          </NativeSelect>
           <NativeSelect
             error={
               arrayContainsNonNullItem(fields.language.errors) && (
@@ -135,6 +151,7 @@ export const SearchForm = (props: SearchFormProps) => {
               defaultValue={defaultValue}
               lastResult={lastResult}
               onSubmit={close}
+              topics={topics}
             />
           </Stack>
         </Container>
