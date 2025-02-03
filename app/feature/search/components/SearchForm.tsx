@@ -6,7 +6,7 @@ import {
   Modal,
   ModalCloseButton,
   MultiSelect,
-  NativeSelect,
+  Select,
   Stack,
   Text,
   TextInput,
@@ -118,23 +118,33 @@ export const SearchForm = (props: SearchFormProps) => {
             onFocus={focusTopicIds}
             onBlur={blurTopicIds}
           />
-          <NativeSelect
+          <Select
+            data={Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => ({
+              value: id,
+              label,
+            }))}
             disabled={searchInProgress}
+            errorProps={{ component: "div" }}
             error={
               arrayContainsNonNullItem(fields.language.errors) && (
                 <FormError errors={[fields.language.errors]} />
               )
             }
             label="言語"
-            {...getSelectProps(fields.language)}
-          >
-            <option value="">言語を選択</option>
-            {Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => (
-              <option key={id} value={id}>
-                {label}
-              </option>
-            ))}
-          </NativeSelect>
+            searchable
+            {
+              // HACK: defaultValue が number や string [] になることはないので TypeScript を騙す
+              ...(getSelectProps(fields.language) as Omit<
+                ReturnType<typeof getSelectProps>,
+                "defaultValue"
+              > & {
+                defaultValue: Exclude<
+                  ReturnType<typeof getSelectProps>["defaultValue"],
+                  number | readonly string[]
+                >;
+              })
+            }
+          />
           <DatePickerInput
             clearable
             disabled={searchInProgress}
