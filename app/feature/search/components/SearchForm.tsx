@@ -92,6 +92,8 @@ export const SearchForm = (props: SearchFormProps) => {
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
         <Stack gap="lg">
           <TextInput
+            autoComplete="off"
+            data-1p-ignore
             disabled={searchInProgress}
             error={
               arrayContainsNonNullItem(fields.note_includes_text.errors) && (

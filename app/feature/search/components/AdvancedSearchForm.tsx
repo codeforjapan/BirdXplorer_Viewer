@@ -84,6 +84,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
       </Group>
       <Stack gap="lg">
         <TextInput
+          autoComplete="off"
+          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.note_includes_text.errors) && (
@@ -94,6 +96,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           {...getInputProps(fields.note_includes_text, { type: "text" })}
         />
         <TextInput
+          autoComplete="off"
+          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.note_excludes_text.errors) && (
@@ -104,6 +108,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           {...getInputProps(fields.note_excludes_text, { type: "text" })}
         />
         <TextInput
+          autoComplete="off"
+          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.post_includes_text.errors) && (
@@ -114,6 +120,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           {...getInputProps(fields.post_includes_text, { type: "text" })}
         />
         <TextInput
+          autoComplete="off"
+          data-1p-ignore
           disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.post_excludes_text.errors) && (
