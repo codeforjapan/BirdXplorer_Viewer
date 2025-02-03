@@ -12,7 +12,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
 import { SubmitButton } from "../../../components/SubmitButton";
@@ -38,6 +38,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
 
   const language = useLanguage("ja");
   const shortLanguage = language.slice(0, 2);
+
+  const navigation = useNavigation();
+  const searchInProgress = navigation.state !== "idle";
 
   const [form, fields] = useNoteSearchForm({
     lastResult,
@@ -67,12 +70,13 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   return (
     <Form method="POST" preventScrollReset {...getFormProps(form)}>
       <Group justify="flex-end">
-        <SubmitButton disabled={!form.valid} color="pink">
+        <SubmitButton disabled={!form.valid || searchInProgress} color="pink">
           検索
         </SubmitButton>
       </Group>
       <Stack gap="lg">
         <TextInput
+          disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.note_includes_text.errors) && (
               <FormError errors={[fields.note_includes_text.errors]} />
@@ -98,6 +102,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           onBlur={blurTopicIds}
         />
         <NativeSelect
+          disabled={searchInProgress}
           error={
             arrayContainsNonNullItem(fields.language.errors) && (
               <FormError errors={[fields.language.errors]} />
@@ -106,6 +111,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           label="言語"
           {...getSelectProps(fields.language)}
         >
+          <option value="">言語を選択</option>
           {Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => (
             <option key={id} value={id}>
               {label}
@@ -113,7 +119,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           ))}
         </NativeSelect>
         <DatePickerInput
-          clearable
+          disabled={searchInProgress}
           type="range"
           valueFormat="YYYY.MM.DD (ddd)"
           label="コミュニティノートの作成日"

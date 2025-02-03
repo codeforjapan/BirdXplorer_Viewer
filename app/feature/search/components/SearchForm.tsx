@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { objectHash } from "ohash";
 
 import { FormError } from "../../../components/FormError";
@@ -51,7 +51,7 @@ export const SearchForm = (props: SearchFormProps) => {
     lastResult,
     defaultValue,
     // 検索条件が変わったときに明示的に Input を再レンダリングするために、defaultValue から一意な id を生成する
-    // こうすることで、モーダル内の AdvancedSearchForm を submit した際に新しい条件がページ側のフォームに反映される
+    // モーダル内の AdvancedSearchForm を submit した際に新しい条件がページ側のフォームに反映される
     id: objectHash(defaultValue),
   });
 
@@ -79,6 +79,7 @@ export const SearchForm = (props: SearchFormProps) => {
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
         <Stack gap="lg">
           <TextInput
+            disabled={searchInProgress}
             error={
               arrayContainsNonNullItem(fields.note_includes_text.errors) && (
                 <FormError errors={[fields.note_includes_text.errors]} />
@@ -105,6 +106,7 @@ export const SearchForm = (props: SearchFormProps) => {
             onBlur={blurTopicIds}
           />
           <NativeSelect
+            disabled={searchInProgress}
             error={
               arrayContainsNonNullItem(fields.language.errors) && (
                 <FormError errors={[fields.language.errors]} />
@@ -113,6 +115,7 @@ export const SearchForm = (props: SearchFormProps) => {
             label="言語"
             {...getSelectProps(fields.language)}
           >
+            <option value="">言語を選択</option>
             {Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => (
               <option key={id} value={id}>
                 {label}
@@ -121,9 +124,11 @@ export const SearchForm = (props: SearchFormProps) => {
           </NativeSelect>
           <DatePickerInput
             clearable
+            disabled={searchInProgress}
             type="range"
             valueFormat="YYYY.MM.DD (ddd)"
-            label="コミュニティノートの作成日"
+            label="コミュニティノートの作成期間"
+            errorProps={{ component: "div" }}
             error={
               arrayContainsNonNullItem(
                 fields.note_created_at_from.errors,
@@ -145,7 +150,11 @@ export const SearchForm = (props: SearchFormProps) => {
           <UnstyledButton c="pink" onClick={open} type="button" variant="link">
             詳細な条件で検索
           </UnstyledButton>
-          <SubmitButton disabled={!form.valid} color="pink">
+          <SubmitButton
+            disabled={!form.valid || searchInProgress}
+            loading={searchInProgress}
+            color="pink"
+          >
             検索
           </SubmitButton>
         </Stack>

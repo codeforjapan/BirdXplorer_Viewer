@@ -7,6 +7,7 @@ type SubmitButtonProps = Omit<
   "type"
 > & {
   children: React.ReactNode;
+  loading?: boolean;
 };
 
 export const SubmitButton = ({ disabled, ...rest }: SubmitButtonProps) => {
