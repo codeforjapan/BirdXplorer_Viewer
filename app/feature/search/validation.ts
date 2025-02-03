@@ -5,6 +5,7 @@ import {
   searchApiV1DataSearchGetQueryOffsetMin,
   searchApiV1DataSearchGetQueryTopicIdsItemMin,
 } from "../../generated/api/zod/schema";
+import { transformToArray } from "../../utils/array";
 
 export const noteSearchParamSchema = z.object({
   note_includes_text: z.string().or(z.null()).optional(),
@@ -36,20 +37,34 @@ export const noteSearchParamSchema = z.object({
     ])
     .or(z.null())
     .optional(),
-  topic_ids: z
-    .array(z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin))
-    .or(z.null())
-    .optional(),
-  note_status: z
-    .array(
-      z.enum([
-        "NEEDS_MORE_RATINGS",
-        "CURRENTLY_RATED_HELPFUL",
-        "CURRENTLY_RATED_NOT_HELPFUL",
-      ])
-    )
-    .or(z.null())
-    .optional(),
+  topic_ids: z.preprocess(
+    (data) =>
+      transformToArray(data, (value) =>
+        typeof value === "string" ? value.split(",") : [value]
+      ),
+    z
+      .array(
+        z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin)
+      )
+      .or(z.null())
+      .optional()
+  ),
+  note_status: z.preprocess(
+    (data) =>
+      transformToArray(data, (value) =>
+        typeof value === "string" ? value.split(",") : [value]
+      ),
+    z
+      .array(
+        z.enum([
+          "NEEDS_MORE_RATINGS",
+          "CURRENTLY_RATED_HELPFUL",
+          "CURRENTLY_RATED_NOT_HELPFUL",
+        ])
+      )
+      .or(z.null())
+      .optional()
+  ),
   note_created_at_from: z.coerce
     .number()
     .min(0)
@@ -68,7 +83,13 @@ export const noteSearchParamSchema = z.object({
     )
     .or(z.null())
     .optional(),
-  x_user_names: z.array(z.string()).or(z.null()).optional(),
+  x_user_names: z.preprocess(
+    (data) =>
+      transformToArray(data, (value) =>
+        typeof value === "string" ? value.split(",") : [value]
+      ),
+    z.array(z.string()).or(z.null()).optional()
+  ),
   x_user_followers_count_from: z.number().or(z.null()).optional(),
   x_user_follow_count_from: z.number().or(z.null()).optional(),
   post_like_count_from: z.number().or(z.null()).optional(),
