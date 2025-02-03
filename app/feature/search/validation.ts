@@ -1,3 +1,4 @@
+import type { ZodTypeAny } from "zod";
 import { z } from "zod";
 
 import {
@@ -6,6 +7,20 @@ import {
   searchApiV1DataSearchGetQueryTopicIdsItemMin,
 } from "../../generated/api/zod/schema";
 import { transformToArray } from "../../utils/array";
+
+const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
+  return z.preprocess(
+    (data) =>
+      transformToArray(data, (value) => {
+        if (value == null || value === "") {
+          return [];
+        }
+
+        return typeof value === "string" ? value.split(",") : [value];
+      }),
+    schema
+  );
+};
 
 export const noteSearchParamSchema = z.object({
   note_includes_text: z.string().or(z.null()).optional(),
@@ -37,11 +52,7 @@ export const noteSearchParamSchema = z.object({
     ])
     .or(z.null())
     .optional(),
-  topic_ids: z.preprocess(
-    (data) =>
-      transformToArray(data, (value) =>
-        typeof value === "string" ? value.split(",") : [value]
-      ),
+  topic_ids: preprocessArray(
     z
       .array(
         z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin)
@@ -49,11 +60,7 @@ export const noteSearchParamSchema = z.object({
       .or(z.null())
       .optional()
   ),
-  note_status: z.preprocess(
-    (data) =>
-      transformToArray(data, (value) =>
-        typeof value === "string" ? value.split(",") : [value]
-      ),
+  note_status: preprocessArray(
     z
       .array(
         z.enum([
@@ -83,13 +90,7 @@ export const noteSearchParamSchema = z.object({
     )
     .or(z.null())
     .optional(),
-  x_user_names: z.preprocess(
-    (data) =>
-      transformToArray(data, (value) =>
-        typeof value === "string" ? value.split(",") : [value]
-      ),
-    z.array(z.string()).or(z.null()).optional()
-  ),
+  x_user_names: preprocessArray(z.array(z.string()).or(z.null()).optional()),
   x_user_followers_count_from: z.number().or(z.null()).optional(),
   x_user_follow_count_from: z.number().or(z.null()).optional(),
   post_like_count_from: z.number().or(z.null()).optional(),
