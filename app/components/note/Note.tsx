@@ -3,6 +3,7 @@ import { Card, Group, Text } from "@mantine/core";
 import type { SearchedNote } from "../../generated/api/schemas";
 import { Post } from "../post/Post";
 import { NoteStatus } from "./NoteStatus";
+import { NoteTopic } from "./NoteTopics";
 
 type NoteProps = {
   note: SearchedNote;
@@ -17,9 +18,10 @@ export const Note = ({ note }: NoteProps) => {
         <Group gap="xs">
           <Text>{note.summary}</Text>
           <NoteStatus status={note.currentStatus} />
-          <Text size="sm" c="dimmed">
-            {JSON.stringify(note.topics.map((topic) => topic.label))}
-          </Text>
+          <NoteTopic
+            topics={note.topics}
+            wrapper={(props) => <Group {...props} />}
+          />
           <Text size="sm" c="dimmed">
             Created At: {dateString}
           </Text>
