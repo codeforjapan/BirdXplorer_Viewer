@@ -50,24 +50,14 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     onSubmit,
   });
 
-  const {
-    value: noteCreatedRangeValue,
-    blur: blurNoteCreatedDate,
-    focus: focusNoteCreatedDate,
-    change: changeNoteCreatedDate,
-  } = useDateRangeInputControl({
+  const noteCreatedRangeControl = useDateRangeInputControl({
     fromField: fields.note_created_at_from,
     toField: fields.note_created_at_to,
     convertDateToString: (date) => date?.valueOf().toString(),
     convertStringToDate: safeDateFromUnixMs,
   });
 
-  const {
-    value: topicIdsValue,
-    change: changeTopicIds,
-    focus: focusTopicIds,
-    blur: blurTopicIds,
-  } = useMultiSelectInputControl({
+  const topicIdsControl = useMultiSelectInputControl({
     field: fields.topic_ids,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
@@ -83,12 +73,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     },
   });
 
-  const {
-    value: noteStatusValue,
-    change: changeNoteStatus,
-    focus: focusNoteStatus,
-    blur: blurNoteStatus,
-  } = useMultiSelectInputControl({
+  const noteStatusControl = useMultiSelectInputControl({
     field: fields.note_status,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
@@ -104,12 +89,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     },
   });
 
-  const {
-    value: xUserNamesValue,
-    change: changeXUserNames,
-    focus: focusXUserNames,
-    blur: blurXUserNames,
-  } = useMultiSelectInputControl({
+  const xUserNamesControl = useMultiSelectInputControl({
     field: fields.x_user_names,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
@@ -222,10 +202,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="トピック"
-                onBlur={blurTopicIds}
-                onChange={changeTopicIds}
-                onFocus={focusTopicIds}
-                value={topicIdsValue}
+                {...topicIdsControl}
               />
               <Select
                 autoComplete="off"
@@ -274,11 +251,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 }
                 errorProps={{ component: "div" }}
                 label="コミュニティノートのステータス"
-                onBlur={blurNoteStatus}
-                onChange={changeNoteStatus}
-                onFocus={focusNoteStatus}
                 searchable
-                value={noteStatusValue}
+                {...noteStatusControl}
               />
               <DatePickerInput
                 disabled={searchInProgress}
@@ -296,12 +270,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートの作成日"
-                onBlur={blurNoteCreatedDate}
-                onChange={changeNoteCreatedDate}
-                onFocus={focusNoteCreatedDate}
                 type="range"
-                value={noteCreatedRangeValue}
                 valueFormat="YYYY.MM.DD (ddd)"
+                {...noteCreatedRangeControl}
               />
             </Stack>
           </Fieldset>
@@ -317,10 +288,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの投稿者"
-                onBlur={blurXUserNames}
-                onChange={changeXUserNames}
-                onFocus={focusXUserNames}
-                value={xUserNamesValue}
+                {...xUserNamesControl}
               />
               <TextInput
                 autoComplete="off"

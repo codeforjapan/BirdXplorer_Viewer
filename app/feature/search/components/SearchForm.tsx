@@ -45,24 +45,14 @@ export const SearchForm = (props: SearchFormProps) => {
     defaultValue,
   });
 
-  const {
-    value: noteCreatedRangeValue,
-    blur: blurNoteCreatedDate,
-    focus: focusNoteCreatedDate,
-    change: changeNoteCreatedDate,
-  } = useDateRangeInputControl({
+  const noteCreatedRangeControl = useDateRangeInputControl({
     fromField: fields.note_created_at_from,
     toField: fields.note_created_at_to,
     convertDateToString: (date) => date?.valueOf().toString(),
     convertStringToDate: safeDateFromUnixMs,
   });
 
-  const {
-    value: topicIdsValue,
-    change: changeTopicIds,
-    focus: focusTopicIds,
-    blur: blurTopicIds,
-  } = useMultiSelectInputControl({
+  const topicIdsControl = useMultiSelectInputControl({
     field: fields.topic_ids,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
@@ -104,11 +94,8 @@ export const SearchForm = (props: SearchFormProps) => {
               )
             }
             label="トピック"
-            onBlur={blurTopicIds}
-            onChange={changeTopicIds}
-            onFocus={focusTopicIds}
             searchable
-            value={topicIdsValue}
+            {...topicIdsControl}
           />
           <Select
             data={Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => ({
@@ -155,12 +142,9 @@ export const SearchForm = (props: SearchFormProps) => {
             }
             errorProps={{ component: "div" }}
             label="コミュニティノートの作成期間"
-            onBlur={blurNoteCreatedDate}
-            onChange={changeNoteCreatedDate}
-            onFocus={focusNoteCreatedDate}
             type="range"
-            value={noteCreatedRangeValue}
             valueFormat="YYYY.MM.DD (ddd)"
+            {...noteCreatedRangeControl}
           />
           <UnstyledButton
             c="pink"
