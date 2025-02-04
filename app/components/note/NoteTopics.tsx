@@ -37,11 +37,11 @@ const TopicBadge = ({ topic, language }: TopicBadgeProps) => {
   return (
     <>
       {labelByLanguage ? (
-        <Badge color="green" variant="light">
+        <Badge color="green" radius="sm" size="lg" variant="light">
           {labelByLanguage}
         </Badge>
       ) : (
-        <Badge color="green" variant="light">
+        <Badge color="green" radius="sm" size="lg" variant="light">
           {JSON.stringify(topic.label)}
         </Badge>
       )}

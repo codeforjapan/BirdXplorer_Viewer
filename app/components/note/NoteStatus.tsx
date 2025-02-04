@@ -1,5 +1,5 @@
 import type { MantineColor } from "@mantine/core";
-import { Badge } from "@mantine/core";
+import { Indicator, Text } from "@mantine/core";
 
 import { convertNoteStatusToLabel } from "../../feature/search/status";
 import type { NoteCurrentStatus } from "../../generated/api/schemas";
@@ -11,9 +11,9 @@ const convertNoteStatusToColor = (status: NoteCurrentStatus): MantineColor => {
     case "CURRENTLY_RATED_HELPFUL":
       return "green";
     case "CURRENTLY_RATED_NOT_HELPFUL":
-      return "yellow";
+      return "pink";
     case "NEEDS_MORE_RATINGS":
-      return "blue";
+      return "yellow";
     default:
       return status satisfies never;
   }
@@ -25,8 +25,17 @@ type NoteStatusProps = {
 
 export const NoteStatus = ({ status }: NoteStatusProps) => {
   return (
-    <Badge color={convertNoteStatusToColor(status)} variant="light">
-      {convertNoteStatusToLabel(status)}
-    </Badge>
+    <Indicator
+      className="ms-2"
+      color={convertNoteStatusToColor(status)}
+      inline
+      position="middle-start"
+      size={16}
+      withBorder
+    >
+      <Text ms={16} size="sm">
+        {convertNoteStatusToLabel(status)}
+      </Text>
+    </Indicator>
   );
 };
