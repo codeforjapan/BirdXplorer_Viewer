@@ -2,6 +2,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { Container, Group, Stack, Title } from "@mantine/core";
 import type {
   ActionFunctionArgs,
+  LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
@@ -25,6 +26,16 @@ export const meta: MetaFunction = () => {
       name: "description",
       content:
         "BirdXPlorer Viewer is a X community note viewer with search functionality.",
+    },
+  ];
+};
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "canonical",
+      // TODO: change before production
+      href: "https://birdxplorer.code4japan.org",
     },
   ];
 };
