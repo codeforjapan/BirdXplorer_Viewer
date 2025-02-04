@@ -12,7 +12,7 @@ import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
-import { arrayContainsNonNullItem } from "../../../utils/array";
+import { containsNonNullValues } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
@@ -76,7 +76,7 @@ export const SearchForm = (props: SearchFormProps) => {
             autoComplete="off"
             disabled={searchInProgress}
             error={
-              arrayContainsNonNullItem(fields.note_includes_text.errors) && (
+              containsNonNullValues(fields.note_includes_text.errors) && (
                 <FormError errors={[fields.note_includes_text.errors]} />
               )
             }
@@ -89,7 +89,7 @@ export const SearchForm = (props: SearchFormProps) => {
               label: t.label[shortLanguage] ?? t.topicId.toString(),
             }))}
             error={
-              arrayContainsNonNullItem(fields.topic_ids.errors) && (
+              containsNonNullValues(fields.topic_ids.errors) && (
                 <FormError errors={[fields.topic_ids.errors]} />
               )
             }
@@ -104,7 +104,7 @@ export const SearchForm = (props: SearchFormProps) => {
             }))}
             disabled={searchInProgress}
             error={
-              arrayContainsNonNullItem(fields.language.errors) && (
+              containsNonNullValues(fields.language.errors) && (
                 <FormError errors={[fields.language.errors]} />
               )
             }
@@ -128,7 +128,7 @@ export const SearchForm = (props: SearchFormProps) => {
             clearable
             disabled={searchInProgress}
             error={
-              arrayContainsNonNullItem(
+              containsNonNullValues(
                 fields.note_created_at_from.errors,
                 fields.note_created_at_to.errors
               ) && (

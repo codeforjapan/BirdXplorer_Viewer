@@ -21,7 +21,7 @@ import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
-import { arrayContainsNonNullItem } from "../../../utils/array";
+import { containsNonNullValues } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import { NOTE_CURRENT_STATUS } from "../status";
@@ -138,9 +138,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
-                    fields.note_includes_text.errors
-                  ) && <FormError errors={[fields.note_includes_text.errors]} />
+                  containsNonNullValues(fields.note_includes_text.errors) && (
+                    <FormError errors={[fields.note_includes_text.errors]} />
+                  )
                 }
                 label="コミュニティノートに含まれるキーワード"
                 {...getInputProps(fields.note_includes_text, {
@@ -151,9 +151,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
-                    fields.note_excludes_text.errors
-                  ) && <FormError errors={[fields.note_excludes_text.errors]} />
+                  containsNonNullValues(fields.note_excludes_text.errors) && (
+                    <FormError errors={[fields.note_excludes_text.errors]} />
+                  )
                 }
                 label="コミュニティノートに含まれないキーワード"
                 {...getInputProps(fields.note_excludes_text, {
@@ -164,9 +164,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
-                    fields.post_includes_text.errors
-                  ) && <FormError errors={[fields.post_includes_text.errors]} />
+                  containsNonNullValues(fields.post_includes_text.errors) && (
+                    <FormError errors={[fields.post_includes_text.errors]} />
+                  )
                 }
                 label="X のポストに含まれるキーワード"
                 {...getInputProps(fields.post_includes_text, {
@@ -177,9 +177,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
-                    fields.post_excludes_text.errors
-                  ) && <FormError errors={[fields.post_excludes_text.errors]} />
+                  containsNonNullValues(fields.post_excludes_text.errors) && (
+                    <FormError errors={[fields.post_excludes_text.errors]} />
+                  )
                 }
                 label="X のポストに含まれないキーワード"
                 {...getInputProps(fields.post_excludes_text, {
@@ -197,7 +197,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   label: t.label[shortLanguage] ?? t.topicId.toString(),
                 }))}
                 error={
-                  arrayContainsNonNullItem(fields.topic_ids.errors) && (
+                  containsNonNullValues(fields.topic_ids.errors) && (
                     <FormError errors={[fields.topic_ids.errors]} />
                   )
                 }
@@ -215,7 +215,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(fields.language.errors) && (
+                  containsNonNullValues(fields.language.errors) && (
                     <FormError errors={[fields.language.errors]} />
                   )
                 }
@@ -245,7 +245,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 )}
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(fields.note_status.errors) && (
+                  containsNonNullValues(fields.note_status.errors) && (
                     <FormError errors={[fields.note_status.errors]} />
                   )
                 }
@@ -257,7 +257,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               <DatePickerInput
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
+                  containsNonNullValues(
                     fields.note_created_at_from.errors,
                     fields.note_created_at_to.errors
                   ) && (
@@ -283,7 +283,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(fields.x_user_names.errors) && (
+                  containsNonNullValues(fields.x_user_names.errors) && (
                     <FormError errors={[fields.x_user_names.errors]} />
                   )
                 }
@@ -295,7 +295,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
+                  containsNonNullValues(
                     fields.x_user_followers_count_from.errors
                   ) && (
                     <FormError
@@ -316,7 +316,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
+                  containsNonNullValues(
                     fields.x_user_follow_count_from.errors
                   ) && (
                     <FormError
@@ -337,9 +337,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
-                    fields.post_like_count_from.errors
-                  ) && (
+                  containsNonNullValues(fields.post_like_count_from.errors) && (
                     <FormError errors={[fields.post_like_count_from.errors]} />
                   )
                 }
@@ -356,7 +354,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
+                  containsNonNullValues(
                     fields.post_repost_count_from.errors
                   ) && (
                     <FormError
@@ -377,7 +375,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
-                  arrayContainsNonNullItem(
+                  containsNonNullValues(
                     fields.post_impression_count_from.errors
                   ) && (
                     <FormError
