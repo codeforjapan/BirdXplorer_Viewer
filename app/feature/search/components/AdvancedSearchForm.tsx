@@ -26,6 +26,7 @@ import { NOTE_CURRENT_STATUS } from "../status";
 import type { NoteSearchParams } from "../types";
 import { useAdvancedNoteSearchForm } from "../useForm";
 import { LanguageSelect } from "./input/LanguageSelect";
+import { TopicSelect } from "./input/TopicSelect";
 
 export type AdvancedSearchFormProps = {
   defaultValue?: NoteSearchParams;
@@ -47,21 +48,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     lastResult,
     defaultValue,
     onSubmit,
-  });
-  const topicIdsControl = useMultiSelectInputControl({
-    field: fields.topic_ids,
-    convertFormValueToMantine(formValue) {
-      if (formValue == null) {
-        return [];
-      }
-      if (typeof formValue === "string") {
-        return [formValue];
-      }
-      return formValue.filter((v) => v != null);
-    },
-    convertMantineValueToForm(mantineValue) {
-      return mantineValue.length > 0 ? mantineValue : "";
-    },
   });
 
   const noteStatusControl = useMultiSelectInputControl({
@@ -182,18 +168,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
           <Divider />
           <Fieldset legend="絞り込み">
             <Stack>
-              <MultiSelect
-                data={topics.map((t) => ({
-                  value: t.topicId.toString(),
-                  label: t.label[shortLanguage] ?? t.topicId.toString(),
-                }))}
-                error={
-                  containsNonNullValues(fields.topic_ids.errors) && (
-                    <FormError errors={[fields.topic_ids.errors]} />
-                  )
-                }
-                label="トピック"
-                {...topicIdsControl}
+              <TopicSelect
+                currentLanguage={shortLanguage}
+                disabled={searchInProgress}
+                field={fields.topic_ids}
+                topics={topics}
               />
               <LanguageSelect
                 disabled={searchInProgress}

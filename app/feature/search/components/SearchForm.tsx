@@ -1,6 +1,6 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps } from "@conform-to/react";
-import { MultiSelect, Stack, UnstyledButton } from "@mantine/core";
+import { Stack, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
 
@@ -10,7 +10,6 @@ import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
 import { useLanguage } from "../../../hooks/useLanguage";
-import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
@@ -19,6 +18,7 @@ import { useSimpleNoteSearchForm } from "../useForm";
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
 import { AdvancedSearchModal } from "./AdvancedSearchModal";
 import { LanguageSelect } from "./input/LanguageSelect";
+import { TopicSelect } from "./input/TopicSelect";
 
 type SearchFormProps = {
   defaultValue?: NoteSearchParams;
@@ -45,22 +45,6 @@ export const SearchForm = (props: SearchFormProps) => {
     defaultValue,
   });
 
-  const topicIdsControl = useMultiSelectInputControl({
-    field: fields.topic_ids,
-    convertFormValueToMantine(formValue) {
-      if (formValue == null) {
-        return [];
-      }
-      if (typeof formValue === "string") {
-        return [formValue];
-      }
-      return formValue.filter((v) => v != null);
-    },
-    convertMantineValueToForm(mantineValue) {
-      return mantineValue.length > 0 ? mantineValue : "";
-    },
-  });
-
   return (
     <>
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
@@ -76,19 +60,11 @@ export const SearchForm = (props: SearchFormProps) => {
             label="コミュニティノートに含まれるテキスト"
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
-          <MultiSelect
-            data={topics.map((t) => ({
-              value: t.topicId.toString(),
-              label: t.label[shortLanguage] ?? t.topicId.toString(),
-            }))}
-            error={
-              containsNonNullValues(fields.topic_ids.errors) && (
-                <FormError errors={[fields.topic_ids.errors]} />
-              )
-            }
-            label="トピック"
-            searchable
-            {...topicIdsControl}
+          <TopicSelect
+            currentLanguage={shortLanguage}
+            disabled={searchInProgress}
+            field={fields.topic_ids}
+            topics={topics}
           />
           <LanguageSelect
             disabled={searchInProgress}
