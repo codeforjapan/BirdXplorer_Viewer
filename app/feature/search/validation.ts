@@ -91,12 +91,20 @@ export const noteSearchParamSchema = z.object({
     .or(z.null())
     .optional(),
   x_user_names: preprocessArray(z.array(z.string()).or(z.null()).optional()),
-  x_user_followers_count_from: z.number().or(z.null()).optional(),
-  x_user_follow_count_from: z.number().or(z.null()).optional(),
-  post_like_count_from: z.number().or(z.null()).optional(),
-  post_repost_count_from: z.number().or(z.null()).optional(),
-  post_impression_count_from: z.number().or(z.null()).optional(),
-  post_includes_media: z.boolean().optional(),
-  offset: z.number().min(searchApiV1DataSearchGetQueryOffsetMin).optional(),
-  limit: z.number().max(searchApiV1DataSearchGetQueryLimitMax).optional(),
+  x_user_followers_count_from: z.coerce.number().min(0).or(z.null()).optional(),
+  x_user_follow_count_from: z.coerce.number().min(0).or(z.null()).optional(),
+  post_like_count_from: z.coerce.number().min(0).or(z.null()).optional(),
+  post_repost_count_from: z.coerce.number().min(0).or(z.null()).optional(),
+  post_impression_count_from: z.coerce.number().min(0).or(z.null()).optional(),
+  post_includes_media: z.coerce.boolean().optional(),
+  offset: z.coerce
+    .number()
+    .min(searchApiV1DataSearchGetQueryOffsetMin)
+    .optional()
+    .default(0),
+  limit: z.coerce
+    .number()
+    .max(searchApiV1DataSearchGetQueryLimitMax)
+    .optional()
+    .default(100),
 });
