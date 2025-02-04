@@ -81,7 +81,7 @@ export const SearchForm = (props: SearchFormProps) => {
   return (
     <>
       <Form method="POST" preventScrollReset {...getFormProps(form)}>
-        <Stack gap="lg">
+        <Stack>
           <TextInput
             autoComplete="off"
             disabled={searchInProgress}

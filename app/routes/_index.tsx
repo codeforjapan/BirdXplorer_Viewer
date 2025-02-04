@@ -68,7 +68,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
 
   const query = {
     ...searchQuery.data,
-    post_includes_text: "biden",
+    post_includes_text: searchQuery.data.post_includes_text ?? "biden",
   } satisfies SearchApiV1DataSearchGetParams;
 
   const [topics, response] = await Promise.all([
@@ -93,7 +93,7 @@ export default function Index() {
   const { topics, searchQuery, notes } = data;
 
   return (
-    <Container size="xs">
+    <Container size="sm">
       <Title>BirdXPlorer Viewer</Title>
       <Stack gap="xl">
         <SearchForm
@@ -101,7 +101,7 @@ export default function Index() {
           lastResult={lastResult}
           topics={topics}
         />
-        <Group>
+        <Group gap="lg">
           <Notes notes={notes.data} />
         </Group>
       </Stack>

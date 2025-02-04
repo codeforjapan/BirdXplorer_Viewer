@@ -16,6 +16,7 @@ export const AdvancedSearchModal = ({
     <Modal
       centered
       scrollAreaComponent={ScrollArea.Autosize}
+      size="lg"
       withCloseButton={false}
       {...rest}
     >
