@@ -2,7 +2,7 @@ import { Badge } from "@mantine/core";
 import type React from "react";
 
 import type { Topic } from "../../generated/api/schemas";
-import { useLanguage } from "../../hooks/useLanguatge";
+import { useLanguage } from "../../hooks/useLanguage";
 
 type NoteTopicProps = {
   topics: Topic[];

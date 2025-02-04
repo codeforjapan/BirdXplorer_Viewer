@@ -19,7 +19,7 @@ import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
-import { useLanguage } from "../../../hooks/useLanguatge";
+import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { arrayContainsNonNullItem } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
