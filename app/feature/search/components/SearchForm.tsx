@@ -18,6 +18,7 @@ import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
 import { useSimpleNoteSearchForm } from "../useForm";
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
+import { AdvancedSearchModal } from "./AdvancedSearchModal";
 
 type SearchFormProps = {
   defaultValue?: NoteSearchParams;
@@ -178,14 +179,17 @@ export const SearchForm = (props: SearchFormProps) => {
           </SubmitButton>
         </Stack>
       </Form>
-      <AdvancedSearchForm
-        defaultValue={defaultValue}
-        lastResult={lastResult}
+      <AdvancedSearchModal
         onClose={closeAdvancedSearch}
-        onSubmit={closeAdvancedSearch}
         opened={mountAdvancedSearchModal}
-        topics={topics}
-      />
+      >
+        <AdvancedSearchForm
+          defaultValue={defaultValue}
+          lastResult={lastResult}
+          onSubmit={closeAdvancedSearch}
+          topics={topics}
+        />
+      </AdvancedSearchModal>
     </>
   );
 };
