@@ -1,15 +1,14 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps, getSelectProps } from "@conform-to/react";
 import { MultiSelect, Select, Stack, UnstyledButton } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
+import { DateRangePicker } from "../../../components/input/DateRangePicker";
 import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
-import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "../../../utils/array";
@@ -43,13 +42,6 @@ export const SearchForm = (props: SearchFormProps) => {
   const [form, fields] = useSimpleNoteSearchForm({
     lastResult,
     defaultValue,
-  });
-
-  const noteCreatedRangeControl = useDateRangeInputControl({
-    fromField: fields.note_created_at_from,
-    toField: fields.note_created_at_to,
-    convertDateToString: (date) => date?.valueOf().toString(),
-    convertStringToDate: safeDateFromUnixMs,
   });
 
   const topicIdsControl = useMultiSelectInputControl({
@@ -124,27 +116,14 @@ export const SearchForm = (props: SearchFormProps) => {
               })
             }
           />
-          <DatePickerInput
-            clearable
+          <DateRangePicker
+            convertFormValueToMantine={safeDateFromUnixMs}
+            convertMantineValueToForm={(date) => date?.valueOf().toString()}
             disabled={searchInProgress}
-            error={
-              containsNonNullValues(
-                fields.note_created_at_from.errors,
-                fields.note_created_at_to.errors,
-              ) && (
-                <FormError
-                  errors={[
-                    fields.note_created_at_from.errors,
-                    fields.note_created_at_to.errors,
-                  ]}
-                />
-              )
-            }
-            errorProps={{ component: "div" }}
+            fromField={fields.note_created_at_from}
             label="コミュニティノートの作成期間"
-            type="range"
+            toField={fields.note_created_at_to}
             valueFormat="YYYY.MM.DD (ddd)"
-            {...noteCreatedRangeControl}
           />
           <UnstyledButton
             c="pink"

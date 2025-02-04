@@ -10,15 +10,14 @@ import {
   TagsInput,
   Text,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
 import { Form, useNavigation } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
+import { DateRangePicker } from "../../../components/input/DateRangePicker";
 import { Fieldset } from "../../../components/mantine/Fieldset";
 import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import type { Topic } from "../../../generated/api/schemas";
-import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "../../../utils/array";
@@ -49,14 +48,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     defaultValue,
     onSubmit,
   });
-
-  const noteCreatedRangeControl = useDateRangeInputControl({
-    fromField: fields.note_created_at_from,
-    toField: fields.note_created_at_to,
-    convertDateToString: (date) => date?.valueOf().toString(),
-    convertStringToDate: safeDateFromUnixMs,
-  });
-
   const topicIdsControl = useMultiSelectInputControl({
     field: fields.topic_ids,
     convertFormValueToMantine(formValue) {
@@ -254,25 +245,14 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 searchable
                 {...noteStatusControl}
               />
-              <DatePickerInput
+              <DateRangePicker
+                convertFormValueToMantine={safeDateFromUnixMs}
+                convertMantineValueToForm={(date) => date?.valueOf().toString()}
                 disabled={searchInProgress}
-                error={
-                  containsNonNullValues(
-                    fields.note_created_at_from.errors,
-                    fields.note_created_at_to.errors,
-                  ) && (
-                    <FormError
-                      errors={[
-                        fields.note_created_at_from.errors,
-                        fields.note_created_at_to.errors,
-                      ]}
-                    />
-                  )
-                }
-                label="コミュニティノートの作成日"
-                type="range"
+                fromField={fields.note_created_at_from}
+                label="コミュニティノートの作成期間"
+                toField={fields.note_created_at_to}
                 valueFormat="YYYY.MM.DD (ddd)"
-                {...noteCreatedRangeControl}
               />
             </Stack>
           </Fieldset>
