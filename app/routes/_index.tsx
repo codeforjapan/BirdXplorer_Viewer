@@ -38,8 +38,15 @@ export const loader = async (args: LoaderFunctionArgs) => {
   if (!searchQuery.success) {
     return data(
       {
-        message: "Invalid search query",
-        errors: searchQuery.error.errors,
+        data: {
+          searchQuery: null,
+          notes: {
+            data: [],
+            meta: {},
+          },
+          topics: [],
+        },
+        error: searchQuery.error.errors,
       },
       {
         status: 400,
@@ -59,22 +66,27 @@ export const loader = async (args: LoaderFunctionArgs) => {
   ]);
 
   return {
-    searchQuery: searchQuery.data,
-    notes: response.data,
-    topics: topics.data.data,
+    data: {
+      searchQuery: searchQuery.data,
+      notes: response.data,
+      topics: topics.data.data,
+    },
+    error: null,
   };
 };
 
 export default function Index() {
-  const { notes, searchQuery, topics } = useLoaderData<typeof loader>();
+  const { data } = useLoaderData<typeof loader>();
   const lastResult = useActionData<typeof action>();
 
+  const { topics, searchQuery, notes } = data;
+
   return (
-    <Container size="md">
+    <Container size="xs">
       <Title>BirdXPlorer Viewer</Title>
       <Stack gap="xl">
         <SearchForm
-          defaultValue={searchQuery}
+          defaultValue={searchQuery ?? undefined}
           lastResult={lastResult}
           topics={topics}
         />
