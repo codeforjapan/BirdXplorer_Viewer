@@ -1,6 +1,6 @@
 import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps, getSelectProps } from "@conform-to/react";
-import { MultiSelect, Select, Stack, UnstyledButton } from "@mantine/core";
+import { getFormProps, getInputProps } from "@conform-to/react";
+import { MultiSelect, Stack, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
 
@@ -18,6 +18,7 @@ import type { NoteSearchParams } from "../types";
 import { useSimpleNoteSearchForm } from "../useForm";
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
 import { AdvancedSearchModal } from "./AdvancedSearchModal";
+import { LanguageSelect } from "./input/LanguageSelect";
 
 type SearchFormProps = {
   defaultValue?: NoteSearchParams;
@@ -89,32 +90,11 @@ export const SearchForm = (props: SearchFormProps) => {
             searchable
             {...topicIdsControl}
           />
-          <Select
-            data={Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => ({
-              value: id,
-              label,
-            }))}
+          <LanguageSelect
             disabled={searchInProgress}
-            error={
-              containsNonNullValues(fields.language.errors) && (
-                <FormError errors={[fields.language.errors]} />
-              )
-            }
-            errorProps={{ component: "div" }}
+            field={fields.language}
             label="言語"
-            searchable
-            {
-              // HACK: defaultValue が number や string [] になることはないので TypeScript を騙す
-              ...(getSelectProps(fields.language) as Omit<
-                ReturnType<typeof getSelectProps>,
-                "defaultValue"
-              > & {
-                defaultValue: Exclude<
-                  ReturnType<typeof getSelectProps>["defaultValue"],
-                  number | readonly string[]
-                >;
-              })
-            }
+            languages={LANGUAGE_ID_TO_LABEL}
           />
           <DateRangePicker
             convertFormValueToMantine={safeDateFromUnixMs}

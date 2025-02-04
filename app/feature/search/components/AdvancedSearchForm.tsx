@@ -1,11 +1,10 @@
 import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps, getSelectProps } from "@conform-to/react";
+import { getFormProps, getInputProps } from "@conform-to/react";
 import {
   Divider,
   Group,
   ModalCloseButton,
   MultiSelect,
-  Select,
   Stack,
   TagsInput,
   Text,
@@ -26,6 +25,7 @@ import { LANGUAGE_ID_TO_LABEL } from "../language";
 import { NOTE_CURRENT_STATUS } from "../status";
 import type { NoteSearchParams } from "../types";
 import { useAdvancedNoteSearchForm } from "../useForm";
+import { LanguageSelect } from "./input/LanguageSelect";
 
 export type AdvancedSearchFormProps = {
   defaultValue?: NoteSearchParams;
@@ -195,36 +195,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 label="トピック"
                 {...topicIdsControl}
               />
-              <Select
-                autoComplete="off"
-                data={Object.entries(LANGUAGE_ID_TO_LABEL).map(
-                  ([value, label]) => ({
-                    value,
-                    label,
-                  }),
-                )}
-                data-1p-ignore
+              <LanguageSelect
                 disabled={searchInProgress}
-                error={
-                  containsNonNullValues(fields.language.errors) && (
-                    <FormError errors={[fields.language.errors]} />
-                  )
-                }
-                errorProps={{ component: "div" }}
+                field={fields.language}
                 label="言語"
-                searchable
-                {
-                  // HACK: defaultValue が number や string [] になることはないので TypeScript を騙す
-                  ...(getSelectProps(fields.language) as Omit<
-                    ReturnType<typeof getSelectProps>,
-                    "defaultValue"
-                  > & {
-                    defaultValue: Exclude<
-                      ReturnType<typeof getSelectProps>["defaultValue"],
-                      number | readonly string[]
-                    >;
-                  })
-                }
+                languages={LANGUAGE_ID_TO_LABEL}
               />
               <MultiSelect
                 clearable
