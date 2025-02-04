@@ -17,10 +17,10 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { Form, useNavigation } from "@remix-run/react";
 
-import { Fieldset } from "../../../components/Fieldset";
 import { FormError } from "../../../components/FormError";
+import { Fieldset } from "../../../components/mantine/Fieldset";
+import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
-import { TextInput } from "../../../components/TextInput";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguatge";
@@ -134,8 +134,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   return (
     <Modal
       centered
-      opened={opened}
       onClose={onClose}
+      opened={opened}
       scrollAreaComponent={ScrollArea.Autosize}
       withCloseButton={false}
     >
@@ -149,8 +149,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               </Text>
             </Group>
             <SubmitButton
-              disabled={!form.valid || searchInProgress}
               color="pink"
+              disabled={!form.valid || searchInProgress}
               form={form.id}
             >
               検索
@@ -233,37 +233,37 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
             <Fieldset legend="絞り込み">
               <Stack>
                 <MultiSelect
-                  label="トピック"
                   data={topics.map((t) => ({
                     value: t.topicId.toString(),
                     label: t.label[shortLanguage] ?? t.topicId.toString(),
                   }))}
-                  value={topicIdsValue}
                   error={
                     arrayContainsNonNullItem(fields.topic_ids.errors) && (
                       <FormError errors={[fields.topic_ids.errors]} />
                     )
                   }
+                  label="トピック"
+                  onBlur={blurTopicIds}
                   onChange={changeTopicIds}
                   onFocus={focusTopicIds}
-                  onBlur={blurTopicIds}
+                  value={topicIdsValue}
                 />
                 <Select
                   autoComplete="off"
-                  data-1p-ignore
                   data={Object.entries(LANGUAGE_ID_TO_LABEL).map(
                     ([value, label]) => ({
                       value,
                       label,
                     })
                   )}
+                  data-1p-ignore
                   disabled={searchInProgress}
-                  errorProps={{ component: "div" }}
                   error={
                     arrayContainsNonNullItem(fields.language.errors) && (
                       <FormError errors={[fields.language.errors]} />
                     )
                   }
+                  errorProps={{ component: "div" }}
                   label="言語"
                   searchable
                   {
@@ -288,24 +288,21 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     })
                   )}
                   disabled={searchInProgress}
-                  errorProps={{ component: "div" }}
                   error={
                     arrayContainsNonNullItem(fields.note_status.errors) && (
                       <FormError errors={[fields.note_status.errors]} />
                     )
                   }
+                  errorProps={{ component: "div" }}
                   label="コミュニティノートのステータス"
+                  onBlur={blurNoteStatus}
                   onChange={changeNoteStatus}
                   onFocus={focusNoteStatus}
-                  onBlur={blurNoteStatus}
                   searchable
                   value={noteStatusValue}
                 />
                 <DatePickerInput
                   disabled={searchInProgress}
-                  type="range"
-                  valueFormat="YYYY.MM.DD (ddd)"
-                  label="コミュニティノートの作成日"
                   error={
                     arrayContainsNonNullItem(
                       fields.note_created_at_from.errors,
@@ -319,10 +316,13 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                       />
                     )
                   }
+                  label="コミュニティノートの作成日"
                   onBlur={blurNoteCreatedDate}
                   onChange={changeNoteCreatedDate}
                   onFocus={focusNoteCreatedDate}
+                  type="range"
                   value={noteCreatedRangeValue}
+                  valueFormat="YYYY.MM.DD (ddd)"
                 />
               </Stack>
             </Fieldset>
@@ -338,9 +338,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの投稿者"
+                  onBlur={blurXUserNames}
                   onChange={changeXUserNames}
                   onFocus={focusXUserNames}
-                  onBlur={blurXUserNames}
                   value={xUserNamesValue}
                 />
                 <TextInput
@@ -357,9 +357,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの投稿者のフォロワー数"
-                  rightSectionWidth="4em"
                   rightSection={<Text>人以上</Text>}
                   rightSectionPointerEvents="none"
+                  rightSectionWidth="4em"
                   {...getInputProps(fields.x_user_followers_count_from, {
                     type: "number",
                   })}
@@ -378,9 +378,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの投稿者のフォロー数"
-                  rightSectionWidth="4em"
                   rightSection={<Text>人以上</Text>}
                   rightSectionPointerEvents="none"
+                  rightSectionWidth="4em"
                   {...getInputProps(fields.x_user_follow_count_from, {
                     type: "number",
                   })}
@@ -399,9 +399,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの最小いいね数"
-                  rightSectionWidth="3em"
                   rightSection={<Text>以上</Text>}
                   rightSectionPointerEvents="none"
+                  rightSectionWidth="3em"
                   {...getInputProps(fields.post_like_count_from, {
                     type: "number",
                   })}
@@ -420,9 +420,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの最小リポスト数"
-                  rightSectionWidth="3em"
                   rightSection={<Text>以上</Text>}
                   rightSectionPointerEvents="none"
+                  rightSectionWidth="3em"
                   {...getInputProps(fields.post_repost_count_from, {
                     type: "number",
                   })}
@@ -441,9 +441,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     )
                   }
                   label="コミュニティノートがついたポストの最小インプレッション数"
-                  rightSectionWidth="3em"
                   rightSection={<Text>以上</Text>}
                   rightSectionPointerEvents="none"
+                  rightSectionWidth="3em"
                   {...getInputProps(fields.post_impression_count_from, {
                     type: "number",
                   })}

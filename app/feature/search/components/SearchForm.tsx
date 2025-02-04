@@ -6,8 +6,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
 
 import { FormError } from "../../../components/FormError";
+import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
-import { TextInput } from "../../../components/TextInput";
 import type { Topic } from "../../../generated/api/schemas";
 import { useDateRangeInputControl } from "../../../hooks/useDateRangeInputControl";
 import { useLanguage } from "../../../hooks/useLanguatge";
@@ -93,21 +93,21 @@ export const SearchForm = (props: SearchFormProps) => {
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
           <MultiSelect
-            label="トピック"
             data={topics.map((t) => ({
               value: t.topicId.toString(),
               label: t.label[shortLanguage] ?? t.topicId.toString(),
             }))}
-            searchable
-            value={topicIdsValue}
             error={
               arrayContainsNonNullItem(fields.topic_ids.errors) && (
                 <FormError errors={[fields.topic_ids.errors]} />
               )
             }
+            label="トピック"
+            onBlur={blurTopicIds}
             onChange={changeTopicIds}
             onFocus={focusTopicIds}
-            onBlur={blurTopicIds}
+            searchable
+            value={topicIdsValue}
           />
           <Select
             data={Object.entries(LANGUAGE_ID_TO_LABEL).map(([id, label]) => ({
@@ -115,12 +115,12 @@ export const SearchForm = (props: SearchFormProps) => {
               label,
             }))}
             disabled={searchInProgress}
-            errorProps={{ component: "div" }}
             error={
               arrayContainsNonNullItem(fields.language.errors) && (
                 <FormError errors={[fields.language.errors]} />
               )
             }
+            errorProps={{ component: "div" }}
             label="言語"
             searchable
             {
@@ -139,10 +139,6 @@ export const SearchForm = (props: SearchFormProps) => {
           <DatePickerInput
             clearable
             disabled={searchInProgress}
-            type="range"
-            valueFormat="YYYY.MM.DD (ddd)"
-            label="コミュニティノートの作成期間"
-            errorProps={{ component: "div" }}
             error={
               arrayContainsNonNullItem(
                 fields.note_created_at_from.errors,
@@ -156,10 +152,14 @@ export const SearchForm = (props: SearchFormProps) => {
                 />
               )
             }
+            errorProps={{ component: "div" }}
+            label="コミュニティノートの作成期間"
             onBlur={blurNoteCreatedDate}
             onChange={changeNoteCreatedDate}
             onFocus={focusNoteCreatedDate}
+            type="range"
             value={noteCreatedRangeValue}
+            valueFormat="YYYY.MM.DD (ddd)"
           />
           <UnstyledButton
             c="pink"
@@ -170,20 +170,20 @@ export const SearchForm = (props: SearchFormProps) => {
             詳細な条件で検索
           </UnstyledButton>
           <SubmitButton
+            color="pink"
             disabled={!form.valid || searchInProgress}
             loading={searchInProgress}
-            color="pink"
           >
             検索
           </SubmitButton>
         </Stack>
       </Form>
       <AdvancedSearchForm
-        opened={mountAdvancedSearchModal}
-        onClose={closeAdvancedSearch}
         defaultValue={defaultValue}
         lastResult={lastResult}
+        onClose={closeAdvancedSearch}
         onSubmit={closeAdvancedSearch}
+        opened={mountAdvancedSearchModal}
         topics={topics}
       />
     </>

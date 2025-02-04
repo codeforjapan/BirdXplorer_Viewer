@@ -3,7 +3,7 @@ import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 import "./app.css";
 
-import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import {
   Links,
@@ -15,18 +15,9 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
-dayjs.extend(customParseFormat);
+import { mantineTheme } from "./config/mantine";
 
-const theme = createTheme({
-  black: "#222",
-  breakpoints: {
-    xs: "40rem",
-    sm: "48rem",
-    md: "64rem",
-    lg: "80rem",
-    xl: "96rem",
-  },
-});
+dayjs.extend(customParseFormat);
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -39,7 +30,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider theme={mantineTheme}>
           <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
             {children}
           </DatesProvider>

@@ -68,14 +68,14 @@ export default tseslint.config(
               name: "@mantine/core",
               importNames: ["TextInput"],
               message:
-                "Please use TextInput from '~/components/TextInput' instead.",
+                "Please use TextInput from '~/components/mantine/TextInput' instead.",
             },
             {
               allowTypeImports: true,
               name: "@mantine/core",
               importNames: ["Fieldset"],
               message:
-                "Please use Fieldset from '~/components/Fieldset' instead.",
+                "Please use Fieldset from '~/components/mantine/Fieldset' instead.",
             },
           ],
         },
