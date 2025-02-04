@@ -1,16 +1,6 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps, getSelectProps } from "@conform-to/react";
-import {
-  Container,
-  Group,
-  Modal,
-  ModalCloseButton,
-  MultiSelect,
-  Select,
-  Stack,
-  Text,
-  UnstyledButton,
-} from "@mantine/core";
+import { MultiSelect, Select, Stack, UnstyledButton } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
@@ -188,27 +178,14 @@ export const SearchForm = (props: SearchFormProps) => {
           </SubmitButton>
         </Stack>
       </Form>
-      <Modal
-        fullScreen
+      <AdvancedSearchForm
         opened={mountAdvancedSearchModal}
         onClose={closeAdvancedSearch}
-        withCloseButton={false}
-      >
-        <Container size="md">
-          <Stack gap="md">
-            <Group justify="space-between">
-              <Text>詳細な条件で検索</Text>
-              <ModalCloseButton aria-label="簡易検索に戻る" />
-            </Group>
-            <AdvancedSearchForm
-              defaultValue={defaultValue}
-              lastResult={lastResult}
-              onSubmit={closeAdvancedSearch}
-              topics={topics}
-            />
-          </Stack>
-        </Container>
-      </Modal>
+        defaultValue={defaultValue}
+        lastResult={lastResult}
+        onSubmit={closeAdvancedSearch}
+        topics={topics}
+      />
     </>
   );
 };
