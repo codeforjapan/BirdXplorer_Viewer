@@ -20,7 +20,7 @@ type DateRangeInputControlOptions = {
    * この処理は冪等性がある必要がある
    */
   convertStringToDate: (
-    formValue: FormValue<string | number | null | undefined>
+    formValue: FormValue<string | number | null | undefined>,
   ) => Date | null;
 };
 
@@ -36,7 +36,7 @@ type DateRangeInputControl = Omit<
  * Conform を `<DatePickerInput type="range" />` と連携するためのフック
  */
 export const useDateRangeInputControl = (
-  options: DateRangeInputControlOptions
+  options: DateRangeInputControlOptions,
 ): DateRangeInputControl => {
   const { fromField, toField, convertDateToString, convertStringToDate } =
     options;
@@ -46,11 +46,11 @@ export const useDateRangeInputControl = (
 
   const fromValue = useMemo(
     () => convertStringToDate(fromField.value),
-    [fromField.value]
+    [fromField.value],
   );
   const toValue = useMemo(
     () => convertStringToDate(toField.value),
-    [toField.value]
+    [toField.value],
   );
 
   const change = useCallback(
@@ -58,7 +58,7 @@ export const useDateRangeInputControl = (
       fromControl.change(convertDateToString(dateRange[0]) ?? "");
       toControl.change(convertDateToString(dateRange[1]) ?? "");
     },
-    [fromControl, toControl]
+    [fromControl, toControl],
   );
 
   const focus = useCallback(() => {

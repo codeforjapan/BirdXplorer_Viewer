@@ -6,6 +6,6 @@
  * 安全な値であれば Date オブジェクト、そうでなければ null
  */
 export const safeDateFromUnixMs = (
-  unixMs: string | number | null | undefined
+  unixMs: string | number | null | undefined,
 ) =>
   unixMs && !Number.isNaN(Number(unixMs)) ? new Date(Number(unixMs)) : null;

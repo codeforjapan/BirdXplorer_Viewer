@@ -18,12 +18,12 @@ type TransformToArray<T, SPLITTER extends (value: T) => unknown[]> = T extends
   | undefined
   ? []
   : T extends unknown[]
-  ? T
-  : SPLITTER extends (value: T) => infer U
-  ? U extends Array<infer V>
-    ? V[]
-    : never
-  : never;
+    ? T
+    : SPLITTER extends (value: T) => infer U
+      ? U extends Array<infer V>
+        ? V[]
+        : never
+      : never;
 
 /**
  * Convert a value to an array.
@@ -36,7 +36,7 @@ type TransformToArray<T, SPLITTER extends (value: T) => unknown[]> = T extends
  */
 export function transformToArray<T, U>(
   value: T,
-  splitter: (value: T) => U[]
+  splitter: (value: T) => U[],
 ): TransformToArray<T, typeof splitter> {
   if (value == null) {
     // @ts-expect-error TypeScript は理解できていない

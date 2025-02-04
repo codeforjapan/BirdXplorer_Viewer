@@ -42,9 +42,8 @@ export const links: LinksFunction = () => {
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const rawSearchParams = getQuery(args.request.url);
-  const searchQuery = await noteSearchParamSchema.safeParseAsync(
-    rawSearchParams
-  );
+  const searchQuery =
+    await noteSearchParamSchema.safeParseAsync(rawSearchParams);
 
   if (!searchQuery.success) {
     return data(
@@ -62,7 +61,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
       {
         status: 400,
         statusText: "Bad Request",
-      }
+      },
     );
   }
 

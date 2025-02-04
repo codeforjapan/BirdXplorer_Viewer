@@ -8,10 +8,10 @@ export type LanguageIdentifierLiteral =
  * @param identifier
  */
 export const isLanguageIdentifierLiteral = (
-  identifier: string
+  identifier: string,
 ): identifier is LanguageIdentifierLiteral => {
   return Object.values(LanguageIdentifier).includes(
-    identifier as LanguageIdentifierLiteral
+    identifier as LanguageIdentifierLiteral,
   );
 };
 

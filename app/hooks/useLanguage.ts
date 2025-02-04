@@ -17,6 +17,6 @@ export function useLanguage(defaultLanguage?: string): string | undefined {
       };
     },
     () => navigator.language,
-    () => defaultLanguage
+    () => defaultLanguage,
   );
 }

@@ -21,7 +21,7 @@ import type {
 } from "./schemas";
 
 export const getPingApiV1SystemPingGetResponseMock = (
-  overrideResponse: Partial<Message> = {}
+  overrideResponse: Partial<Message> = {},
 ): Message => ({ message: faker.string.alpha(20), ...overrideResponse });
 
 export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseMock =
@@ -29,7 +29,7 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
     enrollmentState: faker.helpers.arrayElement(Object.values(EnrollmentState)),
     modelingGroup: faker.number.int({ min: 0, max: undefined }),
     modelingPopulation: faker.helpers.arrayElement(
-      Object.values(ModelingPopulation)
+      Object.values(ModelingPopulation),
     ),
     participantId: faker.helpers.fromRegExp("^[0-9A-F]{64}$"),
     successfulRatingNeededToEarnIn: faker.number.int({
@@ -49,11 +49,11 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
   });
 
 export const getGetTopicsApiV1DataTopicsGetResponseMock = (
-  overrideResponse: Partial<TopicListResponse> = {}
+  overrideResponse: Partial<TopicListResponse> = {},
 ): TopicListResponse => ({
   data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1
+    (_, i) => i + 1,
   ).map(() => ({
     label: {
       [faker.string.alphanumeric(5)]: faker.string.alpha(20),
@@ -65,11 +65,11 @@ export const getGetTopicsApiV1DataTopicsGetResponseMock = (
 });
 
 export const getGetNotesApiV1DataNotesGetResponseMock = (
-  overrideResponse: Partial<NoteListResponse> = {}
+  overrideResponse: Partial<NoteListResponse> = {},
 ): NoteListResponse => ({
   data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1
+    (_, i) => i + 1,
   ).map(() => ({
     createdAt: faker.number.int({ min: 1152921600000, max: 1736905314223 }),
     currentStatus: faker.helpers.arrayElement([
@@ -86,7 +86,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
     summary: faker.string.alpha(20),
     topics: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1
+      (_, i) => i + 1,
     ).map(() => ({
       label: {
         [faker.string.alphanumeric(5)]: faker.string.alpha(20),
@@ -109,11 +109,11 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
 });
 
 export const getGetPostsApiV1DataPostsGetResponseMock = (
-  overrideResponse: Partial<PostListResponse> = {}
+  overrideResponse: Partial<PostListResponse> = {},
 ): PostListResponse => ({
   data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1
+    (_, i) => i + 1,
   ).map(() => ({
     createdAt: faker.number.int({ min: 1152921600000, max: 1736905314230 }),
     impressionCount: faker.number.int({ min: 0, max: undefined }),
@@ -122,14 +122,14 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
     links: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
+        (_, i) => i + 1,
       ).map(() => ({ linkId: faker.string.uuid(), url: faker.internet.url() })),
       undefined,
     ]),
     mediaDetails: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
+        (_, i) => i + 1,
       ).map(() => ({
         height: faker.number.int({ min: 0, max: undefined }),
         mediaKey: faker.string.alpha(20),
@@ -169,11 +169,11 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
 });
 
 export const getSearchApiV1DataSearchGetResponseMock = (
-  overrideResponse: Partial<SearchResponse> = {}
+  overrideResponse: Partial<SearchResponse> = {},
 ): SearchResponse => ({
   data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1
+    (_, i) => i + 1,
   ).map(() => ({
     createdAt: faker.number.int({ min: 1152921600000, max: 1736905314328 }),
     currentStatus: faker.helpers.arrayElement([
@@ -194,7 +194,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
       links: faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1
+          (_, i) => i + 1,
         ).map(() => ({
           linkId: faker.string.uuid(),
           url: faker.internet.url(),
@@ -204,7 +204,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
       mediaDetails: faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1
+          (_, i) => i + 1,
         ).map(() => ({
           height: faker.number.int({ min: 0, max: undefined }),
           mediaKey: faker.string.alpha(20),
@@ -234,7 +234,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
     summary: faker.string.alpha(20),
     topics: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1
+      (_, i) => i + 1,
     ).map(() => ({
       label: {
         [faker.string.alphanumeric(5)]: faker.string.alpha(20),
@@ -260,8 +260,8 @@ export const getPingApiV1SystemPingGetMockHandler = (
   overrideResponse?:
     | Message
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<Message> | Message)
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<Message> | Message),
 ) => {
   return http.get("*/api/v1/system/ping", async (info) => {
     await delay(1000);
@@ -272,9 +272,9 @@ export const getPingApiV1SystemPingGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getPingApiV1SystemPingGetResponseMock()
+          : getPingApiV1SystemPingGetResponseMock(),
       ),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
@@ -284,8 +284,8 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
     overrideResponse?:
       | UserEnrollment
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0]
-        ) => Promise<UserEnrollment> | UserEnrollment)
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<UserEnrollment> | UserEnrollment),
   ) => {
     return http.get(
       "*/api/v1/data/user-enrollments/:participantId",
@@ -298,11 +298,11 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
               ? typeof overrideResponse === "function"
                 ? await overrideResponse(info)
                 : overrideResponse
-              : getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseMock()
+              : getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseMock(),
           ),
-          { status: 200, headers: { "Content-Type": "application/json" } }
+          { status: 200, headers: { "Content-Type": "application/json" } },
         );
-      }
+      },
     );
   };
 
@@ -310,8 +310,8 @@ export const getGetTopicsApiV1DataTopicsGetMockHandler = (
   overrideResponse?:
     | TopicListResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<TopicListResponse> | TopicListResponse)
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<TopicListResponse> | TopicListResponse),
 ) => {
   return http.get("*/api/v1/data/topics", async (info) => {
     await delay(1000);
@@ -322,9 +322,9 @@ export const getGetTopicsApiV1DataTopicsGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetTopicsApiV1DataTopicsGetResponseMock()
+          : getGetTopicsApiV1DataTopicsGetResponseMock(),
       ),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
@@ -333,8 +333,8 @@ export const getGetNotesApiV1DataNotesGetMockHandler = (
   overrideResponse?:
     | NoteListResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<NoteListResponse> | NoteListResponse)
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<NoteListResponse> | NoteListResponse),
 ) => {
   return http.get("*/api/v1/data/notes", async (info) => {
     await delay(1000);
@@ -345,9 +345,9 @@ export const getGetNotesApiV1DataNotesGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetNotesApiV1DataNotesGetResponseMock()
+          : getGetNotesApiV1DataNotesGetResponseMock(),
       ),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
@@ -356,8 +356,8 @@ export const getGetPostsApiV1DataPostsGetMockHandler = (
   overrideResponse?:
     | PostListResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<PostListResponse> | PostListResponse)
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<PostListResponse> | PostListResponse),
 ) => {
   return http.get("*/api/v1/data/posts", async (info) => {
     await delay(1000);
@@ -368,9 +368,9 @@ export const getGetPostsApiV1DataPostsGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetPostsApiV1DataPostsGetResponseMock()
+          : getGetPostsApiV1DataPostsGetResponseMock(),
       ),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };
@@ -379,8 +379,8 @@ export const getSearchApiV1DataSearchGetMockHandler = (
   overrideResponse?:
     | SearchResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<SearchResponse> | SearchResponse)
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<SearchResponse> | SearchResponse),
 ) => {
   return http.get("*/api/v1/data/search", async (info) => {
     await delay(1000);
@@ -391,9 +391,9 @@ export const getSearchApiV1DataSearchGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getSearchApiV1DataSearchGetResponseMock()
+          : getSearchApiV1DataSearchGetResponseMock(),
       ),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   });
 };

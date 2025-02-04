@@ -15,7 +15,7 @@ export const FormError = ({ errors, size }: FormErrorProps) => {
 
   const flattenErrors = useMemo(
     () => errors?.flat().filter((v) => v != null),
-    [errors]
+    [errors],
   );
   if (flattenErrors == null || flattenErrors.length === 0) {
     return undefined;

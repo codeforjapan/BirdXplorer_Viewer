@@ -30,7 +30,7 @@ export const getPingApiV1SystemPingGetUrl = () => {
 };
 
 export const pingApiV1SystemPingGet = async (
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<pingApiV1SystemPingGetResponse> => {
   const res = await fetch(getPingApiV1SystemPingGetUrl(), {
     ...options,
@@ -60,16 +60,16 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGet =
   async (
     participantId: string,
-    options?: RequestInit
+    options?: RequestInit,
   ): Promise<getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponse> => {
     const res = await fetch(
       getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetUrl(
-        participantId
+        participantId,
       ),
       {
         ...options,
         method: "GET",
-      }
+      },
     );
     const data = await res.json();
 
@@ -91,7 +91,7 @@ export const getGetTopicsApiV1DataTopicsGetUrl = () => {
 };
 
 export const getTopicsApiV1DataTopicsGet = async (
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<getTopicsApiV1DataTopicsGetResponse> => {
   const res = await fetch(getGetTopicsApiV1DataTopicsGetUrl(), {
     ...options,
@@ -113,7 +113,7 @@ export type getNotesApiV1DataNotesGetResponse = {
 };
 
 export const getGetNotesApiV1DataNotesGetUrl = (
-  params?: GetNotesApiV1DataNotesGetParams
+  params?: GetNotesApiV1DataNotesGetParams,
 ) => {
   const normalizedParams = new URLSearchParams();
 
@@ -130,7 +130,7 @@ export const getGetNotesApiV1DataNotesGetUrl = (
 
 export const getNotesApiV1DataNotesGet = async (
   params?: GetNotesApiV1DataNotesGetParams,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<getNotesApiV1DataNotesGetResponse> => {
   const res = await fetch(getGetNotesApiV1DataNotesGetUrl(params), {
     ...options,
@@ -152,7 +152,7 @@ export type getPostsApiV1DataPostsGetResponse = {
 };
 
 export const getGetPostsApiV1DataPostsGetUrl = (
-  params?: GetPostsApiV1DataPostsGetParams
+  params?: GetPostsApiV1DataPostsGetParams,
 ) => {
   const normalizedParams = new URLSearchParams();
 
@@ -169,7 +169,7 @@ export const getGetPostsApiV1DataPostsGetUrl = (
 
 export const getPostsApiV1DataPostsGet = async (
   params?: GetPostsApiV1DataPostsGetParams,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<getPostsApiV1DataPostsGetResponse> => {
   const res = await fetch(getGetPostsApiV1DataPostsGetUrl(params), {
     ...options,
@@ -191,7 +191,7 @@ export type searchApiV1DataSearchGetResponse = {
 };
 
 export const getSearchApiV1DataSearchGetUrl = (
-  params?: SearchApiV1DataSearchGetParams
+  params?: SearchApiV1DataSearchGetParams,
 ) => {
   const normalizedParams = new URLSearchParams();
 
@@ -208,7 +208,7 @@ export const getSearchApiV1DataSearchGetUrl = (
 
 export const searchApiV1DataSearchGet = async (
   params?: SearchApiV1DataSearchGetParams,
-  options?: RequestInit
+  options?: RequestInit,
 ): Promise<searchApiV1DataSearchGetResponse> => {
   const res = await fetch(getSearchApiV1DataSearchGetUrl(params), {
     ...options,

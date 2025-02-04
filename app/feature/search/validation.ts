@@ -18,7 +18,7 @@ const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
 
         return typeof value === "string" ? value.split(",") : [value];
       }),
-    schema
+    schema,
   );
 };
 
@@ -55,10 +55,10 @@ export const noteSearchParamSchema = z.object({
   topic_ids: preprocessArray(
     z
       .array(
-        z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin)
+        z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin),
       )
       .or(z.null())
-      .optional()
+      .optional(),
   ),
   note_status: preprocessArray(
     z
@@ -67,17 +67,17 @@ export const noteSearchParamSchema = z.object({
           "NEEDS_MORE_RATINGS",
           "CURRENTLY_RATED_HELPFUL",
           "CURRENTLY_RATED_NOT_HELPFUL",
-        ])
+        ]),
       )
       .or(z.null())
-      .optional()
+      .optional(),
   ),
   note_created_at_from: z.coerce
     .number()
     .min(0)
     .max(
       new Date().valueOf(),
-      "作成期間の最初を現在より先の日時に設定することはできません"
+      "作成期間の最初を現在より先の日時に設定することはできません",
     )
     .or(z.null())
     .optional(),
@@ -86,7 +86,7 @@ export const noteSearchParamSchema = z.object({
     .min(0)
     .max(
       new Date().valueOf(),
-      "作成期間の最後を現在より先の日時に設定することはできません"
+      "作成期間の最後を現在より先の日時に設定することはできません",
     )
     .or(z.null())
     .optional(),

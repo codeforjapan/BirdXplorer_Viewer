@@ -210,7 +210,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   ([value, label]) => ({
                     value,
                     label,
-                  })
+                  }),
                 )}
                 data-1p-ignore
                 disabled={searchInProgress}
@@ -241,7 +241,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   ([value, label]) => ({
                     value,
                     label,
-                  })
+                  }),
                 )}
                 disabled={searchInProgress}
                 error={
@@ -259,7 +259,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 error={
                   containsNonNullValues(
                     fields.note_created_at_from.errors,
-                    fields.note_created_at_to.errors
+                    fields.note_created_at_to.errors,
                   ) && (
                     <FormError
                       errors={[
@@ -296,7 +296,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(
-                    fields.x_user_followers_count_from.errors
+                    fields.x_user_followers_count_from.errors,
                   ) && (
                     <FormError
                       errors={[fields.x_user_followers_count_from.errors]}
@@ -317,7 +317,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(
-                    fields.x_user_follow_count_from.errors
+                    fields.x_user_follow_count_from.errors,
                   ) && (
                     <FormError
                       errors={[fields.x_user_follow_count_from.errors]}
@@ -355,7 +355,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(
-                    fields.post_repost_count_from.errors
+                    fields.post_repost_count_from.errors,
                   ) && (
                     <FormError
                       errors={[fields.post_repost_count_from.errors]}
@@ -376,7 +376,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(
-                    fields.post_impression_count_from.errors
+                    fields.post_impression_count_from.errors,
                   ) && (
                     <FormError
                       errors={[fields.post_impression_count_from.errors]}

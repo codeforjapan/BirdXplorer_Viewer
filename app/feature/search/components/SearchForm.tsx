@@ -130,7 +130,7 @@ export const SearchForm = (props: SearchFormProps) => {
             error={
               containsNonNullValues(
                 fields.note_created_at_from.errors,
-                fields.note_created_at_to.errors
+                fields.note_created_at_to.errors,
               ) && (
                 <FormError
                   errors={[

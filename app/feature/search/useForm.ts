@@ -40,7 +40,7 @@ type useAdvancedNoteSearchFormOptions = Omit<
 >;
 
 export const useAdvancedNoteSearchForm = (
-  options: useAdvancedNoteSearchFormOptions
+  options: useAdvancedNoteSearchFormOptions,
 ) => useNoteSearchForm({ ...options, formType: "advanced" });
 
 type useSimpleNoteSearchFormOptions = Omit<
@@ -49,7 +49,7 @@ type useSimpleNoteSearchFormOptions = Omit<
 >;
 
 export const useSimpleNoteSearchForm = (
-  options: useSimpleNoteSearchFormOptions
+  options: useSimpleNoteSearchFormOptions,
 ) => useNoteSearchForm({ ...options, formType: "simple" });
 
 // この hooks を直接使わないこと
@@ -60,7 +60,7 @@ const useNoteSearchForm = ({
 }: UseNoteSearchFormOptions): UseNoteSearchFormReturn => {
   const formIdHash = useMemo(
     () => objectHash({ formType, ...defaultValue }),
-    [formType, defaultValue]
+    [formType, defaultValue],
   );
 
   const form = useForm<z.infer<typeof noteSearchParamSchema>>({

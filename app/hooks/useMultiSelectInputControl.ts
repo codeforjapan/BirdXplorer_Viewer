@@ -5,10 +5,10 @@ import { useCallback, useMemo } from "react";
 type MultiSelectInputControlOptions = {
   field: FieldMetadata<Array<string | number> | null | undefined>;
   convertFormValueToMantine: (
-    formValue: FormValue<Array<string | number> | null | undefined>
+    formValue: FormValue<Array<string | number> | null | undefined>,
   ) => string[];
   convertMantineValueToForm: (
-    mantineValue: string[]
+    mantineValue: string[],
   ) => string | string[] | undefined;
 };
 
@@ -21,7 +21,7 @@ type MultiSelectInputControl = Omit<
 };
 
 export const useMultiSelectInputControl = (
-  options: MultiSelectInputControlOptions
+  options: MultiSelectInputControlOptions,
 ): MultiSelectInputControl => {
   const { field, convertFormValueToMantine, convertMantineValueToForm } =
     options;
@@ -30,14 +30,14 @@ export const useMultiSelectInputControl = (
 
   const value = useMemo(
     () => convertFormValueToMantine(field.value),
-    [field.value]
+    [field.value],
   );
 
   const change = useCallback(
     (value: string[]) => {
       control.change(convertMantineValueToForm(value) ?? "");
     },
-    [control]
+    [control],
   );
 
   const focus = useCallback(() => {

@@ -25,7 +25,7 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
     participant_id: zod
       .string()
       .regex(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetPathParticipantIdRegExp
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetPathParticipantIdRegExp,
       ),
   });
 
@@ -43,7 +43,7 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
     participantId: zod
       .string()
       .regex(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseParticipantIdRegExp
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseParticipantIdRegExp,
       ),
     enrollmentState: zod.enum([
       "newUser",
@@ -55,32 +55,32 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
     successfulRatingNeededToEarnIn: zod
       .number()
       .min(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccessfulRatingNeededToEarnInMin
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccessfulRatingNeededToEarnInMin,
       ),
     timestampOfLastStateChange: zod
       .number()
       .min(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne,
       )
       .max(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne,
       )
       .or(zod.string())
       .or(zod.string()),
     timestampOfLastEarnOut: zod
       .number()
       .min(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne,
       )
       .max(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne,
       )
       .or(zod.string()),
     modelingPopulation: zod.enum(["CORE", "EXPANSION"]),
     modelingGroup: zod
       .number()
       .min(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseModelingGroupMin
+        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseModelingGroupMin,
       ),
   });
 
@@ -101,7 +101,7 @@ export const getTopicsApiV1DataTopicsGetResponse = zod.object({
       referenceCount: zod
         .number()
         .min(getTopicsApiV1DataTopicsGetResponseDataItemReferenceCountMin),
-    })
+    }),
   ),
 });
 
@@ -110,7 +110,7 @@ export const getTopicsApiV1DataTopicsGetResponse = zod.object({
  * @summary Get Notes
  */
 export const getNotesApiV1DataNotesGetQueryNoteIdsItemRegExp = new RegExp(
-  "^[0-9]{19}$"
+  "^[0-9]{19}$",
 );
 export const getNotesApiV1DataNotesGetQueryCreatedAtFromMinOne = 1152921600000;
 export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1737937176032;
@@ -120,7 +120,7 @@ export const getNotesApiV1DataNotesGetQueryOffsetMin = 0;
 export const getNotesApiV1DataNotesGetQueryLimitMax = 1000;
 export const getNotesApiV1DataNotesGetQueryTopicIdsItemMin = 0;
 export const getNotesApiV1DataNotesGetQueryPostIdsItemRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 
 export const getNotesApiV1DataNotesGetQueryParams = zod.object({
@@ -180,10 +180,10 @@ export const getNotesApiV1DataNotesGetQueryParams = zod.object({
 });
 
 export const getNotesApiV1DataNotesGetResponseDataItemNoteIdRegExp = new RegExp(
-  "^[0-9]{19}$"
+  "^[0-9]{19}$",
 );
 export const getNotesApiV1DataNotesGetResponseDataItemPostIdRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemTopicIdMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin = 0;
@@ -233,9 +233,9 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
           referenceCount: zod
             .number()
             .min(
-              getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin
+              getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin,
             ),
-        })
+        }),
       ),
       summary: zod.string().min(1),
       currentStatus: zod
@@ -249,7 +249,7 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
         .number()
         .min(getNotesApiV1DataNotesGetResponseDataItemCreatedAtMin)
         .max(getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax),
-    })
+    }),
   ),
   meta: zod.object({
     next: zod
@@ -274,13 +274,13 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
  * @summary Get Posts
  */
 export const getPostsApiV1DataPostsGetQueryPostIdsItemRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetQueryNoteIdsItemRegExp = new RegExp(
-  "^[0-9]{19}$"
+  "^[0-9]{19}$",
 );
 export const getPostsApiV1DataPostsGetQueryUserIdsItemRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetQueryCreatedAtFromMinOne = 1152921600000;
 export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1737937176037;
@@ -331,7 +331,7 @@ export const getPostsApiV1DataPostsGetQueryParams = zod.object({
 });
 
 export const getPostsApiV1DataPostsGetResponseDataItemPostIdRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetResponseDataItemXUserIdRegExp =
   new RegExp("^([0-9]{1,19}|)$");
@@ -391,19 +391,19 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
               .url()
               .min(1)
               .max(
-                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemUrlMax
+                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemUrlMax,
               ),
             width: zod
               .number()
               .min(
-                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemWidthMin
+                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemWidthMin,
               ),
             height: zod
               .number()
               .min(
-                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemHeightMin
+                getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemHeightMin,
               ),
-          })
+          }),
         )
         .optional(),
       createdAt: zod
@@ -428,7 +428,7 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
               .url()
               .min(1)
               .max(getPostsApiV1DataPostsGetResponseDataItemLinksItemUrlMax),
-          })
+          }),
         )
         .optional(),
       link: zod
@@ -436,7 +436,7 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
         .url()
         .min(1)
         .max(getPostsApiV1DataPostsGetResponseDataItemLinkMax),
-    })
+    }),
   ),
   meta: zod.object({
     next: zod
@@ -529,12 +529,12 @@ export const searchApiV1DataSearchGetQueryParams = zod.object({
 });
 
 export const searchApiV1DataSearchGetResponseDataItemNoteIdRegExp = new RegExp(
-  "^[0-9]{19}$"
+  "^[0-9]{19}$",
 );
 export const searchApiV1DataSearchGetResponseDataItemTopicsItemTopicIdMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemTopicsItemReferenceCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostIdRegExp = new RegExp(
-  "^([0-9]{1,19}|)$"
+  "^([0-9]{1,19}|)$",
 );
 export const searchApiV1DataSearchGetResponseDataItemCreatedAtMin = 1152921600000;
 
@@ -600,9 +600,9 @@ export const searchApiV1DataSearchGetResponse = zod.object({
           referenceCount: zod
             .number()
             .min(
-              searchApiV1DataSearchGetResponseDataItemTopicsItemReferenceCountMin
+              searchApiV1DataSearchGetResponseDataItemTopicsItemReferenceCountMin,
             ),
-        })
+        }),
       ),
       postId: zod
         .string()
@@ -629,7 +629,7 @@ export const searchApiV1DataSearchGetResponse = zod.object({
           userId: zod
             .string()
             .regex(
-              searchApiV1DataSearchGetResponseDataItemPostXUserUserIdRegExp
+              searchApiV1DataSearchGetResponseDataItemPostXUserUserIdRegExp,
             ),
           name: zod.string().min(1),
           profileImage: zod
@@ -637,17 +637,17 @@ export const searchApiV1DataSearchGetResponse = zod.object({
             .url()
             .min(1)
             .max(
-              searchApiV1DataSearchGetResponseDataItemPostXUserProfileImageMax
+              searchApiV1DataSearchGetResponseDataItemPostXUserProfileImageMax,
             ),
           followersCount: zod
             .number()
             .min(
-              searchApiV1DataSearchGetResponseDataItemPostXUserFollowersCountMin
+              searchApiV1DataSearchGetResponseDataItemPostXUserFollowersCountMin,
             ),
           followingCount: zod
             .number()
             .min(
-              searchApiV1DataSearchGetResponseDataItemPostXUserFollowingCountMin
+              searchApiV1DataSearchGetResponseDataItemPostXUserFollowingCountMin,
             ),
         }),
         text: zod.string(),
@@ -661,19 +661,19 @@ export const searchApiV1DataSearchGetResponse = zod.object({
                 .url()
                 .min(1)
                 .max(
-                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemUrlMax
+                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemUrlMax,
                 ),
               width: zod
                 .number()
                 .min(
-                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemWidthMin
+                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemWidthMin,
                 ),
               height: zod
                 .number()
                 .min(
-                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemHeightMin
+                  searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemHeightMin,
                 ),
-            })
+            }),
           )
           .optional(),
         createdAt: zod
@@ -698,9 +698,9 @@ export const searchApiV1DataSearchGetResponse = zod.object({
                 .url()
                 .min(1)
                 .max(
-                  searchApiV1DataSearchGetResponseDataItemPostLinksItemUrlMax
+                  searchApiV1DataSearchGetResponseDataItemPostLinksItemUrlMax,
                 ),
-            })
+            }),
           )
           .optional(),
         link: zod
@@ -709,7 +709,7 @@ export const searchApiV1DataSearchGetResponse = zod.object({
           .min(1)
           .max(searchApiV1DataSearchGetResponseDataItemPostLinkMax),
       }),
-    })
+    }),
   ),
   meta: zod.object({
     next: zod
