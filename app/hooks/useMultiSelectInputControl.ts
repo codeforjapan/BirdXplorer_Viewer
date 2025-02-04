@@ -2,14 +2,14 @@ import type { FormValue } from "@conform-to/dom";
 import { type FieldMetadata, useInputControl } from "@conform-to/react";
 import { useCallback, useMemo } from "react";
 
-type MultiSelectInputControlOptions = {
-  field: FieldMetadata<Array<string | number> | null | undefined>;
+type MultiSelectInputControlOptions<T extends string[] | number[]> = {
+  field: FieldMetadata<T | null | undefined>;
   convertFormValueToMantine: (
-    formValue: FormValue<Array<string | number> | null | undefined>,
+    formValue: FormValue<T | null | undefined>,
   ) => string[];
   convertMantineValueToForm: (
     mantineValue: string[],
-  ) => string | string[] | undefined;
+  ) => FormValue<T | null | undefined>;
 };
 
 type MultiSelectInputControl = Omit<
@@ -20,12 +20,11 @@ type MultiSelectInputControl = Omit<
   value: string[];
 };
 
-export const useMultiSelectInputControl = (
-  options: MultiSelectInputControlOptions,
-): MultiSelectInputControl => {
-  const { field, convertFormValueToMantine, convertMantineValueToForm } =
-    options;
-
+export const useMultiSelectInputControl = <T extends string[] | number[]>({
+  field,
+  convertFormValueToMantine,
+  convertMantineValueToForm,
+}: MultiSelectInputControlOptions<T>): MultiSelectInputControl => {
   const control = useInputControl(field);
 
   const value = useMemo(
@@ -35,7 +34,18 @@ export const useMultiSelectInputControl = (
 
   const change = useCallback(
     (value: string[]) => {
-      control.change(convertMantineValueToForm(value) ?? "");
+      const processed = convertMantineValueToForm(value);
+
+      if (Array.isArray(processed)) {
+        if (processed.length === 0) {
+          control.change("");
+          return;
+        }
+        control.change(processed.filter((v) => v != null));
+        return;
+      }
+
+      control.change(processed ?? "");
     },
     [control],
   );

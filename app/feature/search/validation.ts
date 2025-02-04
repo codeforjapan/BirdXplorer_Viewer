@@ -6,20 +6,21 @@ import {
   searchApiV1DataSearchGetQueryOffsetMin,
   searchApiV1DataSearchGetQueryTopicIdsItemMin,
 } from "../../generated/api/zod/schema";
-import { transformToArray } from "../../utils/array";
 
 const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
-  return z.preprocess(
-    (data) =>
-      transformToArray(data, (value) => {
-        if (value == null || value === "") {
-          return [];
-        }
-
-        return typeof value === "string" ? value.split(",") : [value];
-      }),
-    schema,
-  );
+  return z.preprocess((data) => {
+    if (data == null) {
+      return [];
+    }
+    if (Array.isArray(data)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return data;
+    }
+    if (typeof data === "string") {
+      return data.split(",");
+    }
+    return [data];
+  }, schema);
 };
 
 export const noteSearchParamSchema = z.object({
@@ -57,9 +58,8 @@ export const noteSearchParamSchema = z.object({
       .array(
         z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin),
       )
-      .or(z.null())
-      .optional(),
-  ),
+      .or(z.null()),
+  ).optional(),
   note_status: preprocessArray(
     z
       .array(
@@ -69,9 +69,8 @@ export const noteSearchParamSchema = z.object({
           "CURRENTLY_RATED_NOT_HELPFUL",
         ]),
       )
-      .or(z.null())
-      .optional(),
-  ),
+      .or(z.null()),
+  ).optional(),
   note_created_at_from: z.coerce
     .number()
     .min(0)
@@ -90,7 +89,7 @@ export const noteSearchParamSchema = z.object({
     )
     .or(z.null())
     .optional(),
-  x_user_names: preprocessArray(z.array(z.string()).or(z.null()).optional()),
+  x_user_names: preprocessArray(z.array(z.string()).or(z.null())).optional(),
   x_user_followers_count_from: z.coerce.number().min(0).or(z.null()).optional(),
   x_user_follow_count_from: z.coerce.number().min(0).or(z.null()).optional(),
   post_like_count_from: z.coerce.number().min(0).or(z.null()).optional(),
