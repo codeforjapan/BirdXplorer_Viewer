@@ -18,8 +18,8 @@ export const NoteTopic = ({ topics, wrapper: Wrapper }: NoteTopicProps) => {
       {topics.map((topic) => (
         <TopicBadge
           key={topic.topicId}
-          topic={topic}
           language={shortLanguage}
+          topic={topic}
         />
       ))}
     </Wrapper>

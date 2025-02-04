@@ -8,12 +8,12 @@ type PostProps = {
 
 export const Post = ({ post }: PostProps) => {
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card padding="lg" radius="md" shadow="sm" withBorder>
       <Group gap="sm">
-        <Image src={post.xUser.profileImage} alt="profile image" />
+        <Image alt="profile image" src={post.xUser.profileImage} />
         <Text>{post.xUser.name}</Text>
         {post.mediaDetails?.map((media) => (
-          <Image key={media.mediaKey} src={media.url} alt="media" />
+          <Image alt="media" key={media.mediaKey} src={media.url} />
         ))}
         <Text>{post.link}</Text>
       </Group>

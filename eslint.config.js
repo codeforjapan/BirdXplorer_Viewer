@@ -125,6 +125,7 @@ export default tseslint.config(
       "react/jsx-no-target-blank": ["error", { allowReferrer: true }],
       "react/prop-types": "off",
       "react/self-closing-comp": "error",
+      "react/jsx-sort-props": "error",
       "react-refresh/only-export-components": [
         "error",
         { allowExportNames: ["meta", "links", "headers", "loader", "action"] },

@@ -22,7 +22,7 @@ export const FormError = ({ errors, size }: FormErrorProps) => {
   }
 
   return (
-    <List size={size} listStyleType="none">
+    <List listStyleType="none" size={size}>
       {flattenErrors.map((error, index) => (
         <ListItem key={index}>{error}</ListItem>
       ))}

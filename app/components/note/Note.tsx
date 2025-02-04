@@ -13,7 +13,7 @@ export const Note = ({ note }: NoteProps) => {
   const dateString = new Date(note.createdAt).toLocaleString("ja-JP");
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card padding="lg" radius="md" shadow="sm" withBorder>
       <Group gap="sm">
         <Group gap="xs">
           <Text>{note.summary}</Text>
@@ -22,7 +22,7 @@ export const Note = ({ note }: NoteProps) => {
             topics={note.topics}
             wrapper={(props) => <Group {...props} />}
           />
-          <Text size="sm" c="dimmed">
+          <Text c="dimmed" size="sm">
             Created At: {dateString}
           </Text>
         </Group>
