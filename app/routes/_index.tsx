@@ -17,7 +17,6 @@ import {
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
 import type { SearchApiV1DataSearchGetParams } from "../generated/api/schemas";
-import { searchApiV1DataSearchGetQueryParams } from "../generated/api/zod/schema";
 
 export const meta: MetaFunction = () => {
   return [
@@ -111,7 +110,7 @@ export default function Index() {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const submission = parseWithZod(formData, {
-    schema: searchApiV1DataSearchGetQueryParams,
+    schema: noteSearchParamSchema,
   });
 
   if (submission.status !== "success") {
