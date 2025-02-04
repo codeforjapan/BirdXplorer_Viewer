@@ -6,3 +6,4 @@ node_modules
 
 .vscode/*
 !.vscode/settings.example.json
+eslint-typegen.d.ts

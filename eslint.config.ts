@@ -1,13 +1,17 @@
-// @ts-check
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./eslint-typegen.d.ts" />
 
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import type { Linter } from "eslint";
 import gitignore from "eslint-config-flat-gitignore";
-import jsx from "eslint-plugin-jsx-a11y";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
 import reactRefresh from "eslint-plugin-react-refresh";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import typegen from "eslint-typegen";
 import globals from "globals";
+import type { InfiniteDepthConfigWithExtends } from "typescript-eslint";
 import tseslint from "typescript-eslint";
 
 const tsFiles = "**/*.{ts,tsx,mts,cts}";
@@ -16,7 +20,7 @@ const jsxFiles = "**/*.{jsx,tsx}";
 
 const compat = new FlatCompat();
 
-export default tseslint.config(
+const config = [
   gitignore(),
   {
     files: [jsFiles],
@@ -50,7 +54,10 @@ export default tseslint.config(
       "@typescript-eslint/consistent-type-assertions": "error",
       "@typescript-eslint/consistent-type-definitions": "off",
       "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { fixStyle: "separate-type-imports" },
+      ],
       "@typescript-eslint/no-confusing-non-null-assertion": "off",
       "@typescript-eslint/no-deprecated": "warn",
       "@typescript-eslint/no-duplicate-enum-values": "off",
@@ -101,7 +108,7 @@ export default tseslint.config(
       react.configs.flat["jsx-runtime"],
       ...compat.extends("plugin:react-hooks/recommended"),
       reactRefresh.configs.vite,
-      jsx.flatConfigs.recommended,
+      jsxA11y.flatConfigs.recommended,
     ],
     languageOptions: {
       globals: {
@@ -128,7 +135,9 @@ export default tseslint.config(
       "react/jsx-sort-props": "error",
       "react-refresh/only-export-components": [
         "error",
-        { allowExportNames: ["meta", "links", "headers", "loader", "action"] },
+        {
+          allowExportNames: ["meta", "links", "headers", "loader", "action"],
+        },
       ],
     },
     settings: {
@@ -137,4 +146,17 @@ export default tseslint.config(
       },
     },
   },
+] satisfies Array<
+  Linter.Config & {
+    extends?: InfiniteDepthConfigWithExtends;
+  }
+>;
+
+// @ts-expect-error TypeScript は ./eslint-typegen を見てしまう
+// 実際のnode_modules 内の型定義には反していない
+export default typegen(
+  tseslint.config(
+    // @ts-expect-error 型が合わないが、実際には動作する
+    config,
+  ),
 );
