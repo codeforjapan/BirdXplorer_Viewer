@@ -96,21 +96,26 @@ export const SearchForm = (props: SearchFormProps) => {
             label="1ページあたりの表示件数"
             {...getInputProps(fields.limit, { type: "number" })}
           />
-          <UnstyledButton
-            c="pink"
-            onClick={openAdvancedSearch}
-            type="button"
-            variant="link"
-          >
-            詳細な条件で検索
-          </UnstyledButton>
-          <SubmitButton
-            color="pink"
-            disabled={!form.valid || searchInProgress}
-            loading={searchInProgress}
-          >
-            検索
-          </SubmitButton>
+          <div className="flex flex-col-reverse md:flex-col gap-y-4">
+            {/* 最後の入力の直後は必ず submit ボタンにフォーカスが当たるようにするために、
+            DOM の順序は固定して flex direction で並べ替える
+            */}
+            <SubmitButton
+              color="pink"
+              disabled={!form.valid || searchInProgress}
+              loading={searchInProgress}
+            >
+              検索
+            </SubmitButton>
+            <UnstyledButton
+              c="pink"
+              className="me-0 ms-auto"
+              onClick={openAdvancedSearch}
+              type="button"
+            >
+              詳細な条件で検索
+            </UnstyledButton>
+          </div>
         </Stack>
       </Form>
       <AdvancedSearchModal

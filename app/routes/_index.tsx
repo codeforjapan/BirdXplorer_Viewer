@@ -1,5 +1,14 @@
 import { parseWithZod } from "@conform-to/zod";
-import { Container, Divider, Group, Space, Stack, Title } from "@mantine/core";
+import {
+  Card,
+  Container,
+  Divider,
+  Group,
+  Space,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import type {
   ActionFunctionArgs,
   LinksFunction,
@@ -99,35 +108,56 @@ export default function Index() {
   } = data;
 
   return (
-    <Container size="sm">
+    <Container size="lg">
       <Title>BirdXPlorer Viewer</Title>
-      <Stack>
-        <SearchForm
-          defaultValue={searchQuery ?? undefined}
-          lastResult={lastResult}
-          topics={topics}
-        />
-        <Divider />
-        {searchQuery && (
-          <SearchPagination
-            className="me-0 ms-auto"
-            currentQuery={searchQuery}
-            meta={paginationMeta}
-            visibleItemCount={notes.length}
+      <Space h="2rem" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
+        <div className="md:col-span-1">
+          <SearchForm
+            defaultValue={searchQuery ?? undefined}
+            lastResult={lastResult}
+            topics={topics}
           />
-        )}
-        <Group gap="lg">
-          <Notes notes={notes} />
-        </Group>
-        {searchQuery && (
-          <SearchPagination
-            className="me-0 ms-auto"
-            currentQuery={searchQuery}
-            meta={paginationMeta}
-            visibleItemCount={notes.length}
-          />
-        )}
-      </Stack>
+        </div>
+        <Divider className="md:hidden" />
+        <Stack className="md:col-span-3 size-full">
+          {notes.length > 0 ? (
+            <>
+              {searchQuery && (
+                <SearchPagination
+                  className="me-0 ms-auto"
+                  currentQuery={searchQuery}
+                  meta={paginationMeta}
+                  visibleItemCount={notes.length}
+                />
+              )}
+              <Group gap="lg">
+                <Notes notes={notes} />
+              </Group>
+              {searchQuery && (
+                <SearchPagination
+                  className="me-0 ms-auto"
+                  currentQuery={searchQuery}
+                  meta={paginationMeta}
+                  visibleItemCount={notes.length}
+                />
+              )}
+            </>
+          ) : (
+            <Card
+              className="grid size-full place-content-center"
+              padding="lg"
+              radius="md"
+              w="100%"
+              withBorder
+            >
+              <Text c="gray" className="text-center text-balance" size="lg">
+                コミュニティノートが見つかりませんでした
+              </Text>
+            </Card>
+          )}
+        </Stack>
+      </div>
       <Space h="5rem" />
     </Container>
   );
