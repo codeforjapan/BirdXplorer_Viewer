@@ -1,6 +1,6 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps } from "@conform-to/react";
-import { Stack, UnstyledButton } from "@mantine/core";
+import { Autocomplete, Stack, UnstyledButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "@remix-run/react";
 
@@ -8,6 +8,7 @@ import { FormError } from "../../../components/FormError";
 import { DateRangePicker } from "../../../components/input/DateRangePicker";
 import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
+import { mantineInputOrder } from "../../../config/mantine";
 import type { Topic } from "../../../generated/api/schemas";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { containsNonNullValues } from "../../../utils/array";
@@ -80,6 +81,20 @@ export const SearchForm = (props: SearchFormProps) => {
             label="コミュニティノートの作成期間"
             toField={fields.note_created_at_to}
             valueFormat="YYYY.MM.DD (ddd)"
+          />
+          <Autocomplete
+            data={["10", "20", "50", "100"]}
+            description="80: 1ページに最大 80 件のコミュニティノートを表示"
+            disabled={searchInProgress}
+            error={
+              containsNonNullValues(fields.limit.errors) && (
+                <FormError errors={[fields.limit.errors]} />
+              )
+            }
+            errorProps={{ component: "div" }}
+            inputWrapperOrder={mantineInputOrder}
+            label="1ページあたりの表示件数"
+            {...getInputProps(fields.limit, { type: "number" })}
           />
           <UnstyledButton
             c="pink"

@@ -1,6 +1,7 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps } from "@conform-to/react";
 import {
+  Autocomplete,
   Divider,
   Group,
   ModalCloseButton,
@@ -16,6 +17,7 @@ import { DateRangePicker } from "../../../components/input/DateRangePicker";
 import { Fieldset } from "../../../components/mantine/Fieldset";
 import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
+import { mantineInputOrder } from "../../../config/mantine";
 import type { Topic } from "../../../generated/api/schemas";
 import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
@@ -109,6 +111,20 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
         {...getFormProps(form)}
       >
         <Stack gap="lg">
+          <Autocomplete
+            data={["10", "20", "50", "100"]}
+            description="80: 1ページに最大 80 件のコミュニティノートを表示"
+            disabled={searchInProgress}
+            error={
+              containsNonNullValues(fields.limit.errors) && (
+                <FormError errors={[fields.limit.errors]} />
+              )
+            }
+            errorProps={{ component: "div" }}
+            inputWrapperOrder={mantineInputOrder}
+            label="1ページあたりの表示件数"
+            {...getInputProps(fields.limit, { type: "number" })}
+          />
           <Fieldset legend="キーワード">
             <Stack>
               <TextInput
