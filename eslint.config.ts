@@ -146,6 +146,31 @@ const config = [
       },
     },
   },
+  {
+    files: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              allowTypeImports: true,
+              name: "@testing-library/react",
+              message:
+                "Please import from '~/test/test-react' instead of '@testing-library/react'.",
+            },
+            {
+              allowTypeImports: true,
+              name: "@testing-library/user-event",
+              importNames: ["default"],
+              message:
+                "Please import 'userEvent' from '~/test/test-react' instead of '@testing-library/user-event'.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 ] satisfies Array<
   Linter.Config & {
     extends?: InfiniteDepthConfigWithExtends;
