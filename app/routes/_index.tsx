@@ -111,7 +111,7 @@ export default function Index() {
     <Container size="lg">
       <Title>BirdXPlorer Viewer</Title>
       <Space h="2rem" />
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4 md:gap-8">
         <div className="md:col-span-1">
           <SearchForm
             defaultValue={searchQuery ?? undefined}
@@ -120,12 +120,12 @@ export default function Index() {
           />
         </div>
         <Divider className="md:hidden" />
-        <Stack className="md:col-span-3 size-full">
+        <Stack className="size-full md:col-span-3">
           {notes.length > 0 ? (
             <>
               {searchQuery && (
                 <SearchPagination
-                  className="me-0 ms-auto"
+                  className="ms-auto me-0"
                   currentQuery={searchQuery}
                   meta={paginationMeta}
                   visibleItemCount={notes.length}
@@ -136,7 +136,7 @@ export default function Index() {
               </Group>
               {searchQuery && (
                 <SearchPagination
-                  className="me-0 ms-auto"
+                  className="ms-auto me-0"
                   currentQuery={searchQuery}
                   meta={paginationMeta}
                   visibleItemCount={notes.length}

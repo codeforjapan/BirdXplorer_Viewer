@@ -86,7 +86,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
 
   return (
     <Stack className="relative" gap="md">
-      <Stack className="sticky top-0 z-10 pt-4 bg-white">
+      <Stack className="sticky top-0 z-10 bg-white pt-4">
         <Group justify="space-between">
           <Group>
             <ModalCloseButton aria-label="簡易検索に戻る" size="lg" />
