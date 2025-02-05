@@ -20,7 +20,7 @@ export const Note = ({ note }: NoteProps) => {
   });
 
   return (
-    <Card padding="lg" radius="md" withBorder>
+    <Card padding="lg" radius="md" w="100%" withBorder>
       <Stack gap="sm">
         <Text>{note.summary}</Text>
         <NoteStatus status={note.currentStatus} />
