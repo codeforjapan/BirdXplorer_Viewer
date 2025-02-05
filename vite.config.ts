@@ -1,9 +1,9 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
+import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-
 declare module "@remix-run/node" {
   interface Future {
     v3_singleFetch: true;
@@ -25,6 +25,10 @@ export default defineConfig({
         })
       : react(),
     tailwindcss(),
+    Icons({
+      compiler: "jsx",
+      jsx: "react",
+    }),
     tsconfigPaths(),
   ],
 });
