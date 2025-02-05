@@ -1,5 +1,5 @@
 import { parseWithZod } from "@conform-to/zod";
-import { Container, Group, Stack, Title } from "@mantine/core";
+import { Container, Divider, Group, Space, Stack, Title } from "@mantine/core";
 import type {
   ActionFunctionArgs,
   LinksFunction,
@@ -8,15 +8,16 @@ import type {
 } from "@remix-run/node";
 import { data, redirect, useActionData, useLoaderData } from "@remix-run/react";
 import { getQuery, withQuery } from "ufo";
+import type { z } from "zod";
 
 import { Notes } from "../components/note/Notes";
 import { SearchForm } from "../feature/search/components/SearchForm";
+import { SearchPagination } from "../feature/search/components/SearchPagination";
 import { noteSearchParamSchema } from "../feature/search/validation";
 import {
   getTopicsApiV1DataTopicsGet,
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
-import type { SearchApiV1DataSearchGetParams } from "../generated/api/schemas";
 
 export const meta: MetaFunction = () => {
   return [
@@ -49,9 +50,12 @@ export const loader = async (args: LoaderFunctionArgs) => {
       {
         data: {
           searchQuery: null,
-          notes: {
+          searchResults: {
             data: [],
-            meta: {},
+            meta: {
+              next: null,
+              prev: null,
+            },
           },
           topics: [],
         },
@@ -64,10 +68,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
     );
   }
 
-  const query = {
+  const query: z.infer<typeof noteSearchParamSchema> = {
     ...searchQuery.data,
     post_includes_text: searchQuery.data.post_includes_text ?? "biden",
-  } satisfies SearchApiV1DataSearchGetParams;
+  };
 
   const [topics, response] = await Promise.all([
     getTopicsApiV1DataTopicsGet(),
@@ -77,7 +81,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   return {
     data: {
       searchQuery: searchQuery.data,
-      notes: response.data,
+      searchResults: response.data,
       topics: topics.data.data,
     },
     error: null,
@@ -88,21 +92,43 @@ export default function Index() {
   const { data } = useLoaderData<typeof loader>();
   const lastResult = useActionData<typeof action>();
 
-  const { topics, searchQuery, notes } = data;
+  const {
+    topics,
+    searchQuery,
+    searchResults: { data: notes, meta: paginationMeta },
+  } = data;
 
   return (
     <Container size="sm">
       <Title>BirdXPlorer Viewer</Title>
-      <Stack gap="xl">
+      <Stack>
         <SearchForm
           defaultValue={searchQuery ?? undefined}
           lastResult={lastResult}
           topics={topics}
         />
+        <Divider />
+        {searchQuery && (
+          <SearchPagination
+            className="me-0 ms-auto"
+            currentQuery={searchQuery}
+            meta={paginationMeta}
+            visibleItemCount={notes.length}
+          />
+        )}
         <Group gap="lg">
-          <Notes notes={notes.data} />
+          <Notes notes={notes} />
         </Group>
+        {searchQuery && (
+          <SearchPagination
+            className="me-0 ms-auto"
+            currentQuery={searchQuery}
+            meta={paginationMeta}
+            visibleItemCount={notes.length}
+          />
+        )}
       </Stack>
+      <Space h="5rem" />
     </Container>
   );
 }
