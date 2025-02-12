@@ -41,6 +41,11 @@ export const Post = ({ post }: PostProps) => {
           <Text fw="bolder">{post.xUser.name}</Text>
         </Group>
         <Text>{post.text}</Text>
+        {post.links?.map((link, index) => (
+          <a key={`${post.postId}link_${index}`} href={link.url}>
+            <Text c="blue">{link.url}</Text>
+          </a>
+        ))}
         {post.mediaDetails != null && (
           <PostMediaGrid medias={post.mediaDetails} postId={post.postId} />
         )}

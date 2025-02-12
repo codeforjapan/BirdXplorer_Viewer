@@ -38,6 +38,7 @@ export const PostMedia = ({
           preload="none"
           src={media.url}
           width={media.width}
+          controls
           {...imageProps}
         >
           <span>
