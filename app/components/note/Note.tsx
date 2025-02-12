@@ -23,7 +23,13 @@ export const Note = ({ note }: NoteProps) => {
   const languageLabel = LANGUAGE_ID_TO_LABEL[note.language];
 
   return (
-    <Card padding="lg" radius="md" w="100%" withBorder>
+    <Card
+      className="content-visibility-auto"
+      padding="lg"
+      radius="md"
+      w="100%"
+      withBorder
+    >
       <Stack gap="md">
         <Stack gap="xs">
           <Text>{note.summary}</Text>
