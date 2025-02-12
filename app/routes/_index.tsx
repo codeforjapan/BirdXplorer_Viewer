@@ -7,7 +7,6 @@ import {
   Space,
   Stack,
   Text,
-  Title,
 } from "@mantine/core";
 import type {
   ActionFunctionArgs,
@@ -15,7 +14,13 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "@remix-run/node";
-import { data, redirect, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  data,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 import { getQuery, withQuery } from "ufo";
 
 import { Notes } from "../components/note/Notes";
@@ -102,59 +107,77 @@ export default function Index() {
     searchResults: { data: notes, meta: paginationMeta },
   } = data;
 
+  const isLoadingSearchResults = useNavigation().state !== "idle";
+
   return (
-    <Container size="lg">
-      <Title>BirdXPlorer Viewer</Title>
-      <Space h="2rem" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4 md:gap-8">
-        <div className="md:col-span-1">
-          <SearchForm
-            defaultValue={searchQuery ?? undefined}
-            lastResult={lastResult}
-            topics={topics}
-          />
+    <main>
+      <Stack>
+        <div className="border-b border-gray-200">
+          <Container className="p-4" component="header" size="xl">
+            <h1 className="text-2xl font-bold">BirdXPlorer</h1>
+          </Container>
         </div>
-        <Divider className="md:hidden" />
-        <Stack className="size-full md:col-span-3">
-          {notes.length > 0 ? (
-            <>
-              {searchQuery && (
-                <SearchPagination
-                  className="ms-auto me-0"
-                  currentQuery={searchQuery}
-                  meta={paginationMeta}
-                  visibleItemCount={notes.length}
+        <div>
+          <Container size="lg">
+            <Space h="2rem" />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+              <div className="md:col-span-1">
+                <SearchForm
+                  defaultValue={searchQuery ?? undefined}
+                  lastResult={lastResult}
+                  topics={topics}
                 />
-              )}
-              <Group gap="lg">
-                <Notes notes={notes} />
-              </Group>
-              {searchQuery && (
-                <SearchPagination
-                  className="ms-auto me-0"
-                  currentQuery={searchQuery}
-                  meta={paginationMeta}
-                  visibleItemCount={notes.length}
-                />
-              )}
-            </>
-          ) : (
-            <Card
-              className="grid size-full place-content-center"
-              padding="lg"
-              radius="md"
-              w="100%"
-              withBorder
-            >
-              <Text c="gray" className="text-center text-balance" size="lg">
-                コミュニティノートが見つかりませんでした
-              </Text>
-            </Card>
-          )}
-        </Stack>
-      </div>
-      <Space h="5rem" />
-    </Container>
+              </div>
+              <Divider className="md:hidden" />
+              <Stack className="size-full md:col-span-2">
+                {notes.length > 0 ? (
+                  <>
+                    {searchQuery && (
+                      <SearchPagination
+                        className="ms-auto me-0"
+                        currentQuery={searchQuery}
+                        loading={isLoadingSearchResults}
+                        meta={paginationMeta}
+                        visibleItemCount={notes.length}
+                      />
+                    )}
+                    <Group gap="lg">
+                      <Notes notes={notes} />
+                    </Group>
+                    {searchQuery && (
+                      <SearchPagination
+                        className="ms-auto me-0"
+                        currentQuery={searchQuery}
+                        loading={isLoadingSearchResults}
+                        meta={paginationMeta}
+                        visibleItemCount={notes.length}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <Card
+                    className="grid size-full place-content-center"
+                    padding="lg"
+                    radius="md"
+                    w="100%"
+                    withBorder
+                  >
+                    <Text
+                      c="gray"
+                      className="text-center text-balance"
+                      size="lg"
+                    >
+                      コミュニティノートが見つかりませんでした
+                    </Text>
+                  </Card>
+                )}
+              </Stack>
+            </div>
+            <Space h="5rem" />
+          </Container>
+        </div>
+      </Stack>
+    </main>
   );
 }
 

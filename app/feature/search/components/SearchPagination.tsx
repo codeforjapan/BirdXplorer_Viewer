@@ -1,7 +1,7 @@
 import type { GroupProps } from "@mantine/core";
 import { ActionIcon, Group, Text } from "@mantine/core";
 import { Link } from "@remix-run/react";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { getQuery, withQuery } from "ufo";
 import type { z } from "zod";
 
@@ -15,6 +15,7 @@ import type { noteSearchParamSchema } from "../validation";
 type PaginationProps = {
   meta: PaginationMeta;
   currentQuery: z.infer<typeof noteSearchParamSchema>;
+  loading?: boolean;
   /**
    * 検索結果として表示している現在のページに表示しているデータの件数
    */
@@ -24,6 +25,7 @@ type PaginationProps = {
 export const SearchPagination = ({
   currentQuery,
   meta,
+  loading,
   visibleItemCount,
   ...groupProps
 }: PaginationProps) => {
@@ -41,6 +43,19 @@ export const SearchPagination = ({
     [pagination?.next],
   );
 
+  const [clickedButton, setClickedButton] = useState<"prev" | "next">();
+
+  const prevLoading = (loading && clickedButton === "prev") ?? false;
+  const nextLoading = (loading && clickedButton === "next") ?? false;
+
+  const handlePrevClick = useCallback(() => {
+    setClickedButton("prev");
+  }, []);
+
+  const handleNextClick = useCallback(() => {
+    setClickedButton("next");
+  }, []);
+
   return (
     <Group {...groupProps}>
       <Text>
@@ -51,6 +66,8 @@ export const SearchPagination = ({
           aria-label="次のページへ移動する"
           color="pink"
           component={Link}
+          loading={prevLoading}
+          onClick={handlePrevClick}
           to={prevTo}
           variant="light"
         >
@@ -66,6 +83,8 @@ export const SearchPagination = ({
           aria-label="前のページへ移動する"
           color="pink"
           component={Link}
+          loading={nextLoading}
+          onClick={handleNextClick}
           to={nextTo}
           variant="light"
         >
