@@ -28,6 +28,7 @@ export const Note = ({ note }: NoteProps) => {
   return (
     <Card
       className="content-visibility-auto"
+      component="article"
       padding="lg"
       radius="md"
       w="100%"

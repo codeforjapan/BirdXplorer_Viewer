@@ -116,7 +116,7 @@ export default function Index() {
           <h1 className="text-2xl font-bold">BirdXPlorer</h1>
         </Container>
       </header>
-      <article>
+      <main>
         <Container className="p-4" size="md">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
             <div className="md:col-span-1">
@@ -175,7 +175,7 @@ export default function Index() {
             </div>
           </div>
         </Container>
-      </article>
+      </main>
       <footer className="sticky top-full border-t border-zinc-300">
         <Container className="flex justify-center p-4 md:justify-end" size="lg">
           <p className="inline-flex flex-col items-center justify-center gap-2 text-sm font-semibold text-zinc-700 md:flex-row md:gap-4">
