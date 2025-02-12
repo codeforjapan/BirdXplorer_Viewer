@@ -105,5 +105,5 @@ export const noteSearchParamSchema = z.object({
     .number()
     .max(searchApiV1DataSearchGetQueryLimitMax)
     .optional()
-    .default(100),
+    .default(25),
 });
