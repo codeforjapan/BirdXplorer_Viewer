@@ -31,6 +31,7 @@ export const Post = ({ post }: PostProps) => {
         <Group gap="xs">
           <Avatar
             alt={`${post.xUser.name}のプロフィール画像`}
+            imageProps={{ loading: "lazy", decoding: "async" }}
             size="sm"
             src={post.xUser.profileImage}
           />

@@ -14,7 +14,9 @@ export const PostMedia = ({ media, imageProps }: PostMediaProps) => {
     case "animated_gif":
       return (
         <Image
+          decoding="async"
           height={media.height}
+          loading="lazy"
           src={media.url}
           width={media.width}
           {...imageProps}
@@ -25,6 +27,7 @@ export const PostMedia = ({ media, imageProps }: PostMediaProps) => {
         <Image
           component="video"
           height={media.height}
+          preload="none"
           src={media.url}
           width={media.width}
           {...imageProps}
