@@ -22,6 +22,8 @@ type PageProps = {
 
 beforeEach(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
+  // GitHub Actions では TZ が UTC になっているため、テスト時の TZ も UTC に設定する
+  process.env.TZ = "UTC";
 });
 
 afterEach(() => {
@@ -73,7 +75,7 @@ describe("DateRangePicker", () => {
 
     const span = screen.getByLabelText("result");
     expect(span).toHaveTextContent(
-      "2025-01-09T15:00:00.000Z – 2025-01-14T15:00:00.000Z",
+      "2025-01-10T00:00:00.000Z – 2025-01-15T00:00:00.000Z",
     );
   });
 
@@ -88,6 +90,6 @@ describe("DateRangePicker", () => {
     );
 
     const button = screen.getByRole("button", { name: "Date Range" });
-    expect(button).toHaveTextContent("2025.01.10 (金) – 2025.01.15 (水)");
+    expect(button).toHaveTextContent("2025.01.09 (木) – 2025.01.14 (火)");
   });
 });
