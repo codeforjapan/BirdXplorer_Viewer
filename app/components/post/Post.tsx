@@ -42,7 +42,7 @@ export const Post = ({ post }: PostProps) => {
         </Group>
         <Text>{post.text}</Text>
         {post.mediaDetails != null && (
-          <PostMediaGrid medias={post.mediaDetails} />
+          <PostMediaGrid medias={post.mediaDetails} postId={post.postId} />
         )}
         <Text size="sm">{dateString}</Text>
         <Divider />
