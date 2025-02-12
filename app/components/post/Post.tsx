@@ -27,7 +27,7 @@ export const Post = ({ post }: PostProps) => {
 
   return (
     <Card withBorder>
-      <Stack gap="sm">
+      <Stack gap="xs">
         <Group gap="xs">
           <Avatar
             alt={`${post.xUser.name}のプロフィール画像`}
@@ -35,7 +35,7 @@ export const Post = ({ post }: PostProps) => {
             size="sm"
             src={post.xUser.profileImage}
           />
-          <Text>{post.xUser.name}</Text>
+          <Text fw="bolder">{post.xUser.name}</Text>
         </Group>
         <Text>{post.text}</Text>
         {post.mediaDetails != null && (

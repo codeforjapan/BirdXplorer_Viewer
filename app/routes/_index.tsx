@@ -122,6 +122,7 @@ export default function Index() {
             <Space h="2rem" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
               <div className="md:col-span-1">
+                <h2 className="sr-only">コミュニティノートを検索する</h2>
                 <SearchForm
                   defaultValue={searchQuery ?? undefined}
                   lastResult={lastResult}
@@ -129,49 +130,52 @@ export default function Index() {
                 />
               </div>
               <Divider className="md:hidden" />
-              <Stack className="size-full md:col-span-2">
-                {notes.length > 0 ? (
-                  <>
-                    {searchQuery && (
-                      <SearchPagination
-                        className="ms-auto me-0"
-                        currentQuery={searchQuery}
-                        loading={isLoadingSearchResults}
-                        meta={paginationMeta}
-                        visibleItemCount={notes.length}
-                      />
-                    )}
-                    <Group gap="lg">
-                      <Notes notes={notes} />
-                    </Group>
-                    {searchQuery && (
-                      <SearchPagination
-                        className="ms-auto me-0"
-                        currentQuery={searchQuery}
-                        loading={isLoadingSearchResults}
-                        meta={paginationMeta}
-                        visibleItemCount={notes.length}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <Card
-                    className="grid size-full place-content-center"
-                    padding="lg"
-                    radius="md"
-                    w="100%"
-                    withBorder
-                  >
-                    <Text
-                      c="gray"
-                      className="text-center text-balance"
-                      size="lg"
+              <div className="size-full md:col-span-2">
+                <h2 className="sr-only">コミュニティノートの検索結果</h2>
+                <Stack>
+                  {notes.length > 0 ? (
+                    <>
+                      {searchQuery && (
+                        <SearchPagination
+                          className="ms-auto me-0"
+                          currentQuery={searchQuery}
+                          loading={isLoadingSearchResults}
+                          meta={paginationMeta}
+                          visibleItemCount={notes.length}
+                        />
+                      )}
+                      <Group gap="lg">
+                        <Notes notes={notes} />
+                      </Group>
+                      {searchQuery && (
+                        <SearchPagination
+                          className="ms-auto me-0"
+                          currentQuery={searchQuery}
+                          loading={isLoadingSearchResults}
+                          meta={paginationMeta}
+                          visibleItemCount={notes.length}
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <Card
+                      className="grid size-full place-content-center"
+                      padding="lg"
+                      radius="md"
+                      w="100%"
+                      withBorder
                     >
-                      コミュニティノートが見つかりませんでした
-                    </Text>
-                  </Card>
-                )}
-              </Stack>
+                      <Text
+                        c="gray"
+                        className="text-center text-balance"
+                        size="lg"
+                      >
+                        コミュニティノートが見つかりませんでした
+                      </Text>
+                    </Card>
+                  )}
+                </Stack>
+              </div>
             </div>
             <Space h="5rem" />
           </Container>

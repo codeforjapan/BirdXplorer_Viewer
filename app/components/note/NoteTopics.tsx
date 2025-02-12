@@ -1,19 +1,21 @@
-import { Badge } from "@mantine/core";
-import type React from "react";
+import { Badge, Group } from "@mantine/core";
 
 import { useLanguageLiteral } from "../../feature/search/useLanguageLiteral";
 import type { Topic } from "../../generated/api/schemas";
 
 type NoteTopicProps = {
   topics: Topic[];
-  wrapper: ({ children }: { children: React.ReactNode }) => React.ReactNode;
 };
 
-export const NoteTopic = ({ topics, wrapper: Wrapper }: NoteTopicProps) => {
+export const NoteTopic = ({ topics }: NoteTopicProps) => {
   const shortLanguage = useLanguageLiteral("ja");
 
   return (
-    <Wrapper>
+    <Group
+      component="ul"
+      gap="sm"
+      title="自動推定したコミュニティノートのトピック"
+    >
       {topics.map((topic) => (
         <TopicBadge
           key={topic.topicId}
@@ -21,7 +23,7 @@ export const NoteTopic = ({ topics, wrapper: Wrapper }: NoteTopicProps) => {
           topic={topic}
         />
       ))}
-    </Wrapper>
+    </Group>
   );
 };
 
@@ -36,11 +38,23 @@ const TopicBadge = ({ topic, language }: TopicBadgeProps) => {
   return (
     <>
       {labelByLanguage ? (
-        <Badge color="green" radius="sm" size="lg" variant="light">
+        <Badge
+          color="green"
+          component="li"
+          radius="sm"
+          size="lg"
+          variant="light"
+        >
           {labelByLanguage}
         </Badge>
       ) : (
-        <Badge color="green" radius="sm" size="lg" variant="light">
+        <Badge
+          color="green"
+          component="li"
+          radius="sm"
+          size="lg"
+          variant="light"
+        >
           {JSON.stringify(topic.label)}
         </Badge>
       )}

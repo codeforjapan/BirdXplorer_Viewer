@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 
+import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
 import type { SearchedNote } from "../../generated/api/schemas";
 import { Post } from "../post/Post";
 import { NoteStatus } from "./NoteStatus";
@@ -19,22 +20,21 @@ export const Note = ({ note }: NoteProps) => {
     minute: "2-digit",
   });
 
+  const languageLabel = LANGUAGE_ID_TO_LABEL[note.language];
+
   return (
     <Card padding="lg" radius="md" w="100%" withBorder>
-      <Stack gap="sm">
-        <Text>{note.summary}</Text>
-        <NoteStatus status={note.currentStatus} />
+      <Stack gap="md">
         <Stack gap="xs">
+          <Text>{note.summary}</Text>
+          <NoteStatus status={note.currentStatus} />
           <div className="grid grid-cols-[auto_1fr] gap-2 md:gap-4">
             <Badge color="blue" radius="sm" size="lg" variant="light">
-              言語
+              ノートの言語: {languageLabel}
             </Badge>
-            <NoteTopic
-              topics={note.topics}
-              wrapper={(props) => <Group gap="sm" {...props} />}
-            />
+            <NoteTopic topics={note.topics} />
           </div>
-          <Text>{dateString}</Text>
+          <Text size="sm">ノートの作成日時: {dateString}</Text>
         </Stack>
         <Post post={note.post} />
         <Group justify="flex-end">
