@@ -16,6 +16,7 @@ export default defineConfig({
       mock: {
         type: "msw",
         useExamples: true,
+        locale: "ja",
       },
     },
   },

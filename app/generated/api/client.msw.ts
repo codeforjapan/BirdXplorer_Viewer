@@ -4,7 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker/locale/ja";
 import { HttpResponse, delay, http } from "msw";
 import {
   EnrollmentState,
