@@ -1,5 +1,6 @@
 import { Badge, Group } from "@mantine/core";
 
+import type { LanguageIdentifierLiteral } from "../../feature/search/language";
 import { useLanguageLiteral } from "../../feature/search/useLanguageLiteral";
 import type { Topic } from "../../generated/api/schemas";
 
@@ -29,35 +30,18 @@ export const NoteTopic = ({ topics }: NoteTopicProps) => {
 
 type TopicBadgeProps = {
   topic: Topic;
-  language: string;
+  language: LanguageIdentifierLiteral;
 };
 
 const TopicBadge = ({ topic, language }: TopicBadgeProps) => {
-  const labelByLanguage = topic.label[language] ?? topic.label.en;
+  // ラベルに適した言語の文字がない場合は英語のラベルを表示する
+  //  label.en は常に存在することが保証されているので non-null assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const labelByLanguage = topic.label[language] ?? topic.label.en!;
 
   return (
-    <>
-      {labelByLanguage ? (
-        <Badge
-          color="green"
-          component="li"
-          radius="sm"
-          size="lg"
-          variant="light"
-        >
-          {labelByLanguage}
-        </Badge>
-      ) : (
-        <Badge
-          color="green"
-          component="li"
-          radius="sm"
-          size="lg"
-          variant="light"
-        >
-          {JSON.stringify(topic.label)}
-        </Badge>
-      )}
-    </>
+    <Badge color="green" component="li" radius="sm" size="lg" variant="light">
+      {labelByLanguage}
+    </Badge>
   );
 };
