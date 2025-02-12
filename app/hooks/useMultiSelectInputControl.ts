@@ -20,6 +20,23 @@ type MultiSelectInputControl = Omit<
   value: string[];
 };
 
+/**
+ * Mantine の MultiSelect と連携するための制御ロジックを提供する
+ * @returns
+ * MultiSelect の制御ロジック。そのままコンポーネントに渡すと壊れるので、スプレッド代入して名前を変更して使う。
+ * 必ず分割して名前を変更して使う必要がある。
+ * @example
+ * ```ts
+ * const {
+ *  value: selectedValues,
+ *  change: onSelectedValuesChange,
+ *  focus: onSelectedValuesFocus,
+ *  blur: onSelectedValuesBlur,
+ * } = useMultiSelectInputControl({
+ *  ...
+ * });
+ * ```
+ */
 export const useMultiSelectInputControl = <T extends string[] | number[]>({
   field,
   convertFormValueToMantine,

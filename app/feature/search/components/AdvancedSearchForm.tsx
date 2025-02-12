@@ -51,23 +51,33 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     onSubmit,
   });
 
-  const noteStatusControl = useMultiSelectInputControl({
+  const {
+    value: noteStatusValue,
+    change: changeNoteStatus,
+    blur: blurNoteStatus,
+    focus: focusNoteStatus,
+  } = useMultiSelectInputControl({
     field: fields.note_status,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
         return [];
       }
       if (typeof formValue === "string") {
-        return [formValue];
+        return formValue.split(",");
       }
       return formValue.filter((v) => v != null);
     },
     convertMantineValueToForm(mantineValue) {
-      return mantineValue.length > 0 ? mantineValue : "";
+      return mantineValue.join(",");
     },
   });
 
-  const xUserNamesControl = useMultiSelectInputControl({
+  const {
+    value: xUserNamesValue,
+    change: changeXUserNames,
+    blur: blurXUserNames,
+    focus: focusXUserNames,
+  } = useMultiSelectInputControl({
     field: fields.x_user_names,
     convertFormValueToMantine(formValue) {
       if (formValue == null) {
@@ -211,8 +221,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 }
                 errorProps={{ component: "div" }}
                 label="コミュニティノートのステータス"
+                onBlur={blurNoteStatus}
+                onChange={changeNoteStatus}
+                onFocus={focusNoteStatus}
                 searchable
-                {...noteStatusControl}
+                value={noteStatusValue}
               />
               <DateRangePicker
                 convertFormValueToMantine={safeDateFromUnixMs}
@@ -237,7 +250,10 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの投稿者"
-                {...xUserNamesControl}
+                onBlur={blurXUserNames}
+                onChange={changeXUserNames}
+                onFocus={focusXUserNames}
+                value={xUserNamesValue}
               />
               <TextInput
                 autoComplete="off"
