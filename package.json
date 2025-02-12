@@ -8,10 +8,12 @@
     "dev": "remix vite:dev",
     "lint": "eslint --max-warnings 0",
     "format": "prettier --write .",
+    "format:ci": "prettier --check .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc --noEmit",
     "orval": "orval",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@conform-to/dom": "1.2.2",
