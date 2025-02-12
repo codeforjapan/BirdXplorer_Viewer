@@ -1,8 +1,8 @@
 import { Badge } from "@mantine/core";
 import type React from "react";
 
+import { useLanguageLiteral } from "../../feature/search/useLanguageLiteral";
 import type { Topic } from "../../generated/api/schemas";
-import { useLanguage } from "../../hooks/useLanguage";
 
 type NoteTopicProps = {
   topics: Topic[];
@@ -10,8 +10,7 @@ type NoteTopicProps = {
 };
 
 export const NoteTopic = ({ topics, wrapper: Wrapper }: NoteTopicProps) => {
-  const language = useLanguage("ja");
-  const shortLanguage = language.slice(0, 2);
+  const shortLanguage = useLanguageLiteral("ja");
 
   return (
     <Wrapper>

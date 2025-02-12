@@ -10,12 +10,12 @@ import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import { mantineInputOrder } from "../../../config/mantine";
 import type { Topic } from "../../../generated/api/schemas";
-import { useLanguage } from "../../../hooks/useLanguage";
 import { containsNonNullValues } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
 import { LANGUAGE_ID_TO_LABEL } from "../language";
 import type { NoteSearchParams } from "../types";
 import { useSimpleNoteSearchForm } from "../useForm";
+import { useLanguageLiteral } from "../useLanguageLiteral";
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
 import { AdvancedSearchModal } from "./AdvancedSearchModal";
 import { LanguageSelect } from "./input/LanguageSelect";
@@ -35,8 +35,7 @@ export const SearchForm = (props: SearchFormProps) => {
     { open: openAdvancedSearch, close: closeAdvancedSearch },
   ] = useDisclosure(false);
 
-  const language = useLanguage("ja");
-  const shortLanguage = language.slice(0, 2);
+  const shortLanguage = useLanguageLiteral("ja");
 
   const navigation = useNavigation();
   const searchInProgress = navigation.state !== "idle";

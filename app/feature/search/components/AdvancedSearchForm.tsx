@@ -19,7 +19,6 @@ import { TextInput } from "../../../components/mantine/TextInput";
 import { SubmitButton } from "../../../components/SubmitButton";
 import { mantineInputOrder } from "../../../config/mantine";
 import type { Topic } from "../../../generated/api/schemas";
-import { useLanguage } from "../../../hooks/useLanguage";
 import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "../../../utils/array";
 import { safeDateFromUnixMs } from "../../../utils/date";
@@ -27,6 +26,7 @@ import { LANGUAGE_ID_TO_LABEL } from "../language";
 import { NOTE_CURRENT_STATUS } from "../status";
 import type { NoteSearchParams } from "../types";
 import { useAdvancedNoteSearchForm } from "../useForm";
+import { useLanguageLiteral } from "../useLanguageLiteral";
 import { LanguageSelect } from "./input/LanguageSelect";
 import { TopicSelect } from "./input/TopicSelect";
 
@@ -40,8 +40,7 @@ export type AdvancedSearchFormProps = {
 export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   const { defaultValue, lastResult, onSubmit, topics } = props;
 
-  const language = useLanguage("ja");
-  const shortLanguage = language.slice(0, 2);
+  const shortLanguage = useLanguageLiteral("ja");
 
   const navigation = useNavigation();
   const searchInProgress = navigation.state !== "idle";
