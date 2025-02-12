@@ -42,7 +42,7 @@ export const Post = ({ post }: PostProps) => {
         </Group>
         <Text>{post.text}</Text>
         {post.links?.map((link, index) => (
-          <a key={`${post.postId}link_${index}`} href={link.url}>
+          <a href={link.url} key={`${post.postId}link_${index}`}>
             <Text c="blue">{link.url}</Text>
           </a>
         ))}

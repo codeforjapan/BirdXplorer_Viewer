@@ -34,11 +34,11 @@ export const PostMedia = ({
       return (
         <Image
           component="video"
+          controls
           height={media.height}
           preload="none"
           src={media.url}
           width={media.width}
-          controls
           {...imageProps}
         >
           <span>
