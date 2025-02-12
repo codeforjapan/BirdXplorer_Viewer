@@ -1,13 +1,5 @@
 import { parseWithZod } from "@conform-to/zod";
-import {
-  Card,
-  Container,
-  Divider,
-  Group,
-  Space,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
 import type {
   ActionFunctionArgs,
   LinksFunction,
@@ -16,12 +8,15 @@ import type {
 } from "@remix-run/node";
 import {
   data,
+  Link,
   redirect,
   useActionData,
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
 import { getQuery, withQuery } from "ufo";
+
+import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
 
 import { Notes } from "../components/note/Notes";
 import { SearchForm } from "../feature/search/components/SearchForm";
@@ -110,78 +105,90 @@ export default function Index() {
   const isLoadingSearchResults = useNavigation().state !== "idle";
 
   return (
-    <main>
-      <Stack>
-        <div className="border-b border-gray-200">
-          <Container className="p-4" component="header" size="xl">
-            <h1 className="text-2xl font-bold">BirdXPlorer</h1>
-          </Container>
-        </div>
-        <div>
-          <Container size="lg">
-            <Space h="2rem" />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-              <div className="md:col-span-1">
-                <h2 className="sr-only">コミュニティノートを検索する</h2>
-                <SearchForm
-                  defaultValue={searchQuery ?? undefined}
-                  lastResult={lastResult}
-                  topics={topics}
-                />
-              </div>
-              <Divider className="md:hidden" />
-              <div className="size-full md:col-span-2">
-                <h2 className="sr-only">コミュニティノートの検索結果</h2>
-                <Stack>
-                  {notes.length > 0 ? (
-                    <>
-                      {searchQuery && (
-                        <SearchPagination
-                          className="ms-auto me-0"
-                          currentQuery={searchQuery}
-                          loading={isLoadingSearchResults}
-                          meta={paginationMeta}
-                          visibleItemCount={notes.length}
-                        />
-                      )}
-                      <Group gap="lg">
-                        <Notes notes={notes} />
-                      </Group>
-                      {searchQuery && (
-                        <SearchPagination
-                          className="ms-auto me-0"
-                          currentQuery={searchQuery}
-                          loading={isLoadingSearchResults}
-                          meta={paginationMeta}
-                          visibleItemCount={notes.length}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <Card
-                      className="grid size-full place-content-center"
-                      padding="lg"
-                      radius="md"
-                      w="100%"
-                      withBorder
-                    >
-                      <Text
-                        c="gray"
-                        className="text-center text-balance"
-                        size="lg"
-                      >
-                        コミュニティノートが見つかりませんでした
-                      </Text>
-                    </Card>
-                  )}
-                </Stack>
-              </div>
+    <>
+      <header className="border-b border-gray-300">
+        <Container className="p-4" size="lg">
+          <h1 className="text-2xl font-bold">BirdXPlorer</h1>
+        </Container>
+      </header>
+      <article>
+        <Container className="p-4" size="md">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+            <div className="md:col-span-1">
+              <h2 className="sr-only">コミュニティノートを検索する</h2>
+              <SearchForm
+                defaultValue={searchQuery ?? undefined}
+                lastResult={lastResult}
+                topics={topics}
+              />
             </div>
-            <Space h="5rem" />
-          </Container>
-        </div>
-      </Stack>
-    </main>
+            <Divider className="md:hidden" />
+            <div className="size-full md:col-span-2">
+              <h2 className="sr-only">コミュニティノートの検索結果</h2>
+              <Stack className="size-full">
+                {notes.length > 0 ? (
+                  <>
+                    {searchQuery && (
+                      <SearchPagination
+                        className="ms-auto me-0"
+                        currentQuery={searchQuery}
+                        loading={isLoadingSearchResults}
+                        meta={paginationMeta}
+                        visibleItemCount={notes.length}
+                      />
+                    )}
+                    <Group gap="lg">
+                      <Notes notes={notes} />
+                    </Group>
+                    {searchQuery && (
+                      <SearchPagination
+                        className="ms-auto me-0"
+                        currentQuery={searchQuery}
+                        loading={isLoadingSearchResults}
+                        meta={paginationMeta}
+                        visibleItemCount={notes.length}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <Card
+                    className="grid size-full place-content-center"
+                    padding="lg"
+                    radius="md"
+                    w="100%"
+                    withBorder
+                  >
+                    <div className="flex flex-col items-center justify-center gap-4 text-zinc-600">
+                      <Fa6SolidMagnifyingGlass className="text-4xl text-current" />
+                      <span className="text-center text-lg font-semibold text-balance">
+                        コミュニティノートが見つかりませんでした
+                      </span>
+                    </div>
+                  </Card>
+                )}
+              </Stack>
+            </div>
+          </div>
+        </Container>
+      </article>
+      <footer className="sticky top-full border-t border-zinc-300">
+        <Container className="flex justify-center p-4 md:justify-end" size="lg">
+          <p className="inline-flex flex-col items-center justify-center gap-2 text-sm font-semibold text-zinc-700 md:flex-row md:gap-4">
+            <span>© 2025 Code for Japan</span>
+            <Anchor
+              c="pink"
+              component={Link}
+              size="sm"
+              target="_blank"
+              to="https://www.code4japan.org/"
+              underline="hover"
+            >
+              一般社団法人 コード・フォー・ジャパン について
+            </Anchor>
+          </p>
+        </Container>
+      </footer>
+    </>
   );
 }
 
