@@ -12,7 +12,7 @@ export interface Note {
   /**
    * コミュニティノートの作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1736905314223
+   * @maximum 1738808503163
    */
   createdAt: number;
   /** コミュニティノートの現在の評価状態 */

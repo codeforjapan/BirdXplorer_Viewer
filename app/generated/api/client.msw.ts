@@ -36,12 +36,14 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
       min: 0,
       max: undefined,
     }),
+    // @ts-expect-error OpenAPI Spec の型が厳格すぎるので、そちらを緩めるまでエラーを無視する (コード生成のたびにコメント追加が必要)
     timestampOfLastEarnOut: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1736905314210 }),
+      faker.number.int({ min: 1152921600000, max: 1738808503154 }),
       faker.string.alpha(20),
     ]),
+    // @ts-expect-error OpenAPI Spec の型が厳格すぎるので、そちらを緩めるまでエラーを無視する (コード生成のたびにコメント追加が必要)
     timestampOfLastStateChange: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1736905314209 }),
+      faker.number.int({ min: 1152921600000, max: 1738808503154 }),
       faker.string.alpha(20),
       faker.string.alpha(20),
     ]),
@@ -71,7 +73,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    createdAt: faker.number.int({ min: 1152921600000, max: 1736905314223 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1738808503163 }),
     currentStatus: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         "NEEDS_MORE_RATINGS",
@@ -115,7 +117,7 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    createdAt: faker.number.int({ min: 1152921600000, max: 1736905314230 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1738808503169 }),
     impressionCount: faker.number.int({ min: 0, max: undefined }),
     likeCount: faker.number.int({ min: 0, max: undefined }),
     link: faker.internet.url(),
@@ -175,7 +177,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    createdAt: faker.number.int({ min: 1152921600000, max: 1736905314328 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1738808503291 }),
     currentStatus: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         "NEEDS_MORE_RATINGS",
@@ -187,7 +189,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
     language: faker.helpers.arrayElement(Object.values(LanguageIdentifier)),
     noteId: faker.helpers.fromRegExp("^[0-9]{19}$"),
     post: {
-      createdAt: faker.number.int({ min: 1152921600000, max: 1736905314230 }),
+      createdAt: faker.number.int({ min: 1152921600000, max: 1738808503169 }),
       impressionCount: faker.number.int({ min: 0, max: undefined }),
       likeCount: faker.number.int({ min: 0, max: undefined }),
       link: faker.internet.url(),
