@@ -17,7 +17,6 @@ import type {
 } from "@remix-run/node";
 import { data, redirect, useActionData, useLoaderData } from "@remix-run/react";
 import { getQuery, withQuery } from "ufo";
-import type { z } from "zod";
 
 import { Notes } from "../components/note/Notes";
 import { SearchForm } from "../feature/search/components/SearchForm";
@@ -77,14 +76,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
     );
   }
 
-  const query: z.infer<typeof noteSearchParamSchema> = {
-    ...searchQuery.data,
-    post_includes_text: searchQuery.data.post_includes_text ?? "biden",
-  };
-
   const [topics, response] = await Promise.all([
+    // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
     getTopicsApiV1DataTopicsGet(),
-    searchApiV1DataSearchGet(query),
+    searchApiV1DataSearchGet(searchQuery.data),
   ]);
 
   return {
