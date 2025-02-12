@@ -183,7 +183,7 @@ export default function Index() {
               to="https://www.code4japan.org/"
               underline="hover"
             >
-              一般社団法人 コード・フォー・ジャパン について
+              一般社団法人 コード・フォー・ジャパン
             </Anchor>
           </p>
         </Container>
