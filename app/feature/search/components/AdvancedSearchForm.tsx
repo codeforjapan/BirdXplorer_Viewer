@@ -119,7 +119,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
         preventScrollReset
         {...getFormProps(form)}
       >
-        <Stack gap="lg">
+        <div className="grid grid-cols-1 gap-6">
           <Autocomplete
             data={["10", "20", "50", "100"]}
             description="80: 1ページに最大 80 件のコミュニティノートを表示"
@@ -358,7 +358,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               />
             </Stack>
           </Fieldset>
-        </Stack>
+        </div>
       </Form>
     </Stack>
   );
