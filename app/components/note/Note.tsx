@@ -41,8 +41,14 @@ export const Note = ({ note }: NoteProps) => {
         <Stack gap="xs">
           <Text>{note.summary}</Text>
           <NoteStatus status={note.currentStatus} />
-          <div className="grid grid-cols-[auto_1fr] gap-2 md:gap-4">
-            <Badge color="blue" radius="sm" size="lg" variant="light">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-[auto_1fr] md:gap-4">
+            <Badge
+              className="min-w-fit"
+              color="blue"
+              radius="sm"
+              size="lg"
+              variant="light"
+            >
               ノートの言語: {languageLabel}
             </Badge>
             <NoteTopic topics={note.topics} />
