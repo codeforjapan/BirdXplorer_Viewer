@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "orval": "orval",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "check": "yarn build && yarn lint && yarn format:ci && yarn typecheck && yarn test:run"
   },
   "dependencies": {
     "@conform-to/dom": "1.2.2",
