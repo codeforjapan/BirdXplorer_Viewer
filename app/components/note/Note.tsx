@@ -31,6 +31,10 @@ export const Note = ({ note }: NoteProps) => {
       withBorder
     >
       <Stack gap="md">
+        <Group className="text-sm text-zinc-600" justify="space-between">
+          <span>NoteID: {note.noteId}</span>
+          <span>ノートの作成日時: {dateString}</span>
+        </Group>
         <Stack gap="xs">
           <Text>{note.summary}</Text>
           <NoteStatus status={note.currentStatus} />
@@ -40,7 +44,6 @@ export const Note = ({ note }: NoteProps) => {
             </Badge>
             <NoteTopic topics={note.topics} />
           </div>
-          <Text size="sm">ノートの作成日時: {dateString}</Text>
         </Stack>
         <Post post={note.post} />
         <Group justify="flex-end">
