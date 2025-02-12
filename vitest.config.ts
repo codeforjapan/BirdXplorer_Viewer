@@ -8,6 +8,10 @@ export default mergeConfig(
     test: {
       setupFiles: ["./test/vitest-setup.ts"],
       environment: "jsdom",
+      reporters:
+        process.env.GITHUB_ACTIONS != null
+          ? ["default", "github-actions"]
+          : "default",
     },
   }),
 );
