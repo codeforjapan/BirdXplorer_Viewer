@@ -1,4 +1,5 @@
 import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
+import { useMemo } from "react";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
 import type { SearchedNote } from "../../generated/api/schemas";
@@ -11,14 +12,16 @@ type NoteProps = {
 };
 
 export const Note = ({ note }: NoteProps) => {
-  const dateString = new Date(note.createdAt).toLocaleString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    timeZone: "Asia/Tokyo",
-    minute: "2-digit",
-  });
+  const dateString = useMemo(() => {
+    return new Date(note.createdAt).toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      timeZone: "Asia/Tokyo",
+      minute: "2-digit",
+    });
+  }, [note.createdAt]);
 
   const languageLabel = LANGUAGE_ID_TO_LABEL[note.language];
 

@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
+import { useMemo } from "react";
 
 import type { Post as APIPost } from "../../generated/api/schemas";
 import { PostMediaGrid } from "./PostMediaGrid";
@@ -16,14 +17,16 @@ type PostProps = {
 };
 
 export const Post = ({ post }: PostProps) => {
-  const dateString = new Date(post.createdAt).toLocaleString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    timeZone: "Asia/Tokyo",
-    minute: "2-digit",
-  });
+  const dateString = useMemo(() => {
+    return new Date(post.createdAt).toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      timeZone: "Asia/Tokyo",
+      minute: "2-digit",
+    });
+  }, [post.createdAt]);
 
   return (
     <Card withBorder>
