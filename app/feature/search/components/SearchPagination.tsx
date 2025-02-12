@@ -63,7 +63,7 @@ export const SearchPagination = ({
       </Text>
       {prevTo ? (
         <ActionIcon
-          aria-label="次のページへ移動する"
+          aria-label="前のページへ移動する"
           color="pink"
           component={Link}
           loading={prevLoading}
@@ -74,13 +74,13 @@ export const SearchPagination = ({
           <Fa6SolidAngleLeft />
         </ActionIcon>
       ) : (
-        <ActionIcon color="pink" disabled variant="light">
+        <ActionIcon aria-hidden color="pink" disabled variant="light">
           <Fa6SolidAngleLeft />
         </ActionIcon>
       )}
       {nextTo ? (
         <ActionIcon
-          aria-label="前のページへ移動する"
+          aria-label="次のページへ移動する"
           color="pink"
           component={Link}
           loading={nextLoading}
@@ -91,7 +91,7 @@ export const SearchPagination = ({
           <Fa6SolidAngleRight />
         </ActionIcon>
       ) : (
-        <ActionIcon color="pink" disabled variant="light">
+        <ActionIcon aria-hidden color="pink" disabled variant="light">
           <Fa6SolidAngleRight />
         </ActionIcon>
       )}
