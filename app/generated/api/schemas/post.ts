@@ -12,7 +12,7 @@ export interface Post {
   /**
    * Post の作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1736905314230
+   * @maximum 1738808503169
    */
   createdAt: number;
   /**

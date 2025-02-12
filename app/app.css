@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@utility content-visibility-auto {
+  content-visibility: auto;
+}
+
+body {
+  color: #222;
+}
+
+* {
+  letter-spacing: 0.05em;
+}

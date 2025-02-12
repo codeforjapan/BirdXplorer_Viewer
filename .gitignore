@@ -3,3 +3,7 @@ node_modules
 /.cache
 /build
 .env
+
+.vscode/*
+!.vscode/settings.example.json
+eslint-typegen.d.ts

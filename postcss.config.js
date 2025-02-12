@@ -3,12 +3,12 @@ export default {
     "postcss-preset-mantine": {},
     "postcss-simple-vars": {
       variables: {
-        "mantine-breakpoint-xs": "36em",
-        "mantine-breakpoint-sm": "48em",
-        "mantine-breakpoint-md": "62em",
-        "mantine-breakpoint-lg": "75em",
-        "mantine-breakpoint-xl": "88em",
+        "mantine-breakpoint-xs": "40rem",
+        "mantine-breakpoint-sm": "48rem",
+        "mantine-breakpoint-md": "64rem",
+        "mantine-breakpoint-lg": "80rem",
+        "mantine-breakpoint-xl": "96rem",
       },
     },
   },
-}
+};
