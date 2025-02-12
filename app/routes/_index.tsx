@@ -36,9 +36,8 @@ export const meta: MetaFunction = () => {
         "BirdXPlorer Viewer is a X community note viewer with search functionality.",
     },
     {
-      // TODO: 2. サブドメインの紐付けが完了したら外す
       name: "robots",
-      content: "noindex, nofollow",
+      content: "index, follow",
     },
   ];
 };
@@ -47,7 +46,6 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: "canonical",
-      // TODO: 1. サブドメインの紐付けが完了したら必要に応じて URL を差し替える
       href: "https://birdxplorer.code4japan.org",
     },
   ];
