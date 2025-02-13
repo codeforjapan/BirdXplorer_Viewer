@@ -33,7 +33,7 @@ export const meta: MetaFunction = () => {
     {
       name: "description",
       content:
-        "BirdXPlorer Viewer is a X community note viewer with search functionality.",
+        "BirdXplorer is software that helps users explore community notes data on X (formerly known as Twitter).",
     },
     {
       name: "robots",
