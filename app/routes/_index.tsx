@@ -37,7 +37,7 @@ export const meta: MetaFunction = () => {
     },
     {
       name: "robots",
-      content: "index, follow",
+      content: "noindex, nofollow",
     },
   ];
 };
