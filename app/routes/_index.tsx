@@ -29,7 +29,7 @@ import {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "BirdXPlorer Viewer" },
+    { title: "BirdXplorer" },
     {
       name: "description",
       content:
@@ -111,7 +111,7 @@ export default function Index() {
     <>
       <header className="border-b border-gray-300">
         <Container className="p-4" size="lg">
-          <h1 className="text-2xl font-bold">BirdXPlorer</h1>
+          <h1 className="text-2xl font-bold">BirdXplorer</h1>
         </Container>
       </header>
       <main>
