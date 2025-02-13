@@ -15,6 +15,7 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
+import { Favicons } from "./components/Favicon";
 import { mantineTheme } from "./config/mantine";
 
 dayjs.extend(customParseFormat);
@@ -25,6 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <Favicons />
         <Meta />
         <Links />
         <ColorSchemeScript />

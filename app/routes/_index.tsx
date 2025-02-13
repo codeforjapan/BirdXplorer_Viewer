@@ -29,16 +29,15 @@ import {
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "BirdXPlorer Viewer" },
+    { title: "BirdXplorer" },
     {
       name: "description",
       content:
-        "BirdXPlorer Viewer is a X community note viewer with search functionality.",
+        "BirdXplorer is software that helps users explore community notes data on X (formerly known as Twitter).",
     },
     {
-      // TODO: 2. サブドメインの紐付けが完了したら外す
       name: "robots",
-      content: "noindex, nofollow",
+      content: "index, follow",
     },
   ];
 };
@@ -47,7 +46,6 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: "canonical",
-      // TODO: 1. サブドメインの紐付けが完了したら必要に応じて URL を差し替える
       href: "https://birdxplorer.code4japan.org",
     },
   ];
@@ -113,7 +111,7 @@ export default function Index() {
     <>
       <header className="border-b border-gray-300">
         <Container className="p-4" size="lg">
-          <h1 className="text-2xl font-bold">BirdXPlorer</h1>
+          <h1 className="text-2xl font-bold">BirdXplorer</h1>
         </Container>
       </header>
       <main>
