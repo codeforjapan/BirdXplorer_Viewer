@@ -40,7 +40,7 @@ export const Note = ({ note }: NoteProps) => {
           <span>ノートの作成日時: {dateString}</span>
         </Group>
         <Stack gap="xs">
-          <Text>{note.summary}</Text>
+          <Text className="break-words">{note.summary}</Text>
           <NoteStatus status={note.currentStatus} />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-[auto_1fr] md:gap-4">
             <Badge
