@@ -40,7 +40,7 @@ export const Post = ({ post }: PostProps) => {
           />
           <Text fw="bolder">{post.xUser.name}</Text>
         </Group>
-        <Text>{post.text}</Text>
+        <Text className="break-words">{post.text}</Text>
         {post.links?.map((link, index) => (
           <a href={link.url} key={`${post.postId}link_${index}`}>
             <Text c="blue">{link.url}</Text>
