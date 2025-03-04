@@ -4,6 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "postinstall": "pnpm run typegen",
     "build": "react-router build",
     "dev": "react-router dev",
     "lint": "eslint --max-warnings 0",
