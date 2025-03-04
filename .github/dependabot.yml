@@ -2,6 +2,7 @@ version: 2
 
 updates:
   - package-ecosystem: 'github-actions'
+    open-pull-requests-limit: 10
     directory: '/'
     schedule:
       day: 'monday'
@@ -10,6 +11,7 @@ updates:
       timezone: 'Asia/Tokyo'
 
   - package-ecosystem: 'npm'
+    open-pull-requests-limit: 15
     directory: '/'
     schedule:
       day: 'monday'
