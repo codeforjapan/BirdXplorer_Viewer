@@ -1,19 +1,6 @@
 import { parseWithZod } from "@conform-to/zod";
 import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "react-router";
-import {
-  data,
-  Link,
-  redirect,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "react-router";
+import { data, Link, redirect, useNavigation } from "react-router";
 import { getQuery, withQuery } from "ufo";
 
 import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
@@ -27,8 +14,9 @@ import {
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
 import type { SearchedNote, Topic } from "../generated/api/schemas";
+import type { Route } from "./+types/_index";
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [
     { title: "BirdXplorer" },
     {
@@ -43,7 +31,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const links: LinksFunction = () => {
+export const links: Route.LinksFunction = () => {
   return [
     {
       rel: "canonical",
@@ -52,7 +40,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader = async (args: LoaderFunctionArgs) => {
+export const loader = async (args: Route.LoaderArgs) => {
   const rawSearchParams = getQuery(args.request.url);
   const searchQuery =
     await noteSearchParamSchema.safeParseAsync(rawSearchParams);
@@ -96,9 +84,10 @@ export const loader = async (args: LoaderFunctionArgs) => {
   };
 };
 
-export default function Index() {
-  const loaderData = useLoaderData<typeof loader>();
-  const lastResult = useActionData<typeof action>();
+export default function Index({
+  actionData,
+  loaderData,
+}: Route.ComponentProps) {
   const isLoadingSearchResults = useNavigation().state !== "idle";
 
   const {
@@ -121,7 +110,7 @@ export default function Index() {
               <h2 className="sr-only">コミュニティノートを検索する</h2>
               <SearchForm
                 defaultValue={searchQuery ?? undefined}
-                lastResult={lastResult}
+                lastResult={actionData}
                 topics={
                   // react-router の型がうまく機能せず topics が unknown になったため
                   topics as Topic[]
@@ -203,7 +192,7 @@ export default function Index() {
   );
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: Route.ActionArgs) => {
   const formData = await request.formData();
   const submission = parseWithZod(formData, {
     schema: noteSearchParamSchema,
