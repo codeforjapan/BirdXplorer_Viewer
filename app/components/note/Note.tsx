@@ -3,6 +3,7 @@ import { useMemo } from "react";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
 import type { SearchedNote } from "../../generated/api/schemas";
+import { birdWatchLinkFromNote, postLinkFromNote } from "../../lib/twitter";
 import { Post } from "../post/Post";
 import { NoteStatus } from "./NoteStatus";
 import { NoteTopic } from "./NoteTopics";
@@ -60,7 +61,7 @@ export const Note = ({ note }: NoteProps) => {
           <Button
             color="pink"
             component="a"
-            href={note.post.link}
+            href={postLinkFromNote(note)}
             size="xs"
             target="_blank"
             variant="light"
@@ -70,7 +71,7 @@ export const Note = ({ note }: NoteProps) => {
           <Button
             color="pink"
             component="a"
-            href={`https://x.com/i/birdwatch/t/${note.post.postId}`}
+            href={birdWatchLinkFromNote(note)}
             size="xs"
             target="_blank"
             variant="light"
