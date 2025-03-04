@@ -1,4 +1,4 @@
-import type { Note } from "../generated/api/schemas";
+import type { Note } from "../../generated/api/schemas";
 
 export const birdWatchLinkFromNote = (note: Note): string => {
   return `https://x.com/i/birdwatch/t/${note.postId}`;

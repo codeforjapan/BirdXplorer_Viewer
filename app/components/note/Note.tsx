@@ -2,8 +2,11 @@ import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
+import {
+  birdWatchLinkFromNote,
+  postLinkFromNote,
+} from "../../feature/twitter/link-builder";
 import type { SearchedNote } from "../../generated/api/schemas";
-import { birdWatchLinkFromNote, postLinkFromNote } from "../../lib/twitter";
 import { Post } from "../post/Post";
 import { NoteStatus } from "./NoteStatus";
 import { NoteTopic } from "./NoteTopics";
