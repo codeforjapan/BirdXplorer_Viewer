@@ -5,15 +5,9 @@ import "./app.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import { Favicons } from "./components/Favicon";
 import { mantineTheme } from "./config/mantine";

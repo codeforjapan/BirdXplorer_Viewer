@@ -1,7 +1,7 @@
 import type { GroupProps } from "@mantine/core";
 import { ActionIcon, Group, Text } from "@mantine/core";
-import { Link } from "@remix-run/react";
 import { useCallback, useMemo, useState } from "react";
+import { Link } from "react-router";
 import { getQuery, withQuery } from "ufo";
 import type { z } from "zod";
 

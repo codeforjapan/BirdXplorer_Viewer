@@ -5,7 +5,7 @@ import type {
   LinksFunction,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
+} from "react-router";
 import {
   data,
   Link,
@@ -13,7 +13,7 @@ import {
   useActionData,
   useLoaderData,
   useNavigation,
-} from "@remix-run/react";
+} from "react-router";
 import { getQuery, withQuery } from "ufo";
 
 import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
