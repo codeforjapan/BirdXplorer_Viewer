@@ -70,6 +70,7 @@
     "jsdom": "26.0.0",
     "msw": "2.7.0",
     "orval": "7.3.0",
+    "pnpm": "10.5.2",
     "postcss": "8.4.49",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
@@ -86,5 +87,11 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "pnpm@10.5.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "msw"
+    ]
+  }
 }

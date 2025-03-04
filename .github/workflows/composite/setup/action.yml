@@ -1,39 +1,40 @@
 name: Setup Node.js
-description: Setup Node.js and yarn
+description: Setup Node.js and pnpm
 
 runs:
   using: composite
   steps:
-    - name: Setup yarn
-      shell: bash
-      run: corepack enable yarn
+    - name: Setup pnpm
+      uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+      with:
+        run_install: false
 
-    - name: Get yarn cache directory path
-      id: yarn-store
+    - name: Get pnpm store path
+      id: pnpm-store
       shell: bash
-      run: echo "store_path=$(yarn cache dir)" >> "$GITHUB_OUTPUT"
+      run: echo "store_path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
 
     - name: Setup Node.js
       uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
       with:
         node-version-file: package.json
 
-    - name: Restore yarn cache
+    - name: Restore pnpm cache
       uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       with:
-        path: ${{ steps.yarn-store.outputs.store_path }}
-        key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn.lock') }}
+        path: ${{ steps.pnpm-store.outputs.store_path }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-yarn-store-
+          ${{ runner.os }}-pnpm-store-
 
     - name: Install Dependencies
       shell: bash
-      run: yarn install --frozen-lockfile
+      run: pnpm install --frozen-lockfile
 
     - name: Save pnpm cache if main branch
       if: github.ref_name == 'main'
-      id: save-yarn-cache
+      id: save-pnpm-cache
       uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
       with:
-        path: ${{ steps.yarn-store.outputs.store_path }}
-        key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn.lock') }}
+        path: ${{ steps.pnpm-store.outputs.store_path }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
