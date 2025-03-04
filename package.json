@@ -15,7 +15,7 @@
     "orval": "orval",
     "test": "vitest",
     "test:run": "vitest run",
-    "check": "yarn build && yarn lint && yarn format:ci && yarn typecheck && yarn test:run"
+    "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci  && pnpm test:run"
   },
   "dependencies": {
     "@conform-to/dom": "1.2.2",
