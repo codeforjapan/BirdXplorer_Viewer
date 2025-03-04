@@ -12,4 +12,12 @@ export default {
   trailingComma: "all",
   plugins: ["prettier-plugin-tailwindcss"],
   tailwindStylesheet: "./app/app.css",
+  overrides: [
+    {
+      files: ["**/*.yml", "**/*.yaml"],
+      options: {
+        singleQuote: true,
+      },
+    },
+  ],
 };
