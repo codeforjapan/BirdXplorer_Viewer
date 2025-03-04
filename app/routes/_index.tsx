@@ -26,6 +26,7 @@ import {
   getTopicsApiV1DataTopicsGet,
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
+import type { SearchedNote, Topic } from "../generated/api/schemas";
 
 export const meta: MetaFunction = () => {
   return [
@@ -96,16 +97,15 @@ export const loader = async (args: LoaderFunctionArgs) => {
 };
 
 export default function Index() {
-  const { data } = useLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const lastResult = useActionData<typeof action>();
+  const isLoadingSearchResults = useNavigation().state !== "idle";
 
   const {
     topics,
     searchQuery,
     searchResults: { data: notes, meta: paginationMeta },
-  } = data;
-
-  const isLoadingSearchResults = useNavigation().state !== "idle";
+  } = loaderData.data;
 
   return (
     <>
@@ -122,7 +122,10 @@ export default function Index() {
               <SearchForm
                 defaultValue={searchQuery ?? undefined}
                 lastResult={lastResult}
-                topics={topics}
+                topics={
+                  // react-router の型がうまく機能せず topics が unknown になったため
+                  topics as Topic[]
+                }
               />
             </div>
             <Divider className="md:hidden" />
@@ -141,7 +144,12 @@ export default function Index() {
                       />
                     )}
                     <Group gap="lg">
-                      <Notes notes={notes} />
+                      <Notes
+                        notes={
+                          // react-router の型がうまく機能せず notes[number].topics が unknown になったため
+                          notes as SearchedNote[]
+                        }
+                      />
                     </Group>
                     {searchQuery && (
                       <SearchPagination
