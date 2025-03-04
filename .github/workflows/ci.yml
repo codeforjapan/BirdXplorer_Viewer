@@ -29,20 +29,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Node.js and yarn
+      - name: Setup Node.js and pnpm
         uses: ./.github/workflows/composite/setup
 
       - name: Build
-        run: yarn run build
+        run: pnpm run build
 
       - name: Run ESLint
-        run: yarn run lint
+        run: pnpm run lint
 
       - name: Run Prettier
-        run: yarn run format:ci
+        run: pnpm run format:ci
 
       - name: Run typecheck
-        run: yarn run typecheck
+        run: pnpm run typecheck
 
       - name: Run Vitest
-        run: yarn run test
+        run: pnpm run test
