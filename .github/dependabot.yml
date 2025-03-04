@@ -1,0 +1,68 @@
+version: 2
+
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      day: 'monday'
+      interval: 'weekly'
+      time: '10:00'
+      timezone: 'Asia/Tokyo'
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      day: 'monday'
+      interval: 'weekly'
+      time: '10:00'
+      timezone: 'Asia/Tokyo'
+    groups:
+      # TIP: 複数の group にマッチする場合最初の group が適用される
+      # なので、より詳細な group を先に書く
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+        update-types:
+          - 'minor'
+          - 'patch'
+      react-router:
+        patterns:
+          # TODO: add react-router patterns
+          - '@remix-run*'
+      mantine:
+        patterns:
+          - '@mantine*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      conform:
+        patterns:
+          - '@conform-to*'
+      typescript:
+        patterns:
+          - 'typescript'
+        update-types:
+          - 'minor'
+          - 'patch'
+      eslint:
+        patterns:
+          - 'eslint*'
+          - '@eslint*'
+          - '@types/eslint*'
+          - '@typescript-eslint*'
+          - 'globals'
+        update-types:
+          - 'minor'
+          - 'patch'
+      test:
+        patterns:
+          - 'vitest'
+          - '@testing-library*'
+      dev-dependencies:
+        dependency-type: 'development'
+        update-types:
+          - 'minor'
+          - 'patch'
