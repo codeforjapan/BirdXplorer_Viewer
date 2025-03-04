@@ -12,7 +12,8 @@ import { renderToPipeableStream } from "react-dom/server";
 import type { AppLoadContext, EntryContext } from "react-router";
 import { ServerRouter } from "react-router";
 
-const ABORT_DELAY = 5_000;
+// see: https://reactrouter.com/explanation/special-files#streamtimeout
+export const streamTimeout = 5000;
 
 export default async function handleRequest(
   request: Request,
@@ -82,7 +83,7 @@ async function handleBotRequest(
       },
     );
 
-    setTimeout(abort, ABORT_DELAY);
+    setTimeout(abort, streamTimeout + 1000);
   });
 }
 
@@ -129,6 +130,6 @@ async function handleBrowserRequest(
       },
     );
 
-    setTimeout(abort, ABORT_DELAY);
+    setTimeout(abort, streamTimeout + 1000);
   });
 }
