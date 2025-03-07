@@ -32,8 +32,8 @@ updates:
           - 'patch'
       react-router:
         patterns:
-          # TODO: add react-router patterns
-          - '@remix-run*'
+          - 'react-router*'
+          - '@react-router*'
       mantine:
         patterns:
           - '@mantine*'
