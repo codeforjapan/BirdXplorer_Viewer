@@ -1,10 +1,8 @@
-import type { Note } from "../../generated/api/schemas";
-
-export const birdWatchLinkFromNote = (note: Note): string => {
-  return `https://x.com/i/birdwatch/t/${note.postId}`;
+export const birdWatchLinkFromPostId = (postId: string): string => {
+  return `https://x.com/i/birdwatch/t/${postId}`;
 };
 
-export const postLinkFromNote = (note: Note): string => {
+export const postLinkFromPostId = (postId: string): string => {
   // X redirects to correct post url regardless of userId, so just specify `i`
-  return `https://x.com/i/status/${note.postId}`;
+  return `https://x.com/i/status/${postId}`;
 };

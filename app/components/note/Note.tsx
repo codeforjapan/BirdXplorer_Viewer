@@ -3,8 +3,8 @@ import { useMemo } from "react";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
 import {
-  birdWatchLinkFromNote,
-  postLinkFromNote,
+  birdWatchLinkFromPostId,
+  postLinkFromPostId,
 } from "../../feature/twitter/link-builder";
 import type { SearchedNote } from "../../generated/api/schemas";
 import { isNonEmptyString } from "../../utils/string";
@@ -66,7 +66,7 @@ export const Note = ({ note }: NoteProps) => {
             <Button
               color="pink"
               component="a"
-              href={postLinkFromNote(note)}
+              href={postLinkFromPostId(note.postId)}
               size="xs"
               target="_blank"
               variant="light"
@@ -76,7 +76,7 @@ export const Note = ({ note }: NoteProps) => {
             <Button
               color="pink"
               component="a"
-              href={birdWatchLinkFromNote(note)}
+              href={birdWatchLinkFromPostId(note.postId)}
               size="xs"
               target="_blank"
               variant="light"
