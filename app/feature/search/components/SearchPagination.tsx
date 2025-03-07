@@ -9,6 +9,7 @@ import Fa6SolidAngleLeft from "~icons/fa6-solid/angle-left";
 import Fa6SolidAngleRight from "~icons/fa6-solid/angle-right";
 
 import type { PaginationMeta } from "../../../generated/api/schemas/paginationMeta";
+import { buildPaginationMeta } from "../pagination";
 import type { noteSearchParamSchema } from "../validation";
 
 type PaginationProps = {
@@ -28,16 +29,18 @@ export const SearchPagination = ({
   visibleItemCount,
   ...groupProps
 }: PaginationProps) => {
+  const pagination = buildPaginationMeta(meta, currentQuery);
+
   const pageFirstItemIndex = currentQuery.offset + 1;
   const totalDisplayedItems = currentQuery.offset + visibleItemCount;
 
   const prevTo = useMemo(
-    () => (meta?.prev ? withQuery("/", getQuery(meta.prev)) : null),
-    [meta?.prev],
+    () => (pagination?.prev ? withQuery("/", getQuery(pagination.prev)) : null),
+    [pagination?.prev],
   );
   const nextTo = useMemo(
-    () => (meta?.next ? withQuery("/", getQuery(meta.next)) : null),
-    [meta?.next],
+    () => (pagination?.next ? withQuery("/", getQuery(pagination.next)) : null),
+    [pagination?.next],
   );
 
   const [clickedButton, setClickedButton] = useState<"prev" | "next">();
