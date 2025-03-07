@@ -42,9 +42,13 @@ export const buildPaginationMeta = (
   const baseUrl = stringifyParsedURL(url);
 
   return {
-    next: withQuery(baseUrl, { ...rest, limit, offset: nextOffset }),
-    prev: isFirstPage
-      ? null
-      : withQuery(baseUrl, { ...rest, limit, offset: prevOffset }),
+    next:
+      meta.next != null
+        ? withQuery(baseUrl, { ...rest, limit, offset: nextOffset })
+        : null,
+    prev:
+      isFirstPage || meta.prev == null
+        ? null
+        : withQuery(baseUrl, { ...rest, limit, offset: prevOffset }),
   };
 };
