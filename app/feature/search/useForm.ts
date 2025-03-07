@@ -1,7 +1,7 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { objectHash } from "ohash";
+import { hash } from "ohash";
 import { useMemo } from "react";
 import type { z } from "zod";
 
@@ -59,7 +59,7 @@ const useNoteSearchForm = ({
   ...rest
 }: UseNoteSearchFormOptions): UseNoteSearchFormReturn => {
   const formIdHash = useMemo(
-    () => objectHash({ formType, ...defaultValue }),
+    () => hash({ formType, ...defaultValue }),
     [formType, defaultValue],
   );
 
