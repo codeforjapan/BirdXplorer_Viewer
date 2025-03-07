@@ -54,6 +54,7 @@ updates:
           - 'eslint*'
           - '@eslint*'
           - '@types/eslint*'
+          - 'typescript-eslint*'
           - '@typescript-eslint*'
           - 'globals'
         update-types:
