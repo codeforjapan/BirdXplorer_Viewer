@@ -82,4 +82,23 @@ describe("buildPaginationMeta", () => {
 
     expect(prevQuery).toBe(null);
   });
+
+  test("API 修正前ロジック: 次のページが存在しない場合に next が null になる", () => {
+    const currentQuery = {
+      post_includes_text: "地震",
+      limit: 10,
+      offset: 10,
+    } satisfies z.infer<typeof noteSearchParamSchema>;
+
+    // API が limit, offset 以外のクエリパラメータを削除してしまう挙動を再現
+    const currentBrokenMeta = {
+      next: null,
+      prev: "https://example.com/api/v1/data/search?offset=0&limit=10",
+    } satisfies PaginationMeta;
+
+    const fixedMeta = buildPaginationMeta(currentBrokenMeta, currentQuery);
+    const nextQuery = fixedMeta.next ? getQuery(fixedMeta.next) : null;
+
+    expect(nextQuery).toBe(null);
+  });
 });
