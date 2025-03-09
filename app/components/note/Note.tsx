@@ -2,7 +2,12 @@ import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
+import {
+  birdWatchLinkFromPostId,
+  postLinkFromPostId,
+} from "../../feature/twitter/link-builder";
 import type { SearchedNote } from "../../generated/api/schemas";
+import { isNonEmptyString } from "../../utils/string";
 import { Post } from "../post/Post";
 import { NoteStatus } from "./NoteStatus";
 import { NoteTopic } from "./NoteTopics";
@@ -56,28 +61,30 @@ export const Note = ({ note }: NoteProps) => {
           </div>
         </Stack>
         <Post post={note.post} />
-        <Group justify="flex-end">
-          <Button
-            color="pink"
-            component="a"
-            href={note.post.link}
-            size="xs"
-            target="_blank"
-            variant="light"
-          >
-            ポストを見る
-          </Button>
-          <Button
-            color="pink"
-            component="a"
-            href={`https://x.com/i/birdwatch/t/${note.post.postId}`}
-            size="xs"
-            target="_blank"
-            variant="light"
-          >
-            このポストについたノートを見る
-          </Button>
-        </Group>
+        {isNonEmptyString(note.postId) && (
+          <Group justify="flex-end">
+            <Button
+              color="pink"
+              component="a"
+              href={postLinkFromPostId(note.postId)}
+              size="xs"
+              target="_blank"
+              variant="light"
+            >
+              ポストを見る
+            </Button>
+            <Button
+              color="pink"
+              component="a"
+              href={birdWatchLinkFromPostId(note.postId)}
+              size="xs"
+              target="_blank"
+              variant="light"
+            >
+              このポストについたノートを見る
+            </Button>
+          </Group>
+        )}
       </Stack>
     </Card>
   );
