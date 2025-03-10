@@ -61,30 +61,35 @@ export const Note = ({ note }: NoteProps) => {
           </div>
         </Stack>
         <Post post={note.post} />
-        {isNonEmptyString(note.postId) && (
-          <Group justify="flex-end">
-            <Button
-              color="pink"
-              component="a"
-              href={postLinkFromPostId(note.postId)}
-              size="xs"
-              target="_blank"
-              variant="light"
-            >
-              ポストを見る
-            </Button>
-            <Button
-              color="pink"
-              component="a"
-              href={birdWatchLinkFromPostId(note.postId)}
-              size="xs"
-              target="_blank"
-              variant="light"
-            >
-              このポストについたノートを見る
-            </Button>
-          </Group>
-        )}
+        {
+          // ref: https://github.com/codeforjapan/BirdXplorer_Viewer/pull/32#discussion_r1978997326
+          // API 側で Post 情報を非同期に取得する仕様変更が予定されているが、誤って postId が null になってしまう場合がありえるので
+          // 予防的に分岐を入れている。Note.postId の存在が保証されている場合は分岐を削除して良い。
+          isNonEmptyString(note.postId) && (
+            <Group justify="flex-end">
+              <Button
+                color="pink"
+                component="a"
+                href={postLinkFromPostId(note.postId)}
+                size="xs"
+                target="_blank"
+                variant="light"
+              >
+                ポストを見る
+              </Button>
+              <Button
+                color="pink"
+                component="a"
+                href={birdWatchLinkFromPostId(note.postId)}
+                size="xs"
+                target="_blank"
+                variant="light"
+              >
+                このポストについたノートを見る
+              </Button>
+            </Group>
+          )
+        }
       </Stack>
     </Card>
   );
