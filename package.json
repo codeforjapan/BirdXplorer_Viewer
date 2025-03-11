@@ -10,7 +10,7 @@
     "lint": "eslint --max-warnings 0",
     "format": "prettier --write .",
     "format:ci": "prettier --check .",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "react-router-serve ./build/server/nodejs_*/index.js",
     "typecheck": "pnpm run typegen && tsc --noEmit",
     "typegen": "react-router typegen",
     "orval": "orval",
