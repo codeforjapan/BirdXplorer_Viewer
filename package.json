@@ -10,7 +10,7 @@
     "lint": "eslint --max-warnings 0",
     "format": "prettier --write .",
     "format:ci": "prettier --check .",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "react-router-serve ./build/server/nodejs_*/index.js",
     "typecheck": "pnpm run typegen && tsc --noEmit",
     "typegen": "react-router typegen",
     "orval": "orval",
@@ -39,6 +39,7 @@
     "react-dom": "19.0.0",
     "react-router": "7.3.0",
     "react-router-dom": "7.3.0",
+    "react-tweet": "3.2.2",
     "recharts": "2.15.1",
     "ufo": "1.5.4",
     "zod": "3.24.2"
@@ -91,7 +92,7 @@
   "engines": {
     "node": "^22.0.0"
   },
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.6.1",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
@@ -99,6 +100,9 @@
     ],
     "overrides": {
       "react-is": "19.0.0"
+    },
+    "patchedDependencies": {
+      "react-tweet": "patches/react-tweet.patch"
     }
   }
 }

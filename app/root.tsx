@@ -15,8 +15,10 @@ import { mantineTheme } from "./config/mantine";
 dayjs.extend(customParseFormat);
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // mantine の <ColorSchemeScript /> がブラウザ上でのみ
+  // html に data-mantine-color-scheme を追加するので suppressHydrationWarning を付けている
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />

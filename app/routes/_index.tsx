@@ -1,6 +1,7 @@
 import { parseWithZod } from "@conform-to/zod";
 import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
 import { data, Link, redirect, useNavigation } from "react-router";
+import { getTweet, type Tweet } from "react-tweet/api";
 import { getQuery, withQuery } from "ufo";
 
 import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
@@ -13,7 +14,7 @@ import {
   getTopicsApiV1DataTopicsGet,
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
-import type { SearchedNote, Topic } from "../generated/api/schemas";
+import { isNonEmptyString } from "../utils/string";
 import type { Route } from "./+types/_index";
 
 export const meta: Route.MetaFunction = () => {
@@ -58,6 +59,7 @@ export const loader = async (args: Route.LoaderArgs) => {
             },
           },
           topics: [],
+          fetchedPosts: {},
         },
         error: searchQuery.error.errors,
       },
@@ -74,11 +76,36 @@ export const loader = async (args: Route.LoaderArgs) => {
     searchApiV1DataSearchGet(searchQuery.data),
   ]);
 
+  for (const note of response.data.data) {
+    note.post = null;
+  }
+
+  const postIdsToFetch: string[] = [];
+  for (const note of response.data.data) {
+    // post が未取得で postId が存在する場合は BFF でポスト情報を一括 fetch したい
+    if (note.post != null || !isNonEmptyString(note.postId)) {
+      continue;
+    }
+    postIdsToFetch.push(note.postId);
+  }
+
+  const posts = await Promise.all(
+    postIdsToFetch.map(async (id) => getTweet(id)),
+  );
+  const postsMap: Record<string, Tweet> = {};
+  for (const post of posts) {
+    if (!post) {
+      continue;
+    }
+    postsMap[post.id_str] = post;
+  }
+
   return {
     data: {
       searchQuery: searchQuery.data,
       searchResults: response.data,
       topics: topics.data.data,
+      fetchedPosts: postsMap,
     },
     error: null,
   };
@@ -93,6 +120,7 @@ export default function Index({
   const {
     topics,
     searchQuery,
+    fetchedPosts,
     searchResults: { data: notes, meta: paginationMeta },
   } = loaderData.data;
 
@@ -111,10 +139,7 @@ export default function Index({
               <SearchForm
                 defaultValue={searchQuery ?? undefined}
                 lastResult={actionData}
-                topics={
-                  // react-router の型がうまく機能せず topics が unknown になったため
-                  topics as Topic[]
-                }
+                topics={topics}
               />
             </div>
             <Divider className="md:hidden" />
@@ -133,12 +158,7 @@ export default function Index({
                       />
                     )}
                     <Group gap="lg">
-                      <Notes
-                        notes={
-                          // react-router の型がうまく機能せず notes[number].topics が unknown になったため
-                          notes as SearchedNote[]
-                        }
-                      />
+                      <Notes fetchedPosts={fetchedPosts} notes={notes} />
                     </Group>
                     {searchQuery && (
                       <SearchPagination

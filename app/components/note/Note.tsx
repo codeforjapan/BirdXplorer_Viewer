@@ -1,5 +1,7 @@
 import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
+import type { Tweet } from "react-tweet/api";
+import { EmbeddedTweet } from "react-tweet/patched/components/embedded-tweet";
 
 import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
 import {
@@ -14,9 +16,10 @@ import { NoteTopic } from "./NoteTopics";
 
 type NoteProps = {
   note: SearchedNote;
+  fetchedPost: Tweet | undefined;
 };
 
-export const Note = ({ note }: NoteProps) => {
+export const Note = ({ note, fetchedPost }: NoteProps) => {
   const dateString = useMemo(() => {
     return new Date(note.createdAt).toLocaleString("ja-JP", {
       year: "numeric",
@@ -60,7 +63,13 @@ export const Note = ({ note }: NoteProps) => {
             <NoteTopic topics={note.topics} />
           </div>
         </Stack>
-        <Post post={note.post} />
+        {note.post != null ? (
+          <Post post={note.post} />
+        ) : fetchedPost != null ? (
+          <div data-theme="light">
+            <EmbeddedTweet tweet={fetchedPost} />
+          </div>
+        ) : null}
         {isNonEmptyString(note.postId) && (
           <Group justify="flex-end">
             <Button

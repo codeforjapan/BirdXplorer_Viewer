@@ -16,4 +16,11 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+
+  ssr: {
+    noExternal: [
+      // react-tweet 内部の css の import が壊れるので ssr.noExternal に含める
+      "react-tweet"
+    ],
+  },
 });

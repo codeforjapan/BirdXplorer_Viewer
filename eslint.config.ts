@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./eslint-typegen.d.ts" />
 
-import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import type { Linter } from "eslint";
 import gitignore from "eslint-config-flat-gitignore";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
+import * as reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import typegen from "eslint-typegen";
@@ -17,8 +17,6 @@ import tseslint from "typescript-eslint";
 const tsFiles = "**/*.{ts,tsx,mts,cts}";
 const jsFiles = "**/*.{js,jsx,mjs,cjs}";
 const jsxFiles = "**/*.{jsx,tsx}";
-
-const compat = new FlatCompat();
 
 const config = [
   gitignore(),
@@ -106,7 +104,7 @@ const config = [
       react.configs.flat.recommended,
       // @ts-expect-error 型が合わない
       react.configs.flat["jsx-runtime"],
-      ...compat.extends("plugin:react-hooks/recommended"),
+      reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.recommended,
     ],
