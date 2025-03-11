@@ -111,10 +111,7 @@ export default function Index({
               <SearchForm
                 defaultValue={searchQuery ?? undefined}
                 lastResult={actionData}
-                topics={
-                  // react-router の型がうまく機能せず topics が unknown になったため
-                  topics as Topic[]
-                }
+                topics={topics}
               />
             </div>
             <Divider className="md:hidden" />
@@ -133,12 +130,7 @@ export default function Index({
                       />
                     )}
                     <Group gap="lg">
-                      <Notes
-                        notes={
-                          // react-router の型がうまく機能せず notes[number].topics が unknown になったため
-                          notes as SearchedNote[]
-                        }
-                      />
+                      <Notes notes={notes} />
                     </Group>
                     {searchQuery && (
                       <SearchPagination
