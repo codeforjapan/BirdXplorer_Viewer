@@ -1,0 +1,23 @@
+diff --git a/package.json b/package.json
+index 36145877a0f6bc95d2156afbc2c21ebbaeb1ba13..d4b6f8bcfbcd6e20e3f24ba68549d01762fef1fe 100644
+--- a/package.json
++++ b/package.json
+@@ -17,8 +17,17 @@
+       "default": "./dist/index.client.js"
+     },
+     "./api": "./dist/api/index.js",
+-    "./theme.css": "./dist/twitter-theme/theme.css"
++    "./theme.css": "./dist/twitter-theme/theme.css",
++    "./patched/components/embedded-tweet": {
++      "default": "./dist/twitter-theme/embedded-tweet.js",
++      "types": "./dist/twitter-theme/embedded-tweet.d.ts"
++    }
+   },
++  "//": [
++    "./patched/components/embedded-tweet is escape hatch to import EmbeddedTweet component.",
++    "import { EmbeddedTweet } from 'react-tweet' causes error in Vite + React Router",
++    "because it has double barrel file and import alanysis is not working properly."
++  ],
+   "files": [
+     "dist/**/*.{js,d.ts,css}"
+   ],
