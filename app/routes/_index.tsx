@@ -1,6 +1,6 @@
 import { parseWithZod } from "@conform-to/zod";
 import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
-import { data, Link, redirect, useNavigation } from "react-router";
+import { data, Link, redirect } from "react-router";
 import { getQuery, withQuery } from "ufo";
 
 import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
@@ -14,6 +14,7 @@ import {
   searchApiV1DataSearchGet,
 } from "../generated/api/client";
 import type { SearchedNote, Topic } from "../generated/api/schemas";
+import { useNetworkBusy } from "../hooks/useNetworkBusy";
 import type { Route } from "./+types/_index";
 
 export const meta: Route.MetaFunction = () => {
@@ -88,7 +89,7 @@ export default function Index({
   actionData,
   loaderData,
 }: Route.ComponentProps) {
-  const isLoadingSearchResults = useNavigation().state !== "idle";
+  const isNetworkBusy = useNetworkBusy();
 
   const {
     topics,
@@ -127,7 +128,7 @@ export default function Index({
                       <SearchPagination
                         className="ms-auto me-0"
                         currentQuery={searchQuery}
-                        loading={isLoadingSearchResults}
+                        loading={isNetworkBusy}
                         meta={paginationMeta}
                         visibleItemCount={notes.length}
                       />
@@ -144,7 +145,7 @@ export default function Index({
                       <SearchPagination
                         className="ms-auto me-0"
                         currentQuery={searchQuery}
-                        loading={isLoadingSearchResults}
+                        loading={isNetworkBusy}
                         meta={paginationMeta}
                         visibleItemCount={notes.length}
                       />
