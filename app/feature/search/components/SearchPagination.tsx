@@ -9,6 +9,7 @@ import Fa6SolidAngleLeft from "~icons/fa6-solid/angle-left";
 import Fa6SolidAngleRight from "~icons/fa6-solid/angle-right";
 
 import type { PaginationMeta } from "../../../generated/api/schemas/paginationMeta";
+import { useNetworkBusy } from "../../../hooks/useNetworkBusy";
 import { buildPaginationMeta } from "../pagination";
 import type { noteSearchParamSchema } from "../validation";
 
@@ -29,6 +30,8 @@ export const SearchPagination = ({
   visibleItemCount,
   ...groupProps
 }: PaginationProps) => {
+  const isNetworkBusy = useNetworkBusy();
+
   const pagination = buildPaginationMeta(meta, currentQuery);
 
   const pageFirstItemIndex = currentQuery.offset + 1;
@@ -66,6 +69,7 @@ export const SearchPagination = ({
           aria-label="前のページへ移動する"
           color="pink"
           component={Link}
+          disabled={isNetworkBusy}
           loading={prevLoading}
           onClick={handlePrevClick}
           to={prevTo}
@@ -83,6 +87,7 @@ export const SearchPagination = ({
           aria-label="次のページへ移動する"
           color="pink"
           component={Link}
+          disabled={isNetworkBusy}
           loading={nextLoading}
           onClick={handleNextClick}
           to={nextTo}
