@@ -39,7 +39,7 @@
     "react-dom": "19.0.0",
     "react-router": "7.4.1",
     "react-router-dom": "7.4.1",
-    "recharts": "2.15.1",
+    "recharts": "2.15.2",
     "ufo": "1.5.4",
     "zod": "3.24.2"
   },
