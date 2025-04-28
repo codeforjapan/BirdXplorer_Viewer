@@ -40,6 +40,21 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+      tailwindcss:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss*'
+      icons:
+        patterns:
+          - 'unplugin-icons'
+          - '@iconify*'
+          - '@svgr/core'
+          - '@svgr/plugin-jsx'
+      orval-codegen:
+        patterns:
+          - '@faker-js/faker'
+          - 'msw'
+          - 'orval'
       conform:
         patterns:
           - '@conform-to*'
