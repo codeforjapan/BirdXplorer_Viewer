@@ -77,10 +77,6 @@ updates:
           - 'patch'
       test:
         patterns:
+          - 'jsdom'
           - 'vitest'
           - '@testing-library*'
-      dev-dependencies:
-        dependency-type: 'development'
-        update-types:
-          - 'minor'
-          - 'patch'
