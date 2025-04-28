@@ -77,5 +77,6 @@ updates:
           - 'patch'
       test:
         patterns:
+          - 'jsdom'
           - 'vitest'
           - '@testing-library*'
