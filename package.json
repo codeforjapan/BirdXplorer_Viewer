@@ -47,7 +47,7 @@
     "@eslint/eslintrc": "3.3.1",
     "@eslint/js": "9.26.0",
     "@faker-js/faker": "9.6.0",
-    "@iconify/json": "2.2.332",
+    "@iconify/json": "2.2.334",
     "@react-router/dev": "7.5.2",
     "@react-router/fs-routes": "7.5.2",
     "@svgr/core": "8.1.0",
