@@ -25,7 +25,7 @@
     "@mantine/charts": "7.15.2",
     "@mantine/core": "7.15.2",
     "@mantine/dates": "7.15.2",
-    "@mantine/form": "7.15.2",
+    "@mantine/form": "8.0.1",
     "@mantine/hooks": "7.15.2",
     "@mantine/modals": "7.15.2",
     "@react-router/node": "7.6.0",
