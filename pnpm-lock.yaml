@@ -12,14 +12,14 @@ importers:
   .:
     dependencies:
       '@conform-to/dom':
-        specifier: 1.2.2
-        version: 1.2.2
+        specifier: 1.5.1
+        version: 1.5.1
       '@conform-to/react':
-        specifier: 1.2.2
-        version: 1.2.2(react@19.0.0)
+        specifier: 1.5.1
+        version: 1.5.1(react@19.0.0)
       '@conform-to/zod':
-        specifier: 1.2.2
-        version: 1.2.2(zod@3.24.4)
+        specifier: 1.5.1
+        version: 1.5.1(zod@3.24.4)
       '@mantine/charts':
         specifier: 7.15.2
         version: 7.15.2(@mantine/core@7.15.2(@mantine/hooks@7.15.2(react@19.0.0))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@mantine/hooks@7.15.2(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(recharts@2.15.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
@@ -474,16 +474,16 @@ packages:
   '@bundled-es-modules/tough-cookie@0.1.6':
     resolution: {integrity: sha512-dvMHbL464C0zI+Yqxbz6kZ5TOEp7GLW+pry/RWndAR8MJQAXZ2rPmIs8tziTZjeIyhSNZgZbCePtfSbdWqStJw==}
 
-  '@conform-to/dom@1.2.2':
-    resolution: {integrity: sha512-f05EClpNP31o6lX4LYmmLqgsiTOHdGfY7z2XXK6U6rRp+EtxrkUBdrFlIGsfkf7e9AFO19h3/Cb/cXHVd1k1FA==}
+  '@conform-to/dom@1.5.1':
+    resolution: {integrity: sha512-QZeNJ+TC6NjBb8zHYHcXVxuFHxWLo8zYhJyHvKymkIqKwoDCnu6X8EheAbnKHh79PpgBttIu6gdjibEwUsBGuw==}
 
-  '@conform-to/react@1.2.2':
-    resolution: {integrity: sha512-1JBECb3NKi5/IlexaYLgnAxGJ55MRuO2sEQ10cJfUK2bfltNbTIQnYUDG6pU886A4lda/q6UH/adPsjiB/4Gkg==}
+  '@conform-to/react@1.5.1':
+    resolution: {integrity: sha512-dEKH81vm1+BphgFP9v7OkHxu4CDVq70yk4tApIFV2gqQAA0P7ZMrD4cu2e2o2TAYDiThPEuKxkcCmuAwbZTZbw==}
     peerDependencies:
       react: '>=18'
 
-  '@conform-to/zod@1.2.2':
-    resolution: {integrity: sha512-mNCzh0XsF2vhCtD8bfHYMYayEJ9dP6/KsGjmq8DFcO1ykDTNQZwfi1MIm4evGYVempSS3poYr4xZjd7cXEbtaw==}
+  '@conform-to/zod@1.5.1':
+    resolution: {integrity: sha512-X89Asni+LlM5U7abJcD3OE/HLKB0SGqo9KVLGZsn/QUVXT+cJDVAXFz1TP6/zDEdsOkabDw+xBHQF2vPxkfrOg==}
     peerDependencies:
       zod: ^3.21.0
 
@@ -5010,16 +5010,16 @@ snapshots:
       '@types/tough-cookie': 4.0.5
       tough-cookie: 4.1.4
 
-  '@conform-to/dom@1.2.2': {}
+  '@conform-to/dom@1.5.1': {}
 
-  '@conform-to/react@1.2.2(react@19.0.0)':
+  '@conform-to/react@1.5.1(react@19.0.0)':
     dependencies:
-      '@conform-to/dom': 1.2.2
+      '@conform-to/dom': 1.5.1
       react: 19.0.0
 
-  '@conform-to/zod@1.2.2(zod@3.24.4)':
+  '@conform-to/zod@1.5.1(zod@3.24.4)':
     dependencies:
-      '@conform-to/dom': 1.2.2
+      '@conform-to/dom': 1.5.1
       zod: 3.24.4
 
   '@csstools/color-helpers@5.0.2': {}

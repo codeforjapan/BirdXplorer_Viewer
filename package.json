@@ -19,9 +19,9 @@
     "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci  && pnpm test:run"
   },
   "dependencies": {
-    "@conform-to/dom": "1.2.2",
-    "@conform-to/react": "1.2.2",
-    "@conform-to/zod": "1.2.2",
+    "@conform-to/dom": "1.5.1",
+    "@conform-to/react": "1.5.1",
+    "@conform-to/zod": "1.5.1",
     "@mantine/charts": "7.15.2",
     "@mantine/core": "7.15.2",
     "@mantine/dates": "7.15.2",
