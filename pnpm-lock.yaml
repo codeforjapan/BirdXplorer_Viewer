@@ -91,8 +91,8 @@ importers:
         specifier: 9.7.0
         version: 9.7.0
       '@iconify/json':
-        specifier: 2.2.334
-        version: 2.2.334
+        specifier: 2.2.360
+        version: 2.2.360
       '@react-router/dev':
         specifier: 7.6.0
         version: 7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.3))(@types/node@22.15.18)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@4.0.1(postcss@8.5.3))(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.18)(jiti@2.4.2)(lightningcss@1.29.2)(sugarss@4.0.1(postcss@8.5.3))(yaml@2.7.1))(yaml@2.7.1)
@@ -771,8 +771,8 @@ packages:
     resolution: {integrity: sha512-3WK2FREmDA2aadCjD71PE7tx5evyvmhg80ts1kXp2IzXIA0ZJ7guGM66tj40kxaqwpMSGchwEnnfYswntav76g==}
     engines: {node: '>=16.0.0'}
 
-  '@iconify/json@2.2.334':
-    resolution: {integrity: sha512-VcnEHMZs1VT8QvU5dzT1Eau35nGSZdIcJlBRHkxe/HLS1kKkyuFFrsA5aIaHeM7vvU6Y8rPS4DDD2xDmnNgP3g==}
+  '@iconify/json@2.2.360':
+    resolution: {integrity: sha512-N1mmTs7dJd6Ym62fP5DxJG1ZpbXSncD32tC/RJoGGjEPNx52/HzBixEjS9hVPps8CWs2VL7uRr4UKmjiFA/n5Q==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5233,7 +5233,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@iconify/json@2.2.334':
+  '@iconify/json@2.2.360':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 1.1.2
