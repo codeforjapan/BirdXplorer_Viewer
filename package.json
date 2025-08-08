@@ -15,7 +15,9 @@
     "typegen": "react-router typegen",
     "orval": "orval",
     "test": "TZ=UTC vitest --run",
-    "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci  && pnpm test:run"
+    "test:node": "pnpm run test --project node",
+    "test:browser": "pnpm run test --project browser",
+    "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci && pnpm test"
   },
   "dependencies": {
     "@conform-to/dom": "1.5.1",
