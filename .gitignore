@@ -6,7 +6,7 @@ node_modules
 
 .vscode/*
 !.vscode/settings.example.json
-eslint-typegen.d.ts
+eslint-typegen-generated.d.ts
 
 .react-router/*
 .vercel/*
