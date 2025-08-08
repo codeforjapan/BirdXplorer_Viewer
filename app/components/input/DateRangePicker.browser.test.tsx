@@ -1,8 +1,8 @@
 import { getFormProps, useForm } from "@conform-to/react";
+import { userEvent } from "@vitest/browser/context";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import { render, screen } from "../../../test/test-react";
-import { userEvent } from "../../../test/vitest-setup";
+import { render } from "../../../test/test-react";
 import { DateRangePicker } from "./DateRangePicker";
 
 type Form = {
@@ -22,8 +22,6 @@ type PageProps = {
 
 beforeEach(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
-  // GitHub Actions では TZ が UTC になっているため、テスト時の TZ も UTC に設定する
-  process.env.TZ = "UTC";
 });
 
 afterEach(() => {
@@ -60,7 +58,7 @@ describe("DateRangePicker", () => {
   test("convert で指定した処理を用いて UI の値をフォームに反映できる", async () => {
     // 確実に 2025 年 1 月のカレンダーを表示するため、システム時刻を固定する
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
-    render(<Page defaultValue={{ start: null, end: null }} />);
+    const screen = render(<Page defaultValue={{ start: null, end: null }} />);
 
     const button = screen.getByRole("button", { name: "Date Range" });
     await userEvent.click(button);
@@ -80,7 +78,7 @@ describe("DateRangePicker", () => {
   });
 
   test("convert で指定した処理を用いてフォームの値を UI に反映できる", () => {
-    render(
+    const screen = render(
       <Page
         defaultValue={{
           start: "2025-01-09T15:00:00.000Z",
