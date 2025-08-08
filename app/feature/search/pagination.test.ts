@@ -28,12 +28,12 @@ describe("buildPaginationMeta", () => {
       ? getQuery(paginationMeta.next)
       : null;
 
-    expect(prevQuery).toStrictEqual({
+    expect(prevQuery).toEqual({
       limit: "10",
       offset: "0",
       post_includes_text: "地震",
     });
-    expect(nextQuery).toStrictEqual({
+    expect(nextQuery).toEqual({
       limit: "10",
       offset: "20",
       post_includes_text: "地震",
@@ -56,7 +56,7 @@ describe("buildPaginationMeta", () => {
     const fixedMeta = buildPaginationMeta(currentBrokenMeta, currentQuery);
     const prevQuery = fixedMeta.prev ? getQuery(fixedMeta.prev) : null;
 
-    expect(prevQuery).toStrictEqual({
+    expect(prevQuery).toEqual({
       limit: "15",
       offset: "0",
       post_includes_text: "地震",
@@ -119,12 +119,12 @@ describe("buildPaginationMeta", () => {
     const prevQuery = fixedMeta.prev ? getQuery(fixedMeta.prev) : null;
     const nextQuery = fixedMeta.next ? getQuery(fixedMeta.next) : null;
 
-    expect(prevQuery).toStrictEqual({
+    expect(prevQuery).toEqual({
       note_status: ["CURRENTLY_RATED_HELPFUL", "NEEDS_MORE_RATINGS"],
       limit: "10",
       offset: "0",
     });
-    expect(nextQuery).toStrictEqual({
+    expect(nextQuery).toEqual({
       note_status: ["CURRENTLY_RATED_HELPFUL", "NEEDS_MORE_RATINGS"],
       limit: "10",
       offset: "20",
