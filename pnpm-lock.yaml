@@ -162,9 +162,6 @@ importers:
       playwright:
         specifier: 1.54.2
         version: 1.54.2
-      pnpm:
-        specifier: 10.14.0
-        version: 10.14.0
       postcss:
         specifier: 8.5.3
         version: 8.5.3
@@ -3515,11 +3512,6 @@ packages:
   playwright@1.54.2:
     resolution: {integrity: sha512-Hu/BMoA1NAdRUuulyvQC0pEqZ4vQbGfn8f7wPXcnqQmM+zct9UliKxsIkLNmz/ku7LElUNqmaiv1TG/aL5ACsw==}
     engines: {node: '>=18'}
-    hasBin: true
-
-  pnpm@10.14.0:
-    resolution: {integrity: sha512-rSenlkG0nD5IGhaoBbqnGBegS74Go40X5g4urug/ahRsamiBJfV5LkjdW6MOfaUqXNpMOZK5zPMz+c4iOvhHSA==}
-    engines: {node: '>=18.12'}
     hasBin: true
 
   pony-cause@1.1.1:
@@ -8448,8 +8440,6 @@ snapshots:
       playwright-core: 1.54.2
     optionalDependencies:
       fsevents: 2.3.2
-
-  pnpm@10.14.0: {}
 
   pony-cause@1.1.1: {}
 
