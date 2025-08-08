@@ -14,9 +14,10 @@
     "typecheck": "pnpm run typegen && tsc --noEmit",
     "typegen": "react-router typegen",
     "orval": "orval",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci  && pnpm test:run"
+    "test": "TZ=UTC vitest --run",
+    "test:node": "pnpm run test --project node",
+    "test:browser": "pnpm run test --project browser",
+    "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci && pnpm test"
   },
   "dependencies": {
     "@conform-to/dom": "1.5.1",
@@ -52,14 +53,12 @@
     "@react-router/fs-routes": "7.6.0",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@testing-library/dom": "10.4.0",
-    "@testing-library/jest-dom": "6.6.3",
-    "@testing-library/react": "16.3.0",
-    "@testing-library/user-event": "14.6.1",
     "@types/eslint-plugin-jsx-a11y": "6.10.0",
+    "@types/node": "22.17.0",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "@vitejs/plugin-react": "4.4.1",
+    "@vitest/browser": "3.2.4",
     "autoprefixer": "10.4.21",
     "eslint": "9.26.0",
     "eslint-config-flat-gitignore": "2.1.0",
@@ -71,9 +70,9 @@
     "eslint-typegen": "2.1.0",
     "globals": "16.1.0",
     "jiti": "2.4.2",
-    "jsdom": "26.1.0",
     "msw": "2.8.2",
     "orval": "7.9.0",
+    "playwright": "1.54.2",
     "pnpm": "10.10.0",
     "postcss": "8.5.3",
     "postcss-preset-mantine": "1.17.0",
@@ -86,7 +85,8 @@
     "unplugin-icons": "22.1.0",
     "vite": "6.3.5",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "3.1.3"
+    "vitest": "3.2.4",
+    "vitest-browser-react": "1.0.1"
   },
   "engines": {
     "node": "^22.0.0"

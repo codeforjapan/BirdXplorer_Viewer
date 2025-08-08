@@ -11,9 +11,11 @@
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": [
+      "node",
       "@react-router/node",
       "vite/client",
-      "unplugin-icons/types/react"
+      "unplugin-icons/types/react",
+      "@vitest/browser/providers/playwright"
     ],
     "isolatedModules": true,
     "esModuleInterop": true,
