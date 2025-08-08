@@ -73,7 +73,7 @@
     "msw": "2.8.2",
     "orval": "7.9.0",
     "playwright": "1.54.2",
-    "pnpm": "10.10.0",
+    "pnpm": "10.14.0",
     "postcss": "8.5.3",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "7.0.1",
