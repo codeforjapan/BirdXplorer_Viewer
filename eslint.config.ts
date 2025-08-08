@@ -104,6 +104,7 @@ export default typegen(
         react.configs.flat["jsx-runtime"],
         reactHooks.configs["recommended-latest"],
         reactRefresh.configs.vite,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         jsxA11y.flatConfigs.recommended,
       ],
       languageOptions: {
