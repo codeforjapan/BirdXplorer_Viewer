@@ -147,7 +147,7 @@ const config = [
     },
   },
   {
-    files: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
+    files: ["**/*.browser.test.{js,jsx,ts,tsx}"],
     rules: {
       "@typescript-eslint/no-restricted-imports": [
         "error",
@@ -155,16 +155,10 @@ const config = [
           paths: [
             {
               allowTypeImports: true,
-              name: "@testing-library/react",
+              name: "vitest-browser-react",
+              importNames: ["render"],
               message:
-                "Please import from '~/test/test-react' instead of '@testing-library/react'.",
-            },
-            {
-              allowTypeImports: true,
-              name: "@testing-library/user-event",
-              importNames: ["default"],
-              message:
-                "Please import 'userEvent' from '~/test/test-react' instead of '@testing-library/user-event'.",
+                "Please import from '<root>/test/test-react' instead of 'vitest-browser-react'.",
             },
           ],
         },
