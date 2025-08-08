@@ -64,8 +64,8 @@ jobs:
         id: playwright-version
         run: echo "version=$(pnpm exec playwright --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" >> "$GITHUB_OUTPUT"
 
-      - name: Cache Playwright Browsers
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      - name: Restore Playwright Browser Cache
+        uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
@@ -79,6 +79,14 @@ jobs:
       - name: Install Playwright system dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps
+
+      - name: Save Playwright Browser Cache if main branch
+        if: github.ref_name == 'main'
+        id: save-pnpm-cache
+        uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ steps.playwright-cache.outputs.cache-primary-key }}
 
       - name: Run test
         run: pnpm run test:browser
