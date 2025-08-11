@@ -65,7 +65,7 @@ jobs:
         run: echo "version=$(pnpm exec playwright --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')" >> "$GITHUB_OUTPUT"
 
       - name: Restore Playwright Browser Cache
-        uses: actions/cache/restore@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        uses: actions/cache/restore@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
@@ -83,7 +83,7 @@ jobs:
       - name: Save Playwright Browser Cache if main branch
         if: github.ref_name == 'main'
         id: save-pnpm-cache
-        uses: actions/cache/save@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
+        uses: actions/cache/save@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
         with:
           path: ~/.cache/ms-playwright
           key: ${{ steps.playwright-cache.outputs.cache-primary-key }}
