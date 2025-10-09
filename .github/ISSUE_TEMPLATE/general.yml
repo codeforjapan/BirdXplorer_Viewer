@@ -1,0 +1,43 @@
+name: その他
+description: その他の作成
+body:
+  - type: markdown
+    attributes:
+      value: |
+        作成ありがとうございます。以下の情報を記入してください。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 説明
+      description: issueの概要を説明してください
+      placeholder: ex. issueの背景など
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: issueのゴール
+      description: issueのゴールを説明してください
+      placeholder: ex. xxxのライブラリ導入
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: 参照URLなど
+      description: 参照URLなどを記述してください
+      placeholder: ex.https://remix.run/ etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: caption
+    attributes:
+      label: 補足
+      description: 補足を記述してください
+      placeholder: ex. 関連するIssueなど
+    validations:
+      required: false

@@ -1,0 +1,45 @@
+name: コンポーネント
+description: コンポーネントの作成
+labels: ['component']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        コンポーネントの作成ありがとうございます。以下の情報を記入してください。
+
+  - type: input
+    id: component_name
+    attributes:
+      label: コンポーネント名
+      description: コンポーネント名を記述してください
+      placeholder: ex.TextInput
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: コンポーネントの説明
+      description: コンポーネントの概要を説明してください
+      placeholder: 概要を記述してください
+    validations:
+      required: true
+
+  - type: input
+    id:
+    attributes:
+      label: 該当するfigmaファイルのURL
+      description: 該当するfigmaファイルのURLを記述してください
+      default: https://www.figma.com/design/oeUBwjCgMezG78IXrMAv6O/BX
+      placeholder: ex.https://www.figma.com/design/oeUBwjCgMezG78IXrMAv6O/BX
+    validations:
+      required: true
+
+  - type: textarea
+    id: caption
+    attributes:
+      label: 補足
+      description: コンポーネントの補足を記述してください
+      placeholder: ex. 関連するコンポーネントなど
+    validations:
+      required: false
