@@ -34,7 +34,7 @@ body:
       required: false
 
   - type: textarea
-    id: caption
+    id: note
     attributes:
       label: 補足
       description: 補足を記述してください

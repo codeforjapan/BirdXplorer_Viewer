@@ -26,7 +26,7 @@ body:
       required: true
 
   - type: input
-    id:
+    id: figma_url
     attributes:
       label: 該当するfigmaファイルのURL
       description: 該当するfigmaファイルのURLを記述してください
@@ -36,7 +36,7 @@ body:
       required: true
 
   - type: textarea
-    id: caption
+    id: note
     attributes:
       label: 補足
       description: コンポーネントの補足を記述してください
