@@ -30,8 +30,8 @@ body:
     attributes:
       label: 該当するfigmaファイルのURL
       description: 該当するfigmaファイルのURLを記述してください
-      default: https://www.figma.com/design/oeUBwjCgMezG78IXrMAv6O/BX
       placeholder: ex.https://www.figma.com/design/oeUBwjCgMezG78IXrMAv6O/BX
+      value: https://www.figma.com/design/oeUBwjCgMezG78IXrMAv6O/BX
     validations:
       required: true
 
