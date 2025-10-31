@@ -1,7 +1,105 @@
 @import "tailwindcss";
 
+@theme {
+  /* Colors from Figma Design Guide */
+  --color-primary: #1d9bf0;
+  --color-blue: #671df0;
+  --color-red: #f01d47;
+  --color-green: #41b87e;
+  --color-yellow: #fecc47;
+  --color-purple: #c17fd0;
+  --color-bluegray: #e4e7f1;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-1: #171717;
+  --color-gray-2: #555555;
+  --color-gray-3: #cccccc;
+  --color-gray-4: #dddddd;
+
+  /* Font Sizes */
+  --font-size-heading-xl: 1.5rem; /* 24px */
+  --font-size-heading-xl-sp: 1.375rem; /* 22px */
+  --font-size-heading-l: 1.125rem; /* 18px */
+  --font-size-heading-m: 1rem; /* 16px */
+  --font-size-body-l: 0.875rem; /* 14px */
+  --font-size-body-m: 0.75rem; /* 12px */
+  --font-size-graph-m: 0.625rem; /* 10px */
+
+  /* Line Heights */
+  --line-height-140: 1.4;
+  --line-height-170: 1.7;
+  --line-height-100: 1;
+
+  /* Font Weights */
+  --font-weight-bold: 700;
+  --font-weight-regular: 400;
+}
+
 @utility content-visibility-auto {
   content-visibility: auto;
+}
+
+/* Typography Utilities */
+@layer utilities {
+  .text-heading-xl {
+    font-size: var(--font-size-heading-xl);
+    line-height: var(--line-height-140);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-heading-xl-sp {
+    font-size: var(--font-size-heading-xl-sp);
+    line-height: var(--line-height-140);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-heading-l {
+    font-size: var(--font-size-heading-l);
+    line-height: var(--line-height-140);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-heading-m-regular {
+    font-size: var(--font-size-heading-l);
+    line-height: var(--line-height-140);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .text-heading-m {
+    font-size: var(--font-size-heading-m);
+    line-height: var(--line-height-140);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-body-l-bold {
+    font-size: var(--font-size-body-l);
+    line-height: var(--line-height-170);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-body-l {
+    font-size: var(--font-size-body-l);
+    line-height: var(--line-height-170);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .text-body-m {
+    font-size: var(--font-size-body-m);
+    line-height: var(--line-height-170);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .text-graph-m {
+    font-size: var(--font-size-graph-m);
+    line-height: var(--line-height-100);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text-graph-m-regular {
+    font-size: var(--font-size-graph-m);
+    line-height: var(--line-height-100);
+    font-weight: var(--font-weight-regular);
+  }
 }
 
 body {
