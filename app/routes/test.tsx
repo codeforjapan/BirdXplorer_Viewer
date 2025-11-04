@@ -7,15 +7,58 @@ export default function Test() {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const chartRef = React.useRef<ECharts | null>(null);
 
-  // サンプルデータ: [x, y, size, name]
-  const data = React.useMemo<Array<[number, number, number, string]>>(
-    () => [
-      [10, 8, 20, "A"],
-      [15, 18, 50, "B"],
-      [20, 30, 80, "C"],
-      [25, 10, 35, "D"],
-      [32, 22, 60, "E"],
-    ],
+  // サンプルデータ: [helpful, notHelpful, size, name, status]
+  // status: 0=非公開, 1=評価中, 2=公開済, 3=一時公開
+  const data = React.useMemo<Array<[number, number, number, string, number]>>(
+    () => {
+      const result: Array<[number, number, number, string, number]> = [];
+      
+      // 非公開（青）- 左下に密集
+      for (let i = 0; i < 80; i++) {
+        result.push([
+          Math.random() * 400,
+          Math.random() * 200,
+          Math.random() * 30 + 10,
+          `非公開${i + 1}`,
+          0,
+        ]);
+      }
+      
+      // 評価中（水色）- 中央左寄り
+      for (let i = 0; i < 20; i++) {
+        result.push([
+          Math.random() * 800 + 200,
+          Math.random() * 400 + 100,
+          Math.random() * 40 + 15,
+          `評価中${i + 1}`,
+          1,
+        ]);
+      }
+      
+      // 公開済（紫）- 中央下
+      for (let i = 0; i < 15; i++) {
+        result.push([
+          Math.random() * 600 + 400,
+          Math.random() * 150,
+          Math.random() * 50 + 20,
+          `公開済${i + 1}`,
+          2,
+        ]);
+      }
+      
+      // 一時公開（ピンク）- 右側と中央下に散在
+      for (let i = 0; i < 10; i++) {
+        result.push([
+          Math.random() * 2000 + 1000,
+          Math.random() * 200,
+          Math.random() * 60 + 25,
+          `一時公開${i + 1}`,
+          3,
+        ]);
+      }
+      
+      return result;
+    },
     [],
   );
 
@@ -26,58 +69,82 @@ export default function Test() {
     const inst = echarts.getInstanceByDom(ref.current) ?? echarts.init(ref.current);
     chartRef.current = inst;
 
+    const statusColors = {
+      0: "#1e88e5", // 非公開（青）
+      1: "#42a5f5", // 評価中（水色）
+      2: "#9c27b0", // 公開済（紫）
+      3: "#ec407a", // 一時公開（ピンク）
+    };
+
+    const statusNames = ["非公開", "評価中", "公開済", "一時公開"];
+
     const option: EChartsOption = {
       backgroundColor: "transparent",
-      title: { text: "バブル散布図", left: "center" },
+      legend: {
+        data: statusNames,
+        top: 10,
+        left: 10,
+        textStyle: { color: "#666", fontSize: 13 },
+      },
       tooltip: {
         trigger: "item",
         formatter: (param) => {
           if (Array.isArray(param)) return "";
-          const [x, y, size, name] = param.value as [number, number, number, string];
-          return `${name ?? "-"}<br/>X: ${x}<br/>Y: ${y}<br/>サイズ: ${size}`;
+          const [helpful, notHelpful, , name, status] = param.value as [
+            number,
+            number,
+            number,
+            string,
+            number,
+          ];
+          return `${name}<br/>役に立った: ${helpful}<br/>役に立たなかった: ${notHelpful}<br/>ステータス: ${statusNames[status]}`;
         },
       },
-      grid: { left: 60, right: 60, top: 80, bottom: 60 },
-      xAxis: { 
-        type: "value", 
-        name: "X軸", 
-        splitLine: { show: true } 
+      grid: { left: 80, right: 40, top: 60, bottom: 80 },
+      xAxis: {
+        type: "value",
+        name: "役に立った",
+        nameLocation: "middle",
+        nameGap: 35,
+        nameTextStyle: { color: "#666", fontSize: 13 },
+        splitLine: { show: true, lineStyle: { color: "#e0e0e0" } },
+        axisLine: { lineStyle: { color: "#999" } },
+        axisLabel: { color: "#666", fontSize: 11 },
+        max: 3500,
       },
-      yAxis: { 
-        type: "value", 
-        name: "Y軸", 
-        splitLine: { show: true } 
+      yAxis: {
+        type: "value",
+        name: "役に立たなかった",
+        nameLocation: "middle",
+        nameGap: 50,
+        nameTextStyle: { color: "#666", fontSize: 13 },
+        splitLine: { show: true, lineStyle: { color: "#e0e0e0" } },
+        axisLine: { lineStyle: { color: "#999" } },
+        axisLabel: { color: "#666", fontSize: 11 },
+        max: 600,
       },
-      visualMap: {
-        // サイズ用の凡例
-        show: true,
-        right: 10,
-        top: 80,
-        dimension: 2, // value[2] を参照
-        min: Math.min(...data.map((d) => d[2])),
-        max: Math.max(...data.map((d) => d[2])),
-        calculable: true,
-        inRange: { color: ["#50a3ba", "#eac736", "#d94e5d"] }, // 色はデフォルト配色に任せる
-        text: ["大", "小"],
-      },
-      series: [
-        {
-          type: "scatter",
-          name: "バブル",
-          data,
-          symbolSize: (val) => {
-            const v = (val as [number, number, number])[2];
-            // 見やすいように平方根スケール＋下限
-            return Math.max(8, Math.sqrt(v) * 3);
-          },
-          emphasis: { focus: "series" },
-          label: {
-            show: true,
-            formatter: (p) => (p.value as [number, number, number, string])[3] ?? "",
-          },
-          animationDuration: 500,
+      series: [0, 1, 2, 3].map((status) => ({
+        type: "scatter",
+        name: statusNames[status],
+        data: data.filter((d) => d[4] === status),
+        symbolSize: (val) => {
+          const v = (val as [number, number, number, string, number])[2];
+          // バブルサイズを少し大きめに調整
+          return Math.max(10, Math.sqrt(v) * 2.5);
         },
-      ],
+        itemStyle: {
+          color: statusColors[status as keyof typeof statusColors],
+          opacity: 0.65,
+        },
+        emphasis: {
+          focus: "series",
+          itemStyle: { opacity: 0.9 },
+        },
+        label: {
+          show: false,
+        },
+        animationDuration: 500,
+      })),
     };
 
     inst.setOption(option, true);
