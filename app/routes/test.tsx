@@ -26,7 +26,7 @@ export default function Test() {
         result.push([
           Math.random() * 400,
           Math.random() * 200,
-          Math.random() * 30 + 10,
+          Math.random() * 300 + 10,
           `非公開${i + 1}`,
           0,
         ]);
@@ -37,7 +37,7 @@ export default function Test() {
         result.push([
           Math.random() * 800 + 200,
           Math.random() * 400 + 100,
-          Math.random() * 40 + 15,
+          Math.random() * 400 + 15,
           `評価中${i + 1}`,
           1,
         ]);
@@ -48,7 +48,7 @@ export default function Test() {
         result.push([
           Math.random() * 600 + 400,
           Math.random() * 150,
-          Math.random() * 50 + 20,
+          Math.random() * 500 + 20,
           `公開済${i + 1}`,
           2,
         ]);
@@ -59,7 +59,7 @@ export default function Test() {
         result.push([
           Math.random() * 2000 + 1000,
           Math.random() * 200,
-          Math.random() * 60 + 25,
+          Math.random() * 600 + 25,
           `一時公開${i + 1}`,
           3,
         ]);
@@ -140,7 +140,7 @@ export default function Test() {
         symbolSize: (val) => {
           const v = (val as [number, number, number, string, number])[2];
           // バブルサイズを少し大きめに調整
-          return Math.max(10, Math.sqrt(v) * 2.5);
+          return Math.max(10, Math.sqrt(v) * 1.5);
         },
         itemStyle: {
           color: statusColors[status as keyof typeof statusColors],
