@@ -9,6 +9,14 @@ export default function Test() {
 
   // サンプルデータ: [helpful, notHelpful, size, name, status]
   // status: 0=非公開, 1=評価中, 2=公開済, 3=一時公開
+
+  // 最終的な型: Array<[number, number, number, string, number]>
+  // 例: [
+  //   [337, 178, 10, "非公開1", 0],  ← 1つ目のノート
+  //   [171,  41, 26, "非公開2", 0],  ← 2つ目のノート
+  //   [114,  99, 24, "非公開3", 0],  ← 3つ目のノート
+  //   ...
+  // ]
   const data = React.useMemo<Array<[number, number, number, string, number]>>(
     () => {
       const result: Array<[number, number, number, string, number]> = [];
@@ -56,6 +64,8 @@ export default function Test() {
           3,
         ]);
       }
+
+      console.log(result);
       
       return result;
     },
