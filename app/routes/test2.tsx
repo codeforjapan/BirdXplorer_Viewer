@@ -1,78 +1,19 @@
 import { Title } from "@mantine/core";
-import type { ScatterSeriesOption } from "echarts/charts";
-import { ScatterChart } from "echarts/charts";
-import type {
-  GridComponentOption,
-  LegendComponentOption,
-  TitleComponentOption,
-  TooltipComponentOption,
-} from "echarts/components";
-import {
-  GridComponent,
-  LegendComponent,
-  TitleComponent,
-  TooltipComponent,
-} from "echarts/components";
-import type { ComposeOption } from "echarts/core";
-import * as echarts from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import type { EChartsReactProps } from "echarts-for-react/esm/types";
+import type { EChartsOption } from "echarts";
 import * as React from "react";
 
-echarts.use([
-  GridComponent,
-  LegendComponent,
-  TitleComponent,
-  TooltipComponent,
-  ScatterChart,
-  CanvasRenderer,
-]);
-
-type BubbleChartOption = ComposeOption<
-  | GridComponentOption
-  | LegendComponentOption
-  | TitleComponentOption
-  | TooltipComponentOption
-  | ScatterSeriesOption
->;
-
-const STATUS_NAMES = ["非公開", "評価中", "公開済", "一時公開"] as const;
-const STATUS_COLORS = {
-  0: "#1e88e5",
-  1: "#42a5f5",
-  2: "#9c27b0",
-  3: "#ec407a",
-} as const;
+// 動的インポートでReactEChartsをロード（SSR対策）
+const ReactECharts = React.lazy(async () => await import("echarts-for-react"));
 
 export default function Test() {
-  const [EChartsComponent, setEChartsComponent] = React.useState<
-    React.ComponentType<EChartsReactProps> | null
-  >(null);
-
-  React.useEffect(() => {
-    let mounted = true;
-
-    void import("echarts-for-react/lib/core").then((mod) => {
-      if (!mounted) return;
-      const Comp =
-        (mod as { default?: React.ComponentType<EChartsReactProps> }).default ??
-        ((mod as unknown) as React.ComponentType<EChartsReactProps>);
-      setEChartsComponent(() => Comp);
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   // サンプルデータ: [helpful, notHelpful, size, name, status]
   // status: 0=非公開, 1=評価中, 2=公開済, 3=一時公開
 
   // 最終的な型: Array<[number, number, number, string, number]>
   // 例: [
-  //   [337, 178, 10, "非公開1", 0],  ← 1つ目のノート
-  //   [171,  41, 26, "非公開2", 0],  ← 2つ目のノート
-  //   [114,  99, 24, "非公開3", 0],  ← 3つ目のノート
+  //   [337, 178, 105, "非公開1", 0],  ← 1つ目のノート
+  //   [171,  41, 263, "非公開2", 0],  ← 2つ目のノート
+  //   [114,  99, 224, "非公開3", 0],  ← 3つ目のノート
   //   ...
   // ]
   const data = React.useMemo<Array<[number, number, number, string, number]>>(
@@ -123,36 +64,27 @@ export default function Test() {
         ]);
       }
 
+      console.log(result);
+      
       return result;
     },
     [],
   );
 
-  const option = React.useMemo<BubbleChartOption>(() => {
-    const series = STATUS_NAMES.map((statusName, statusIndex) => ({
-      type: "scatter",
-      name: statusName,
-      data: data.filter((item) => item[4] === statusIndex),
-      symbolSize: (val) => {
-        const v = (val as [number, number, number, string, number])[2];
-        return Math.max(10, Math.sqrt(v) * 1.5);
-      },
-      itemStyle: {
-        color: STATUS_COLORS[statusIndex as keyof typeof STATUS_COLORS],
-        opacity: 0.65,
-      },
-      emphasis: {
-        focus: "series",
-        itemStyle: { opacity: 0.9 },
-      },
-      label: { show: false },
-      animationDuration: 500,
-    })) as ScatterSeriesOption[];
+  const option = React.useMemo<EChartsOption>(() => {
+    const statusColors = {
+      0: "#1e88e5", // 非公開（青）
+      1: "#42a5f5", // 評価中（水色）
+      2: "#9c27b0", // 公開済（紫）
+      3: "#ec407a", // 一時公開（ピンク）
+    };
+
+    const statusNames = ["非公開", "評価中", "公開済", "一時公開"];
 
     return {
       backgroundColor: "transparent",
       legend: {
-        data: [...STATUS_NAMES],
+        data: statusNames,
         top: 10,
         left: 10,
         textStyle: { color: "#666", fontSize: 13 },
@@ -168,7 +100,7 @@ export default function Test() {
             string,
             number,
           ];
-          return `${name}<br/>役に立った: ${helpful}<br/>役に立たなかった: ${notHelpful}<br/>ステータス: ${STATUS_NAMES[status]}`;
+          return `${name}<br/>役に立った: ${helpful}<br/>役に立たなかった: ${notHelpful}<br/>ステータス: ${statusNames[status]}`;
         },
       },
       grid: { left: 80, right: 40, top: 60, bottom: 80 },
@@ -194,31 +126,45 @@ export default function Test() {
         axisLabel: { color: "#666", fontSize: 11 },
         max: 600,
       },
-      series,
-    } satisfies BubbleChartOption;
+      series: [0, 1, 2, 3].map((status) => ({
+        type: "scatter",
+        name: statusNames[status],
+        data: data.filter((d) => d[4] === status),
+        symbolSize: (val) => {
+          const v = (val as [number, number, number, string, number])[2];
+          // バブルサイズを少し大きめに調整
+          return Math.max(10, Math.sqrt(v) * 1.5);
+        },
+        itemStyle: {
+          color: statusColors[status as keyof typeof statusColors],
+          opacity: 0.65,
+        },
+        emphasis: {
+          focus: "series",
+          itemStyle: { opacity: 0.9 },
+        },
+        label: {
+          show: false,
+        },
+        animationDuration: 500,
+      })),
+    };
   }, [data]);
-
-  if (!EChartsComponent) {
-    return (
-      <>
-        <Title order={2}>テストページ2</Title>
-        <div style={{ height: "100%", padding: 16 }}>
-          <div style={{ width: "100%", height: "60vh", minHeight: 360 }} />
-        </div>
-      </>
-    );
-  }
 
   return (
     <>
-      <Title order={2}>テストページ</Title>
+      <Title order={2}>テストページ2</Title>
       <div style={{ height: "100%", padding: 16 }}>
-        <EChartsComponent
-          echarts={echarts}
-          option={option}
-          opts={{ renderer: "canvas" }}
-          style={{ width: "100%", height: "60vh", minHeight: 360 }}
-        />
+        <React.Suspense fallback={<div>読み込み中...</div>}>
+          <ReactECharts
+            option={option}
+            style={{
+              width: "100%",
+              height: "60vh",
+              minHeight: 360,
+            }}
+          />
+        </React.Suspense>
       </div>
     </>
   );
