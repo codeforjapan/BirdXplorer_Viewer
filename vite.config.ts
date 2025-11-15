@@ -30,6 +30,15 @@ export default defineConfig({
         },
       },
       {
+        plugins: [
+          react(),
+          tailwindcss(),
+          Icons({
+            compiler: "jsx",
+            jsx: "react",
+          }),
+          tsconfigPaths(),
+        ],
         test: {
           name: "Browser",
           browser: {
