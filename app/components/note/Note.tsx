@@ -1,14 +1,15 @@
 import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
 
-import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
+import { Post } from "~/components/post/Post";
+import { LANGUAGE_ID_TO_LABEL } from "~/feature/search/language";
 import {
   birdWatchLinkFromPostId,
   postLinkFromPostId,
-} from "../../feature/twitter/link-builder";
-import type { SearchedNote } from "../../generated/api/schemas";
-import { isNonEmptyString } from "../../utils/string";
-import { Post } from "../post/Post";
+} from "~/feature/twitter/link-builder";
+import type { SearchedNote } from "~/generated/api/schemas";
+import { isNonEmptyString } from "~/utils/string";
+
 import { NoteStatus } from "./NoteStatus";
 import { NoteTopic } from "./NoteTopics";
 

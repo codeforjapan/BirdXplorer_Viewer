@@ -1,8 +1,8 @@
 import { Badge, Group } from "@mantine/core";
 
-import type { LanguageIdentifierLiteral } from "../../feature/search/language";
-import { useLanguageLiteral } from "../../feature/search/useLanguageLiteral";
-import type { Topic } from "../../generated/api/schemas";
+import type { LanguageIdentifierLiteral } from "~/feature/search/language";
+import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
+import type { Topic } from "~/generated/api/schemas";
 
 type NoteTopicProps = {
   topics: Topic[];
