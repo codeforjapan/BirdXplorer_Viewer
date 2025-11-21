@@ -99,11 +99,6 @@ export default function Index({
 
   return (
     <>
-      <header className="border-b border-gray-300">
-        <Container className="p-4" size="lg">
-          <h1 className="text-2xl font-bold">BirdXplorer</h1>
-        </Container>
-      </header>
       <main>
         <Container className="p-4" size="md">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
