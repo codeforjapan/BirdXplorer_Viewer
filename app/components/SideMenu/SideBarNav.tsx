@@ -22,7 +22,7 @@ export function SideBarNav({ icon, label, href, isActive }: SideBarNavProps) {
   return (
     <Link
       to={href}
-      className={`flex items-center gap-3 px-4 py-3 transition-colors hover:bg-gray-1 ${
+      className={`flex items-center gap-3 px-1 py-3 transition-colors hover:bg-gray-1 ${
         isActive ? "bg-gray-1" : ""
       }`}
     >
