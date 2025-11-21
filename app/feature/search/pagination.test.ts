@@ -2,7 +2,8 @@ import { getQuery } from "ufo";
 import { describe, expect, test } from "vitest";
 import type { z } from "zod";
 
-import type { PaginationMeta } from "../../generated/api/schemas/paginationMeta";
+import type { PaginationMeta } from "~/generated/api/schemas/paginationMeta";
+
 import { buildPaginationMeta } from "./pagination";
 import type { noteSearchParamSchema } from "./validation";
 

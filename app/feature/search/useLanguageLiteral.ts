@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
-import { useLanguage } from "../../hooks/useLanguage";
+import { useLanguage } from "~/hooks/useLanguage";
+
 import {
   isLanguageIdentifierLiteral,
   type LanguageIdentifierLiteral,

@@ -3,18 +3,18 @@ import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
 import { data, Link, redirect } from "react-router";
 import { getQuery, withQuery } from "ufo";
 
-import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
-
-import { Notes } from "../components/note/Notes";
-import { SearchForm } from "../feature/search/components/SearchForm";
-import { SearchPagination } from "../feature/search/components/SearchPagination";
-import { noteSearchParamSchema } from "../feature/search/validation";
+import { Notes } from "~/components/note/Notes";
+import { SearchForm } from "~/feature/search/components/SearchForm";
+import { SearchPagination } from "~/feature/search/components/SearchPagination";
+import { noteSearchParamSchema } from "~/feature/search/validation";
 import {
   getTopicsApiV1DataTopicsGet,
   searchApiV1DataSearchGet,
-} from "../generated/api/client";
-import type { SearchedNote, Topic } from "../generated/api/schemas";
-import { useNetworkBusy } from "../hooks/useNetworkBusy";
+} from "~/generated/api/client";
+import type { SearchedNote, Topic } from "~/generated/api/schemas";
+import { useNetworkBusy } from "~/hooks/useNetworkBusy";
+import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
+
 import type { Route } from "./+types/_index";
 
 export const meta: Route.MetaFunction = () => {

@@ -1,6 +1,7 @@
 import { memo } from "react";
 
-import type { SearchedNote } from "../../generated/api/schemas";
+import type { SearchedNote } from "~/generated/api/schemas";
+
 import { Note } from "./Note";
 
 type NotesProps = {

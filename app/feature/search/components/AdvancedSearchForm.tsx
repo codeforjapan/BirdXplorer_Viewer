@@ -12,21 +12,22 @@ import {
 } from "@mantine/core";
 import { Form, useNavigation } from "react-router";
 
-import { FormError } from "../../../components/FormError";
-import { DateRangePicker } from "../../../components/input/DateRangePicker";
-import { Fieldset } from "../../../components/mantine/Fieldset";
-import { TextInput } from "../../../components/mantine/TextInput";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { mantineInputOrder } from "../../../config/mantine";
-import type { Topic } from "../../../generated/api/schemas";
-import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
-import { containsNonNullValues } from "../../../utils/array";
-import { safeDateFromUnixMs } from "../../../utils/date";
-import { LANGUAGE_ID_TO_LABEL } from "../language";
-import { NOTE_CURRENT_STATUS } from "../status";
-import type { NoteSearchParams } from "../types";
-import { useAdvancedNoteSearchForm } from "../useForm";
-import { useLanguageLiteral } from "../useLanguageLiteral";
+import { FormError } from "~/components/FormError";
+import { DateRangePicker } from "~/components/input/DateRangePicker";
+import { Fieldset } from "~/components/mantine/Fieldset";
+import { TextInput } from "~/components/mantine/TextInput";
+import { SubmitButton } from "~/components/SubmitButton";
+import { mantineInputOrder } from "~/config/mantine";
+import { LANGUAGE_ID_TO_LABEL } from "~/feature/search/language";
+import { NOTE_CURRENT_STATUS } from "~/feature/search/status";
+import type { NoteSearchParams } from "~/feature/search/types";
+import { useAdvancedNoteSearchForm } from "~/feature/search/useForm";
+import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
+import type { Topic } from "~/generated/api/schemas";
+import { useMultiSelectInputControl } from "~/hooks/useMultiSelectInputControl";
+import { containsNonNullValues } from "~/utils/array";
+import { safeDateFromUnixMs } from "~/utils/date";
+
 import { LanguageSelect } from "./input/LanguageSelect";
 import { TopicSelect } from "./input/TopicSelect";
 

@@ -9,7 +9,7 @@ import type React from "react";
 import type { ComponentRenderOptions } from "vitest-browser-react";
 import { render } from "vitest-browser-react";
 
-import { mantineTheme } from "../app/config/mantine";
+import { mantineTheme } from "~/config/mantine";
 
 dayjs.extend(customParseFormat);
 

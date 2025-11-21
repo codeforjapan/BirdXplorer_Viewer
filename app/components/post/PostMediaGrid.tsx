@@ -1,4 +1,5 @@
-import type { Media } from "../../generated/api/schemas/media";
+import type { Media } from "~/generated/api/schemas/media";
+
 import { PostMedia } from "./PostMedia";
 
 type PostMediaGridProps = {
