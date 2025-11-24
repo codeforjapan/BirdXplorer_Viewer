@@ -10,3 +10,6 @@ eslint-typegen-generated.d.ts
 
 .react-router/*
 .vercel/*
+
+# Test screenshots (generated on test failure for debugging)
+**/__screenshots__/
