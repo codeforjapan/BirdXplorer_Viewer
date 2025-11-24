@@ -36,7 +36,7 @@ export function SideMenu({ className }: SideMenuProps) {
   const location = useLocation();
   return (
     <aside
-      className={`flex h-screen w-[190px] flex-col bg-black p-5 ${className || ""}`}
+      className={`flex h-screen w-[190px] flex-col bg-black p-5 ${className ?? ""}`}
     >
       <a href="/">
         <LogoIcon />
