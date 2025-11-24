@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import { render } from "../../test/test-react";
+import { render } from "../../../test/test-react";
 import { BreadCrumb } from "./BreadCrumb";
 
 describe("BreadCrumb", () => {
