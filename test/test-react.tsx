@@ -1,3 +1,5 @@
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 
 import { MantineProvider } from "@mantine/core";

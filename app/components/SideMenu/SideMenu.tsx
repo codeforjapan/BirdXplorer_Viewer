@@ -1,7 +1,9 @@
-import { LogoIcon } from "~/components/logo";
-import { SideBarNav } from "./SideBarNav";
-import { WEB_PATHS } from "~/constants/paths";
 import { useLocation } from "react-router";
+
+import { LogoIcon } from "~/components/logo";
+import { WEB_PATHS } from "~/constants/paths";
+
+import { SideBarNav } from "./SideBarNav";
 
 export type SideMenuProps = {
   className?: string;
