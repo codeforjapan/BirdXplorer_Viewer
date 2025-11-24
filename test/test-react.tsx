@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import type { ReactElement } from "react";
 import type React from "react";
+import { MemoryRouter } from "react-router";
 import type { ComponentRenderOptions } from "vitest-browser-react";
 import { render } from "vitest-browser-react";
 
@@ -15,11 +16,13 @@ dayjs.extend(customParseFormat);
 
 const wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <MantineProvider theme={mantineTheme}>
-      <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
-        {children}
-      </DatesProvider>
-    </MantineProvider>
+    <MemoryRouter>
+      <MantineProvider theme={mantineTheme}>
+        <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
+          {children}
+        </DatesProvider>
+      </MantineProvider>
+    </MemoryRouter>
   );
 };
 
