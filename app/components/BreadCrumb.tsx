@@ -1,5 +1,4 @@
-import React from "react";
-import { Anchor, Card } from "@mantine/core";
+import { Anchor, Breadcrumbs, Card, Text } from "@mantine/core";
 import { Link } from "react-router";
 
 export type BreadCrumbItem = {
@@ -26,70 +25,67 @@ export const BreadCrumb = ({ items }: BreadCrumbProps) => {
     <Card
       className="border-[#515151]"
       data-testid="breadcrumb-card"
-      padding="md"
       radius="md"
-      style={{ backgroundColor: "#171717", display: "inline-block" }}
+      style={{
+        backgroundColor: "#171717",
+        padding: "var(--mantine-spacing-sm) var(--mantine-spacing-md)",
+      }}
       withBorder
     >
-      <nav
-        aria-label="breadcrumb"
-        style={{
-          display: "inline-flex",
-          flexWrap: "nowrap",
-          alignItems: "center",
-          gap: "8px",
+      <Breadcrumbs
+        separator=">"
+        separatorMargin="s"
+        styles={{
+          separator: {
+            color: "#FFFFFF",
+            fontSize: "12px",
+            lineHeight: 1,
+          },
+          breadcrumb: {
+            fontSize: "12px",
+            lineHeight: 1,
+            fontWeight: 400,
+            whiteSpace: "nowrap",
+          },
         }}
       >
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
+          if (isLast || !item.href) {
+            return (
+              <Text
+                aria-current={isLast ? "page" : undefined}
+                c="#FFFFFF"
+                component="span"
+                key={index}
+              >
+                {item.label}
+              </Text>
+            );
+          }
+
           return (
-            <React.Fragment key={index}>
-              {index > 0 && (
-                <span
-                  style={{
-                    color: "#FFFFFF",
-                    fontSize: "12px",
-                    lineHeight: 1,
-                  }}
-                >
-                  &gt;
-                </span>
-              )}
-              {isLast || !item.href ? (
-                <span
-                  aria-current={isLast ? "page" : undefined}
-                  style={{
-                    fontSize: "12px",
-                    lineHeight: 1,
-                    fontWeight: 400,
-                    whiteSpace: "nowrap",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  {item.label}
-                </span>
-              ) : (
-                <Anchor
-                  component={Link}
-                  style={{
-                    color: "#1D9BF0",
-                    fontSize: "12px",
-                    lineHeight: 1,
-                    fontWeight: 400,
-                    whiteSpace: "nowrap",
-                    textDecoration: "none",
-                  }}
-                  to={item.href}
-                  underline="never"
-                >
-                  {item.label}
-                </Anchor>
-              )}
-            </React.Fragment>
+            <Anchor
+              component={Link}
+              key={index}
+              styles={{
+                root: {
+                  color: "#1D9BF0",
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                },
+              }}
+              to={item.href}
+              underline="never"
+            >
+              {item.label}
+            </Anchor>
           );
         })}
-      </nav>
+      </Breadcrumbs>
     </Card>
   );
 };
