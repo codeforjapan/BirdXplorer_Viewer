@@ -9,7 +9,8 @@ import {
 } from "@mantine/core";
 import { useMemo } from "react";
 
-import type { Post as APIPost } from "../../generated/api/schemas";
+import type { Post as APIPost } from "~/generated/api/schemas";
+
 import { PostMediaGrid } from "./PostMediaGrid";
 
 type PostProps = {

@@ -2,8 +2,8 @@ import { type FieldMetadata, getSelectProps } from "@conform-to/react";
 import { Select } from "@mantine/core";
 import { useMemo } from "react";
 
-import { FormError } from "../../../../components/FormError";
-import { containsNonNullValues } from "../../../../utils/array";
+import { FormError } from "~/components/FormError";
+import { containsNonNullValues } from "~/utils/array";
 
 type LanguageSelectProps = {
   disabled?: boolean;

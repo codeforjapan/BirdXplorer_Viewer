@@ -1,4 +1,4 @@
-import { LanguageIdentifier } from "../../generated/api/schemas";
+import { LanguageIdentifier } from "~/generated/api/schemas";
 
 export type LanguageIdentifierLiteral =
   (typeof LanguageIdentifier)[keyof typeof LanguageIdentifier];

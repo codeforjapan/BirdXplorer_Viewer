@@ -3,7 +3,7 @@ import type { TextInputProps as MantineTextInputProps } from "@mantine/core";
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { TextInput as MantineTextInput } from "@mantine/core";
 
-import { mantineInputOrder } from "../../config/mantine";
+import { mantineInputOrder } from "~/config/mantine";
 
 type TextInputProps = Omit<MantineTextInputProps, "inputWrapperOrder">;
 

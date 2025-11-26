@@ -8,8 +8,7 @@ import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-
-import { Favicons } from "./components/Favicon";
+import { SideMenu } from "./components/SideMenu";
 import { mantineTheme } from "./config/mantine";
 
 dayjs.extend(customParseFormat);
@@ -20,7 +19,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <Favicons />
         <Meta />
         <Links />
         <ColorSchemeScript />
@@ -39,5 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <div className="flex min-h-screen">
+      <SideMenu />
+      <main className="flex-1 bg-black">
+        <Outlet />
+      </main>
+    </div>
+  );
 }

@@ -95,6 +95,18 @@ export default typegen(
       plugins: { "simple-import-sort": simpleImportSort },
       rules: {
         "simple-import-sort/imports": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: ["../"],
+          },
+        ],
+      },
+    },
+    {
+      files: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "test/**/*"],
+      rules: {
+        "no-restricted-imports": "off",
       },
     },
     {
