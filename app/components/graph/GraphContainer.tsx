@@ -1,4 +1,7 @@
 import { Box, Divider } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+
+import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 
 type GraphContainerProps = {
   /** グラフ本体（任意のグラフコンポーネント） */
@@ -13,6 +16,9 @@ type GraphContainerProps = {
  * - 下部にステータスなどのコントロールを配置可能（任意）
  */
 export const GraphContainer = ({ children, footer }: GraphContainerProps) => {
+  // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
+
   return (
     <Box
       className="w-full overflow-hidden"
@@ -23,14 +29,14 @@ export const GraphContainer = ({ children, footer }: GraphContainerProps) => {
       }}
     >
       {/* グラフ本体 */}
-      <div className="p-4">{children}</div>
+      <div className={isMobile ? "p-2" : "p-4"}>{children}</div>
 
       {/* フッター: フィルターコントロールなど */}
       {footer && (
         <>
           <Divider color="var(--color-graph-border)" />
           <div
-            className="px-6 py-4"
+            className={isMobile ? "px-4 py-3" : "px-6 py-4"}
             style={{ backgroundColor: "var(--color-black)" }}
           >
             {footer}

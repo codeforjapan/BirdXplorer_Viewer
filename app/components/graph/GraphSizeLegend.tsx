@@ -1,5 +1,8 @@
-import { Group, Text } from "@mantine/core";
+import { Group, Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { useMemo } from "react";
+
+import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 
 type GraphSizeLegendProps = {
   /** ラベルテキスト（例: "インプレッション"） */
@@ -35,6 +38,9 @@ export const GraphSizeLegend = ({
   maxBubbleSize = 32,
   bubbleColor = "#666",
 }: GraphSizeLegendProps) => {
+  // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
+
   /** ステップごとの値とサイズを計算 */
   const legendItems = useMemo(() => {
     // steps が2未満の場合は最小1つのアイテムを表示
@@ -62,35 +68,51 @@ export const GraphSizeLegend = ({
     return items;
   }, [min, max, steps, minBubbleSize, maxBubbleSize]);
 
+  const bubbleItems = (
+    <Group align="flex-end" gap="md">
+      {legendItems.map((item) => (
+        <div
+          className="flex flex-col items-center gap-1"
+          key={`legend-${item.value}`}
+          style={{ minWidth: item.size }}
+        >
+          {/* バブル */}
+          <div
+            className="rounded-full"
+            style={{
+              width: item.size,
+              height: item.size,
+              backgroundColor: bubbleColor,
+              opacity: 0.7,
+            }}
+          />
+          {/* 値ラベル */}
+          <Text c="gray.4" className="whitespace-nowrap" size="xs">
+            {formatValue(Math.round(item.value))}
+          </Text>
+        </div>
+      ))}
+    </Group>
+  );
+
+  // スマホ: 縦並び、デスクトップ: 横並び
+  if (isMobile) {
+    return (
+      <Stack gap="sm">
+        <Text c="white" fw={700} size="md">
+          {label}
+        </Text>
+        {bubbleItems}
+      </Stack>
+    );
+  }
+
   return (
     <Group align="center" gap="lg">
       <Text c="white" fw={700} size="md">
         {label}
       </Text>
-      <Group align="flex-end" gap="md">
-        {legendItems.map((item) => (
-          <div
-            className="flex flex-col items-center gap-1"
-            key={`legend-${item.value}`}
-            style={{ minWidth: item.size }}
-          >
-            {/* バブル */}
-            <div
-              className="rounded-full"
-              style={{
-                width: item.size,
-                height: item.size,
-                backgroundColor: bubbleColor,
-                opacity: 0.7,
-              }}
-            />
-            {/* 値ラベル */}
-            <Text c="gray.4" className="whitespace-nowrap" size="xs">
-              {formatValue(Math.round(item.value))}
-            </Text>
-          </div>
-        ))}
-      </Group>
+      {bubbleItems}
     </Group>
   );
 };
