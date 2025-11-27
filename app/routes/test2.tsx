@@ -1,171 +1,191 @@
-import { Title } from "@mantine/core";
+import { Stack, Title } from "@mantine/core";
 import type { EChartsOption } from "echarts";
 import * as React from "react";
 
-// 動的インポートでReactEChartsをロード（SSR対策）
-const ReactECharts = React.lazy(async () => await import("echarts-for-react"));
+import {
+  GraphContainer,
+  GraphSizeLegend,
+  GraphStatusFilter,
+  type StatusValue,
+} from "~/components/graph";
 
 export default function Test() {
-  // サンプルデータ: [helpful, notHelpful, size, name, status]
-  // status: 0=非公開, 1=評価中, 2=公開済, 3=一時公開
+  // フィルター状態
+  const [status, setStatus] = React.useState<StatusValue>("all");
 
-  // 最終的な型: Array<[number, number, number, string, number]>
-  // 例: [
-  //   [337, 178, 105, "非公開1", 0],  ← 1つ目のノート
-  //   [171,  41, 263, "非公開2", 0],  ← 2つ目のノート
-  //   [114,  99, 224, "非公開3", 0],  ← 3つ目のノート
-  //   ...
-  // ]
-  const data = React.useMemo<Array<[number, number, number, string, number]>>(
-    () => {
-      const result: Array<[number, number, number, string, number]> = [];
-      
-      // 非公開（青）- 左下に密集
-      for (let i = 0; i < 80; i++) {
-        result.push([
-          Math.random() * 400,
-          Math.random() * 200,
-          Math.random() * 300 + 10,
-          `非公開${i + 1}`,
-          0,
-        ]);
-      }
-      
-      // 評価中（水色）- 中央左寄り
-      for (let i = 0; i < 20; i++) {
-        result.push([
-          Math.random() * 800 + 200,
-          Math.random() * 400 + 100,
-          Math.random() * 400 + 15,
-          `評価中${i + 1}`,
-          1,
-        ]);
-      }
-      
-      // 公開済（紫）- 中央下
-      for (let i = 0; i < 15; i++) {
-        result.push([
-          Math.random() * 600 + 400,
-          Math.random() * 150,
-          Math.random() * 500 + 20,
-          `公開済${i + 1}`,
-          2,
-        ]);
-      }
-      
-      // 一時公開（ピンク）- 右側と中央下に散在
-      for (let i = 0; i < 10; i++) {
-        result.push([
-          Math.random() * 2000 + 1000,
-          Math.random() * 200,
-          Math.random() * 600 + 25,
-          `一時公開${i + 1}`,
-          3,
-        ]);
-      }
+  // サンプルデータ: [helpful, notHelpful, impressions, name, status]
+  // status: 0=非公開, 1=評価中, 2=公開中
+  const rawData = React.useMemo<
+    Array<[number, number, number, string, number]>
+  >(() => {
+    const result: Array<[number, number, number, string, number]> = [];
 
-      console.log(result);
-      
-      return result;
-    },
-    [],
-  );
+    // 公開中（水色）- 左上に密集
+    for (let i = 0; i < 60; i++) {
+      result.push([
+        Math.random() * 200 + 50,
+        Math.random() * 1500 + 500,
+        Math.random() * 50000000 + 1000000,
+        `公開中${i + 1}`,
+        2,
+      ]);
+    }
+
+    // 評価中（紫）- 右側に散在
+    for (let i = 0; i < 25; i++) {
+      result.push([
+        Math.random() * 150 + 350,
+        Math.random() * 1200 + 200,
+        Math.random() * 40000000 + 500000,
+        `評価中${i + 1}`,
+        1,
+      ]);
+    }
+
+    // 非公開（ピンク）- 右下に少数
+    for (let i = 0; i < 8; i++) {
+      result.push([
+        Math.random() * 100 + 400,
+        Math.random() * 300,
+        Math.random() * 30000000 + 100000,
+        `非公開${i + 1}`,
+        0,
+      ]);
+    }
+
+    return result;
+  }, []);
+
+  // インプレッションの最小値・最大値を計算
+  const impressionRange = React.useMemo(() => {
+    const impressions = rawData.map((d) => d[2]);
+    return {
+      min: Math.min(...impressions),
+      max: Math.max(...impressions),
+    };
+  }, [rawData]);
+
+  // フィルター適用後のデータ
+  const filteredData = React.useMemo(() => {
+    if (status === "all") return rawData;
+
+    const statusMap: Record<StatusValue, number> = {
+      all: -1,
+      unpublished: 0,
+      evaluating: 1,
+      published: 2,
+    };
+
+    return rawData.filter((d) => d[4] === statusMap[status]);
+  }, [rawData, status]);
 
   const option = React.useMemo<EChartsOption>(() => {
     const statusColors = {
-      0: "#1e88e5", // 非公開（青）
-      1: "#42a5f5", // 評価中（水色）
-      2: "#9c27b0", // 公開済（紫）
-      3: "#ec407a", // 一時公開（ピンク）
+      0: "#ec407a", // 非公開（ピンク）
+      1: "#ab47bc", // 評価中（紫）
+      2: "#42a5f5", // 公開中（水色）
     };
 
-    const statusNames = ["非公開", "評価中", "公開済", "一時公開"];
+    const statusNames = ["非公開", "評価中", "公開中"];
 
     return {
       backgroundColor: "transparent",
       legend: {
         data: statusNames,
-        top: 10,
         left: 10,
-        textStyle: { color: "#666", fontSize: 13 },
+        textStyle: { color: "#999", fontSize: 13 },
+        top: 10,
       },
       tooltip: {
-        trigger: "item",
+        backgroundColor: "rgba(30, 30, 30, 0.9)",
+        borderColor: "#444",
         formatter: (param) => {
           if (Array.isArray(param)) return "";
-          const [helpful, notHelpful, , name, status] = param.value as [
-            number,
-            number,
-            number,
-            string,
-            number,
-          ];
-          return `${name}<br/>役に立った: ${helpful}<br/>役に立たなかった: ${notHelpful}<br/>ステータス: ${statusNames[status]}`;
+          const [notHelpful, helpful, impressions, name, statusIdx] =
+            param.value as [number, number, number, string, number];
+          return `<strong>${name}</strong><br/>
+            「役に立った」の評価数: ${helpful.toLocaleString()}<br/>
+            「役に立たなかった」の評価数: ${notHelpful.toLocaleString()}<br/>
+            インプレッション: ${impressions.toLocaleString()}<br/>
+            ステータス: ${statusNames[statusIdx]}`;
         },
+        textStyle: { color: "#fff" },
+        trigger: "item",
       },
-      grid: { left: 80, right: 40, top: 60, bottom: 80 },
+      grid: { bottom: 80, left: 80, right: 40, top: 60 },
       xAxis: {
-        type: "value",
-        name: "役に立った",
+        axisLabel: { color: "#999", fontSize: 11 },
+        axisLine: { lineStyle: { color: "#666" } },
+        max: 500,
+        name: "「役に立たなかった」の評価数",
+        nameGap: 45,
         nameLocation: "middle",
-        nameGap: 35,
-        nameTextStyle: { color: "#666", fontSize: 13 },
-        splitLine: { show: true, lineStyle: { color: "#e0e0e0" } },
-        axisLine: { lineStyle: { color: "#999" } },
-        axisLabel: { color: "#666", fontSize: 11 },
-        max: 3500,
+        nameTextStyle: { color: "#999", fontSize: 12 },
+        splitLine: { lineStyle: { color: "#333" }, show: true },
+        type: "value",
       },
       yAxis: {
-        type: "value",
-        name: "役に立たなかった",
-        nameLocation: "middle",
+        axisLabel: { color: "#999", fontSize: 11 },
+        axisLine: { lineStyle: { color: "#666" } },
+        max: 2200,
+        name: "「役に立った」の評価数",
         nameGap: 50,
-        nameTextStyle: { color: "#666", fontSize: 13 },
-        splitLine: { show: true, lineStyle: { color: "#e0e0e0" } },
-        axisLine: { lineStyle: { color: "#999" } },
-        axisLabel: { color: "#666", fontSize: 11 },
-        max: 600,
+        nameLocation: "middle",
+        nameTextStyle: { color: "#999", fontSize: 12 },
+        splitLine: { lineStyle: { color: "#333" }, show: true },
+        type: "value",
       },
-      series: [0, 1, 2, 3].map((status) => ({
-        type: "scatter",
-        name: statusNames[status],
-        data: data.filter((d) => d[4] === status),
-        symbolSize: (val) => {
-          const v = (val as [number, number, number, string, number])[2];
-          // バブルサイズを少し大きめに調整
-          return Math.max(10, Math.sqrt(v) * 1.5);
-        },
-        itemStyle: {
-          color: statusColors[status as keyof typeof statusColors],
-          opacity: 0.65,
-        },
+      series: [0, 1, 2].map((statusIdx) => ({
+        animationDuration: 500,
+        data: filteredData.filter((d) => d[4] === statusIdx),
         emphasis: {
           focus: "series",
-          itemStyle: { opacity: 0.9 },
+          itemStyle: { opacity: 0.95 },
         },
-        label: {
-          show: false,
+        itemStyle: {
+          color: statusColors[statusIdx as keyof typeof statusColors],
+          opacity: 0.7,
         },
-        animationDuration: 500,
+        name: statusNames[statusIdx],
+        symbolSize: (val: [number, number, number, string, number]) => {
+          const impressions = val[2];
+          // インプレッション数に基づいてバブルサイズを計算
+          const minSize = 10;
+          const maxSize = 50;
+          const ratio =
+            (impressions - impressionRange.min) /
+            (impressionRange.max - impressionRange.min);
+          return minSize + Math.sqrt(ratio) * (maxSize - minSize);
+        },
+        type: "scatter",
       })),
     };
-  }, [data]);
+  }, [filteredData, impressionRange]);
 
   return (
-    <>
-      <Title order={2}>テストページ2</Title>
-      <div style={{ height: "100%", padding: 16 }}>
-        <React.Suspense fallback={<div>読み込み中...</div>}>
-          <ReactECharts
-            option={option}
-            style={{
-              width: "100%",
-              height: "60vh",
-              minHeight: 360,
-            }}
-          />
-        </React.Suspense>
-      </div>
-    </>
+    <Stack gap="xl" p="md">
+      <Title order={2}>GraphContainer デモ</Title>
+
+      <GraphContainer
+        footer={
+          <Stack gap="md">
+            <GraphStatusFilter
+              onChange={setStatus}
+              showLegendColors
+              value={status}
+            />
+            <GraphSizeLegend
+              label="インプレッション"
+              max={impressionRange.max}
+              min={impressionRange.min}
+              steps={5}
+            />
+          </Stack>
+        }
+        height="60vh"
+        minHeight={400}
+        option={option}
+      />
+    </Stack>
   );
 }
