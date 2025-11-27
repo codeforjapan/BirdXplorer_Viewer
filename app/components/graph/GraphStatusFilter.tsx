@@ -25,8 +25,6 @@ type GraphStatusFilterProps = {
   value: StatusValue;
   /** ステータス変更時のコールバック */
   onChange: (value: StatusValue) => void;
-  /** 凡例の色を表示するか（デフォルト: false） */
-  showLegendColors?: boolean;
   /** カスタムステータス設定 */
   statuses?: StatusConfig[];
   /** ラベルテキスト（デフォルト: "ステータス"） */
@@ -36,7 +34,6 @@ type GraphStatusFilterProps = {
 export const GraphStatusFilter = ({
   value,
   onChange,
-  showLegendColors = false,
   statuses = DEFAULT_STATUSES,
   label = "ステータス",
 }: GraphStatusFilterProps) => {
@@ -51,19 +48,7 @@ export const GraphStatusFilter = ({
             <Radio
               color="var(--color-primary)"
               key={status.value}
-              label={
-                showLegendColors && status.color ? (
-                  <Group align="center" gap="xs">
-                    <span
-                      className="inline-block h-3 w-3 rounded-full"
-                      style={{ backgroundColor: status.color }}
-                    />
-                    <span>{status.label}</span>
-                  </Group>
-                ) : (
-                  status.label
-                )
-              }
+              label={status.label}
               styles={{
                 radio: {
                   cursor: "pointer",

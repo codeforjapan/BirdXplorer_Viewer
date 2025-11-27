@@ -4,6 +4,7 @@ import * as React from "react";
 
 import {
   EChartsGraph,
+  GRAPH_STYLES,
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
@@ -11,11 +12,12 @@ import {
   type StatusValue,
 } from "~/components/graph";
 
-export default function Test() {
+export default function Test2() {
   // フィルター状態
   const [status, setStatus] = React.useState<StatusValue>("all");
 
-  // サンプルデータ: [helpful, notHelpful, impressions, name, status]
+  // サンプルデータ: [notHelpful, helpful, impressions, name, status]
+  // notHelpful=X軸, helpful=Y軸, impressions=バブルサイズ
   // status: 0=非公開, 1=評価中, 2=公開中
   const rawData = React.useMemo<
     Array<[number, number, number, string, number]>
@@ -101,12 +103,12 @@ export default function Test() {
         icon: "circle",
         itemGap: 24,
         left: 10,
-        textStyle: { color: "#999", fontSize: 13 },
+        textStyle: { color: GRAPH_STYLES.textColor, fontSize: 13 },
         top: 10,
       },
       tooltip: {
-        backgroundColor: "rgba(30, 30, 30, 0.9)",
-        borderColor: "#444",
+        backgroundColor: GRAPH_STYLES.tooltipBgColor,
+        borderColor: GRAPH_STYLES.tooltipBorderColor,
         formatter: (param) => {
           if (Array.isArray(param)) return "";
           const [notHelpful, helpful, impressions, name, statusIdx] =
@@ -122,25 +124,25 @@ export default function Test() {
       },
       grid: { bottom: 80, left: 80, right: 40, top: 60 },
       xAxis: {
-        axisLabel: { color: "#999", fontSize: 11 },
-        axisLine: { lineStyle: { color: "#666" } },
+        axisLabel: { color: GRAPH_STYLES.textColor, fontSize: 11 },
+        axisLine: { lineStyle: { color: GRAPH_STYLES.axisColor } },
         max: 500,
         name: "「役に立たなかった」の評価数",
         nameGap: 45,
         nameLocation: "middle",
-        nameTextStyle: { color: "#999", fontSize: 12 },
-        splitLine: { lineStyle: { color: "#333" }, show: true },
+        nameTextStyle: { color: GRAPH_STYLES.textColor, fontSize: 12 },
+        splitLine: { lineStyle: { color: GRAPH_STYLES.gridColor }, show: true },
         type: "value",
       },
       yAxis: {
-        axisLabel: { color: "#999", fontSize: 11 },
-        axisLine: { lineStyle: { color: "#666" } },
+        axisLabel: { color: GRAPH_STYLES.textColor, fontSize: 11 },
+        axisLine: { lineStyle: { color: GRAPH_STYLES.axisColor } },
         max: 2200,
         name: "「役に立った」の評価数",
         nameGap: 50,
         nameLocation: "middle",
-        nameTextStyle: { color: "#999", fontSize: 12 },
-        splitLine: { lineStyle: { color: "#333" }, show: true },
+        nameTextStyle: { color: GRAPH_STYLES.textColor, fontSize: 12 },
+        splitLine: { lineStyle: { color: GRAPH_STYLES.gridColor }, show: true },
         type: "value",
       },
       // Figmaデザイン順（公開中→評価中→非公開）でseriesを作成
@@ -154,7 +156,7 @@ export default function Test() {
         itemStyle: {
           color: statusColorsByIdx[statusIdx as keyof typeof statusColorsByIdx],
           opacity: 0.7,
-          borderColor: "#555555",
+          borderColor: GRAPH_STYLES.borderColor,
           borderWidth: 1,
         },
         name: statusNamesByIdx[statusIdx],
