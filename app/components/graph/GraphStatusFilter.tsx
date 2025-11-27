@@ -47,6 +47,7 @@ export const GraphStatusFilter = ({
         <Group gap="lg">
           {statuses.map((status) => (
             <Radio
+              color="#42a5f5"
               key={status.value}
               label={
                 showLegendColors && status.color ? (
@@ -65,16 +66,11 @@ export const GraphStatusFilter = ({
                 radio: {
                   cursor: "pointer",
                   backgroundColor: "transparent",
-                  borderColor: "#cccccc",
+                  borderColor: value === status.value ? "#42a5f5" : "#cccccc",
                   borderWidth: "1px",
-                  "&[data-checked]": {
-                    backgroundColor: "transparent",
-                    borderColor: status.color || "#42a5f5",
-                    color: status.color || "#42a5f5",
-                  },
                 },
                 icon: {
-                  color: status.color || "#42a5f5",
+                  color: "#42a5f5",
                 },
                 label: {
                   cursor: "pointer",

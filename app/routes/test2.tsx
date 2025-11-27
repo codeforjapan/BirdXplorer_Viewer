@@ -3,6 +3,7 @@ import type { EChartsOption } from "echarts";
 import * as React from "react";
 
 import {
+  EChartsGraph,
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
@@ -81,18 +82,22 @@ export default function Test() {
 
   const option = React.useMemo<EChartsOption>(() => {
     const statusColors = {
-      0: "#42a5f5", // 公開中（水色）
+      0: "#ec407a", // 非公開（ピンク）
       1: "#ab47bc", // 評価中（紫）
-      2: "#ec407a", // 非公開（ピンク）
+      2: "#42a5f5", // 公開中（水色）
     };
 
-    const statusNames = ["公開中", "評価中", "非公開"];
+    // statusIdx順の名前（データ参照用）
+    const statusNamesByIdx = ["非公開", "評価中", "公開中"];
+    // 凡例表示順（Figmaデザインに合わせる）
+    const legendOrder = ["公開中", "評価中", "非公開"];
 
     return {
       backgroundColor: "transparent",
       legend: {
-        data: statusNames,
+        data: legendOrder,
         icon: "circle",
+        itemGap: 24,
         left: 10,
         textStyle: { color: "#999", fontSize: 13 },
         top: 10,
@@ -108,7 +113,7 @@ export default function Test() {
             「役に立った」の評価数: ${helpful.toLocaleString()}<br/>
             「役に立たなかった」の評価数: ${notHelpful.toLocaleString()}<br/>
             インプレッション: ${impressions.toLocaleString()}<br/>
-            ステータス: ${statusNames[statusIdx]}`;
+            ステータス: ${statusNamesByIdx[statusIdx]}`;
         },
         textStyle: { color: "#fff" },
         trigger: "item",
@@ -136,7 +141,8 @@ export default function Test() {
         splitLine: { lineStyle: { color: "#333" }, show: true },
         type: "value",
       },
-      series: [0, 1, 2].map((statusIdx) => ({
+      // Figmaデザイン順（公開中→評価中→非公開）でseriesを作成
+      series: [2, 1, 0].map((statusIdx) => ({
         animationDuration: 500,
         data: filteredData.filter((d) => d[4] === statusIdx),
         emphasis: {
@@ -149,7 +155,7 @@ export default function Test() {
           borderColor: "#555555",
           borderWidth: 1,
         },
-        name: statusNames[statusIdx],
+        name: statusNamesByIdx[statusIdx],
         symbolSize: (val: [number, number, number, string, number]) => {
           const impressions = val[2];
           // インプレッション数に基づいてバブルサイズを計算
@@ -172,10 +178,7 @@ export default function Test() {
       <GraphContainer
         footer={
           <Stack gap="md">
-            <GraphStatusFilter
-              onChange={setStatus}
-              value={status}
-            />
+            <GraphStatusFilter onChange={setStatus} value={status} />
             <GraphSizeLegend
               label="インプレッション"
               max={impressionRange.max}
@@ -184,10 +187,9 @@ export default function Test() {
             />
           </Stack>
         }
-        height="60vh"
-        minHeight={400}
-        option={option}
-      />
+      >
+        <EChartsGraph height="60vh" minHeight={400} option={option} />
+      </GraphContainer>
     </Stack>
   );
 }
