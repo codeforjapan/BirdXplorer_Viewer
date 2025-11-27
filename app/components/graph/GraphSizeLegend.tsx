@@ -56,7 +56,7 @@ export const GraphSizeLegend = ({
 
   return (
     <Group align="center" gap="lg">
-      <Text fw={500} size="sm">
+      <Text c="white" fw={700} size="md">
         {label}
       </Text>
       <Group align="flex-end" gap="md">
@@ -77,7 +77,7 @@ export const GraphSizeLegend = ({
               }}
             />
             {/* 値ラベル */}
-            <Text c="dimmed" className="whitespace-nowrap" size="xs">
+            <Text c="gray.4" className="whitespace-nowrap" size="xs">
               {formatValue(Math.round(item.value))}
             </Text>
           </div>

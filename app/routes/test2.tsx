@@ -81,12 +81,12 @@ export default function Test() {
 
   const option = React.useMemo<EChartsOption>(() => {
     const statusColors = {
-      0: "#ec407a", // 非公開（ピンク）
+      0: "#42a5f5", // 公開中（水色）
       1: "#ab47bc", // 評価中（紫）
-      2: "#42a5f5", // 公開中（水色）
+      2: "#ec407a", // 非公開（ピンク）
     };
 
-    const statusNames = ["非公開", "評価中", "公開中"];
+    const statusNames = ["公開中", "評価中", "非公開"];
 
     return {
       backgroundColor: "transparent",
@@ -171,7 +171,6 @@ export default function Test() {
           <Stack gap="md">
             <GraphStatusFilter
               onChange={setStatus}
-              showLegendColors
               value={status}
             />
             <GraphSizeLegend

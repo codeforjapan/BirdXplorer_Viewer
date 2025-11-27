@@ -40,7 +40,7 @@ export const GraphStatusFilter = ({
 }: GraphStatusFilterProps) => {
   return (
     <Group align="center" gap="lg">
-      <Text fw={500} size="sm">
+      <Text c="white" fw={700} size="md">
         {label}
       </Text>
       <Radio.Group onChange={(v) => onChange(v as StatusValue)} value={value}>
@@ -67,6 +67,7 @@ export const GraphStatusFilter = ({
                 },
                 label: {
                   cursor: "pointer",
+                  color: "white",
                 },
               }}
               value={status.value}

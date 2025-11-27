@@ -49,6 +49,7 @@ export const GraphContainer = ({
       style={{
         border: "1px solid rgba(255, 255, 255, 0.2)",
         borderRadius: "12px",
+        backgroundColor: "#111111",
       }}
     >
       {/* グラフ本体 */}
@@ -71,7 +72,9 @@ export const GraphContainer = ({
       {footer && (
         <>
           <Divider color="rgba(255, 255, 255, 0.2)" />
-          <div className="px-6 py-4">{footer}</div>
+          <div className="px-6 py-4" style={{ backgroundColor: "#000000" }}>
+            {footer}
+          </div>
         </>
       )}
     </Box>
