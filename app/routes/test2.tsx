@@ -102,8 +102,13 @@ export default function Test2() {
         data: legendOrder,
         icon: "circle",
         itemGap: 24,
+        itemHeight: 14,
         left: 10,
-        textStyle: { color: GRAPH_STYLES.textColor, fontSize: 13 },
+        textStyle: {
+          color: GRAPH_STYLES.textColor,
+          fontSize: 14,
+          lineHeight: 14,
+        },
         top: 10,
       },
       tooltip: {
