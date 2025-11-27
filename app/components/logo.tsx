@@ -6,10 +6,10 @@ type IconProps = {
 export function LogoIcon({ width, height }: IconProps) {
   return (
     <svg
-      width={width || 160}
-      height={height || 55}
-      viewBox="0 0 160 55"
       fill="none"
+      height={height ?? 55}
+      viewBox="0 0 160 55"
+      width={width ?? 160}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

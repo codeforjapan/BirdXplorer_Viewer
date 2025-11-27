@@ -1,7 +1,9 @@
-import { LogoIcon } from "~/components/logo";
-import { SideBarNav } from "./SideBarNav";
-import { WEB_PATHS } from "~/constants/paths";
 import { useLocation } from "react-router";
+
+import { LogoIcon } from "~/components/logo";
+import { WEB_PATHS } from "~/constants/paths";
+
+import { SideBarNav } from "./SideBarNav";
 
 export type SideMenuProps = {
   className?: string;
@@ -34,7 +36,7 @@ export function SideMenu({ className }: SideMenuProps) {
   const location = useLocation();
   return (
     <aside
-      className={`flex h-screen w-[190px] flex-col bg-black p-5 ${className || ""}`}
+      className={`flex h-screen w-[190px] flex-col bg-black p-5 ${className ?? ""}`}
     >
       <a href="/">
         <LogoIcon />

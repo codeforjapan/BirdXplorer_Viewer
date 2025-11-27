@@ -8,6 +8,7 @@ import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+
 import { SideMenu } from "./components/SideMenu";
 import { mantineTheme } from "./config/mantine";
 

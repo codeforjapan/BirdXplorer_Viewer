@@ -8,14 +8,14 @@ export function ReportIcon({ className, isActive }: IconProps) {
 
   return (
     <svg
-      width="24"
+      className={className}
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
     >
-      <g clip-path="url(#clip0_323_1058)">
+      <g clipPath="url(#clip0_323_1058)">
         <path
           d="M16.81 8.93994L13.06 5.18994L4 14.2499V17.9999H7.75L16.81 8.93994ZM6 15.9999V15.0799L13.06 8.01994L13.98 8.93994L6.92 15.9999H6Z"
           fill={fillColor}
@@ -28,7 +28,7 @@ export function ReportIcon({ className, isActive }: IconProps) {
       </g>
       <defs>
         <clipPath id="clip0_323_1058">
-          <rect width="24" height="24" fill="white" />
+          <rect fill="white" height="24" width="24" />
         </clipPath>
       </defs>
     </svg>

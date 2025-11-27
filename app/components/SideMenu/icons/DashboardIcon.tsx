@@ -6,12 +6,12 @@ type IconProps = {
 export function DashboardIcon({ className, isActive }: IconProps) {
   return (
     <svg
-      width="24"
+      className={className}
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
     >
       <g clipPath="url(#clip0_323_805)">
         <path
@@ -21,7 +21,7 @@ export function DashboardIcon({ className, isActive }: IconProps) {
       </g>
       <defs>
         <clipPath id="clip0_323_805">
-          <rect width="24" height="24" fill="white" />
+          <rect fill="white" height="24" width="24" />
         </clipPath>
       </defs>
     </svg>
