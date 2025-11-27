@@ -68,10 +68,10 @@ export const GraphSizeLegend = ({
         {label}
       </Text>
       <Group align="flex-end" gap="md">
-        {legendItems.map((item, index) => (
+        {legendItems.map((item) => (
           <div
             className="flex flex-col items-center gap-1"
-            key={index}
+            key={`legend-${item.value}`}
             style={{ minWidth: item.size }}
           >
             {/* バブル */}
