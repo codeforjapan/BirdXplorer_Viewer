@@ -37,11 +37,19 @@ export const GraphSizeLegend = ({
 }: GraphSizeLegendProps) => {
   /** ステップごとの値とサイズを計算 */
   const legendItems = useMemo(() => {
+    // steps が2未満の場合は最小1つのアイテムを表示
+    const effectiveSteps = Math.max(2, steps);
     const items: Array<{ value: number; size: number }> = [];
 
-    for (let i = 0; i < steps; i++) {
+    // min === max の場合は中央サイズで1つだけ表示
+    if (min === max) {
+      const middleSize = (minBubbleSize + maxBubbleSize) / 2;
+      return [{ value: min, size: middleSize }];
+    }
+
+    for (let i = 0; i < effectiveSteps; i++) {
       // 等間隔で値を計算
-      const ratio = i / (steps - 1);
+      const ratio = i / (effectiveSteps - 1);
       const value = min + (max - min) * ratio;
 
       // サイズは面積に比例させるため、平方根でスケーリング
@@ -62,8 +70,8 @@ export const GraphSizeLegend = ({
       <Group align="flex-end" gap="md">
         {legendItems.map((item, index) => (
           <div
-            key={index}
             className="flex flex-col items-center gap-1"
+            key={index}
             style={{ minWidth: item.size }}
           >
             {/* バブル */}
