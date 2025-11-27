@@ -64,6 +64,17 @@ export const GraphStatusFilter = ({
               styles={{
                 radio: {
                   cursor: "pointer",
+                  backgroundColor: "transparent",
+                  borderColor: "#cccccc",
+                  borderWidth: "1px",
+                  "&[data-checked]": {
+                    backgroundColor: "transparent",
+                    borderColor: status.color || "#42a5f5",
+                    color: status.color || "#42a5f5",
+                  },
+                },
+                icon: {
+                  color: status.color || "#42a5f5",
                 },
                 label: {
                   cursor: "pointer",

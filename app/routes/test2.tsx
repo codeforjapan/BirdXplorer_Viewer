@@ -92,6 +92,7 @@ export default function Test() {
       backgroundColor: "transparent",
       legend: {
         data: statusNames,
+        icon: "circle",
         left: 10,
         textStyle: { color: "#999", fontSize: 13 },
         top: 10,
@@ -145,6 +146,8 @@ export default function Test() {
         itemStyle: {
           color: statusColors[statusIdx as keyof typeof statusColors],
           opacity: 0.7,
+          borderColor: "#555555",
+          borderWidth: 1,
         },
         name: statusNames[statusIdx],
         symbolSize: (val: [number, number, number, string, number]) => {
