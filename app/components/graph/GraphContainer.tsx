@@ -17,9 +17,9 @@ export const GraphContainer = ({ children, footer }: GraphContainerProps) => {
     <Box
       className="w-full overflow-hidden"
       style={{
-        border: "1px solid rgba(255, 255, 255, 0.2)",
+        border: "1px solid var(--color-graph-border)",
         borderRadius: "12px",
-        backgroundColor: "#111111",
+        backgroundColor: "var(--color-gray-1)",
       }}
     >
       {/* グラフ本体 */}
@@ -28,8 +28,11 @@ export const GraphContainer = ({ children, footer }: GraphContainerProps) => {
       {/* フッター: フィルターコントロールなど */}
       {footer && (
         <>
-          <Divider color="rgba(255, 255, 255, 0.2)" />
-          <div className="px-6 py-4" style={{ backgroundColor: "#000000" }}>
+          <Divider color="var(--color-graph-border)" />
+          <div
+            className="px-6 py-4"
+            style={{ backgroundColor: "var(--color-black)" }}
+          >
             {footer}
           </div>
         </>

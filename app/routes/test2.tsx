@@ -7,6 +7,7 @@ import {
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
+  STATUS_COLORS,
   type StatusValue,
 } from "~/components/graph";
 
@@ -81,15 +82,16 @@ export default function Test() {
   }, [rawData, status]);
 
   const option = React.useMemo<EChartsOption>(() => {
-    const statusColors = {
-      0: "#ec407a", // 非公開（ピンク）
-      1: "#ab47bc", // 評価中（紫）
-      2: "#42a5f5", // 公開中（水色）
+    // 定数からステータスカラーをインデックスでマッピング
+    const statusColorsByIdx = {
+      0: STATUS_COLORS.unpublished, // 非公開
+      1: STATUS_COLORS.evaluating, // 評価中
+      2: STATUS_COLORS.published, // 公開中
     };
 
     // statusIdx順の名前（データ参照用）
     const statusNamesByIdx = ["非公開", "評価中", "公開中"];
-    // 凡例表示順（Figmaデザインに合わせる）
+    // 凡例表示順
     const legendOrder = ["公開中", "評価中", "非公開"];
 
     return {
@@ -150,7 +152,7 @@ export default function Test() {
           itemStyle: { opacity: 0.95 },
         },
         itemStyle: {
-          color: statusColors[statusIdx as keyof typeof statusColors],
+          color: statusColorsByIdx[statusIdx as keyof typeof statusColorsByIdx],
           opacity: 0.7,
           borderColor: "#555555",
           borderWidth: 1,

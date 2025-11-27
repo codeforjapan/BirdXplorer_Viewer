@@ -1,5 +1,7 @@
 import { Group, Radio, Text } from "@mantine/core";
 
+import { STATUS_COLORS } from "./constants";
+
 /** ステータスの値 */
 export type StatusValue = "all" | "published" | "evaluating" | "unpublished";
 
@@ -13,9 +15,9 @@ type StatusConfig = {
 /** デフォルトのステータス設定 */
 const DEFAULT_STATUSES: StatusConfig[] = [
   { value: "all", label: "全て" },
-  { value: "published", label: "公開中", color: "#42a5f5" },
-  { value: "evaluating", label: "評価中", color: "#ab47bc" },
-  { value: "unpublished", label: "非公開", color: "#ec407a" },
+  { value: "published", label: "公開中", color: STATUS_COLORS.published },
+  { value: "evaluating", label: "評価中", color: STATUS_COLORS.evaluating },
+  { value: "unpublished", label: "非公開", color: STATUS_COLORS.unpublished },
 ];
 
 type GraphStatusFilterProps = {
@@ -47,7 +49,7 @@ export const GraphStatusFilter = ({
         <Group gap="lg">
           {statuses.map((status) => (
             <Radio
-              color="#42a5f5"
+              color="var(--color-primary)"
               key={status.value}
               label={
                 showLegendColors && status.color ? (
@@ -66,11 +68,14 @@ export const GraphStatusFilter = ({
                 radio: {
                   cursor: "pointer",
                   backgroundColor: "transparent",
-                  borderColor: value === status.value ? "#42a5f5" : "#cccccc",
+                  borderColor:
+                    value === status.value
+                      ? "var(--color-primary)"
+                      : "var(--color-gray-3)",
                   borderWidth: "1px",
                 },
                 icon: {
-                  color: "#42a5f5",
+                  color: "var(--color-primary)",
                 },
                 label: {
                   cursor: "pointer",

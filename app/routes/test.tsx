@@ -65,8 +65,6 @@ export default function Test() {
         ]);
       }
 
-      console.log(result);
-      
       return result;
     },
     [],
