@@ -3,6 +3,7 @@ import { useMediaQuery } from "@mantine/hooks";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
+import Fa6SolidChevronDown from "~icons/fa6-solid/chevron-down";
 
 import type { PeriodValue } from "./periodConstants";
 import { PERIOD_OPTIONS } from "./periodConstants";
@@ -66,9 +67,13 @@ export const GraphWrapper = ({
               position: "bottom-end",
             }}
             data={PERIOD_OPTIONS}
-            leftSection={<Fa6RegularCalendar className="size-4" />}
+            leftSection={<Fa6RegularCalendar className="size-4 text-primary" />}
             onChange={handlePeriodChange}
+            rightSection={<Fa6SolidChevronDown className="size-3 text-white" />}
             styles={{
+              root: {
+                maxWidth: "135px",
+              },
               dropdown: {
                 backgroundColor: "var(--color-gray-1)",
                 border: "1px solid var(--color-gray-2)",
@@ -89,7 +94,7 @@ export const GraphWrapper = ({
               option: {
                 color: "white",
                 fontSize: isMobile ? "12px" : "14px",
-                padding: "8px 12px",
+                padding: "8px 12px 8px 36px",
               },
               section: {
                 color: "var(--color-primary)",
