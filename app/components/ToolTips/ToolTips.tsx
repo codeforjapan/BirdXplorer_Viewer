@@ -16,7 +16,7 @@ export function ToolTips({ content, className }: ToolTipsProps) {
         <Tooltip.Trigger asChild>
           <button
             aria-label="Tooltip trigger"
-            className={`inline-flex cursor-pointer items-center ${className ?? ""}`}
+            className={`inline-flex items-center ${className ?? ""}`}
             type="button"
           >
             <QuestionIcon />
