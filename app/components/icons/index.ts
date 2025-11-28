@@ -1,4 +1,5 @@
 export { DashboardIcon } from "./DashboardIcon";
+export { QuestionIcon } from "./QuestionIcon";
 export { FeatureIcon } from "./FeatureIcon";
 export { InfoIcon } from "./InfoIcon";
 export { ReportIcon } from "./ReportIcon";
