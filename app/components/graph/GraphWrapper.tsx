@@ -68,7 +68,6 @@ export const GraphWrapper = ({
             data={PERIOD_OPTIONS}
             leftSection={<Fa6RegularCalendar className="size-4" />}
             onChange={handlePeriodChange}
-            rightSection={null}
             styles={{
               dropdown: {
                 backgroundColor: "var(--color-gray-1)",
@@ -107,4 +106,3 @@ export const GraphWrapper = ({
     </Box>
   );
 };
-

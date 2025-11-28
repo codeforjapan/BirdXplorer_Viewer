@@ -117,6 +117,6 @@ body {
 .mantine-Select-option:hover,
 .mantine-Select-option[data-combobox-active],
 .mantine-Select-option[data-combobox-selected] {
-  background-color: var(--color-gray-2) !important;
-  color: white !important;
+  background-color: var(--color-gray-2);
+  color: white;
 }

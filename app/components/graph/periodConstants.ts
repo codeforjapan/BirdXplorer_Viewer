@@ -19,4 +19,3 @@ export const PERIOD_OPTIONS: Array<{ value: PeriodValue; label: string }> = [
   { value: "6months", label: "直近6ヶ月" },
   { value: "1year", label: "直近1年" },
 ];
-
