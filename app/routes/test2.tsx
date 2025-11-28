@@ -8,6 +8,8 @@ import {
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
+  GraphWrapper,
+  type PeriodValue,
   STATUS_COLORS,
   type StatusValue,
 } from "~/components/graph";
@@ -15,6 +17,8 @@ import {
 export default function Test2() {
   // フィルター状態
   const [status, setStatus] = React.useState<StatusValue>("all");
+  // 期間選択状態
+  const [period, setPeriod] = React.useState<PeriodValue>("1month");
 
   // サンプルデータ: [notHelpful, helpful, impressions, name, status]
   // notHelpful=X軸, helpful=Y軸, impressions=バブルサイズ
@@ -182,23 +186,29 @@ export default function Test2() {
 
   return (
     <Stack gap="xl" p="md">
-      <Title order={2}>GraphContainer デモ</Title>
+      <Title order={2}>GraphWrapper デモ</Title>
 
-      <GraphContainer
-        footer={
-          <Stack gap="md">
-            <GraphStatusFilter onChange={setStatus} value={status} />
-            <GraphSizeLegend
-              label="インプレッション"
-              max={impressionRange.max}
-              min={impressionRange.min}
-              steps={5}
-            />
-          </Stack>
-        }
+      <GraphWrapper
+        onPeriodChange={setPeriod}
+        period={period}
+        title="ノート分析"
       >
-        <EChartsGraph height="60vh" minHeight={400} option={option} />
-      </GraphContainer>
+        <GraphContainer
+          footer={
+            <Stack gap="md">
+              <GraphStatusFilter onChange={setStatus} value={status} />
+              <GraphSizeLegend
+                label="インプレッション"
+                max={impressionRange.max}
+                min={impressionRange.min}
+                steps={5}
+              />
+            </Stack>
+          }
+        >
+          <EChartsGraph height="60vh" minHeight={400} option={option} />
+        </GraphContainer>
+      </GraphWrapper>
     </Stack>
   );
 }
