@@ -29,6 +29,7 @@
     "@mantine/form": "7.15.2",
     "@mantine/hooks": "7.15.2",
     "@mantine/modals": "7.15.2",
+    "@radix-ui/react-tooltip": "1.2.8",
     "@react-router/node": "7.6.0",
     "@react-router/serve": "7.6.0",
     "@tailwindcss/vite": "4.1.11",
