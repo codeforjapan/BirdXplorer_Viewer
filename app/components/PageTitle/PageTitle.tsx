@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 
-import { PageTitleDivider } from "./PageTitleDivider";
-
 type PageTitleProps = {
   icon: ReactNode;
   title: string;
