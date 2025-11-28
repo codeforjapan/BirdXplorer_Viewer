@@ -5,20 +5,19 @@ import { SectionTitle } from "./SectionTitle";
 
 describe("SectionTitle", () => {
   it("renders children text correctly", () => {
-    const screen = render(<SectionTitle>Feature</SectionTitle>);
+    const screen = render(<SectionTitle title="Feature" />);
     expect(screen.getByText("Feature")).toBeTruthy();
   });
 
   it("applies custom className", () => {
     const screen = render(
-      <SectionTitle className="custom-class">Test Title</SectionTitle>,
+      <SectionTitle className="custom-class" title="Test Title" />,
     );
     expect(screen.getByText("Test Title")).toBeTruthy();
   });
 
   it("renders different section titles correctly", () => {
-    const screen = render(<SectionTitle>Report</SectionTitle>);
+    const screen = render(<SectionTitle title="Report" />);
     expect(screen.getByText("Report")).toBeTruthy();
   });
 });
-
