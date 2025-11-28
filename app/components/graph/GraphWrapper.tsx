@@ -91,9 +91,6 @@ export const GraphWrapper = ({
                 color: "white",
                 fontSize: isMobile ? "12px" : "14px",
                 padding: "8px 12px",
-                "&[data-combobox-selected]": {
-                  backgroundColor: "var(--color-gray-2)",
-                },
               },
               section: {
                 color: "var(--color-primary)",

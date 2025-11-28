@@ -112,3 +112,11 @@ body {
 * {
   letter-spacing: 0.05em;
 }
+
+/* Mantine Select Option - ホバー時・アクティブ時・選択済みのスタイル */
+.mantine-Select-option:hover,
+.mantine-Select-option[data-combobox-active],
+.mantine-Select-option[data-combobox-selected] {
+  background-color: var(--color-gray-2) !important;
+  color: white !important;
+}
