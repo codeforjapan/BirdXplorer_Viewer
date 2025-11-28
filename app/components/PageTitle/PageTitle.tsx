@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { PageTitleDivider } from "./PageTitleDivider";
+
 type PageTitleProps = {
   icon: ReactNode;
   title: string;
@@ -19,13 +21,12 @@ export function PageTitle({
     >
       <div className="flex items-center gap-3">
         <div className="size-6 shrink-0">{icon}</div>
-        <h1 className="m-0 text-base leading-tight font-bold text-gray-1 md:text-lg">
+        <h1 className="md:text-heading-xl text-heading-xl-sp m-0 text-white">
           {title}
         </h1>
       </div>
-      <span className="text-[11px] leading-normal font-normal text-gray-2 md:text-xs">
-        {subtitle}
-      </span>
+      <div className="h-4 w-px shrink-0 self-center bg-white md:h-6" />
+      <span className="text-body-l text-white">{subtitle}</span>
     </div>
   );
 }
