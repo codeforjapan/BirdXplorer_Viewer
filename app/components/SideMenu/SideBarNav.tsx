@@ -1,6 +1,11 @@
 import { Link } from "react-router";
 
-import { DashboardIcon, FeatureIcon, ReportIcon, SearchIcon } from "./icons";
+import {
+  DashboardIcon,
+  FeatureIcon,
+  ReportIcon,
+  SearchIcon,
+} from "~/components/icons";
 
 export type SideBarNavProps = {
   icon: "dashboard" | "feature" | "report" | "search";
