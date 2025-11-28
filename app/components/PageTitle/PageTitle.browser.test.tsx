@@ -37,12 +37,12 @@ describe("PageTitle", () => {
     const screen = render(
       <PageTitle
         icon={<InfoIcon isActive />}
-        subtitle="|　特集"
+        subtitle="特集"
         title="Feature"
       />,
     );
 
     expect(screen.getByText("Feature")).toBeDefined();
-    expect(screen.getByText("|　特集")).toBeDefined();
+    expect(screen.getByText("特集")).toBeDefined();
   });
 });
