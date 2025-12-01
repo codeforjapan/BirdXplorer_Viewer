@@ -93,7 +93,7 @@ jobs:
 
       - name: Upload test screenshots on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: test-screenshots
           path: app/components/__screenshots__/
