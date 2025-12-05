@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
+import { Footer } from "./components/Footer";
 import { SideMenu } from "./components/SideMenu";
 import { mantineTheme } from "./config/mantine";
 
@@ -44,6 +45,7 @@ export default function App() {
       <main className="flex-1 bg-black">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
