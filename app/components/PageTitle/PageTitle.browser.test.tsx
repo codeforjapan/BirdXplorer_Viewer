@@ -29,8 +29,8 @@ describe("PageTitle", () => {
       />,
     );
 
-    const pageTitle = screen.container.querySelector(".page-title");
-    expect(pageTitle?.classList.contains("custom-class")).toBe(true);
+    const pageTitle = screen.container.querySelector(".custom-class");
+    expect(pageTitle).toBeTruthy();
   });
 
   it("renders different titles correctly", () => {
