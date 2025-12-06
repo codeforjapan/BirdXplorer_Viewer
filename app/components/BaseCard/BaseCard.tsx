@@ -22,7 +22,7 @@ export function BaseCard({
       >
         <div className="text-body-l-bold-compact">{title}</div>
       </div>
-      <div className="bg-white p-5">{body}</div>
+      <div className="bg-gray-1 p-5">{body}</div>
     </div>
   );
 }
