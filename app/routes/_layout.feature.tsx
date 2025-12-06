@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { BaseCard } from "~/components/BaseCard/BaseCard";
-import { FeatureIcon } from "~/components/icons/FeatureIcon";
+import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature";
@@ -98,7 +98,7 @@ export default function Feature() {
                     className="flex items-start gap-2 text-blue-500 hover:underline"
                     href={item.href}
                   >
-                    <span className="mt-1 shrink-0">◉</span>
+                    <PlayButtonIcon className="mt-1 shrink-0" isActive />
                     <span>{item.title}</span>
                   </a>
                 </li>
