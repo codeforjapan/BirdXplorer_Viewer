@@ -77,6 +77,12 @@
     font-weight: var(--font-weight-bold);
   }
 
+  .text-body-l-bold-compact {
+    font-size: var(--font-size-body-l);
+    line-height: var(--line-height-100);
+    font-weight: var(--font-weight-bold);
+  }
+
   .text-body-l {
     font-size: var(--font-size-body-l);
     line-height: var(--line-height-170);

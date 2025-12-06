@@ -106,11 +106,7 @@ export default function Feature() {
             </ul>
           }
           key={category.title}
-          title={
-            <span className="text-sm font-bold text-white">
-              {category.title}
-            </span>
-          }
+          title={<span className="text-white">{category.title}</span>}
           titleBgColor={category.color}
         />
       ))}

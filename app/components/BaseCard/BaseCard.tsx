@@ -20,7 +20,7 @@ export function BaseCard({
       <div
         className={`flex items-center justify-between px-4 py-3 ${titleBgColor}`}
       >
-        <div>{title}</div>
+        <div className="text-body-l-bold-compact">{title}</div>
       </div>
       <div className="bg-white p-5">{body}</div>
     </div>
