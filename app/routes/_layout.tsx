@@ -23,11 +23,11 @@ export default function Layout() {
 
   return (
     <div className="px-15 pt-10">
-      <div className="mb-6">
+      <div className="mb-9">
         <BreadCrumb items={handle.breadcrumb} />
       </div>
 
-      <div className="mb-8">
+      <div className="mb-4.5">
         <PageTitle
           icon={handle.pageTitle.icon}
           subtitle={handle.pageTitle.subtitle}
