@@ -95,10 +95,10 @@ export default function Feature() {
               {category.items.map((item) => (
                 <li key={item.href}>
                   <a
-                    className="flex items-start gap-2 text-blue-500 hover:underline"
+                    className="flex items-start gap-2 text-heading-m-compact text-white hover:underline"
                     href={item.href}
                   >
-                    <PlayButtonIcon className="mt-1 shrink-0" isActive />
+                    <PlayButtonIcon className="shrink-0" isActive />
                     <span>{item.title}</span>
                   </a>
                 </li>
