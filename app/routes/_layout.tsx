@@ -22,7 +22,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="p-6">
+    <div className="px-15 pt-10">
       <div className="mb-6">
         <BreadCrumb items={handle.breadcrumb} />
       </div>
