@@ -45,7 +45,7 @@ type FeatureCategory = {
 const featureCategories: FeatureCategory[] = [
   {
     title: "選挙特集",
-    color: "bg-[#4CAF50]",
+    color: "bg-green",
     items: [
       {
         title: "2025年 参議院選挙",
@@ -55,7 +55,7 @@ const featureCategories: FeatureCategory[] = [
   },
   {
     title: "災害特集",
-    color: "bg-[#9C27B0]",
+    color: "bg-blue",
     items: [
       {
         title: "2024年 能登半島地震 能登半島地震 能登半島地震",
@@ -65,7 +65,7 @@ const featureCategories: FeatureCategory[] = [
   },
   {
     title: "道路特集",
-    color: "bg-[#4CAF50]",
+    color: "bg-green",
     items: [
       {
         title: "2024年 兵庫県知事選挙",
@@ -75,7 +75,7 @@ const featureCategories: FeatureCategory[] = [
   },
   {
     title: "その他",
-    color: "bg-[#424242]",
+    color: "bg-gray-2",
     items: [
       {
         title: "2024年 XXXXXXXXX",
