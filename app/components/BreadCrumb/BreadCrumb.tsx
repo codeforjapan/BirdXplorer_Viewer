@@ -23,12 +23,12 @@ type BreadCrumbProps = {
 export const BreadCrumb = ({ items }: BreadCrumbProps) => {
   return (
     <Card
-      className="border-[#515151]"
       data-testid="breadcrumb-card"
       radius="md"
       style={{
-        backgroundColor: "#171717",
+        backgroundColor: "var(--color-gray-1)",
         padding: "var(--mantine-spacing-sm) var(--mantine-spacing-md)",
+        borderColor: "var(--color-gray-2)",
       }}
       withBorder
     >
