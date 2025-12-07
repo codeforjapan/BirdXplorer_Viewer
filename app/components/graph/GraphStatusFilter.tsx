@@ -24,13 +24,9 @@ const DEFAULT_STATUSES: StatusConfig[] = [
 ];
 
 type GraphStatusFilterProps = {
-  /** 現在選択中のステータス */
   value: StatusValue;
-  /** ステータス変更時のコールバック */
   onChange: (value: StatusValue) => void;
-  /** カスタムステータス設定 */
   statuses?: StatusConfig[];
-  /** ラベルテキスト（デフォルト: "ステータス"） */
   label?: string;
 };
 
