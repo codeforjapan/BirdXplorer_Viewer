@@ -9,15 +9,10 @@ import type { PeriodValue } from "./periodConstants";
 import { PERIOD_OPTIONS } from "./periodConstants";
 
 type GraphWrapperProps = {
-  /** ラップするコンテンツ（グラフ、ランキングなど） */
   children: React.ReactNode;
-  /** 期間選択を非表示にする場合はtrue */
   hidePeriodSelector?: boolean;
-  /** 期間変更時のコールバック */
   onPeriodChange?: (value: PeriodValue) => void;
-  /** 選択中の期間 */
   period?: PeriodValue;
-  /** コンポーネントのタイトル */
   title: string;
 };
 
