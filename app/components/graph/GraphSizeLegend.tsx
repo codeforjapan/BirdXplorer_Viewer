@@ -5,21 +5,14 @@ import { useMemo } from "react";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 
 type GraphSizeLegendProps = {
-  /** ラベルテキスト（例: "インプレッション"） */
   label: string;
-  /** 最小値 */
   min: number;
-  /** 最大値 */
   max: number;
-  /** 表示するステップ数（デフォルト: 5） */
+  /** グラフ下部の汎用例に表示するステップの個数（デフォルト: 5） */
   steps?: number;
-  /** 値のフォーマット関数 */
   formatValue?: (value: number) => string;
-  /** バブルの最小サイズ（px）（デフォルト: 8） */
   minBubbleSize?: number;
-  /** バブルの最大サイズ（px）（デフォルト: 32） */
   maxBubbleSize?: number;
-  /** バブルの色（デフォルト: "#666"） */
   bubbleColor?: string;
 };
 
