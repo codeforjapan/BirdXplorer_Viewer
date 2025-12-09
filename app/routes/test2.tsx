@@ -9,16 +9,16 @@ import {
   GraphSizeLegend,
   GraphStatusFilter,
   GraphWrapper,
-  type PeriodValue,
   STATUS_COLORS,
   type StatusValue,
 } from "~/components/graph";
+import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 
 export default function Test2() {
   // フィルター状態
   const [status, setStatus] = React.useState<StatusValue>("all");
   // 期間選択状態
-  const [period, setPeriod] = React.useState<PeriodValue>("1month");
+  const [period, setPeriod] = React.useState("1month");
 
   // サンプルデータ: [notHelpful, helpful, impressions, name, status]
   // notHelpful=X軸, helpful=Y軸, impressions=バブルサイズ
@@ -187,6 +187,9 @@ export default function Test2() {
   return (
     <Stack gap="xl" p="md">
       <Title order={2}>GraphWrapper デモ</Title>
+
+      {/* NotesAnnualChartSection デモ */}
+      <NotesAnnualChartSection />
 
       <GraphWrapper
         onPeriodChange={setPeriod}
