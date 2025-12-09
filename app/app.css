@@ -16,6 +16,9 @@
   --color-gray-3: #cccccc;
   --color-gray-4: #dddddd;
 
+  /* Graph Component Colors */
+  --color-graph-border: #555555;
+
   /* Font Sizes */
   --font-size-heading-xl: 1.5rem; /* 24px */
   --font-size-heading-xl-sp: 1.375rem; /* 22px */

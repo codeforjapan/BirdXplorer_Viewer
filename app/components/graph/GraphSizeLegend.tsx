@@ -1,0 +1,111 @@
+import { Group, Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { useMemo } from "react";
+
+import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
+
+type GraphSizeLegendProps = {
+  label: string;
+  min: number;
+  max: number;
+  /** グラフ下部の汎用例に表示するステップの個数（デフォルト: 5） */
+  steps?: number;
+  formatValue?: (value: number) => string;
+  minBubbleSize?: number;
+  maxBubbleSize?: number;
+  bubbleColor?: string;
+};
+
+/** デフォルトの値フォーマット関数（カンマ区切り） */
+const defaultFormatValue = (value: number): string => {
+  return value.toLocaleString("ja-JP");
+};
+
+export const GraphSizeLegend = ({
+  label,
+  min,
+  max,
+  steps = 5,
+  formatValue = defaultFormatValue,
+  minBubbleSize = 8,
+  maxBubbleSize = 32,
+  bubbleColor = "#666",
+}: GraphSizeLegendProps) => {
+  // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
+
+  /** ステップごとの値とサイズを計算 */
+  const legendItems = useMemo(() => {
+    // steps が2未満の場合は最小1つのアイテムを表示
+    const effectiveSteps = Math.max(2, steps);
+    const items: Array<{ value: number; size: number }> = [];
+
+    // min === max の場合は中央サイズで1つだけ表示
+    if (min === max) {
+      const middleSize = (minBubbleSize + maxBubbleSize) / 2;
+      return [{ value: min, size: middleSize }];
+    }
+
+    for (let i = 0; i < effectiveSteps; i++) {
+      // 等間隔で値を計算
+      const ratio = i / (effectiveSteps - 1);
+      const value = min + (max - min) * ratio;
+
+      // サイズは面積に比例させるため、平方根でスケーリング
+      const sizeRatio = Math.sqrt(ratio);
+      const size = minBubbleSize + (maxBubbleSize - minBubbleSize) * sizeRatio;
+
+      items.push({ value, size });
+    }
+
+    return items;
+  }, [min, max, steps, minBubbleSize, maxBubbleSize]);
+
+  const bubbleItems = (
+    <Group align="flex-end" gap="md">
+      {legendItems.map((item) => (
+        <div
+          className="flex flex-col items-center gap-1"
+          key={`legend-${item.value}`}
+          style={{ minWidth: item.size }}
+        >
+          {/* バブル */}
+          <div
+            className="rounded-full"
+            style={{
+              width: item.size,
+              height: item.size,
+              backgroundColor: bubbleColor,
+              opacity: 0.7,
+            }}
+          />
+          {/* 値ラベル */}
+          <Text c="gray.4" className="whitespace-nowrap" size="xs">
+            {formatValue(Math.round(item.value))}
+          </Text>
+        </div>
+      ))}
+    </Group>
+  );
+
+  // スマホ: 縦並び、デスクトップ: 横並び
+  if (isMobile) {
+    return (
+      <Stack gap="sm">
+        <Text c="white" fw={700} size="md">
+          {label}
+        </Text>
+        {bubbleItems}
+      </Stack>
+    );
+  }
+
+  return (
+    <Group align="center" gap="lg">
+      <Text c="white" fw={700} size="md">
+        {label}
+      </Text>
+      {bubbleItems}
+    </Group>
+  );
+};
