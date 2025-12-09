@@ -1,7 +1,10 @@
 export { GraphContainer } from "./GraphContainer";
+export { GraphWrapper } from "./GraphWrapper";
 export { EChartsGraph } from "./EChartsGraph";
 export { GraphStatusFilter } from "./GraphStatusFilter";
 export type { StatusValue } from "./GraphStatusFilter";
 export { GraphSizeLegend } from "./GraphSizeLegend";
 export { STATUS_COLORS, GRAPH_STYLES } from "./constants";
 export type { StatusColorKey } from "./constants";
+export { PERIOD_OPTIONS } from "./periodConstants";
+export type { PeriodValue } from "./periodConstants";
