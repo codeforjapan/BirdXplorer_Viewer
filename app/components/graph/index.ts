@@ -11,6 +11,12 @@ export type {
   YAxisConfig,
   StackedBarLineChartProps,
 } from "./StackedBarLineChart";
+export { ScatterBubbleChart } from "./ScatterBubbleChart";
+export type {
+  CategoryConfig,
+  ScatterDataItem,
+  ScatterBubbleChartProps,
+} from "./ScatterBubbleChart";
 export { STATUS_COLORS, GRAPH_STYLES } from "./constants";
 export type { StatusColorKey } from "./constants";
 export { PERIOD_OPTIONS } from "./periodConstants";

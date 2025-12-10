@@ -6,7 +6,12 @@ import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import { STATUS_COLORS } from "./constants";
 
 /** ステータスの値 */
-export type StatusValue = "all" | "published" | "evaluating" | "unpublished";
+export type StatusValue =
+  | "all"
+  | "unpublished"
+  | "evaluating"
+  | "published"
+  | "temporarilyPublished";
 
 /** ステータスの設定 */
 type StatusConfig = {
@@ -21,6 +26,11 @@ const DEFAULT_STATUSES: StatusConfig[] = [
   { value: "published", label: "公開中", color: STATUS_COLORS.published },
   { value: "evaluating", label: "評価中", color: STATUS_COLORS.evaluating },
   { value: "unpublished", label: "非公開", color: STATUS_COLORS.unpublished },
+  {
+    value: "temporarilyPublished",
+    label: "一時公開",
+    color: STATUS_COLORS.temporarilyPublished,
+  },
 ];
 
 type GraphStatusFilterProps = {
@@ -34,6 +44,10 @@ type GraphStatusFilterProps = {
   label?: string;
 };
 
+/**
+ * ステータスフィルター用ラジオボタングループ
+ * グラフのデータをステータス別にフィルタリングする際に使用
+ */
 export const GraphStatusFilter = ({
   value,
   onChange,
