@@ -8,10 +8,10 @@ import {
   PERIOD_OPTIONS,
   type PeriodValue,
   ScatterBubbleChart,
-  type ScatterDataItem,
   STATUS_COLORS,
   type StatusValue,
 } from "~/components/graph";
+import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
 
 /**
  * ノート評価分布図のカテゴリ設定
