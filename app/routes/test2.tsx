@@ -212,6 +212,15 @@ export default function Test2() {
           <EChartsGraph height="60vh" minHeight={400} option={option} />
         </GraphContainer>
       </GraphWrapper>
+
+      {/* 広聴AI埋め込みテスト */}
+      <iframe 
+        height="2330px"
+        sandbox="allow-scripts allow-popups allow-forms"
+        src="/kouchou-ai/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
+        title="広聴AI"
+        width="100%"
+      />
     </Stack>
   );
 }
