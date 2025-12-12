@@ -28,6 +28,27 @@ const defaultFormatValue = (value: number): string => {
   return value.toLocaleString("ja-JP");
 };
 
+/**
+ * きれいなステップ間隔を計算
+ */
+const getNiceStepSize = (range: number, steps: number): number => {
+  const rawStep = range / (steps - 1);
+  if (rawStep === 0) return 1;
+
+  const exponent = Math.floor(Math.log10(rawStep));
+  const magnitude = Math.pow(10, exponent);
+  const normalized = rawStep / magnitude;
+
+  // 1, 2, 5, 10 のいずれかに丸める
+  let niceStep: number;
+  if (normalized <= 1) niceStep = 1;
+  else if (normalized <= 2) niceStep = 2;
+  else if (normalized <= 5) niceStep = 5;
+  else niceStep = 10;
+
+  return niceStep * magnitude;
+};
+
 export const GraphSizeLegend = ({
   label,
   min,
@@ -41,7 +62,11 @@ export const GraphSizeLegend = ({
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
 
-  /** ステップごとの値とサイズを計算 */
+  /**
+   * ステップごとの値とサイズを計算
+   * - 最小値と最大値は実データの値を使用
+   * - 中間のステップはきれいな数値（切りの良い数値）で分割
+   */
   const legendItems = useMemo(() => {
     // steps が2未満の場合は最小1つのアイテムを表示
     const effectiveSteps = Math.max(2, steps);
@@ -53,17 +78,44 @@ export const GraphSizeLegend = ({
       return [{ value: min, size: middleSize }];
     }
 
-    for (let i = 0; i < effectiveSteps; i++) {
-      // 等間隔で値を計算
-      const ratio = i / (effectiveSteps - 1);
-      const value = min + (max - min) * ratio;
+    const range = max - min;
 
-      // サイズは面積に比例させるため、平方根でスケーリング
+    const stepSize = getNiceStepSize(range, effectiveSteps);
+    const firstNiceValue = Math.ceil(min / stepSize) * stepSize;
+
+    const middleValues: number[] = [];
+    let currentValue = firstNiceValue;
+    while (currentValue < max) {
+      middleValues.push(currentValue);
+      currentValue += stepSize;
+    }
+
+    items.push({
+      value: min,
+      size: minBubbleSize,
+    });
+
+    // min と max で2枠使うため、中間値は最大 steps - 2 個
+    const maxMiddleSteps = effectiveSteps - 2;
+    const middleToUse =
+      middleValues.length <= maxMiddleSteps
+        ? middleValues
+        : middleValues.filter((_, i) => {
+            const interval = Math.ceil(middleValues.length / maxMiddleSteps);
+            return i % interval === 0;
+          }).slice(0, maxMiddleSteps);
+
+    for (const value of middleToUse) {
+      const ratio = (value - min) / range;
       const sizeRatio = Math.sqrt(ratio);
       const size = minBubbleSize + (maxBubbleSize - minBubbleSize) * sizeRatio;
-
       items.push({ value, size });
     }
+
+    items.push({
+      value: max,
+      size: maxBubbleSize,
+    });
 
     return items;
   }, [min, max, steps, minBubbleSize, maxBubbleSize]);
