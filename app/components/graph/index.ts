@@ -8,6 +8,7 @@ export { StackedBarLineChart } from "./StackedBarLineChart";
 export type {
   BarSeriesConfig,
   LineSeriesConfig,
+  MarkLineConfig,
   YAxisConfig,
   StackedBarLineChartProps,
 } from "./StackedBarLineChart";

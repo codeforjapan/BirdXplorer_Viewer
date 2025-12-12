@@ -32,6 +32,12 @@ export type YAxisConfig = {
   max?: number;
 };
 
+export type MarkLineConfig = {
+  /** X軸の値（カテゴリ名） */
+  xAxisValue: string;
+  label: string;
+};
+
 /** StackedBarLineChart のプロパティ */
 export type StackedBarLineChartProps = {
   /** X軸のカテゴリラベル */
@@ -51,6 +57,8 @@ export type StackedBarLineChartProps = {
   showLegend?: boolean;
   legendTop?: number;
   legendLeft?: number;
+  /** マーカーライン（垂直線とラベル） */
+  markLines?: MarkLineConfig[];
 };
 
 export const StackedBarLineChart = ({
@@ -66,12 +74,39 @@ export const StackedBarLineChart = ({
   showLegend = false,
   legendTop = 10,
   legendLeft = 10,
+  markLines,
 }: StackedBarLineChartProps) => {
   const option = React.useMemo<EChartsOption>(() => {
     // 凡例初期状態（visible=false を legend.selected で反映）
     const legendSelected = Object.fromEntries(
       barSeries.map((s) => [s.name, s.visible !== false]),
     ) as Record<string, boolean>;
+
+    // マーカーライン設定を生成
+    const markLineOption = markLines?.length
+      ? {
+          silent: true,
+          symbol: "none",
+          lineStyle: {
+            color: GRAPH_STYLES.textColor,
+            type: "solid" as const,
+            width: 1,
+          },
+          label: {
+            show: true,
+            position: "insideEndTop" as const,
+            color: GRAPH_STYLES.textColor,
+            fontSize: 11,
+            rotate: 0,
+            align: "center" as const,
+            formatter: (params: { name: string }) => params.name,
+          },
+          data: markLines.map((m) => ({
+            name: m.label,
+            xAxis: m.xAxisValue,
+          })),
+        }
+      : undefined;
 
     // 棒グラフシリーズを生成
     const barSeriesOptions = barSeries.map((series, index) => ({
@@ -84,6 +119,8 @@ export const StackedBarLineChart = ({
       itemStyle: { color: series.color },
       barWidth: index === 0 ? barWidth : undefined,
       animation: false,
+      // 最初のシリーズにのみマーカーラインを追加
+      ...(index === 0 && markLineOption ? { markLine: markLineOption } : {}),
     }));
 
     // 折れ線グラフシリーズを生成（存在する場合）
@@ -209,6 +246,7 @@ export const StackedBarLineChart = ({
     showLegend,
     legendTop,
     legendLeft,
+    markLines,
   ]);
 
   return <EChartsGraph height={height} minHeight={minHeight} option={option} />;
