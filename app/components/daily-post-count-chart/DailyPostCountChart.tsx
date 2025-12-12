@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import * as React from "react";
 
-import type { StatusValue } from "~/components/graph";
+import type { MarkLineConfig, StatusValue } from "~/components/graph";
 import {
   GraphContainer,
   GraphStatusFilter,
@@ -10,8 +10,8 @@ import {
   STATUS_COLORS,
 } from "~/components/graph";
 
-import type { DailyPostCountDataItem } from "./data";
-import { generateMockData } from "./data";
+import type { DailyPostCountDataItem, EventMarker } from "./data";
+import { generateMockData, getDefaultEventMarkers } from "./data";
 
 type PeriodOption = { value: string; label: string };
 
@@ -41,6 +41,8 @@ export type DailyPostCountChartProps = {
   updatedAt?: string;
   /** 期間選択オプション（指定しない場合は直近3年分） */
   periodOptions?: PeriodOption[];
+  /** イベントマーカー（例: ["7/3 公示", "7/20 投開票"]） */
+  eventMarkers?: EventMarker[];
 };
 
 /**
@@ -51,6 +53,7 @@ export const DailyPostCountChart = ({
   data,
   updatedAt = "2025年10月13日更新",
   periodOptions,
+  eventMarkers,
 }: DailyPostCountChartProps) => {
   const options = React.useMemo(
     () => periodOptions ?? defaultPeriodOptions(),
@@ -65,10 +68,26 @@ export const DailyPostCountChart = ({
     [data, period]
   );
 
+  // イベントマーカー（未指定時はデモ用のデフォルトマーカーを使用）
+  const markers = React.useMemo(
+    () => eventMarkers ?? getDefaultEventMarkers(period),
+    [eventMarkers, period]
+  );
+
   const categories = React.useMemo(
     () => rawData.map((d) => dayjs(d.date).format("YY/M/D")),
     [rawData]
   );
+
+  // イベントマーカーをMarkLineConfigに変換
+  const markLines = React.useMemo<MarkLineConfig[]>(() => {
+    return markers
+      .map((marker) => ({
+        xAxisValue: dayjs(marker.date).format("YY/M/D"),
+        label: marker.label,
+      }))
+      .filter((m) => categories.includes(m.xAxisValue));
+  }, [markers, categories]);
 
   const seriesVisibility = React.useMemo(() => {
     if (status === "all") {
@@ -127,6 +146,7 @@ export const DailyPostCountChart = ({
           categories={categories}
           height="60vh"
           leftYAxis={{ name: "ポスト投稿数" }}
+          markLines={markLines}
           minHeight={400}
           showLegend
         />
