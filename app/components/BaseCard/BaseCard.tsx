@@ -15,14 +15,14 @@ export function BaseCard({
 }: BaseCardProps) {
   return (
     <div
-      className={`w-full overflow-hidden rounded-lg border border-gray-2 ${className ?? ""}`}
+      className={`flex h-full w-full flex-col overflow-hidden rounded-lg border border-gray-2 ${className ?? ""}`}
     >
       <div
         className={`flex items-center justify-between px-4 py-3 ${titleBgColor}`}
       >
-        <div>{title}</div>
+        <div className="text-body-l-bold-compact">{title}</div>
       </div>
-      <div className="bg-white p-5">{body}</div>
+      <div className="flex flex-1 items-center bg-gray-1 p-5">{body}</div>
     </div>
   );
 }
