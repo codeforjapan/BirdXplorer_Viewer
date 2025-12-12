@@ -47,6 +47,10 @@ export type StackedBarLineChartProps = {
   /** スタック名（デフォルト: "total"） */
   stackName?: string;
   barWidth?: string | number;
+  /** 凡例表示（デフォルト: false） */
+  showLegend?: boolean;
+  legendTop?: number;
+  legendLeft?: number;
 };
 
 export const StackedBarLineChart = ({
@@ -59,14 +63,24 @@ export const StackedBarLineChart = ({
   minHeight = 350,
   stackName = "total",
   barWidth = "50%",
+  showLegend = false,
+  legendTop = 10,
+  legendLeft = 10,
 }: StackedBarLineChartProps) => {
   const option = React.useMemo<EChartsOption>(() => {
+    // 凡例初期状態（visible=false を legend.selected で反映）
+    const legendSelected = Object.fromEntries(
+      barSeries.map((s) => [s.name, s.visible !== false]),
+    ) as Record<string, boolean>;
+
     // 棒グラフシリーズを生成
     const barSeriesOptions = barSeries.map((series, index) => ({
       name: series.name,
       type: "bar" as const,
       stack: stackName,
-      data: series.visible !== false ? series.data : [],
+      // showLegend=true の場合は ECharts の凡例クリックで表示/非表示を切り替える
+      // showLegend=false の場合は従来どおり visible=false を空データで表現
+      data: showLegend ? series.data : series.visible !== false ? series.data : [],
       itemStyle: { color: series.color },
       barWidth: index === 0 ? barWidth : undefined,
       animation: false,
@@ -89,6 +103,22 @@ export const StackedBarLineChart = ({
     return {
       backgroundColor: "transparent",
       animationDuration: 500,
+      legend: showLegend
+        ? {
+            data: barSeries.map((s) => s.name),
+            icon: "circle",
+            itemGap: 24,
+            itemHeight: 14,
+            left: legendLeft,
+            top: legendTop,
+            selected: legendSelected,
+            textStyle: {
+              color: GRAPH_STYLES.textColor,
+              fontSize: 14,
+              lineHeight: 14,
+            },
+          }
+        : undefined,
       tooltip: {
         trigger: "axis",
         backgroundColor: GRAPH_STYLES.tooltipBgColor,
@@ -123,7 +153,7 @@ export const StackedBarLineChart = ({
       grid: {
         left: 80,
         right: 40,
-        top: 20,
+        top: showLegend ? 60 : 20,
         bottom: 80,
       },
       xAxis: {
@@ -168,7 +198,18 @@ export const StackedBarLineChart = ({
         ? [...barSeriesOptions, lineSeriesOption]
         : barSeriesOptions,
     };
-  }, [categories, barSeries, lineSeries, leftYAxis, rightYAxis, stackName, barWidth]);
+  }, [
+    categories,
+    barSeries,
+    lineSeries,
+    leftYAxis,
+    rightYAxis,
+    stackName,
+    barWidth,
+    showLegend,
+    legendTop,
+    legendLeft,
+  ]);
 
   return <EChartsGraph height={height} minHeight={minHeight} option={option} />;
 };
