@@ -35,7 +35,7 @@ const defaultPeriodOptions = (): PeriodOption[] => {
   });
 };
 
-export type DailyPostCountChartSectionProps = {
+export type DailyPostCountChartProps = {
   data?: DailyPostCountDataItem[];
   /** 更新日（例: "2025年10月13日更新"） */
   updatedAt?: string;
@@ -47,11 +47,11 @@ export type DailyPostCountChartSectionProps = {
  * ポストの日別投稿数を年単位で表示する積み上げ棒グラフ
  * ステータス別（公開中/評価中/非公開）にフィルタリング可能
  */
-export const DailyPostCountChartSection = ({
+export const DailyPostCountChart = ({
   data,
   updatedAt = "2025年10月13日更新",
   periodOptions,
-}: DailyPostCountChartSectionProps) => {
+}: DailyPostCountChartProps) => {
   const options = React.useMemo(
     () => periodOptions ?? defaultPeriodOptions(),
     [periodOptions]

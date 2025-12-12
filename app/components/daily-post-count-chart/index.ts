@@ -1,3 +1,3 @@
-export { DailyPostCountChartSection } from "./DailyPostCountChartSection";
-export type { DailyPostCountChartSectionProps } from "./DailyPostCountChartSection";
+export { DailyPostCountChart } from "./DailyPostCountChart";
+export type { DailyPostCountChartProps } from "./DailyPostCountChart";
 export type { DailyPostCountDataItem } from "./data";
