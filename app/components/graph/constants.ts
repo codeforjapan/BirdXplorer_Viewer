@@ -3,9 +3,10 @@
  * グラフやフィルターコンポーネントで使用
  */
 export const STATUS_COLORS = {
-  published: "#42a5f5",
-  evaluating: "#ab47bc",
-  unpublished: "#ec407a",
+  unpublished: "#2979ff", // 非公開: 青
+  evaluating: "#42a5f5", // 評価中: 水色
+  published: "#ab47bc", // 公開済み: 紫
+  temporarilyPublished: "#ec407a", // 一時公開: ピンク
 } as const;
 
 export type StatusColorKey = keyof typeof STATUS_COLORS;
