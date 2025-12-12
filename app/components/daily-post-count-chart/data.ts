@@ -1,5 +1,14 @@
 import dayjs from "dayjs";
 
+/** モックデータのデフォルト最新日（現在月） */
+export const MOCK_NEWEST_DATE = dayjs().format("YYYY-MM");
+
+/** モックデータのデフォルト最古日（2年前 + 3ヶ月 = 1年9ヶ月前） */
+export const MOCK_OLDEST_DATE = dayjs()
+  .subtract(2, "year")
+  .add(3, "month")
+  .format("YYYY-MM");
+
 /** ポスト日別投稿数データ */
 export type DailyPostCountDataItem = {
   /** 日付（YYYY-MM-DD） */
@@ -18,32 +27,43 @@ export type EventMarker = {
 };
 
 /**
- * デフォルトのイベントマーカーを生成（デモ用）
- * 指定した年の中間あたりに2つのマーカーを配置
+ * @param period 期間文字列（例: "2024-12_2025-12"）
+ * @throws 不正なフォーマットの場合
  */
-export const getDefaultEventMarkers = (year: string): EventMarker[] => {
-  const startOfYear = dayjs(year, "YYYY").startOf("year");
-  const marker1 = startOfYear.add(6, "month").add(3, "day"); // 7/4
-  const marker2 = startOfYear.add(6, "month").add(20, "day"); // 7/21
+const parsePeriod = (period: string): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
+  const [startStr, endStr] = period.split("_");
+  if (!startStr || !endStr) {
+    throw new Error(`Invalid period format: ${period}`);
+  }
+  const start = dayjs(startStr, "YYYY-MM").startOf("month");
+  const end = dayjs(endStr, "YYYY-MM").endOf("month");
+  return { start, end };
+};
+
+/**
+ * デモ用: 期間の40%/60%地点にマーカーを配置
+ * @param period 期間文字列（例: "2024-12_2025-12"）
+ */
+export const generateDemoEventMarkers = (period: string): EventMarker[] => {
+  const { start, end } = parsePeriod(period);
+  const totalDays = end.diff(start, "day");
+  const marker1 = start.add(Math.floor(totalDays * 0.4), "day");
+  const marker2 = start.add(Math.floor(totalDays * 0.6), "day");
   return [
     { date: marker1.format("YYYY-MM-DD"), label: `${marker1.format("M/D")} 公示` },
     { date: marker2.format("YYYY-MM-DD"), label: `${marker2.format("M/D")} 投開票` },
   ];
 };
 
-/**
- * 指定した年の1年分のモックデータを生成
- * @param year 年（例: "2024"）
- */
-export const generateMockData = (year: string): DailyPostCountDataItem[] => {
-  const startOfYear = dayjs(year, "YYYY").startOf("year");
-  const endOfYear = dayjs(year, "YYYY").endOf("year");
+/** @param period 期間文字列（例: "2024-12_2025-12"） */
+export const generateMockData = (period: string): DailyPostCountDataItem[] => {
+  const { start, end } = parsePeriod(period);
 
   const days: DailyPostCountDataItem[] = [];
-  const totalDays = endOfYear.diff(startOfYear, "day") + 1;
+  const totalDays = end.diff(start, "day") + 1;
 
   for (let d = 0; d < totalDays; d++) {
-    const date = startOfYear.add(d, "day");
+    const date = start.add(d, "day");
     const iso = date.format("YYYY-MM-DD");
 
     // モックデータ: 月ごとに変動させる
