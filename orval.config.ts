@@ -2,7 +2,7 @@ import { defineConfig } from "orval";
 
 export default defineConfig({
   birdxplorer_api: {
-    input: "https://birdxplorer.onrender.com/openapi.json",
+    input: "https://dev.api-birdxplorer.code4japan.org/openapi.json",
     output: {
       clean: true,
       prettier: true,
@@ -11,7 +11,7 @@ export default defineConfig({
       target: "app/generated/api/client.ts",
       client: "fetch",
       httpClient: "fetch",
-      baseUrl: "https://birdxplorer.onrender.com",
+      baseUrl: "https://dev.api-birdxplorer.code4japan.org",
       urlEncodeParameters: true,
       mock: {
         type: "msw",
@@ -21,7 +21,7 @@ export default defineConfig({
     },
   },
   birdxplorer_zod: {
-    input: "https://birdxplorer.onrender.com/openapi.json",
+    input: "https://dev.api-birdxplorer.code4japan.org/openapi.json",
     output: {
       clean: true,
       prettier: true,

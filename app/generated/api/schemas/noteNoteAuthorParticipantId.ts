@@ -6,6 +6,6 @@
  */
 
 /**
- * トピックの言語ごとのラベル
+ * コミュニティノートの作成者の Participant ID
  */
-export type TopicLabel = {[key: string]: string};
+export type NoteNoteAuthorParticipantId = string | null;

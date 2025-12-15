@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-/**
- * トピックの言語ごとのラベル
- */
-export type TopicLabel = {[key: string]: string};
+export type SearchedNoteCurrentStatusHistoryItem = { [key: string]: unknown };
