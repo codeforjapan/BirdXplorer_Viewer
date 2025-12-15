@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useMemo } from "react";
 
-import type { Post as APIPost } from "~/generated/api/schemas";
+import type { SearchedNotePost as APIPost } from "~/generated/api/schemas";
 
 import { PostMediaGrid } from "./PostMediaGrid";
 
@@ -18,6 +18,8 @@ type PostProps = {
 };
 
 export const Post = ({ post }: PostProps) => {
+  if (!post) return null
+
   const dateString = useMemo(() => {
     return new Date(post.createdAt).toLocaleString("ja-JP", {
       year: "numeric",

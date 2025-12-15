@@ -91,11 +91,13 @@ export default function Index({
 }: Route.ComponentProps) {
   const isNetworkBusy = useNetworkBusy();
 
-  const {
-    topics,
-    searchQuery,
-    searchResults: { data: notes, meta: paginationMeta },
-  } = loaderData.data;
+  const { topics, searchQuery, searchResults } = loaderData.data;
+
+  if (!('data' in searchResults) || !('meta' in searchResults)) {
+    return null;
+  }
+
+  const { data: notes, meta: paginationMeta } = searchResults;
 
   return (
     <>

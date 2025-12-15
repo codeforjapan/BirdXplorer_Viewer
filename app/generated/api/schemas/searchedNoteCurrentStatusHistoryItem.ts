@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-/**
- * 次のページのリクエスト用 URL
- */
-export type PaginationMetaNext = string | null;
+export type SearchedNoteCurrentStatusHistoryItem = { [key: string]: unknown };

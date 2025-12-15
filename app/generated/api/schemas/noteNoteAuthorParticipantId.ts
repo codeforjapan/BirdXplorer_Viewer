@@ -6,6 +6,6 @@
  */
 
 /**
- * 次のページのリクエスト用 URL
+ * コミュニティノートの作成者の Participant ID
  */
-export type PaginationMetaNext = string | null;
+export type NoteNoteAuthorParticipantId = string | null;
