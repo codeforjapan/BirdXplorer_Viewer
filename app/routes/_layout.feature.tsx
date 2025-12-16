@@ -20,10 +20,7 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export const handle: LayoutHandle = {
-  breadcrumb: [
-    { label: "TOP", href: "/" },
-    { label: "Feature" },
-  ],
+  breadcrumb: [{ label: "TOP", href: "/" }, { label: "Feature" }],
   pageTitle: {
     icon: <FeatureIcon isActive />,
     title: "Feature",
@@ -95,7 +92,7 @@ export default function Feature() {
               {category.items.map((item) => (
                 <li key={item.href}>
                   <a
-                    className="flex items-start gap-2 text-heading-m-compact text-white hover:underline"
+                    className="text-heading-m-compact flex items-start gap-2 text-white hover:underline"
                     href={item.href}
                   >
                     <PlayButtonIcon className="shrink-0" isActive />

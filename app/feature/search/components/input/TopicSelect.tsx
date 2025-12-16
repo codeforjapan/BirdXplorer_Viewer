@@ -62,6 +62,8 @@ export const TopicSelect = ({
 
   return (
     <MultiSelect
+      c="white"
+      classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       data={topicsData}
       disabled={disabled}
       error={
@@ -76,6 +78,14 @@ export const TopicSelect = ({
       onChange={onChange}
       onFocus={onFocus}
       searchable
+      styles={{
+        input: {
+          color: "white",
+        },
+        label: {
+          marginBottom: "8px",
+        },
+      }}
       value={value}
       {...rest}
     />

@@ -15,6 +15,11 @@
   --color-gray-2: #555555;
   --color-gray-3: #cccccc;
   --color-gray-4: #dddddd;
+  --color-gray-5: #515151;
+
+  /* twitter dark mode colors */
+  --color-twitter-dark-1: #15202b;
+  --color-twitter-dark-2: #192734;
 
   /* Graph Component Colors */
   --color-graph-border: #555555;
