@@ -36,7 +36,7 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export const handle: LayoutHandle = {
-  breadcrumb: [{ label: "TOP", href: "/" }, { label: "Search" }],
+  breadcrumb: [{ label: "TOP", href: WEB_PATHS.home }, { label: "Search" }],
   pageTitle: {
     icon: <SearchIcon isActive />,
     title: "Search",
