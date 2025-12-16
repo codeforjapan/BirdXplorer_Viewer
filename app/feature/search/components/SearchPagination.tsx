@@ -1,5 +1,5 @@
-import type { GroupProps } from "@mantine/core";
 import { ActionIcon, Group, Text } from "@mantine/core";
+import type { GroupProps } from "@mantine/core";
 import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { getQuery, withQuery } from "ufo";
@@ -9,6 +9,7 @@ import { buildPaginationMeta } from "~/feature/search/pagination";
 import type { noteSearchParamSchema } from "~/feature/search/validation";
 import type { PaginationMeta } from "~/generated/api/schemas/paginationMeta";
 import { useNetworkBusy } from "~/hooks/useNetworkBusy";
+import { WEB_PATHS } from "~/constants/paths";
 import Fa6SolidAngleLeft from "~icons/fa6-solid/angle-left";
 import Fa6SolidAngleRight from "~icons/fa6-solid/angle-right";
 
@@ -37,11 +38,17 @@ export const SearchPagination = ({
   const totalDisplayedItems = currentQuery.offset + visibleItemCount;
 
   const prevTo = useMemo(
-    () => (pagination?.prev ? withQuery("/", getQuery(pagination.prev)) : null),
+    () =>
+      pagination?.prev
+        ? withQuery(WEB_PATHS.search.index, getQuery(pagination.prev))
+        : null,
     [pagination?.prev],
   );
   const nextTo = useMemo(
-    () => (pagination?.next ? withQuery("/", getQuery(pagination.next)) : null),
+    () =>
+      pagination?.next
+        ? withQuery(WEB_PATHS.search.index, getQuery(pagination.next))
+        : null,
     [pagination?.next],
   );
 
@@ -60,7 +67,7 @@ export const SearchPagination = ({
 
   return (
     <Group {...groupProps}>
-      <Text>
+      <Text c="white">
         {pageFirstItemIndex} ～ {totalDisplayedItems} 件目を表示中
       </Text>
       {prevTo ? (

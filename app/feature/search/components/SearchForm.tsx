@@ -111,6 +111,8 @@ export const SearchForm = (props: SearchFormProps) => {
         <Stack>
           <TextInput
             autoComplete="off"
+            c="white"
+            classNames={{ input: "!bg-gray-1 !border-gray-5" }}
             disabled={searchInProgress}
             error={
               containsNonNullValues(fields.note_includes_text.errors) && (
@@ -118,6 +120,14 @@ export const SearchForm = (props: SearchFormProps) => {
               )
             }
             label="コミュニティノートに含まれるテキスト"
+            styles={{
+              input: {
+                color: "white",
+              },
+              label: {
+                marginBottom: "8px",
+              },
+            }}
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
           <TopicSelect
@@ -142,6 +152,8 @@ export const SearchForm = (props: SearchFormProps) => {
             valueFormat="YYYY.MM.DD (ddd)"
           />
           <Autocomplete
+            c="white"
+            classNames={{ input: "!bg-gray-1 !border-gray-5" }}
             data={["10", "20", "50", "100"]}
             description="80: 1ページに最大 80 件のコミュニティノートを表示"
             disabled={searchInProgress}
@@ -153,6 +165,14 @@ export const SearchForm = (props: SearchFormProps) => {
             errorProps={{ component: "div" }}
             inputWrapperOrder={mantineInputOrder}
             label="1ページあたりの表示件数"
+            styles={{
+              input: {
+                color: "white",
+              },
+              label: {
+                marginBottom: "8px",
+              },
+            }}
             {...getInputProps(fields.limit, { type: "number" })}
           />
           {/**
@@ -236,16 +256,23 @@ export const SearchForm = (props: SearchFormProps) => {
               })}
             />
           </>
-          <div className="flex flex-col-reverse gap-y-4 md:flex-col">
+          <div className="pt-4 md:pt-5" />
+          <div className="flex flex-col-reverse gap-y-4 pt-3 md:flex-col">
             {/* 最後の入力の直後は必ず submit ボタンにフォーカスが当たるようにするために、
             DOM の順序は固定して flex direction で並べ替える
             */}
             <SubmitButton
-              color="pink"
+              c="white"
               disabled={!form.valid || searchInProgress}
               loading={searchInProgress}
+              styles={{
+                root: {
+                  backgroundColor: "var(--color-primary)",
+                  borderRadius: "9999px",
+                },
+              }}
             >
-              検索
+              Search
             </SubmitButton>
             <UnstyledButton
               c="pink"

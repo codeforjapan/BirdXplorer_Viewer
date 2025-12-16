@@ -42,6 +42,8 @@ export const DateRangePicker = ({
 
   return (
     <DatePickerInput
+      c="white"
+      classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       clearable
       disabled={disabled}
       error={
@@ -54,6 +56,14 @@ export const DateRangePicker = ({
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
+      styles={{
+        input: {
+          color: "white",
+        },
+        label: {
+          marginBottom: "8px",
+        },
+      }}
       type="range"
       value={value}
       valueFormat={valueFormat}

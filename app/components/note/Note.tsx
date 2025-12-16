@@ -33,20 +33,22 @@ export const Note = ({ note }: NoteProps) => {
 
   return (
     <Card
+      bg="var(--color-twitter-dark-1)"
       className="content-visibility-auto"
       component="article"
       padding="lg"
       radius="md"
       w="100%"
-      withBorder
     >
       <Stack gap="md">
-        <Group className="text-sm text-zinc-600" justify="space-between">
+        <Group className="text-sm text-white" justify="space-between">
           <span>NoteID: {note.noteId}</span>
           <span>ノートの作成日時: {dateString}</span>
         </Group>
         <Stack gap="xs">
-          <Text className="break-words">{note.summary}</Text>
+          <Text c="white" className="break-words">
+            {note.summary}
+          </Text>
           <NoteStatus status={note.currentStatus} />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-[auto_1fr] md:gap-4">
             <Badge
@@ -69,7 +71,7 @@ export const Note = ({ note }: NoteProps) => {
           isNonEmptyString(note.postId) && (
             <Group justify="flex-end">
               <Button
-                color="pink"
+                color="white"
                 component="a"
                 href={postLinkFromPostId(note.postId)}
                 size="xs"
@@ -79,7 +81,7 @@ export const Note = ({ note }: NoteProps) => {
                 ポストを見る
               </Button>
               <Button
-                color="pink"
+                color="white"
                 component="a"
                 href={birdWatchLinkFromPostId(note.postId)}
                 size="xs"

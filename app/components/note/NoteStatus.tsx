@@ -33,7 +33,7 @@ export const NoteStatus = ({ status }: NoteStatusProps) => {
       size={16}
       withBorder
     >
-      <Text ms={16} size="sm">
+      <Text c="white" ms={16} size="sm">
         {convertNoteStatusToLabel(status)}
       </Text>
     </Indicator>
