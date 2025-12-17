@@ -21,7 +21,7 @@ const jsxFiles = "**/*.{jsx,tsx}";
 export default typegen(
   defineConfig(
     gitignore(),
-    globalIgnores(["app/generated/**"]),
+    globalIgnores(["app/generated/**", "public/**"]),
     {
       files: [jsFiles],
       ...js.configs.recommended,
