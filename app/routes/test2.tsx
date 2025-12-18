@@ -1,5 +1,6 @@
 import { Stack, Title } from "@mantine/core";
 
+import { AccountRankingSection } from "~/components/account-ranking";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
@@ -12,6 +13,7 @@ export default function Test2() {
     <Stack gap="xl" p="md">
       <Title order={2}>GraphWrapper デモ</Title>
 
+      <AccountRankingSection />
       <PostInfluenceChart />
       <NotesEvaluationStatusChart />
       <DailyNotesCreationChart />
