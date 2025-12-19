@@ -1,3 +1,7 @@
+import { Container, Stack } from "@mantine/core";
+
+import { AboutSection } from "~/components/about-section";
+
 import type { Route } from "./+types/_index";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -6,5 +10,13 @@ export const loader = (_args: Route.LoaderArgs) => {
 };
 
 export default function Index({}: Route.ComponentProps) {
-  return <main>トップ</main>;
+  return (
+    <main>
+      <Container className="py-8" size="xl">
+        <Stack gap="xl">
+          <AboutSection />
+        </Stack>
+      </Container>
+    </main>
+  );
 }
