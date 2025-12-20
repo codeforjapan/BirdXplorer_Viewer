@@ -34,7 +34,6 @@ export type AccountRankingSectionProps = {
  */
 export const AccountRankingSection = ({
   data,
-  updatedAt = "2025年10月13日更新",
   periodOptions,
   initialPeriod = "1month",
 }: AccountRankingSectionProps) => {

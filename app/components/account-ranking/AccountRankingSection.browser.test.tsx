@@ -1,9 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
-import { AccountRankingSection } from "./AccountRankingSection";
+import { render } from "../../../test/test-react";
 import type { AccountRankingData } from "./AccountRankingSection";
+import { AccountRankingSection } from "./AccountRankingSection";
 
 const mockData: AccountRankingData[] = [
   {
@@ -34,60 +33,57 @@ const mockData: AccountRankingData[] = [
 
 describe("AccountRankingSection", () => {
   it("should render the component with title", () => {
-    render(<AccountRankingSection data={mockData} />);
-    expect(screen.getByText("アカウントランキング")).toBeInTheDocument();
+    const screen = render(<AccountRankingSection data={mockData} />);
+    expect(screen.getByText("アカウントランキング")).toBeTruthy();
   });
 
   it("should display table headers correctly", () => {
-    render(<AccountRankingSection data={mockData} />);
-    expect(screen.getByText("順位")).toBeInTheDocument();
-    expect(screen.getByText("ユーザー名")).toBeInTheDocument();
-    expect(screen.getByText("付与数")).toBeInTheDocument();
-    expect(screen.getByText("前回比")).toBeInTheDocument();
-    expect(screen.getByText("世界ランキング")).toBeInTheDocument();
+    const screen = render(<AccountRankingSection data={mockData} />);
+    expect(screen.getByText("順位")).toBeTruthy();
+    expect(screen.getByText("ユーザー名")).toBeTruthy();
+    expect(screen.getByText("付与数")).toBeTruthy();
+    expect(screen.getByText("前回比")).toBeTruthy();
+    expect(screen.getByText("世界ランキング")).toBeTruthy();
   });
 
   it("should display ranking data in table rows", () => {
-    render(<AccountRankingSection data={mockData} />);
-    expect(screen.getByText("テストユーザー1")).toBeInTheDocument();
-    expect(screen.getByText("544")).toBeInTheDocument();
-    expect(screen.getByText("+12")).toBeInTheDocument();
+    const screen = render(<AccountRankingSection data={mockData} />);
+    expect(screen.getByText("テストユーザー1")).toBeTruthy();
+    expect(screen.getByText("544")).toBeTruthy();
+    expect(screen.getByText("+12")).toBeTruthy();
   });
 
   it("should display rank numbers starting from 1", () => {
-    render(<AccountRankingSection data={mockData} />);
+    const screen = render(<AccountRankingSection data={mockData} />);
     const table = screen.getByRole("table");
-    const rows = table.querySelectorAll("tbody tr");
-    
+    const rows = table.element().querySelectorAll("tbody tr");
+
     // Check first row has rank 1
-    expect(rows[0]).toHaveTextContent("1");
+    expect(rows[0].textContent).toContain("1");
     // Check second row has rank 2
-    expect(rows[1]).toHaveTextContent("2");
+    expect(rows[1].textContent).toContain("2");
     // Check third row has rank 3
-    expect(rows[2]).toHaveTextContent("3");
+    expect(rows[2].textContent).toContain("3");
   });
 
   it("should render username as clickable link to Twitter", () => {
-    render(<AccountRankingSection data={mockData} />);
+    const screen = render(<AccountRankingSection data={mockData} />);
     const link = screen.getByText("テストユーザー1");
-    expect(link).toHaveAttribute("href", "https://x.com/test_user1");
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  });
-
-  it("should display updated date when provided", () => {
-    render(
-      <AccountRankingSection data={mockData} updatedAt="2025年10月13日更新" />
+    expect(link.element().closest("a")?.getAttribute("href")).toBe(
+      "https://x.com/test_user1",
     );
-    expect(screen.getByText("2025年10月13日更新")).toBeInTheDocument();
+    expect(link.element().closest("a")?.getAttribute("target")).toBe("_blank");
+    expect(link.element().closest("a")?.getAttribute("rel")).toBe(
+      "noopener noreferrer",
+    );
   });
 
-  it("should handle period selection dropdown", async () => {
-    const user = userEvent.setup();
-    render(<AccountRankingSection data={mockData} />);
-    
+  it("should handle period selection dropdown", () => {
+    const { container } = render(<AccountRankingSection data={mockData} />);
+
     // デフォルト値は「直近1ヶ月」
-    expect(screen.getByDisplayValue("直近1ヶ月")).toBeInTheDocument();
+    const select = container.querySelector("input");
+    expect(select?.getAttribute("value")).toBe("直近1ヶ月");
   });
 
   it("should limit display to 10 records", () => {
@@ -100,27 +96,28 @@ describe("AccountRankingSection", () => {
         change: "+5",
         worldRank: i + 1,
         changeDirection: "up" as const,
-      })
+      }),
     );
 
-    render(<AccountRankingSection data={largeData} />);
+    const screen = render(<AccountRankingSection data={largeData} />);
     const table = screen.getByRole("table");
-    const rows = table.querySelectorAll("tbody tr");
-    
+    const rows = table.element().querySelectorAll("tbody tr");
+
     // Should only display first 10 rows
-    expect(rows).toHaveLength(10);
+    expect(rows.length).toBe(10);
   });
 
   it("should apply correct color to change values", () => {
-    render(<AccountRankingSection data={mockData} />);
-    
+    const screen = render(<AccountRankingSection data={mockData} />);
+
     // Positive change should be green
     const positiveChange = screen.getByText("+12");
-    expect(positiveChange).toHaveClass("text-green");
-    
+    expect(positiveChange.element().classList.contains("text-green")).toBe(
+      true,
+    );
+
     // Negative change should be red
     const negativeChange = screen.getByText("-3");
-    expect(negativeChange).toHaveClass("text-red");
+    expect(negativeChange.element().classList.contains("text-red")).toBe(true);
   });
 });
-
