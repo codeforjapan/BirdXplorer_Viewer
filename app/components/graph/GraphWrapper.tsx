@@ -12,6 +12,8 @@ type PeriodOption = { value: string; label: string };
 
 type GraphWrapperProps = {
   children: React.ReactNode;
+  /** コンテナのクラス名 */
+  className?: string;
   /** ヘルプアイコンのツールチップテキスト */
   helpText?: string;
   hidePeriodSelector?: boolean;
@@ -32,6 +34,7 @@ type GraphWrapperProps = {
 export const GraphWrapper = ({
   title,
   children,
+  className,
   helpText,
   period = "1month",
   onPeriodChange,
@@ -49,7 +52,7 @@ export const GraphWrapper = ({
   };
 
   return (
-    <Box className="w-full">
+    <Box className={`w-full ${className ?? ""}`}>
       {/* ヘッダー: タイトル + 期間選択 */}
       <Group
         align="flex-start"
