@@ -27,17 +27,23 @@ describe("FeatureSection", () => {
   it("should render feature items with links", () => {
     const screen = render(<FeatureSection />);
     expect(screen.getByText("2025年 参議院選挙")).toBeTruthy();
-    const sangiin_link = screen.container.querySelector('a[href="/feature/2025-sangiin"]');
-    expect(sangiin_link).toBeTruthy();
+    const sangiinLink = screen.container.querySelector(
+      'a[href="/feature/2025-sangiin"]',
+    );
+    expect(sangiinLink).toBeTruthy();
 
     expect(screen.getByText(/2024年 能登半島地震/)).toBeTruthy();
-    const noto_link = screen.container.querySelector('a[href="/feature/2024-noto-earthquake"]');
-    expect(noto_link).toBeTruthy();
+    const notoLink = screen.container.querySelector(
+      'a[href="/feature/2024-noto-earthquake"]',
+    );
+    expect(notoLink).toBeTruthy();
   });
 
   it("should render BaseCards with correct colors", () => {
     const { container } = render(<FeatureSection />);
-    const cards = container.querySelectorAll(".rounded-lg.border.border-gray-2");
+    const cards = container.querySelectorAll(
+      ".rounded-lg.border.border-gray-2",
+    );
     expect(cards.length).toBeGreaterThan(0);
   });
 
@@ -54,4 +60,3 @@ describe("FeatureSection", () => {
     expect(playIcons.length).toBeGreaterThan(4);
   });
 });
-

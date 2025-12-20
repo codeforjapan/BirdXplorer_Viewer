@@ -1,4 +1,4 @@
-import { Anchor, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import { InfoIcon } from "~/components/icons/InfoIcon";

@@ -94,11 +94,10 @@ export default function Search({
 }: Route.ComponentProps) {
   const isNetworkBusy = useNetworkBusy();
 
-  const {
-    topics,
-    searchQuery,
-    searchResults: { data: notes, meta: paginationMeta },
-  } = loaderData.data;
+  const { topics, searchQuery, searchResults } = loaderData.data;
+  const notes = "data" in searchResults ? searchResults.data : [];
+  const paginationMeta =
+    "meta" in searchResults ? searchResults.meta : { next: null, prev: null };
 
   return (
     <main>

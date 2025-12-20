@@ -1,8 +1,7 @@
+import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { PageTitle } from "~/components/PageTitle";
 import { WEB_PATHS } from "~/constants/paths";
-
-import { BaseCard } from "../BaseCard/BaseCard";
 
 export type FeatureSectionProps = {
   className?: string;

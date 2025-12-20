@@ -45,7 +45,7 @@ export const Post = ({ post }: PostProps) => {
             size="sm"
             src={post.xUser.profileImage}
           />
-          <Text fw="bolder" c="white">
+          <Text c="white" fw="bolder">
             {post.xUser.name}
           </Text>
         </Group>
