@@ -2,6 +2,7 @@ import { Container, Stack } from "@mantine/core";
 
 import { AboutSection } from "~/components/about-section";
 import { FeatureSection } from "~/components/feature-section";
+import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
 
 import type { Route } from "./+types/_index";
 
@@ -17,6 +18,7 @@ export default function Index({}: Route.ComponentProps) {
         <Stack gap="xl">
           <AboutSection />
           <FeatureSection />
+          <ReportCardSection />
         </Stack>
       </Container>
     </main>
