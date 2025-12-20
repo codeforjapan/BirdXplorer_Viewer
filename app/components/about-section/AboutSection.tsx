@@ -23,7 +23,7 @@ export const AboutSection = ({ className }: AboutSectionProps) => {
       <div className="flex items-center justify-between gap-4">
         <PageTitle
           icon={<InfoIcon isActive />}
-          subtitle="|　バードエクスプローラについて"
+          subtitle="バードエクスプローラについて"
           title="About us"
         />
         <a
