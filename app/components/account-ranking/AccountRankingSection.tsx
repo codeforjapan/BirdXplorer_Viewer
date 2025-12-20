@@ -21,6 +21,8 @@ export type AccountRankingData = {
 };
 
 export type AccountRankingSectionProps = {
+  /** コンテナのクラス名 */
+  className?: string;
   data?: AccountRankingData[];
   updatedAt?: string;
   periodOptions?: Array<{ value: string; label: string }>;
@@ -33,6 +35,7 @@ export type AccountRankingSectionProps = {
  * - 名前をクリックでTwitterへ遷移
  */
 export const AccountRankingSection = ({
+  className,
   data,
   periodOptions,
   initialPeriod = "1month",
@@ -91,6 +94,7 @@ export const AccountRankingSection = ({
 
   return (
     <GraphWrapper
+      className={className}
       onPeriodChange={setPeriod}
       period={period}
       periodOptions={periodOptions ?? defaultPeriodOptions}
@@ -131,7 +135,7 @@ export const AccountRankingSection = ({
                 </Table.Th>
                 <Table.Th style={{ width: "20%" }}>付与数</Table.Th>
                 <Table.Th style={{ width: "20%" }}>前回比</Table.Th>
-                <Table.Th style={{ width: "20%" }}>世界ランキング</Table.Th>
+                <Table.Th style={{ width: "20%" }}>世界ランク</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>

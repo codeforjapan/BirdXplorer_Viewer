@@ -105,6 +105,8 @@ const generateMockData = (): EvaluationData[] => {
 };
 
 export type NotesEvaluationChartSectionProps = {
+  /** コンテナのクラス名 */
+  className?: string;
   data?: EvaluationData[];
   /** 更新日（例: "2025年10月13日更新"） */
   updatedAt?: string;
@@ -114,6 +116,7 @@ export type NotesEvaluationChartSectionProps = {
  * コミュニティノート評価分布図セクション
  */
 export const NotesEvaluationChartSection = ({
+  className,
   data,
   updatedAt = "2025年10月13日更新",
 }: NotesEvaluationChartSectionProps) => {
@@ -175,6 +178,7 @@ export const NotesEvaluationChartSection = ({
 
   return (
     <GraphWrapper
+      className={className}
       onPeriodChange={(v) => setPeriod(v as PeriodValue)}
       period={period}
       periodOptions={PERIOD_OPTIONS}
