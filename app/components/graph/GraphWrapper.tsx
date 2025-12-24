@@ -1,4 +1,12 @@
-import { ActionIcon, Box, Group, Select, Stack, Text, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Group,
+  Select,
+  Stack,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";

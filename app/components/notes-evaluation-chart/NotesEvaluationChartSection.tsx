@@ -160,19 +160,22 @@ export const NotesEvaluationChartSection = ({
     }));
   }, [filteredData]);
 
-  const tooltipFormatter = React.useCallback((item: ScatterDataItem): string => {
-    const statusNames: Record<number, string> = {
-      0: "非公開",
-      1: "評価中",
-      2: "公開済",
-      3: "一時公開",
-    };
-    return `<strong>${item.name}</strong><br/>
+  const tooltipFormatter = React.useCallback(
+    (item: ScatterDataItem): string => {
+      const statusNames: Record<number, string> = {
+        0: "非公開",
+        1: "評価中",
+        2: "公開済",
+        3: "一時公開",
+      };
+      return `<strong>${item.name}</strong><br/>
       「役に立った」の評価数: ${item.x.toLocaleString()}<br/>
       「役に立たなかった」の評価数: ${item.y.toLocaleString()}<br/>
       インプレッション: ${item.size.toLocaleString()}<br/>
       ステータス: ${statusNames[item.category as number] ?? item.category}`;
-  }, []);
+    },
+    [],
+  );
 
   const footer = <GraphStatusFilter onChange={setStatus} value={status} />;
 
@@ -201,4 +204,3 @@ export const NotesEvaluationChartSection = ({
     </GraphWrapper>
   );
 };
-

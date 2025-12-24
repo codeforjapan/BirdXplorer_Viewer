@@ -16,13 +16,15 @@ export const ReportCard = ({ item }: ReportCardProps) => {
   return (
     <BaseCard
       body={
-        <p className="text-body-l line-clamp-6 text-gray-3">
-          {item.description}
-        </p>
+        <a href={item.href}>
+          <p className="text-body-l line-clamp-6 text-gray-3 hover:underline">
+            {item.description}
+          </p>
+        </a>
       }
       key={item.href}
       title={
-        <span className="flex items-center gap-2 p-2 text-white hover:underline">
+        <span className="flex items-center gap-2 p-2 text-white">
           <PlayButtonIcon className="shrink-0" isActive />
           <span className="text-heading-l">{item.title}</span>
         </span>

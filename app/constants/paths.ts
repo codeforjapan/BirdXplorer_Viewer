@@ -6,9 +6,11 @@ export const WEB_PATHS = {
   },
   feature: {
     index: "/feature",
+    show: "/feature/:id",
   },
   report: {
     index: "/report",
+    show: "/report/:id",
   },
   search: {
     index: "/search",
