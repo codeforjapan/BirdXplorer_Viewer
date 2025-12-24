@@ -1,15 +1,15 @@
-import { ActionIcon, Group, Text } from "@mantine/core";
 import type { GroupProps } from "@mantine/core";
+import { ActionIcon, Group, Text } from "@mantine/core";
 import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { getQuery, withQuery } from "ufo";
 import type { z } from "zod";
 
+import { WEB_PATHS } from "~/constants/paths";
 import { buildPaginationMeta } from "~/feature/search/pagination";
 import type { noteSearchParamSchema } from "~/feature/search/validation";
 import type { PaginationMeta } from "~/generated/api/schemas/paginationMeta";
 import { useNetworkBusy } from "~/hooks/useNetworkBusy";
-import { WEB_PATHS } from "~/constants/paths";
 import Fa6SolidAngleLeft from "~icons/fa6-solid/angle-left";
 import Fa6SolidAngleRight from "~icons/fa6-solid/angle-right";
 

@@ -1,4 +1,12 @@
-import { ActionIcon, Box, Group, Select, Stack, Text, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Group,
+  Select,
+  Stack,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
@@ -11,6 +19,8 @@ import type { PeriodOption } from "./types";
 
 type GraphWrapperProps<T extends string = string> = {
   children: React.ReactNode;
+  /** コンテナのクラス名 */
+  className?: string;
   /** ヘルプアイコンのツールチップテキスト */
   helpText?: string;
   onPeriodChange?: (value: T) => void;
@@ -30,6 +40,7 @@ type GraphWrapperProps<T extends string = string> = {
 export const GraphWrapper = <T extends string = string,>({
   title,
   children,
+  className,
   helpText,
   period,
   onPeriodChange,
@@ -52,7 +63,7 @@ export const GraphWrapper = <T extends string = string,>({
   const shouldShowPeriodSelector = Boolean(period && periodOptions?.length);
 
   return (
-    <Box className="w-full">
+    <Box className={`w-full ${className ?? ""}`}>
       {/* ヘッダー: タイトル + 期間選択 */}
       <Group
         align="flex-start"

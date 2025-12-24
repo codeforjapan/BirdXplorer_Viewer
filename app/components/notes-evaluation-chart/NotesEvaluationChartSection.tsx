@@ -20,6 +20,8 @@ import type { NotesEvaluationApiResponse } from "./data";
 import { createMockResponse } from "./data";
 
 export type NotesEvaluationChartSectionProps = {
+  /** コンテナのクラス名 */
+  className?: string;
   data?: NoteEvaluationData[];
   /** 更新日（YYYY-MM-DD形式） */
   updatedAt?: string;
@@ -29,6 +31,7 @@ export type NotesEvaluationChartSectionProps = {
  * コミュニティノート評価分布図セクション
  */
 export const NotesEvaluationChartSection = ({
+  className,
   data,
   updatedAt,
 }: NotesEvaluationChartSectionProps) => {
@@ -90,12 +93,15 @@ export const NotesEvaluationChartSection = ({
       「役に立った」の評価数: ${item.y.toLocaleString()}<br/>
       インプレッション: ${item.size.toLocaleString()}<br/>
       ステータス: ${getStatusLabel(item.category as string)}`;
-  }, []);
+    },
+    [],
+  );
 
   const footer = <GraphStatusFilter onChange={setStatus} value={status} />;
 
   return (
     <GraphWrapper
+      className={className}
       onPeriodChange={setPeriod}
       period={period}
       periodOptions={options}
