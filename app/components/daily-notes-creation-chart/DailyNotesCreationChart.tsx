@@ -1,33 +1,27 @@
 import dayjs from "dayjs";
-import * as React from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import type { MarkLineConfig, StatusValue } from "~/components/graph";
+import type { MarkLineConfig, RelativePeriodValue, StatusValue } from "~/components/graph";
 import {
   GraphContainer,
   GraphStatusFilter,
   GraphWrapper,
+  RELATIVE_PERIOD_OPTIONS,
   StackedBarLineChart,
   STATUS_COLORS,
+  STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
 
-import type { DailyNotesCreationDataItem, EventMarker } from "./data";
-import { generateMockData, getDefaultEventMarkers } from "./data";
-
-/** ステータスフィルター設定（一時公開を除く） */
-const STATUS_FILTERS: Array<{
-  value: StatusValue;
-  label: string;
-  color?: string;
-}> = [
-  { value: "all", label: "全て" },
-  { value: "published", label: "公開中", color: STATUS_COLORS.published },
-  { value: "evaluating", label: "評価中", color: STATUS_COLORS.evaluating },
-  { value: "unpublished", label: "非公開", color: STATUS_COLORS.unpublished },
-];
+import type {
+  DailyNotesCreationApiResponse,
+  DailyNotesCreationDataItem,
+  EventMarker,
+} from "./data";
+import { createMockResponse } from "./data";
 
 export type DailyNotesCreationChartProps = {
   data?: DailyNotesCreationDataItem[];
-  /** 更新日（例: "2025年10月13日更新"） */
+  /** 更新日（YYYY-MM-DD形式） */
   updatedAt?: string;
   /** イベントマーカー（例: ["7/3 公示", "7/20 投開票"]） */
   eventMarkers?: EventMarker[];
@@ -35,51 +29,74 @@ export type DailyNotesCreationChartProps = {
 
 /**
  * コミュニティノートの日別作成数を表示する積み上げ棒グラフ
- * ステータス別（公開中/評価中/非公開）にフィルタリング可能
+ * ステータス別（公開中/評価中/非公開/一時公開）にフィルタリング可能
  */
 export const DailyNotesCreationChart = ({
   data,
-  updatedAt = "2025年10月13日更新",
+  updatedAt,
   eventMarkers,
 }: DailyNotesCreationChartProps) => {
-  const [status, setStatus] = React.useState<StatusValue>("all");
+  const options = useMemo(() => RELATIVE_PERIOD_OPTIONS, []);
+  const defaultPeriod = options[0]?.value ?? RELATIVE_PERIOD_OPTIONS[0]!.value;
+  const [period, setPeriod] = useState<RelativePeriodValue>(defaultPeriod);
+  const [status, setStatus] = useState<StatusValue>("all");
 
-  // TODO: APIからデータを取得するロジックを実装する
-  const rawData = React.useMemo(() => data ?? generateMockData(), [data]);
-
-  // イベントマーカー（未指定時はデモ用のデフォルトマーカーを使用）
-  const markers = React.useMemo(
-    () => eventMarkers ?? getDefaultEventMarkers(),
-    [eventMarkers]
+  const mockResponse = useMemo<DailyNotesCreationApiResponse>(
+    () => createMockResponse(period),
+    [period]
   );
 
-  const categories = React.useMemo(
+  // TODO: APIからデータを取得するロジックを実装する
+  // 現在はモックデータを使用（periodに応じて生成）
+  const rawData = useMemo(
+    () => data ?? mockResponse.data,
+    [data, mockResponse.data]
+  );
+
+  // イベントマーカー（未指定時はデモ用のデフォルトマーカーを使用）
+  const markers = useMemo(
+    () => eventMarkers ?? mockResponse.eventMarkers,
+    [eventMarkers, mockResponse.eventMarkers]
+  );
+
+  useEffect(() => {
+    if (!options.length) return;
+    if (period && options.some((option) => option.value === period)) return;
+    const fallback =
+      options.find((option) => option.value === defaultPeriod)?.value ??
+      options[0]?.value ??
+      defaultPeriod;
+    setPeriod(fallback);
+  }, [options, defaultPeriod, period]);
+
+  const categories = useMemo(
     () => rawData.map((d) => dayjs(d.date).format("M/D")),
     [rawData]
   );
 
   // イベントマーカーをMarkLineConfigに変換
-  const markLines = React.useMemo<MarkLineConfig[]>(() => {
-    return markers
+  const markLines = useMemo<MarkLineConfig[]>(() => {
+    return markers?.length ? markers
       .map((marker) => ({
         xAxisValue: dayjs(marker.date).format("M/D"),
         label: marker.label,
       }))
-      .filter((m) => categories.includes(m.xAxisValue));
+      .filter((m) => categories.includes(m.xAxisValue)) : [];
   }, [markers, categories]);
 
-  const seriesVisibility = React.useMemo(() => {
+  const seriesVisibility = useMemo(() => {
     if (status === "all") {
-      return { published: true, evaluating: true, unpublished: true };
+      return { published: true, evaluating: true, unpublished: true, temporarilyPublished: true };
     }
     return {
       published: status === "published",
       evaluating: status === "evaluating",
       unpublished: status === "unpublished",
+      temporarilyPublished: status === "temporarilyPublished",
     };
   }, [status]);
 
-  const barSeries = React.useMemo(
+  const barSeries = useMemo(
     () => [
       {
         name: "公開中",
@@ -99,6 +116,12 @@ export const DailyNotesCreationChart = ({
         color: STATUS_COLORS.unpublished,
         visible: seriesVisibility.unpublished,
       },
+      {
+        name: "一時公開",
+        data: rawData.map((d) => d.temporarilyPublished),
+        color: STATUS_COLORS.temporarilyPublished,
+        visible: seriesVisibility.temporarilyPublished,
+      },
     ],
     [rawData, seriesVisibility]
   );
@@ -106,15 +129,18 @@ export const DailyNotesCreationChart = ({
   const footer = (
     <GraphStatusFilter
       onChange={setStatus}
-      statuses={STATUS_FILTERS}
+      statuses={STATUS_FILTER_OPTIONS}
       value={status}
     />
   );
 
   return (
     <GraphWrapper
+      onPeriodChange={setPeriod}
+      period={period}
+      periodOptions={options}
       title="コミュニティノートの日別作成数"
-      updatedAt={updatedAt}
+      updatedAt={updatedAt ?? mockResponse.updatedAt}
     >
       <GraphContainer footer={footer}>
         <StackedBarLineChart

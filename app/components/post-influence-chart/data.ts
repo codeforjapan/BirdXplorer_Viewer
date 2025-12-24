@@ -1,16 +1,24 @@
-import type { PostInfluenceData } from "./PostInfluenceChart";
+import dayjs from "dayjs";
+
+import type { PostInfluenceData } from "~/components/graph";
+
+export type PostInfluenceApiResponse = {
+  data: PostInfluenceData[];
+  updatedAt: string;
+};
 
 /**
  * ポストの影響力グラフ用モックデータを生成
  * 元デザイン参考:
- * - 公開中（青）: 左下に密集、一部は評価中と重なるエリアに
- * - 評価中（紫）: 対角線状に広がる分布、公開中・非公開と一部重なる
- * - 非公開（ピンク）: 中央〜右上に点在、評価中と重なるエリアにも配置
+ * - 公開中（紫）: 左下に密集、一部は評価中と重なるエリアに
+ * - 評価中（水色）: 対角線状に広がる分布、公開中・非公開と一部重なる
+ * - 非公開（青）: 中央〜右上に点在、評価中と重なるエリアにも配置
+ * - 一時公開（ピンク）: 中央付近に点在
  */
 export const generateMockData = (): PostInfluenceData[] => {
   const result: PostInfluenceData[] = [];
 
-  // 公開中（青/シアン）- 左下に集中、一部は評価中と重なるエリアに
+  // 公開中（紫）- 左下に集中、一部は評価中と重なるエリアに
   for (let i = 0; i < 12; i++) {
     result.push({
       postId: `published-${i + 1}`,
@@ -33,7 +41,7 @@ export const generateMockData = (): PostInfluenceData[] => {
     });
   }
 
-  // 評価中（紫）- 左下から対角線状に、公開中・非公開と一部重なる
+  // 評価中（水色）- 左下から対角線状に、公開中・非公開と一部重なる
   // 左下グループ（公開中と重なるエリア）
   for (let i = 0; i < 15; i++) {
     result.push({
@@ -79,7 +87,7 @@ export const generateMockData = (): PostInfluenceData[] => {
     });
   }
 
-  // 非公開（ピンク）- 評価中と重なるエリアにも配置
+  // 非公開（青）- 評価中と重なるエリアにも配置
   // 中央〜右上（評価中と重なる）
   for (let i = 0; i < 6; i++) {
     result.push({
@@ -103,5 +111,24 @@ export const generateMockData = (): PostInfluenceData[] => {
     });
   }
 
+  // 一時公開（ピンク）- 中央付近に点在
+  for (let i = 0; i < 10; i++) {
+    result.push({
+      postId: `temporarilyPublished-${i + 1}`,
+      name: `一時公開ポスト${i + 1}`,
+      reposts: Math.floor(Math.random() * 12000) + 8000,
+      likes: Math.floor(Math.random() * 50000) + 50000,
+      impressions: Math.floor(Math.random() * 30000000) + 15000000,
+      status: "temporarilyPublished",
+    });
+  }
+
   return result;
+};
+
+export const createMockResponse = (): PostInfluenceApiResponse => {
+  return {
+    data: generateMockData(),
+    updatedAt: dayjs().format("YYYY-MM-DD"),
+  };
 };
