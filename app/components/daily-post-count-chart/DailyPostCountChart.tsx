@@ -3,6 +3,7 @@ import { useEffect,useMemo, useState } from "react";
 
 import type { MarkLineConfig, PeriodRangeValue, StatusValue } from "~/components/graph";
 import {
+  getDefaultPeriodValue,
   GraphContainer,
   GraphStatusFilter,
   GraphWrapper,
@@ -37,7 +38,7 @@ export const DailyPostCountChart = ({
   eventMarkers,
 }: DailyPostCountChartProps) => {
   const options = useMemo(() => MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS, []);
-  const defaultPeriod = options[0]?.value ?? MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS[0]!.value;
+  const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
 
   useEffect(() => {

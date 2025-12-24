@@ -5,6 +5,7 @@ import type {
   EventMarker,
   PeriodRangeValue,
 } from "~/components/graph";
+import { getDefaultPeriodValue } from "~/components/graph";
 import type { PeriodOption } from "~/components/graph/types";
 
 import { MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS } from "./periodOptions";
@@ -20,23 +21,12 @@ export type DailyPostCountApiResponse = {
 
 const resolvePeriod = (
   period: PeriodRangeValue | undefined,
-  periodOptions: Array<PeriodOption<PeriodRangeValue>>,
-  defaultPeriod?: PeriodRangeValue
+  periodOptions: Array<PeriodOption<PeriodRangeValue>>
 ): PeriodRangeValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
   }
-  if (
-    defaultPeriod &&
-    periodOptions.some((option) => option.value === defaultPeriod)
-  ) {
-    return defaultPeriod;
-  }
-  return (
-    periodOptions[0]?.value ??
-    defaultPeriod ??
-    MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS[0]!.value
-  );
+  return getDefaultPeriodValue(periodOptions);
 };
 
 /**
@@ -114,11 +104,9 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: PeriodRangeValue
 ): DailyPostCountApiResponse => {
-  const defaultPeriod = MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS[0]!.value;
   const resolvedPeriod = resolvePeriod(
     period,
-    MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS,
-    defaultPeriod
+    MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS
   );
   const data = generateMockData(resolvedPeriod);
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
+  getDefaultPeriodValue,
   getStatusLabel,
   GraphContainer,
   GraphStatusFilter,
@@ -32,7 +33,7 @@ export const NotesEvaluationChartSection = ({
   updatedAt,
 }: NotesEvaluationChartSectionProps) => {
   const options = useMemo(() => RELATIVE_PERIOD_OPTIONS, []);
-  const defaultPeriod = options[0]?.value ?? RELATIVE_PERIOD_OPTIONS[0]!.value;
+  const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<RelativePeriodValue>(defaultPeriod);
   const [status, setStatus] = useState<StatusValue>("all");
 

@@ -28,6 +28,7 @@ export {
 export type { StatusColorKey, StatusLabelKey, StatusValue } from "./constants";
 export { RELATIVE_PERIOD_OPTIONS } from "./constants";
 export type { RelativePeriodValue } from "./constants";
+export { getDefaultPeriodValue } from "./periodUtils";
 // 共通データ型
 export type {
   NoteStatus,

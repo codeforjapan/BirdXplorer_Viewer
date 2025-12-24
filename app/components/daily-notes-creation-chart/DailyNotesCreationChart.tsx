@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import type { MarkLineConfig, RelativePeriodValue, StatusValue } from "~/components/graph";
 import {
+  getDefaultPeriodValue,
   GraphContainer,
   GraphStatusFilter,
   GraphWrapper,
@@ -37,7 +38,7 @@ export const DailyNotesCreationChart = ({
   eventMarkers,
 }: DailyNotesCreationChartProps) => {
   const options = useMemo(() => RELATIVE_PERIOD_OPTIONS, []);
-  const defaultPeriod = options[0]?.value ?? RELATIVE_PERIOD_OPTIONS[0]!.value;
+  const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<RelativePeriodValue>(defaultPeriod);
   const [status, setStatus] = useState<StatusValue>("all");
 

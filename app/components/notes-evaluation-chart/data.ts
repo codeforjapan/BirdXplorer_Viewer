@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import type { NoteEvaluationData, RelativePeriodValue } from "~/components/graph";
-import { RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
+import { getDefaultPeriodValue, RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
 import type { PeriodOption } from "~/components/graph/types";
 
 export type NotesEvaluationApiResponse = {
@@ -32,23 +32,12 @@ const getPeriodScale = (period?: RelativePeriodValue): number => {
 
 const resolvePeriod = (
   period: RelativePeriodValue | undefined,
-  periodOptions: Array<PeriodOption<RelativePeriodValue>>,
-  defaultPeriod?: RelativePeriodValue
+  periodOptions: Array<PeriodOption<RelativePeriodValue>>
 ): RelativePeriodValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
   }
-  if (
-    defaultPeriod &&
-    periodOptions.some((option) => option.value === defaultPeriod)
-  ) {
-    return defaultPeriod;
-  }
-  return (
-    periodOptions[0]?.value ??
-    defaultPeriod ??
-    RELATIVE_PERIOD_OPTIONS[0]!.value
-  );
+  return getDefaultPeriodValue(periodOptions);
 };
 
 export const generateMockData = (
@@ -123,12 +112,7 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: RelativePeriodValue
 ): NotesEvaluationApiResponse => {
-  const defaultPeriod = RELATIVE_PERIOD_OPTIONS[0]!.value;
-  const resolvedPeriod = resolvePeriod(
-    period,
-    RELATIVE_PERIOD_OPTIONS,
-    defaultPeriod
-  );
+  const resolvedPeriod = resolvePeriod(period, RELATIVE_PERIOD_OPTIONS);
 
   return {
     data: generateMockData(resolvedPeriod),

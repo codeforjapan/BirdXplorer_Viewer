@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 import type { DailyNotesCreationDataItem, EventMarker, RelativePeriodValue } from "~/components/graph";
-import { RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
+import { getDefaultPeriodValue, RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
 import type { PeriodOption } from "~/components/graph/types";
 
 // 共通型を再エクスポート
@@ -43,23 +43,12 @@ const parsePeriod = (period?: RelativePeriodValue): { start: dayjs.Dayjs; end: d
 
 const resolvePeriod = (
   period: RelativePeriodValue | undefined,
-  periodOptions: Array<PeriodOption<RelativePeriodValue>>,
-  defaultPeriod?: RelativePeriodValue
+  periodOptions: Array<PeriodOption<RelativePeriodValue>>
 ): RelativePeriodValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
   }
-  if (
-    defaultPeriod &&
-    periodOptions.some((option) => option.value === defaultPeriod)
-  ) {
-    return defaultPeriod;
-  }
-  return (
-    periodOptions[0]?.value ??
-    defaultPeriod ??
-    RELATIVE_PERIOD_OPTIONS[0]!.value
-  );
+  return getDefaultPeriodValue(periodOptions);
 };
 
 export const getDefaultEventMarkers = (period?: RelativePeriodValue): EventMarker[] => {
@@ -114,12 +103,7 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: RelativePeriodValue
 ): DailyNotesCreationApiResponse => {
-  const defaultPeriod = RELATIVE_PERIOD_OPTIONS[0]!.value;
-  const resolvedPeriod = resolvePeriod(
-    period,
-    RELATIVE_PERIOD_OPTIONS,
-    defaultPeriod
-  );
+  const resolvedPeriod = resolvePeriod(period, RELATIVE_PERIOD_OPTIONS);
   const data = generateMockData(resolvedPeriod);
 
   return {

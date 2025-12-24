@@ -3,6 +3,7 @@ import { useEffect,useMemo, useState } from "react";
 
 import type { MonthlyNoteData, PeriodRangeValue } from "~/components/graph";
 import {
+  getDefaultPeriodValue,
   GraphContainer,
   GraphWrapper,
   StackedBarLineChart,
@@ -75,7 +76,7 @@ export const NotesAnnualChartSection = ({
   updatedAt,
 }: NotesAnnualChartSectionProps) => {
   const options = useMemo(() => NOTES_ANNUAL_PERIOD_OPTIONS, []);
-  const defaultPeriod = options[0]?.value ?? NOTES_ANNUAL_PERIOD_OPTIONS[0]!.value;
+  const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
 
   const mockResponse = useMemo<NotesAnnualApiResponse>(
