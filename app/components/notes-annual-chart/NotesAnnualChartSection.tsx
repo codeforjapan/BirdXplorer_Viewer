@@ -1,18 +1,18 @@
 import { Group, Text, UnstyledButton } from "@mantine/core";
-import * as React from "react";
+import { useEffect,useMemo, useState } from "react";
 
+import type { MonthlyNoteData, PeriodRangeValue } from "~/components/graph";
 import {
+  getDefaultPeriodValue,
   GraphContainer,
   GraphWrapper,
   StackedBarLineChart,
   STATUS_COLORS,
 } from "~/components/graph";
 
-import {
-  generateMockData,
-  MOCK_PERIOD_OPTIONS,
-  type MonthlyNoteData,
-} from "./data";
+import type { NotesAnnualApiResponse } from "./data";
+import { createMockResponse } from "./data";
+import { NOTES_ANNUAL_PERIOD_OPTIONS } from "./periodOptions";
 
 /** 公開率の色（オレンジ） */
 const PUBLICATION_RATE_COLOR = "#ffa726";
@@ -57,6 +57,7 @@ type SeriesVisibility = {
   published: boolean;
   evaluating: boolean;
   unpublished: boolean;
+  temporarilyPublished: boolean;
   publicationRate: boolean;
 };
 
@@ -65,25 +66,46 @@ type NotesAnnualChartSectionProps = {
   data?: MonthlyNoteData[];
   /** ヘルプテキスト（ツールチップで表示） */
   helpText?: string;
-  /** 更新日（例: "2025年10月13日更新"） */
+  /** 更新日（YYYY-MM-DD形式） */
   updatedAt?: string;
 };
 
 export const NotesAnnualChartSection = ({
   data,
   helpText = "このグラフは、過去1年間のコミュニティノートの数と公開率を月ごとに表示しています。",
-  updatedAt = "2025年10月13日更新",
+  updatedAt,
 }: NotesAnnualChartSectionProps) => {
-  const [period, setPeriod] = React.useState(MOCK_PERIOD_OPTIONS[0]?.value ?? "");
+  const options = useMemo(() => NOTES_ANNUAL_PERIOD_OPTIONS, []);
+  const defaultPeriod = getDefaultPeriodValue(options);
+  const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
+
+  const mockResponse = useMemo<NotesAnnualApiResponse>(
+    () => createMockResponse(period),
+    [period]
+  );
 
   // TODO: 期間変更時にAPIからデータを取得するロジックを実装する
-  // 現在はモックデータを使用しており、periodの変更には対応していない
-  const chartData = React.useMemo(() => data ?? generateMockData(), [data]);
+  // 現在はモックデータを使用（periodに応じて生成）
+  const chartData = useMemo(
+    () => data ?? mockResponse.data,
+    [data, mockResponse.data]
+  );
 
-  const [visibility, setVisibility] = React.useState<SeriesVisibility>({
+  useEffect(() => {
+    if (!options.length) return;
+    if (period && options.some((option) => option.value === period)) return;
+    const fallback =
+      options.find((option) => option.value === defaultPeriod)?.value ??
+      options[0]?.value ??
+      defaultPeriod;
+    setPeriod(fallback);
+  }, [options, defaultPeriod, period]);
+
+  const [visibility, setVisibility] = useState<SeriesVisibility>({
     published: true,
     evaluating: true,
     unpublished: true,
+    temporarilyPublished: true,
     publicationRate: true,
   });
 
@@ -91,16 +113,16 @@ export const NotesAnnualChartSection = ({
     setVisibility((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // グラフデータを変換
-  const categories = chartData.map((d) => d.month);
-  const barSeries = React.useMemo(
+  // グラフデータを変換（YYYY-MM → YYYY/MM に変換して表示）
+  const categories = chartData.map((d) => d.month.replace("-", "/"));
+  const barSeries = useMemo(
     () => [
-      // 積み上げ順序: 下から「非公開→評価中→公開中」（公開中が最上部に表示される）
+      // 積み上げ順序: 下から「公開中→評価中→非公開→一時公開」（他のグラフと統一）
       {
-        name: "非公開",
-        data: chartData.map((d) => d.unpublished),
-        color: STATUS_COLORS.unpublished,
-        visible: visibility.unpublished,
+        name: "公開中",
+        data: chartData.map((d) => d.published),
+        color: STATUS_COLORS.published,
+        visible: visibility.published,
       },
       {
         name: "評価中",
@@ -109,16 +131,22 @@ export const NotesAnnualChartSection = ({
         visible: visibility.evaluating,
       },
       {
-        name: "公開中",
-        data: chartData.map((d) => d.published),
-        color: STATUS_COLORS.published,
-        visible: visibility.published,
+        name: "非公開",
+        data: chartData.map((d) => d.unpublished),
+        color: STATUS_COLORS.unpublished,
+        visible: visibility.unpublished,
+      },
+      {
+        name: "一時公開",
+        data: chartData.map((d) => d.temporarilyPublished),
+        color: STATUS_COLORS.temporarilyPublished,
+        visible: visibility.temporarilyPublished,
       },
     ],
-    [chartData, visibility.unpublished, visibility.evaluating, visibility.published]
+    [chartData, visibility.published, visibility.evaluating, visibility.unpublished, visibility.temporarilyPublished]
   );
 
-  const lineSeries = React.useMemo(
+  const lineSeries = useMemo(
     () => ({
       name: "公開率",
       data: chartData.map((d) => d.publicationRate),
@@ -156,6 +184,12 @@ export const NotesAnnualChartSection = ({
           onClick={() => toggleSeries("unpublished")}
         />
         <LegendItem
+          color={STATUS_COLORS.temporarilyPublished}
+          isVisible={visibility.temporarilyPublished}
+          label="一時公開"
+          onClick={() => toggleSeries("temporarilyPublished")}
+        />
+        <LegendItem
           color={PUBLICATION_RATE_COLOR}
           isLine
           isVisible={visibility.publicationRate}
@@ -171,9 +205,9 @@ export const NotesAnnualChartSection = ({
       helpText={helpText}
       onPeriodChange={setPeriod}
       period={period}
-      periodOptions={MOCK_PERIOD_OPTIONS}
+      periodOptions={options}
       title="1年間のコミュニティノート数と公開率"
-      updatedAt={updatedAt}
+      updatedAt={updatedAt ?? mockResponse.updatedAt}
     >
       <GraphContainer footer={footer}>
         <StackedBarLineChart

@@ -1,5 +1,5 @@
 import type { EChartsOption } from "echarts";
-import * as React from "react";
+import { useMemo } from "react";
 
 import { GRAPH_STYLES } from "./constants";
 import { EChartsGraph } from "./EChartsGraph";
@@ -76,7 +76,7 @@ export const StackedBarLineChart = ({
   legendLeft = 10,
   markLines,
 }: StackedBarLineChartProps) => {
-  const option = React.useMemo<EChartsOption>(() => {
+  const option = useMemo<EChartsOption>(() => {
     // 凡例初期状態（visible=false を legend.selected で反映）
     const legendSelected = Object.fromEntries(
       barSeries.map((s) => [s.name, s.visible !== false]),
@@ -173,12 +173,28 @@ export const StackedBarLineChart = ({
               : "";
           let html = `<strong>${category}</strong><br/>`;
 
-          params.forEach((param) => {
+          // 棒グラフと折れ線グラフを分離
+          const barParams = params.filter(
+            (p) => typeof p === "object" && p !== null && "seriesName" in p && p.seriesName !== lineSeries?.name
+          );
+          const lineParams = params.filter(
+            (p) => typeof p === "object" && p !== null && "seriesName" in p && p.seriesName === lineSeries?.name
+          );
+
+          // 棒グラフは逆順で表示（視覚的な積み上げ順と一致: 上から下）
+          [...barParams].reverse().forEach((param) => {
             if (typeof param === "object" && param !== null && "seriesName" in param) {
               const value = param.value as number;
-              // 折れ線グラフの単位を取得
-              const unit =
-                lineSeries && param.seriesName === lineSeries.name ? (lineSeries.unit ?? "") : "";
+              const marker = typeof param.marker === "string" ? param.marker : "";
+              html += `${marker} ${param.seriesName}: ${value.toLocaleString()}<br/>`;
+            }
+          });
+
+          // 折れ線グラフは最後に表示
+          lineParams.forEach((param) => {
+            if (typeof param === "object" && param !== null && "seriesName" in param) {
+              const value = param.value as number;
+              const unit = lineSeries?.unit ?? "";
               const marker = typeof param.marker === "string" ? param.marker : "";
               html += `${marker} ${param.seriesName}: ${value.toLocaleString()}${unit}<br/>`;
             }

@@ -1,44 +1,29 @@
 import { Stack } from "@mantine/core";
-import * as React from "react";
+import { useCallback,useMemo, useState } from "react";
 
 import {
-  type CategoryConfig,
+  getStatusLabel,
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
   GraphWrapper,
+  type PostInfluenceData,
   ScatterBubbleChart,
-  STATUS_COLORS,
+  STATUS_CATEGORIES,
+  STATUS_FILTER_OPTIONS,
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
+import { getArrayMax, getArrayMin } from "~/utils/math";
 
-import { generateMockData } from "./data";
+import { createMockResponse } from "./data";
 
-/**
- * ポスト影響力のカテゴリ設定
- * 凡例の表示順序: 公開中 → 評価中 → 非公開
- */
-const POST_STATUS_CATEGORIES: CategoryConfig[] = [
-  { key: "published", name: "公開中", color: STATUS_COLORS.evaluating },
-  { key: "evaluating", name: "評価中", color: STATUS_COLORS.published },
-  { key: "unpublished", name: "非公開", color: STATUS_COLORS.temporarilyPublished },
-];
-
-/** ポスト影響力データの型 */
-export type PostInfluenceData = {
-  postId: string;
-  name: string;
-  reposts: number;
-  likes: number;
-  impressions: number;
-  /** ステータス: published=公開中, evaluating=評価中, unpublished=非公開 */
-  status: "published" | "evaluating" | "unpublished";
-};
+// PostInfluenceData は ~/components/graph から再エクスポート
+export type { PostInfluenceData } from "~/components/graph";
 
 export type PostInfluenceChartProps = {
   data?: PostInfluenceData[];
-  /** 更新日（例: "2025年10月13日更新"） */
+  /** 更新日（YYYY-MM-DD形式） */
   updatedAt?: string;
 };
 
@@ -48,35 +33,39 @@ export type PostInfluenceChartProps = {
  */
 export const PostInfluenceChart = ({
   data,
-  updatedAt = "2025年10月13日更新",
+  updatedAt,
 }: PostInfluenceChartProps) => {
-  const [status, setStatus] = React.useState<StatusValue>("all");
+  const [status, setStatus] = useState<StatusValue>("all");
 
-  const rawData = React.useMemo(() => data ?? generateMockData(), [data]);
+  const mockResponse = useMemo(() => createMockResponse(), []);
+  const rawData = useMemo(
+    () => data ?? mockResponse.data,
+    [data, mockResponse.data]
+  );
 
-  const axisRange = React.useMemo(() => {
+  const axisRange = useMemo(() => {
     const repostValues = rawData.map((d) => d.reposts);
     const likeValues = rawData.map((d) => d.likes);
     return {
-      xMax: Math.max(...repostValues),
-      yMax: Math.max(...likeValues),
+      xMax: getArrayMax(repostValues),
+      yMax: getArrayMax(likeValues),
     };
   }, [rawData]);
 
-  const impressionRange = React.useMemo(() => {
+  const impressionRange = useMemo(() => {
     const impressions = rawData.map((d) => d.impressions);
     return {
-      min: Math.min(...impressions),
-      max: Math.max(...impressions),
+      min: getArrayMin(impressions),
+      max: getArrayMax(impressions),
     };
   }, [rawData]);
 
-  const filteredData = React.useMemo(() => {
+  const filteredData = useMemo(() => {
     if (status === "all") return rawData;
     return rawData.filter((d) => d.status === status);
   }, [rawData, status]);
 
-  const chartData: ScatterDataItem[] = React.useMemo(() => {
+  const chartData: ScatterDataItem[] = useMemo(() => {
     return filteredData.map((d) => ({
       x: d.reposts,
       y: d.likes,
@@ -86,29 +75,17 @@ export const PostInfluenceChart = ({
     }));
   }, [filteredData]);
 
-  const tooltipFormatter = React.useCallback((item: ScatterDataItem): string => {
-    const statusNames: Record<string, string> = {
-      published: "公開中",
-      evaluating: "評価中",
-      unpublished: "非公開",
-    };
+  const tooltipFormatter = useCallback((item: ScatterDataItem): string => {
     return `<strong>${item.name}</strong><br/>
       リポスト数: ${item.x.toLocaleString()}<br/>
       いいね数: ${item.y.toLocaleString()}<br/>
       インプレッション: ${item.size.toLocaleString()}<br/>
-      ステータス: ${statusNames[item.category as string] ?? item.category}`;
+      ステータス: ${getStatusLabel(item.category as string)}`;
   }, []);
-
-  const statusOptions = [
-    { value: "all" as const, label: "全て" },
-    { value: "published" as const, label: "公開中" },
-    { value: "evaluating" as const, label: "評価中" },
-    { value: "unpublished" as const, label: "非公開" },
-  ];
 
   const footer = (
     <Stack gap="md">
-      <GraphStatusFilter onChange={setStatus} statuses={statusOptions} value={status} />
+      <GraphStatusFilter onChange={setStatus} statuses={STATUS_FILTER_OPTIONS} value={status} />
       <GraphSizeLegend
         label="インプレッション"
         max={impressionRange.max}
@@ -121,13 +98,12 @@ export const PostInfluenceChart = ({
 
   return (
     <GraphWrapper
-      hidePeriodSelector
       title="ポストの影響力"
-      updatedAt={updatedAt}
+      updatedAt={updatedAt ?? mockResponse.updatedAt}
     >
       <GraphContainer footer={footer}>
         <ScatterBubbleChart
-          categories={POST_STATUS_CATEGORIES}
+          categories={STATUS_CATEGORIES}
           data={chartData}
           height="60vh"
           minHeight={400}
