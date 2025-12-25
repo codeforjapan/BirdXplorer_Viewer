@@ -1,10 +1,11 @@
 import { BaseCard } from "~/components/BaseCard/BaseCard";
-import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
-import { PageTitle } from "~/components/PageTitle";
+import { PlayButtonIcon } from "~/components/icons";
+import { SectionTitle } from "~/components/SectionTitle";
 import { WEB_PATHS } from "~/constants/paths";
 
-export type FeatureSectionProps = {
+export type OtherTopicsSectionProps = {
   className?: string;
+  features: FeatureCategory[];
 };
 
 type FeatureItem = {
@@ -19,61 +20,14 @@ type FeatureCategory = {
   detail: FeatureItem;
 };
 
-// dummy data
-const features: FeatureCategory[] = [
-  {
-    id: 1,
-    category: "選挙特集",
-    color: "bg-green",
-    detail: {
-      title: "2025年 参議院選挙",
-      href: "/feature/2025-sangiin",
-    },
-  },
-  {
-    id: 2,
-    category: "災害特集",
-    color: "bg-blue",
-    detail: {
-      title: "2024年 能登半島地震 能登半島地震 能登半島地震",
-      href: "/feature/2024-noto-earthquake",
-    },
-  },
-  {
-    id: 3,
-    category: "道路特集",
-    color: "bg-green",
-    detail: {
-      title: "2024年 兵庫県知事選挙",
-      href: "/feature/2024-hyogo-governor",
-    },
-  },
-  {
-    id: 4,
-    category: "その他",
-    color: "bg-gray-2",
-    detail: {
-      title: "2024年 XXXXXXXXX",
-      href: "/feature/2024-other",
-    },
-  },
-];
-
-/**
- * Feature Sectionコンポーネント
- * - トップページに特集カードを表示
- * - View Allリンクで特集一覧ページへ遷移
- * - 各カードをクリックすると該当の特集ページ（Twitter）へ遷移
- */
-export const FeatureSection = ({ className }: FeatureSectionProps) => {
+export const OtherTopicsSection = ({
+  className,
+  features,
+}: OtherTopicsSectionProps) => {
   return (
     <section className={className}>
       <div className="flex items-center justify-between gap-4">
-        <PageTitle
-          icon={<FeatureIcon isActive />}
-          subtitle="特集"
-          title="Feature"
-        />
+        <SectionTitle title="その他の特集" />
         <a
           className="inline-flex items-center gap-2 text-primary hover:underline"
           href={WEB_PATHS.feature.index}
