@@ -2,19 +2,15 @@ import {
   ActionIcon,
   Box,
   Group,
-  Select,
   Stack,
   Text,
   Tooltip,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
+import { PeriodSelector } from "~/components/period-selector/PeriodSelector";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
-import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
-import Fa6SolidChevronDown from "~icons/fa6-solid/chevron-down";
 import Fa6SolidCircleQuestion from "~icons/fa6-solid/circle-question";
-
-import { PERIOD_OPTIONS } from "./periodConstants";
 
 type PeriodOption = { value: string; label: string };
 
@@ -52,12 +48,6 @@ export const GraphWrapper = ({
 }: GraphWrapperProps) => {
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
-
-  const handlePeriodChange = (value: string | null) => {
-    if (value && onPeriodChange) {
-      onPeriodChange(value);
-    }
-  };
 
   return (
     <Box className={`w-full ${className ?? ""}`}>
@@ -104,54 +94,10 @@ export const GraphWrapper = ({
         </Stack>
 
         {!hidePeriodSelector && (
-          <Select
-            allowDeselect={false}
-            comboboxProps={{
-              offset: 4,
-              position: "bottom-end",
-            }}
-            data={periodOptions ?? PERIOD_OPTIONS}
-            leftSection={<Fa6RegularCalendar className="size-4 text-primary" />}
-            onChange={handlePeriodChange}
-            rightSection={<Fa6SolidChevronDown className="size-3 text-white" />}
-            styles={{
-              root: {
-                maxWidth: periodOptions ? "220px" : "135px",
-              },
-              dropdown: {
-                backgroundColor: "var(--color-gray-1)",
-                border: "1px solid var(--color-gray-2)",
-                borderRadius: "8px",
-              },
-              input: {
-                backgroundColor: "var(--color-gray-1)",
-                border: "1px solid var(--color-gray-2)",
-                borderRadius: "8px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: isMobile ? "12px" : "14px",
-                height: isMobile ? "36px" : "40px",
-                minWidth: periodOptions
-                  ? isMobile
-                    ? "180px"
-                    : "200px"
-                  : isMobile
-                    ? "120px"
-                    : "140px",
-                paddingLeft: "36px",
-                paddingRight: "12px",
-              },
-              option: {
-                color: "white",
-                fontSize: isMobile ? "12px" : "14px",
-                padding: "8px 12px 8px 36px",
-              },
-              section: {
-                color: "var(--color-primary)",
-              },
-            }}
+          <PeriodSelector
+            onChange={onPeriodChange}
+            periodOptions={periodOptions}
             value={period}
-            withCheckIcon={false}
           />
         )}
       </Group>
