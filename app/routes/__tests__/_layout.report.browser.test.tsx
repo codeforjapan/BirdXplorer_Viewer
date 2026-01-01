@@ -24,7 +24,7 @@ describe("Report Page", () => {
   it("renders report items as links", () => {
     const { container } = render(<Report />);
     const links = Array.from(container.querySelectorAll("a"));
-    expect(links.length).toBe(4); // 4つのレポートアイテム
+    expect(links.length).toBe(18); // 18ヶ月分のレポートアイテム
 
     // すべてのリンクが/report/で始まることを確認
     links.forEach((link) => {
