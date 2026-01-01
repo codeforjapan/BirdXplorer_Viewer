@@ -58,12 +58,14 @@ describe("AccountRankingSection", () => {
     const table = screen.getByRole("table");
     const rows = table.element().querySelectorAll("tbody tr");
 
+    expect(rows.length).toBeGreaterThanOrEqual(3);
+
     // Check first row has rank 1
-    expect(rows[0].textContent).toContain("1");
+    expect(rows[0]?.textContent).toContain("1");
     // Check second row has rank 2
-    expect(rows[1].textContent).toContain("2");
+    expect(rows[1]?.textContent).toContain("2");
     // Check third row has rank 3
-    expect(rows[2].textContent).toContain("3");
+    expect(rows[2]?.textContent).toContain("3");
   });
 
   it("should render username as clickable link to Twitter", () => {

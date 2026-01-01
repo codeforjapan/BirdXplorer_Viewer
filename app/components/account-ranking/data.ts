@@ -25,19 +25,17 @@ export const generateMockData = (): AccountRankingData[] => {
 
   const result: AccountRankingData[] = [];
 
-  for (let i = 0; i < sampleUsers.length; i++) {
-    const user = sampleUsers[i];
-    
+  for (const [i, user] of sampleUsers.entries()) {
     // 上位ほど付与数が多くなるように設定
     const noteCount = Math.floor(Math.random() * 100) + (15 - i) * 50 + 300;
-    
+
     // 前回比の変動値（-20 〜 +50の範囲でランダム）
     const changeValue = Math.floor(Math.random() * 70) - 20;
     const changeDirection: "up" | "down" | "neutral" =
       changeValue > 0 ? "up" : changeValue < 0 ? "down" : "neutral";
     const changeSign = changeValue > 0 ? "+" : changeValue === 0 ? "±" : "";
     const change = changeValue === 0 ? "→" : `${changeSign}${changeValue}`;
-    
+
     // 世界ランキング（上位ほど低い数値）
     const worldRank = i + 1 + Math.floor(Math.random() * 3);
 
