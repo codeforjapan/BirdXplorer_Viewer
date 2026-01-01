@@ -1,16 +1,28 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Report from "~/routes/_layout.report";
 
 import { render } from "../../../test/test-react";
 
 describe("Report Page", () => {
-  it("renders all report items", () => {
+  beforeEach(() => {
+    // Mock the current date to 2025-09-30 so "1 year" filter shows Oct 2024 - Sep 2025
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2025-09-30T00:00:00Z"));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("renders default period (1 year) report items", () => {
     const screen = render(<Report />);
+    // デフォルトは1年分（12件）表示
     expect(screen.getByText("2025年 9月レポート")).toBeTruthy();
     expect(screen.getByText("2025年 8月レポート")).toBeTruthy();
-    expect(screen.getByText("2025年 7月レポート")).toBeTruthy();
-    expect(screen.getByText("2025年 6月レポート")).toBeTruthy();
+    expect(screen.getByText("2025年 1月レポート")).toBeTruthy();
+    expect(screen.getByText("2024年 12月レポート")).toBeTruthy();
+    expect(screen.getByText("2024年 10月レポート")).toBeTruthy();
   });
 
   it("renders report descriptions", () => {
@@ -21,10 +33,17 @@ describe("Report Page", () => {
     ).toBeTruthy();
   });
 
+  it("renders period selector", () => {
+    const { container } = render(<Report />);
+    const selector = container.querySelector("input");
+    expect(selector).not.toBeNull();
+    expect(selector?.value).toBe("直近1年");
+  });
+
   it("renders report items as links", () => {
     const { container } = render(<Report />);
     const links = Array.from(container.querySelectorAll("a"));
-    expect(links.length).toBe(18); // 18ヶ月分のレポートアイテム
+    expect(links.length).toBe(12); // デフォルト1年分のレポートアイテム
 
     // すべてのリンクが/report/で始まることを確認
     links.forEach((link) => {
