@@ -63,7 +63,7 @@ export const Note = ({ note }: NoteProps) => {
             <NoteTopic topics={note.topics} />
           </div>
         </Stack>
-        <Post post={note.post} />
+        {note.post && <Post post={note.post} />}
         {
           // ref: https://github.com/codeforjapan/BirdXplorer_Viewer/pull/32#discussion_r1978997326
           // API 側で Post 情報を非同期に取得する仕様変更が予定されているが、誤って postId が null になってしまう場合がありえるので
