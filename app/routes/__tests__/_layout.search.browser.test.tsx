@@ -46,16 +46,24 @@ const mockTopics: Topic[] = [
 
 const mockNote: SearchedNote = {
   noteId: "1234567890123456789",
+  noteAuthorParticipantId: null,
   summary: "テストサマリー",
   language: "ja",
   currentStatus: "CURRENTLY_RATED_HELPFUL",
   topics: [],
   createdAt: 1704067200000,
   postId: "1234567890123456789",
+  hasBeenHelpfuled: true,
+  rateCount: 100,
+  helpfulCount: 80,
+  notHelpfulCount: 15,
+  somewhatHelpfulCount: 5,
+  currentStatusHistory: [],
   post: {
     postId: "1234567890123456789",
     text: "テストポスト",
     createdAt: 1704067200000,
+    aggregatedAt: 1704067200000,
     xUserId: "1234567890123456789",
     xUser: {
       userId: "1234567890123456789",
