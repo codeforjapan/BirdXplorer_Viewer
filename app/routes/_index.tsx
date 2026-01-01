@@ -21,7 +21,7 @@ export default function Index({}: Route.ComponentProps) {
         <Stack gap="xl">
           <AboutSection />
           <FeatureSection />
-          <ReportCardSection />
+          <ReportCardSection maxItems={4} />
           <NotesAnnualChartSection />
           <Grid align="stretch" gutter="xl">
             <Grid.Col span={{ base: 12, md: 6 }}>
