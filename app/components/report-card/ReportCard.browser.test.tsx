@@ -10,6 +10,7 @@ const mockReportItem: ReportItem = {
   title: "テストレポート",
   description: "これはテスト用のレポートです。内容は省略されます。",
   href: "/report/test-1",
+  date: new Date("2024-01-01"),
 };
 
 describe("ReportCard", () => {

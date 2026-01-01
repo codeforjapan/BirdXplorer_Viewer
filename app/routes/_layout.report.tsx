@@ -41,41 +41,20 @@ const REPORT_PERIOD_OPTIONS = [
   { value: "all", label: "全期間" },
 ];
 
-// タイトルから年を抽出
-const extractYear = (title: string): number => {
-  const match = /(\d{4})年/.exec(title);
-  return match?.[1] ? parseInt(match[1], 10) : 0;
-};
-
 // 期間に応じた表示アイテムの取得
 const getDisplayItems = (period: string) => {
   const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth() + 1; // 0-indexed なので +1
 
   switch (period) {
     case "1year": {
       // 直近12ヶ月のデータ
-      const oneYearAgo = new Date(now);
-      oneYearAgo.setMonth(now.getMonth() - 11); // 11ヶ月前（今月含めて12ヶ月）
-      const startYear = oneYearAgo.getFullYear();
-      const startMonth = oneYearAgo.getMonth() + 1;
-
-      return REPORT_ITEMS.filter((item) => {
-        const year = extractYear(item.title);
-        const monthMatch = /(\d+)月/.exec(item.title);
-        const month = monthMatch?.[1] ? parseInt(monthMatch[1], 10) : 0;
-
-        if (year > currentYear || year < startYear) return false;
-        if (year === currentYear && month > currentMonth) return false;
-        if (year === startYear && month < startMonth) return false;
-        return true;
-      });
+      const oneYearAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
+      return REPORT_ITEMS.filter((item) => item.date >= oneYearAgo);
     }
     case "2025":
-      return REPORT_ITEMS.filter((item) => extractYear(item.title) === 2025);
+      return REPORT_ITEMS.filter((item) => item.date.getFullYear() === 2025);
     case "2024":
-      return REPORT_ITEMS.filter((item) => extractYear(item.title) === 2024);
+      return REPORT_ITEMS.filter((item) => item.date.getFullYear() === 2024);
     case "all":
       return REPORT_ITEMS;
     default:

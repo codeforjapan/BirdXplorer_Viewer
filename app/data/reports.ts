@@ -5,6 +5,7 @@ export type ReportItem = {
   title: string;
   description: string;
   href: string;
+  date: Date;
 };
 
 export const REPORT_ITEMS: ReportItem[] = [
@@ -14,6 +15,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化...",
     href: WEB_PATHS.report.show.replace(":id", "18"),
+    date: new Date("2025-09-01"),
   },
   {
     id: "17",
@@ -21,6 +23,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指した様々な提案が集まりました。インフラ整備、地域社会の活性化、観光資源の保護、市民参加によるまちづくり、デジタル技術活用、防災対策、医療・教育分野での協力強化などがあげられています...",
     href: WEB_PATHS.report.show.replace(":id", "17"),
+    date: new Date("2025-08-01"),
   },
   {
     id: "16",
@@ -28,6 +31,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市において持続的な成長を実現するための意見が幅広く提出されました。交通網の整備、地域経済の活性化、観光の促進、環境対応、AIやICTの活用による行政効率化が注目されています...",
     href: WEB_PATHS.report.show.replace(":id", "16"),
+    date: new Date("2025-07-01"),
   },
   {
     id: "15",
@@ -35,6 +39,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "持続可能な奈良市の未来にむけたアイディアが集まりました。都市づくりの新戦略、若者や高齢者が活躍できる街づくり、災害対策の強化、観光振興策、市民との協働体制強化などが挙げられています...",
     href: WEB_PATHS.report.show.replace(":id", "15"),
+    date: new Date("2025-06-01"),
   },
   {
     id: "14",
@@ -42,6 +47,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化...",
     href: WEB_PATHS.report.show.replace(":id", "14"),
+    date: new Date("2025-05-01"),
   },
   {
     id: "13",
@@ -49,6 +55,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指した様々な提案が集まりました。インフラ整備、地域社会の活性化、観光資源の保護、市民参加によるまちづくり、デジタル技術活用、防災対策、医療・教育分野での協力強化などがあげられています...",
     href: WEB_PATHS.report.show.replace(":id", "13"),
+    date: new Date("2025-04-01"),
   },
   {
     id: "12",
@@ -56,6 +63,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市において持続的な成長を実現するための意見が幅広く提出されました。交通網の整備、地域経済の活性化、観光の促進、環境対応、AIやICTの活用による行政効率化が注目されています...",
     href: WEB_PATHS.report.show.replace(":id", "12"),
+    date: new Date("2025-03-01"),
   },
   {
     id: "11",
@@ -63,6 +71,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "持続可能な奈良市の未来にむけたアイディアが集まりました。都市づくりの新戦略、若者や高齢者が活躍できる街づくり、災害対策の強化、観光振興策、市民との協働体制強化などが挙げられています...",
     href: WEB_PATHS.report.show.replace(":id", "11"),
+    date: new Date("2025-02-01"),
   },
   {
     id: "10",
@@ -70,6 +79,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化...",
     href: WEB_PATHS.report.show.replace(":id", "10"),
+    date: new Date("2025-01-01"),
   },
   {
     id: "9",
@@ -77,6 +87,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指した様々な提案が集まりました。インフラ整備、地域社会の活性化、観光資源の保護、市民参加によるまちづくり、デジタル技術活用、防災対策、医療・教育分野での協力強化などがあげられています...",
     href: WEB_PATHS.report.show.replace(":id", "9"),
+    date: new Date("2024-12-01"),
   },
   {
     id: "8",
@@ -84,6 +95,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市において持続的な成長を実現するための意見が幅広く提出されました。交通網の整備、地域経済の活性化、観光の促進、環境対応、AIやICTの活用による行政効率化が注目されています...",
     href: WEB_PATHS.report.show.replace(":id", "8"),
+    date: new Date("2024-11-01"),
   },
   {
     id: "7",
@@ -91,6 +103,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "持続可能な奈良市の未来にむけたアイディアが集まりました。都市づくりの新戦略、若者や高齢者が活躍できる街づくり、災害対策の強化、観光振興策、市民との協働体制強化などが挙げられています...",
     href: WEB_PATHS.report.show.replace(":id", "7"),
+    date: new Date("2024-10-01"),
   },
   {
     id: "6",
@@ -98,6 +111,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化...",
     href: WEB_PATHS.report.show.replace(":id", "6"),
+    date: new Date("2024-09-01"),
   },
   {
     id: "5",
@@ -105,6 +119,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指した様々な提案が集まりました。インフラ整備、地域社会の活性化、観光資源の保護、市民参加によるまちづくり、デジタル技術活用、防災対策、医療・教育分野での協力強化などがあげられています...",
     href: WEB_PATHS.report.show.replace(":id", "5"),
+    date: new Date("2024-08-01"),
   },
   {
     id: "4",
@@ -112,6 +127,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市において持続的な成長を実現するための意見が幅広く提出されました。交通網の整備、地域経済の活性化、観光の促進、環境対応、AIやICTの活用による行政効率化が注目されています...",
     href: WEB_PATHS.report.show.replace(":id", "4"),
+    date: new Date("2024-07-01"),
   },
   {
     id: "3",
@@ -119,6 +135,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "持続可能な奈良市の未来にむけたアイディアが集まりました。都市づくりの新戦略、若者や高齢者が活躍できる街づくり、災害対策の強化、観光振興策、市民との協働体制強化などが挙げられています...",
     href: WEB_PATHS.report.show.replace(":id", "3"),
+    date: new Date("2024-06-01"),
   },
   {
     id: "2",
@@ -126,6 +143,7 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化...",
     href: WEB_PATHS.report.show.replace(":id", "2"),
+    date: new Date("2024-05-01"),
   },
   {
     id: "1",
@@ -133,5 +151,6 @@ export const REPORT_ITEMS: ReportItem[] = [
     description:
       "奈良市の持続可能な発展を目指した様々な提案が集まりました。インフラ整備、地域社会の活性化、観光資源の保護、市民参加によるまちづくり、デジタル技術活用、防災対策、医療・教育分野での協力強化などがあげられています...",
     href: WEB_PATHS.report.show.replace(":id", "1"),
+    date: new Date("2024-04-01"),
   },
 ];
