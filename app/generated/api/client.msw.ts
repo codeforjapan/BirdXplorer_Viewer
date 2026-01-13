@@ -15,6 +15,11 @@ import {
   NoteStatus,
 } from "./schemas";
 import type {
+  GraphListResponseDailyNotesCreationDataItem,
+  GraphListResponseDailyPostCountDataItem,
+  GraphListResponseMonthlyNoteDataItem,
+  GraphListResponseNoteEvaluationDataItem,
+  GraphListResponsePostInfluenceDataItem,
   Message,
   NoteListResponse,
   PostListResponse,
@@ -36,12 +41,12 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
       max: undefined,
     }),
     timestampOfLastStateChange: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1765525659408 }),
+      faker.number.int({ min: 1152921600000, max: 1768306214578 }),
       "0",
       "103308100",
     ]),
     timestampOfLastEarnOut: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1765525659408 }),
+      faker.number.int({ min: 1152921600000, max: 1768306214578 }),
       "1",
     ]),
     modelingPopulation: faker.helpers.arrayElement(
@@ -96,7 +101,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
       faker.helpers.arrayElement(Object.values(NoteStatus)),
       null,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1765525659416 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1768306214587 }),
     hasBeenHelpfuled: faker.helpers.arrayElement([
       faker.datatype.boolean(),
       undefined,
@@ -123,7 +128,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
         (_, i) => i + 1,
       ).map(() => ({
         status: faker.helpers.arrayElement(Object.values(NoteStatus)),
-        date: faker.number.int({ min: 1152921600000, max: 1765525659414 }),
+        date: faker.number.int({ min: 1152921600000, max: 1768306214584 }),
       })),
       undefined,
     ]),
@@ -175,8 +180,8 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
       })),
       undefined,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1765525659427 }),
-    aggregatedAt: faker.number.int({ min: 1152921600000, max: 1765525659427 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1768306214596 }),
+    aggregatedAt: faker.number.int({ min: 1152921600000, max: 1768306214596 }),
     likeCount: faker.number.int({ min: 0, max: undefined }),
     repostCount: faker.number.int({ min: 0, max: undefined }),
     impressionCount: faker.number.int({ min: 0, max: undefined }),
@@ -235,7 +240,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
       ] as const),
       null,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1765525659544 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: 1768306214771 }),
     hasBeenHelpfuled: faker.datatype.boolean(),
     rateCount: faker.number.int({ min: undefined, max: undefined }),
     helpfulCount: faker.number.int({ min: undefined, max: undefined }),
@@ -274,10 +279,10 @@ export const getSearchApiV1DataSearchGetResponseMock = (
           })),
           undefined,
         ]),
-        createdAt: faker.number.int({ min: 1152921600000, max: 1765525659427 }),
+        createdAt: faker.number.int({ min: 1152921600000, max: 1768306214596 }),
         aggregatedAt: faker.number.int({
           min: 1152921600000,
-          max: 1765525659427,
+          max: 1768306214596,
         }),
         likeCount: faker.number.int({ min: 0, max: undefined }),
         repostCount: faker.number.int({ min: 0, max: undefined }),
@@ -307,6 +312,117 @@ export const getSearchApiV1DataSearchGetResponseMock = (
       undefined,
     ]),
   },
+  ...overrideResponse,
+});
+
+export const getGetDailyNotesApiV1GraphsDailyNotesGetResponseMock = (
+  overrideResponse: Partial<GraphListResponseDailyNotesCreationDataItem> = {},
+): GraphListResponseDailyNotesCreationDataItem => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    date: faker.string.alpha(20),
+    published: faker.number.int({ min: 0, max: undefined }),
+    evaluating: faker.number.int({ min: 0, max: undefined }),
+    unpublished: faker.number.int({ min: 0, max: undefined }),
+    temporarilyPublished: faker.number.int({ min: 0, max: undefined }),
+  })),
+  updatedAt: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
+export const getGetDailyPostsApiV1GraphsDailyPostsGetResponseMock = (
+  overrideResponse: Partial<GraphListResponseDailyPostCountDataItem> = {},
+): GraphListResponseDailyPostCountDataItem => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    date: faker.string.alpha(20),
+    postCount: faker.number.int({ min: 0, max: undefined }),
+    status: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
+  })),
+  updatedAt: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
+export const getGetNotesAnnualApiV1GraphsNotesAnnualGetResponseMock = (
+  overrideResponse: Partial<GraphListResponseMonthlyNoteDataItem> = {},
+): GraphListResponseMonthlyNoteDataItem => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    month: faker.string.alpha(20),
+    published: faker.number.int({ min: 0, max: undefined }),
+    evaluating: faker.number.int({ min: 0, max: undefined }),
+    unpublished: faker.number.int({ min: 0, max: undefined }),
+    temporarilyPublished: faker.number.int({ min: 0, max: undefined }),
+    publicationRate: faker.number.int({ min: 0, max: 1 }),
+  })),
+  updatedAt: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
+export const getGetNotesEvaluationApiV1GraphsNotesEvaluationGetResponseMock = (
+  overrideResponse: Partial<GraphListResponseNoteEvaluationDataItem> = {},
+): GraphListResponseNoteEvaluationDataItem => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    noteId: faker.string.alpha(20),
+    name: faker.string.alpha(20),
+    helpfulCount: faker.number.int({ min: 0, max: undefined }),
+    notHelpfulCount: faker.number.int({ min: 0, max: undefined }),
+    impressionCount: faker.number.int({ min: 0, max: undefined }),
+    status: faker.string.alpha(20),
+  })),
+  updatedAt: faker.string.alpha(20),
+  ...overrideResponse,
+});
+
+export const getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseMock =
+  (
+    overrideResponse: Partial<GraphListResponseNoteEvaluationDataItem> = {},
+  ): GraphListResponseNoteEvaluationDataItem => ({
+    data: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      noteId: faker.string.alpha(20),
+      name: faker.string.alpha(20),
+      helpfulCount: faker.number.int({ min: 0, max: undefined }),
+      notHelpfulCount: faker.number.int({ min: 0, max: undefined }),
+      impressionCount: faker.number.int({ min: 0, max: undefined }),
+      status: faker.string.alpha(20),
+    })),
+    updatedAt: faker.string.alpha(20),
+    ...overrideResponse,
+  });
+
+export const getGetPostInfluenceApiV1GraphsPostInfluenceGetResponseMock = (
+  overrideResponse: Partial<GraphListResponsePostInfluenceDataItem> = {},
+): GraphListResponsePostInfluenceDataItem => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    postId: faker.string.alpha(20),
+    name: faker.string.alpha(20),
+    repostCount: faker.number.int({ min: 0, max: undefined }),
+    likeCount: faker.number.int({ min: 0, max: undefined }),
+    impressionCount: faker.number.int({ min: 0, max: undefined }),
+    status: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
+  })),
+  updatedAt: faker.string.alpha(20),
   ...overrideResponse,
 });
 
@@ -451,6 +567,157 @@ export const getSearchApiV1DataSearchGetMockHandler = (
     );
   });
 };
+
+export const getGetDailyNotesApiV1GraphsDailyNotesGetMockHandler = (
+  overrideResponse?:
+    | GraphListResponseDailyNotesCreationDataItem
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GraphListResponseDailyNotesCreationDataItem>
+        | GraphListResponseDailyNotesCreationDataItem),
+) => {
+  return http.get("*/api/v1/graphs/daily-notes", async (info) => {
+    await delay(1000);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDailyNotesApiV1GraphsDailyNotesGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getGetDailyPostsApiV1GraphsDailyPostsGetMockHandler = (
+  overrideResponse?:
+    | GraphListResponseDailyPostCountDataItem
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GraphListResponseDailyPostCountDataItem>
+        | GraphListResponseDailyPostCountDataItem),
+) => {
+  return http.get("*/api/v1/graphs/daily-posts", async (info) => {
+    await delay(1000);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetDailyPostsApiV1GraphsDailyPostsGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getGetNotesAnnualApiV1GraphsNotesAnnualGetMockHandler = (
+  overrideResponse?:
+    | GraphListResponseMonthlyNoteDataItem
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GraphListResponseMonthlyNoteDataItem>
+        | GraphListResponseMonthlyNoteDataItem),
+) => {
+  return http.get("*/api/v1/graphs/notes-annual", async (info) => {
+    await delay(1000);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetNotesAnnualApiV1GraphsNotesAnnualGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getGetNotesEvaluationApiV1GraphsNotesEvaluationGetMockHandler = (
+  overrideResponse?:
+    | GraphListResponseNoteEvaluationDataItem
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GraphListResponseNoteEvaluationDataItem>
+        | GraphListResponseNoteEvaluationDataItem),
+) => {
+  return http.get("*/api/v1/graphs/notes-evaluation", async (info) => {
+    await delay(1000);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetNotesEvaluationApiV1GraphsNotesEvaluationGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
+
+export const getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetMockHandler =
+  (
+    overrideResponse?:
+      | GraphListResponseNoteEvaluationDataItem
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) =>
+          | Promise<GraphListResponseNoteEvaluationDataItem>
+          | GraphListResponseNoteEvaluationDataItem),
+  ) => {
+    return http.get("*/api/v1/graphs/notes-evaluation-status", async (info) => {
+      await delay(1000);
+
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseMock(),
+        ),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    });
+  };
+
+export const getGetPostInfluenceApiV1GraphsPostInfluenceGetMockHandler = (
+  overrideResponse?:
+    | GraphListResponsePostInfluenceDataItem
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<GraphListResponsePostInfluenceDataItem>
+        | GraphListResponsePostInfluenceDataItem),
+) => {
+  return http.get("*/api/v1/graphs/post-influence", async (info) => {
+    await delay(1000);
+
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPostInfluenceApiV1GraphsPostInfluenceGetResponseMock(),
+      ),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  });
+};
 export const getFastAPIMock = () => [
   getPingApiV1SystemPingGetMockHandler(),
   getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetMockHandler(),
@@ -458,4 +725,10 @@ export const getFastAPIMock = () => [
   getGetNotesApiV1DataNotesGetMockHandler(),
   getGetPostsApiV1DataPostsGetMockHandler(),
   getSearchApiV1DataSearchGetMockHandler(),
+  getGetDailyNotesApiV1GraphsDailyNotesGetMockHandler(),
+  getGetDailyPostsApiV1GraphsDailyPostsGetMockHandler(),
+  getGetNotesAnnualApiV1GraphsNotesAnnualGetMockHandler(),
+  getGetNotesEvaluationApiV1GraphsNotesEvaluationGetMockHandler(),
+  getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetMockHandler(),
+  getGetPostInfluenceApiV1GraphsPostInfluenceGetMockHandler(),
 ];

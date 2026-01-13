@@ -34,9 +34,9 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
   new RegExp("^[0-9A-F]{64}$");
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccessfulRatingNeededToEarnInMin = 0;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne = 1765525659408;
+export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne = 1768306214578;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne = 1765525659408;
+export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne = 1768306214578;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseModelingGroupMin = 0;
 
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponse =
@@ -120,9 +120,9 @@ export const getNotesApiV1DataNotesGetQueryNoteIdsItemRegExp = new RegExp(
   "^[0-9]{19}$",
 );
 export const getNotesApiV1DataNotesGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1765525659719;
+export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1768306214971;
 export const getNotesApiV1DataNotesGetQueryCreatedAtToMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne = 1765525659719;
+export const getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne = 1768306214972;
 export const getNotesApiV1DataNotesGetQueryOffsetDefault = 0;
 export const getNotesApiV1DataNotesGetQueryOffsetMin = 0;
 export const getNotesApiV1DataNotesGetQueryLimitDefault = 100;
@@ -242,7 +242,7 @@ export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemTopicIdMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax = 1765525659416;
+export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax = 1768306214587;
 export const getNotesApiV1DataNotesGetResponseDataItemHasBeenHelpfuledDefault = false;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountDefault = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountMin = 0;
@@ -254,7 +254,7 @@ export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountDefaul
 export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMin = 1152921600000;
 
-export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax = 1765525659414;
+export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax = 1768306214584;
 export const getNotesApiV1DataNotesGetResponseMetaNextMaxOne = 2083;
 export const getNotesApiV1DataNotesGetResponseMetaPrevMaxOne = 2083;
 
@@ -425,9 +425,9 @@ export const getPostsApiV1DataPostsGetQueryUserIdsItemRegExp = new RegExp(
   "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1765525659725;
+export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1768306214978;
 export const getPostsApiV1DataPostsGetQueryCreatedAtToMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne = 1765525659726;
+export const getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne = 1768306214979;
 export const getPostsApiV1DataPostsGetQueryOffsetDefault = 0;
 export const getPostsApiV1DataPostsGetQueryOffsetMin = 0;
 export const getPostsApiV1DataPostsGetQueryLimitDefault = 100;
@@ -520,10 +520,10 @@ export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemWidthMin =
 export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemHeightMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax = 1765525659427;
+export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax = 1768306214596;
 export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMin = 1152921600000;
 
-export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax = 1765525659427;
+export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax = 1768306214596;
 export const getPostsApiV1DataPostsGetResponseDataItemLikeCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemRepostCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemImpressionCountMin = 0;
@@ -680,9 +680,9 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
  */
 export const searchApiV1DataSearchGetQueryTopicIdsItemMin = 0;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne = 1765525659731;
+export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne = 1768306214986;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtToMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne = 1765525659732;
+export const searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne = 1768306214986;
 export const searchApiV1DataSearchGetQueryOffsetDefault = 0;
 export const searchApiV1DataSearchGetQueryOffsetMin = 0;
 export const searchApiV1DataSearchGetQueryLimitDefault = 100;
@@ -842,7 +842,7 @@ export const searchApiV1DataSearchGetResponseDataItemPostIdRegExp = new RegExp(
 );
 export const searchApiV1DataSearchGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemCreatedAtMax = 1765525659544;
+export const searchApiV1DataSearchGetResponseDataItemCreatedAtMax = 1768306214771;
 export const searchApiV1DataSearchGetResponseDataItemPostPostIdRegExp =
   new RegExp("^([0-9]{1,19}|)$");
 export const searchApiV1DataSearchGetResponseDataItemPostXUserIdRegExp =
@@ -857,10 +857,10 @@ export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemWidthMi
 export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemHeightMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax = 1765525659427;
+export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax = 1768306214596;
 export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax = 1765525659427;
+export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax = 1768306214596;
 export const searchApiV1DataSearchGetResponseDataItemPostLikeCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostRepostCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostImpressionCountMin = 0;
@@ -1112,4 +1112,658 @@ export const searchApiV1DataSearchGetResponse = zod.object({
       .optional()
       .describe("前のページのリクエスト用 URL"),
   }),
+});
+
+/**
+ * Get daily community note creation trends.
+
+Returns aggregated daily counts of community notes grouped by publication status
+for the specified time period.
+
+**Publication Status Categories:**
+- `published`: Notes with status CURRENTLY_RATED_HELPFUL
+- `temporarilyPublished`: Notes that were previously helpful but now need more ratings or are not helpful
+- `evaluating`: Notes currently being evaluated (NEEDS_MORE_RATINGS, never been helpful)
+- `unpublished`: All other notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for aggregation (required)
+    status: Filter by specific status or "all" for all statuses (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of daily aggregated note counts
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Daily Notes
+ */
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryStatusDefault = "all";
+
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryParams = zod.object({
+  period: zod
+    .enum(["1week", "1month", "3months", "6months", "1year"])
+    .describe("Time period for data aggregation"),
+  status: zod
+    .enum([
+      "all",
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ])
+    .default(getDailyNotesApiV1GraphsDailyNotesGetQueryStatusDefault)
+    .describe("Filter by note publication status"),
+});
+
+export const getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemPublishedMin = 0;
+export const getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemEvaluatingMin = 0;
+export const getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemUnpublishedMin = 0;
+export const getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemTemporarilyPublishedMin = 0;
+
+export const getDailyNotesApiV1GraphsDailyNotesGetResponse = zod.object({
+  data: zod
+    .array(
+      zod
+        .object({
+          date: zod
+            .string()
+            .describe("Date in YYYY-MM-DD format (UTC timezone)"),
+          published: zod
+            .number()
+            .min(
+              getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemPublishedMin,
+            )
+            .describe("Count of notes with published status on this date"),
+          evaluating: zod
+            .number()
+            .min(
+              getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemEvaluatingMin,
+            )
+            .describe("Count of notes with evaluating status on this date"),
+          unpublished: zod
+            .number()
+            .min(
+              getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemUnpublishedMin,
+            )
+            .describe("Count of notes with unpublished status on this date"),
+          temporarilyPublished: zod
+            .number()
+            .min(
+              getDailyNotesApiV1GraphsDailyNotesGetResponseDataItemTemporarilyPublishedMin,
+            )
+            .describe(
+              "Count of notes with temporarily published status on this date",
+            ),
+        })
+        .describe(
+          "Daily community note creation counts by publication status.\n\nRepresents a single day's aggregated note creation data.",
+        ),
+    )
+    .describe("Array of data items (type varies by endpoint)"),
+  updatedAt: zod
+    .string()
+    .describe(
+      "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+    ),
+});
+
+/**
+ * Get daily post volume trends.
+
+Returns aggregated daily counts of posts for the specified month range,
+optionally filtered by associated community note status.
+
+**Status Filter:**
+- `all`: All posts regardless of note status (default)
+- `published`: Posts with published notes
+- `temporarilyPublished`: Posts with temporarily published notes
+- `evaluating`: Posts with notes being evaluated
+- `unpublished`: Posts with no notes or unpublished notes
+
+**Date Range Format:**
+- Format: `YYYY-MM_YYYY-MM` (e.g., "2025-01_2025-03")
+- Maximum range: 1 year (12 months)
+- Both months inclusive
+
+Args:
+    range: Month range for aggregation (required)
+    status: Filter by specific note status or "all" (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of daily aggregated post counts
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if range format is invalid or exceeds limits
+ * @summary Get Daily Posts
+ */
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryStatusDefault = "all";
+
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryParams = zod.object({
+  range: zod.string().describe("Month range in format YYYY-MM_YYYY-MM"),
+  status: zod
+    .enum([
+      "all",
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ])
+    .default(getDailyPostsApiV1GraphsDailyPostsGetQueryStatusDefault)
+    .describe("Filter by note publication status"),
+});
+
+export const getDailyPostsApiV1GraphsDailyPostsGetResponseDataItemPostCountMin = 0;
+
+export const getDailyPostsApiV1GraphsDailyPostsGetResponse = zod.object({
+  data: zod
+    .array(
+      zod
+        .object({
+          date: zod
+            .string()
+            .describe("Date in YYYY-MM-DD format (UTC timezone)"),
+          postCount: zod
+            .number()
+            .min(
+              getDailyPostsApiV1GraphsDailyPostsGetResponseDataItemPostCountMin,
+            )
+            .describe("Total number of posts created on this date"),
+          status: zod
+            .string()
+            .or(zod.null())
+            .optional()
+            .describe(
+              "Publication status of associated notes (if status filter applied)",
+            ),
+        })
+        .describe(
+          "Daily post counts within a specified month range.\n\nRepresents post volume for a single day, optionally filtered by\nassociated community note status.",
+        ),
+    )
+    .describe("Array of data items (type varies by endpoint)"),
+  updatedAt: zod
+    .string()
+    .describe(
+      "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+    ),
+});
+
+/**
+ * Get monthly note publication rates.
+
+Returns aggregated monthly counts of community notes with publication rate
+(ratio of published notes to total notes) for the specified month range.
+
+**Publication Rate**: published_count / total_notes (0.0 if no notes)
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Date Range Format:**
+- Format: `YYYY-MM_YYYY-MM` (e.g., "2024-01_2024-12")
+- Maximum range: 24 months
+- Both months inclusive
+
+Args:
+    range: Month range for aggregation (required)
+    status: Filter by specific note status or "all" (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of monthly aggregated note counts with publication rates
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if range format is invalid or exceeds limits
+ * @summary Get Notes Annual
+ */
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStatusDefault = "all";
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryParams = zod.object({
+  range: zod.string().describe("Month range in format YYYY-MM_YYYY-MM"),
+  status: zod
+    .enum([
+      "all",
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ])
+    .default(getNotesAnnualApiV1GraphsNotesAnnualGetQueryStatusDefault)
+    .describe("Filter by note publication status"),
+});
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublishedMin = 0;
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemEvaluatingMin = 0;
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemUnpublishedMin = 0;
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemTemporarilyPublishedMin = 0;
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublicationRateMin = 0;
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublicationRateMax = 1;
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetResponse = zod.object({
+  data: zod
+    .array(
+      zod
+        .object({
+          month: zod.string().describe("Month in YYYY-MM format"),
+          published: zod
+            .number()
+            .min(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublishedMin,
+            )
+            .describe("Count of notes with published status in this month"),
+          evaluating: zod
+            .number()
+            .min(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemEvaluatingMin,
+            )
+            .describe("Count of notes with evaluating status in this month"),
+          unpublished: zod
+            .number()
+            .min(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemUnpublishedMin,
+            )
+            .describe("Count of notes with unpublished status in this month"),
+          temporarilyPublished: zod
+            .number()
+            .min(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemTemporarilyPublishedMin,
+            )
+            .describe(
+              "Count of notes with temporarily published status in this month",
+            ),
+          publicationRate: zod
+            .number()
+            .min(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublicationRateMin,
+            )
+            .max(
+              getNotesAnnualApiV1GraphsNotesAnnualGetResponseDataItemPublicationRateMax,
+            )
+            .describe(
+              "Ratio of published notes to total notes (0.0 to 1.0). Returns 0.0 if no notes.",
+            ),
+        })
+        .describe(
+          "Monthly community note counts with publication rate.\n\nAggregates note creation data by month and calculates the percentage\nof notes that achieved published status.",
+        ),
+    )
+    .describe("Array of data items (type varies by endpoint)"),
+  updatedAt: zod
+    .string()
+    .describe(
+      "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+    ),
+});
+
+/**
+ * Get individual note evaluation metrics.
+
+Returns top notes by impression count with helpfulness ratings,
+ordered descending by impression count for moderation review.
+
+**Metrics:**
+- helpfulCount: Number of helpful ratings
+- notHelpfulCount: Number of not-helpful ratings
+- impressionCount: Number of times note was displayed
+
+**Ordering**: Results ordered by impressionCount DESC
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual note evaluation metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Notes Evaluation
+ */
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStatusDefault =
+  "all";
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitDefault = 200;
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitMax = 200;
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryParams =
+  zod.object({
+    period: zod
+      .enum(["1week", "1month", "3months", "6months", "1year"])
+      .describe("Time period for data aggregation"),
+    status: zod
+      .enum([
+        "all",
+        "published",
+        "evaluating",
+        "unpublished",
+        "temporarilyPublished",
+      ])
+      .default(
+        getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStatusDefault,
+      )
+      .describe("Filter by note publication status"),
+    limit: zod
+      .number()
+      .min(1)
+      .max(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitMax)
+      .default(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitDefault)
+      .describe("Maximum number of results (max 200)"),
+  });
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemHelpfulCountMin = 0;
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemNotHelpfulCountMin = 0;
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemImpressionCountMin = 0;
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse =
+  zod.object({
+    data: zod
+      .array(
+        zod
+          .object({
+            noteId: zod.string().describe("Unique identifier for the note"),
+            name: zod
+              .string()
+              .describe("Note summary text or first 100 characters"),
+            helpfulCount: zod
+              .number()
+              .min(
+                getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemHelpfulCountMin,
+              )
+              .describe("Number of helpful ratings received"),
+            notHelpfulCount: zod
+              .number()
+              .min(
+                getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemNotHelpfulCountMin,
+              )
+              .describe("Number of not-helpful ratings received"),
+            impressionCount: zod
+              .number()
+              .min(
+                getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseDataItemImpressionCountMin,
+              )
+              .describe("Number of times the note was displayed"),
+            status: zod.string().describe("Publication status of the note"),
+          })
+          .describe(
+            "Individual note evaluation metrics for moderation review.\n\nProvides helpfulness ratings and impression counts for individual notes,\nordered by impression count descending.",
+          ),
+      )
+      .describe("Array of data items (type varies by endpoint)"),
+    updatedAt: zod
+      .string()
+      .describe(
+        "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+      ),
+  });
+
+/**
+ * Get individual note evaluation metrics ordered by helpful count.
+
+Alternative sorting to notes-evaluation endpoint - orders by helpfulCount instead
+of impressionCount for moderation review workflows.
+
+**Metrics:**
+- helpfulCount: Number of helpful ratings
+- notHelpfulCount: Number of not-helpful ratings
+- impressionCount: Number of times note was displayed
+
+**Ordering**: Results ordered by helpfulCount DESC (different from /notes-evaluation)
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual note evaluation metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Notes Evaluation Status
+ */
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStatusDefault =
+  "all";
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitDefault = 200;
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitMax = 200;
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryParams =
+  zod.object({
+    period: zod
+      .enum(["1week", "1month", "3months", "6months", "1year"])
+      .describe("Time period for data aggregation"),
+    status: zod
+      .enum([
+        "all",
+        "published",
+        "evaluating",
+        "unpublished",
+        "temporarilyPublished",
+      ])
+      .default(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStatusDefault,
+      )
+      .describe("Filter by note publication status"),
+    limit: zod
+      .number()
+      .min(1)
+      .max(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitMax,
+      )
+      .default(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitDefault,
+      )
+      .describe("Maximum number of results (max 200)"),
+  });
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemHelpfulCountMin = 0;
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemNotHelpfulCountMin = 0;
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemImpressionCountMin = 0;
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse =
+  zod.object({
+    data: zod
+      .array(
+        zod
+          .object({
+            noteId: zod.string().describe("Unique identifier for the note"),
+            name: zod
+              .string()
+              .describe("Note summary text or first 100 characters"),
+            helpfulCount: zod
+              .number()
+              .min(
+                getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemHelpfulCountMin,
+              )
+              .describe("Number of helpful ratings received"),
+            notHelpfulCount: zod
+              .number()
+              .min(
+                getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemNotHelpfulCountMin,
+              )
+              .describe("Number of not-helpful ratings received"),
+            impressionCount: zod
+              .number()
+              .min(
+                getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseDataItemImpressionCountMin,
+              )
+              .describe("Number of times the note was displayed"),
+            status: zod.string().describe("Publication status of the note"),
+          })
+          .describe(
+            "Individual note evaluation metrics for moderation review.\n\nProvides helpfulness ratings and impression counts for individual notes,\nordered by impression count descending.",
+          ),
+      )
+      .describe("Array of data items (type varies by endpoint)"),
+    updatedAt: zod
+      .string()
+      .describe(
+        "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+      ),
+  });
+
+/**
+ * Get individual post influence metrics.
+
+Returns top posts by impression count with engagement metrics (reposts, likes),
+ordered descending by impression count for analyzing viral content.
+
+**Metrics:**
+- repostCount: Number of times post was reposted
+- likeCount: Number of likes on the post
+- impressionCount: Number of times post was displayed
+
+**Ordering**: Results ordered by impressionCount DESC
+
+**Status Filter:**
+- `all`: All posts regardless of note status (default)
+- `published`: Posts with published notes
+- `temporarilyPublished`: Posts with temporarily published notes
+- `evaluating`: Posts with notes being evaluated
+- `unpublished`: Posts with no notes or unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific note status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual post influence metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Post Influence
+ */
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStatusDefault =
+  "all";
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitDefault = 200;
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitMax = 200;
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryParams =
+  zod.object({
+    period: zod
+      .enum(["1week", "1month", "3months", "6months", "1year"])
+      .describe("Time period for data aggregation"),
+    status: zod
+      .enum([
+        "all",
+        "published",
+        "evaluating",
+        "unpublished",
+        "temporarilyPublished",
+      ])
+      .default(getPostInfluenceApiV1GraphsPostInfluenceGetQueryStatusDefault)
+      .describe("Filter by note publication status"),
+    limit: zod
+      .number()
+      .min(1)
+      .max(getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitMax)
+      .default(getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitDefault)
+      .describe("Maximum number of results (max 200)"),
+  });
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemRepostCountMin = 0;
+export const getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemLikeCountMin = 0;
+export const getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemImpressionCountMin = 0;
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGetResponse = zod.object({
+  data: zod
+    .array(
+      zod
+        .object({
+          postId: zod.string().describe("Unique identifier for the post"),
+          name: zod.string().describe("Post text or first 100 characters"),
+          repostCount: zod
+            .number()
+            .min(
+              getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemRepostCountMin,
+            )
+            .describe("Number of reposts/retweets received"),
+          likeCount: zod
+            .number()
+            .min(
+              getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemLikeCountMin,
+            )
+            .describe("Number of likes received"),
+          impressionCount: zod
+            .number()
+            .min(
+              getPostInfluenceApiV1GraphsPostInfluenceGetResponseDataItemImpressionCountMin,
+            )
+            .describe("Number of times the post was displayed"),
+          status: zod
+            .string()
+            .or(zod.null())
+            .optional()
+            .describe(
+              "Publication status of associated note (if status filter applied)",
+            ),
+        })
+        .describe(
+          "Individual post engagement metrics for influence analysis.\n\nProvides engagement counts (reposts, likes, impressions) for individual posts,\nordered by impression count descending.",
+        ),
+    )
+    .describe("Array of data items (type varies by endpoint)"),
+  updatedAt: zod
+    .string()
+    .describe(
+      "Last update timestamp in YYYY-MM-DD format (UTC). Derived from MAX(created_at) of source table.",
+    ),
 });

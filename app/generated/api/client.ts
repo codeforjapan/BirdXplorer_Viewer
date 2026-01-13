@@ -5,8 +5,19 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
+  GetDailyNotesApiV1GraphsDailyNotesGetParams,
+  GetDailyPostsApiV1GraphsDailyPostsGetParams,
+  GetNotesAnnualApiV1GraphsNotesAnnualGetParams,
   GetNotesApiV1DataNotesGetParams,
+  GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams,
+  GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetParams,
+  GetPostInfluenceApiV1GraphsPostInfluenceGetParams,
   GetPostsApiV1DataPostsGetParams,
+  GraphListResponseDailyNotesCreationDataItem,
+  GraphListResponseDailyPostCountDataItem,
+  GraphListResponseMonthlyNoteDataItem,
+  GraphListResponseNoteEvaluationDataItem,
+  GraphListResponsePostInfluenceDataItem,
   HTTPValidationError,
   Message,
   NoteListResponse,
@@ -339,4 +350,589 @@ export const searchApiV1DataSearchGet = async (
     status: res.status,
     headers: res.headers,
   } as searchApiV1DataSearchGetResponse;
+};
+
+/**
+ * Get daily community note creation trends.
+
+Returns aggregated daily counts of community notes grouped by publication status
+for the specified time period.
+
+**Publication Status Categories:**
+- `published`: Notes with status CURRENTLY_RATED_HELPFUL
+- `temporarilyPublished`: Notes that were previously helpful but now need more ratings or are not helpful
+- `evaluating`: Notes currently being evaluated (NEEDS_MORE_RATINGS, never been helpful)
+- `unpublished`: All other notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for aggregation (required)
+    status: Filter by specific status or "all" for all statuses (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of daily aggregated note counts
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Daily Notes
+ */
+export type getDailyNotesApiV1GraphsDailyNotesGetResponse200 = {
+  data: GraphListResponseDailyNotesCreationDataItem;
+  status: 200;
+};
+
+export type getDailyNotesApiV1GraphsDailyNotesGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getDailyNotesApiV1GraphsDailyNotesGetResponseComposite =
+  | getDailyNotesApiV1GraphsDailyNotesGetResponse200
+  | getDailyNotesApiV1GraphsDailyNotesGetResponse422;
+
+export type getDailyNotesApiV1GraphsDailyNotesGetResponse =
+  getDailyNotesApiV1GraphsDailyNotesGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetDailyNotesApiV1GraphsDailyNotesGetUrl = (
+  params: GetDailyNotesApiV1GraphsDailyNotesGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/daily-notes?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/daily-notes`;
+};
+
+export const getDailyNotesApiV1GraphsDailyNotesGet = async (
+  params: GetDailyNotesApiV1GraphsDailyNotesGetParams,
+  options?: RequestInit,
+): Promise<getDailyNotesApiV1GraphsDailyNotesGetResponse> => {
+  const res = await fetch(getGetDailyNotesApiV1GraphsDailyNotesGetUrl(params), {
+    ...options,
+    method: "GET",
+  });
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getDailyNotesApiV1GraphsDailyNotesGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDailyNotesApiV1GraphsDailyNotesGetResponse;
+};
+
+/**
+ * Get daily post volume trends.
+
+Returns aggregated daily counts of posts for the specified month range,
+optionally filtered by associated community note status.
+
+**Status Filter:**
+- `all`: All posts regardless of note status (default)
+- `published`: Posts with published notes
+- `temporarilyPublished`: Posts with temporarily published notes
+- `evaluating`: Posts with notes being evaluated
+- `unpublished`: Posts with no notes or unpublished notes
+
+**Date Range Format:**
+- Format: `YYYY-MM_YYYY-MM` (e.g., "2025-01_2025-03")
+- Maximum range: 1 year (12 months)
+- Both months inclusive
+
+Args:
+    range: Month range for aggregation (required)
+    status: Filter by specific note status or "all" (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of daily aggregated post counts
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if range format is invalid or exceeds limits
+ * @summary Get Daily Posts
+ */
+export type getDailyPostsApiV1GraphsDailyPostsGetResponse200 = {
+  data: GraphListResponseDailyPostCountDataItem;
+  status: 200;
+};
+
+export type getDailyPostsApiV1GraphsDailyPostsGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getDailyPostsApiV1GraphsDailyPostsGetResponseComposite =
+  | getDailyPostsApiV1GraphsDailyPostsGetResponse200
+  | getDailyPostsApiV1GraphsDailyPostsGetResponse422;
+
+export type getDailyPostsApiV1GraphsDailyPostsGetResponse =
+  getDailyPostsApiV1GraphsDailyPostsGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetDailyPostsApiV1GraphsDailyPostsGetUrl = (
+  params: GetDailyPostsApiV1GraphsDailyPostsGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/daily-posts?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/daily-posts`;
+};
+
+export const getDailyPostsApiV1GraphsDailyPostsGet = async (
+  params: GetDailyPostsApiV1GraphsDailyPostsGetParams,
+  options?: RequestInit,
+): Promise<getDailyPostsApiV1GraphsDailyPostsGetResponse> => {
+  const res = await fetch(getGetDailyPostsApiV1GraphsDailyPostsGetUrl(params), {
+    ...options,
+    method: "GET",
+  });
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getDailyPostsApiV1GraphsDailyPostsGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getDailyPostsApiV1GraphsDailyPostsGetResponse;
+};
+
+/**
+ * Get monthly note publication rates.
+
+Returns aggregated monthly counts of community notes with publication rate
+(ratio of published notes to total notes) for the specified month range.
+
+**Publication Rate**: published_count / total_notes (0.0 if no notes)
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Date Range Format:**
+- Format: `YYYY-MM_YYYY-MM` (e.g., "2024-01_2024-12")
+- Maximum range: 24 months
+- Both months inclusive
+
+Args:
+    range: Month range for aggregation (required)
+    status: Filter by specific note status or "all" (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of monthly aggregated note counts with publication rates
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if range format is invalid or exceeds limits
+ * @summary Get Notes Annual
+ */
+export type getNotesAnnualApiV1GraphsNotesAnnualGetResponse200 = {
+  data: GraphListResponseMonthlyNoteDataItem;
+  status: 200;
+};
+
+export type getNotesAnnualApiV1GraphsNotesAnnualGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getNotesAnnualApiV1GraphsNotesAnnualGetResponseComposite =
+  | getNotesAnnualApiV1GraphsNotesAnnualGetResponse200
+  | getNotesAnnualApiV1GraphsNotesAnnualGetResponse422;
+
+export type getNotesAnnualApiV1GraphsNotesAnnualGetResponse =
+  getNotesAnnualApiV1GraphsNotesAnnualGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetNotesAnnualApiV1GraphsNotesAnnualGetUrl = (
+  params: GetNotesAnnualApiV1GraphsNotesAnnualGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-annual?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-annual`;
+};
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGet = async (
+  params: GetNotesAnnualApiV1GraphsNotesAnnualGetParams,
+  options?: RequestInit,
+): Promise<getNotesAnnualApiV1GraphsNotesAnnualGetResponse> => {
+  const res = await fetch(
+    getGetNotesAnnualApiV1GraphsNotesAnnualGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getNotesAnnualApiV1GraphsNotesAnnualGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getNotesAnnualApiV1GraphsNotesAnnualGetResponse;
+};
+
+/**
+ * Get individual note evaluation metrics.
+
+Returns top notes by impression count with helpfulness ratings,
+ordered descending by impression count for moderation review.
+
+**Metrics:**
+- helpfulCount: Number of helpful ratings
+- notHelpfulCount: Number of not-helpful ratings
+- impressionCount: Number of times note was displayed
+
+**Ordering**: Results ordered by impressionCount DESC
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual note evaluation metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Notes Evaluation
+ */
+export type getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse200 = {
+  data: GraphListResponseNoteEvaluationDataItem;
+  status: 200;
+};
+
+export type getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseComposite =
+  | getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse200
+  | getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse422;
+
+export type getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse =
+  getNotesEvaluationApiV1GraphsNotesEvaluationGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetNotesEvaluationApiV1GraphsNotesEvaluationGetUrl = (
+  params: GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-evaluation?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-evaluation`;
+};
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGet = async (
+  params: GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams,
+  options?: RequestInit,
+): Promise<getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse> => {
+  const res = await fetch(
+    getGetNotesEvaluationApiV1GraphsNotesEvaluationGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse["data"] =
+    body ? JSON.parse(body) : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse;
+};
+
+/**
+ * Get individual note evaluation metrics ordered by helpful count.
+
+Alternative sorting to notes-evaluation endpoint - orders by helpfulCount instead
+of impressionCount for moderation review workflows.
+
+**Metrics:**
+- helpfulCount: Number of helpful ratings
+- notHelpfulCount: Number of not-helpful ratings
+- impressionCount: Number of times note was displayed
+
+**Ordering**: Results ordered by helpfulCount DESC (different from /notes-evaluation)
+
+**Status Filter:**
+- `all`: All notes regardless of status (default)
+- `published`: Only published notes
+- `temporarilyPublished`: Only temporarily published notes
+- `evaluating`: Only notes being evaluated
+- `unpublished`: Only unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual note evaluation metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Notes Evaluation Status
+ */
+export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse200 =
+  {
+    data: GraphListResponseNoteEvaluationDataItem;
+    status: 200;
+  };
+
+export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse422 =
+  {
+    data: HTTPValidationError;
+    status: 422;
+  };
+
+export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseComposite =
+
+    | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse200
+    | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse422;
+
+export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse =
+  getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetUrl =
+  (
+    params: GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetParams,
+  ) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (value !== undefined) {
+        normalizedParams.append(
+          key,
+          value === null ? "null" : value.toString(),
+        );
+      }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+      ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-evaluation-status?${stringifiedParams}`
+      : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/notes-evaluation-status`;
+  };
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet =
+  async (
+    params: GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetParams,
+    options?: RequestInit,
+  ): Promise<getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse> => {
+    const res = await fetch(
+      getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetUrl(params),
+      {
+        ...options,
+        method: "GET",
+      },
+    );
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    const data: getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse["data"] =
+      body ? JSON.parse(body) : {};
+
+    return {
+      data,
+      status: res.status,
+      headers: res.headers,
+    } as getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse;
+  };
+
+/**
+ * Get individual post influence metrics.
+
+Returns top posts by impression count with engagement metrics (reposts, likes),
+ordered descending by impression count for analyzing viral content.
+
+**Metrics:**
+- repostCount: Number of times post was reposted
+- likeCount: Number of likes on the post
+- impressionCount: Number of times post was displayed
+
+**Ordering**: Results ordered by impressionCount DESC
+
+**Status Filter:**
+- `all`: All posts regardless of note status (default)
+- `published`: Posts with published notes
+- `temporarilyPublished`: Posts with temporarily published notes
+- `evaluating`: Posts with notes being evaluated
+- `unpublished`: Posts with no notes or unpublished notes
+
+**Time Periods:**
+- `1week`: Last 7 days
+- `1month`: Last 30 days
+- `3months`: Last 90 days
+- `6months`: Last 180 days
+- `1year`: Last 365 days
+
+Args:
+    period: Time period for filtering (required)
+    status: Filter by specific note status or "all" (default: "all")
+    limit: Maximum number of results (default: 200, max: 200)
+
+Returns:
+    GraphListResponse containing:
+    - data: List of individual post influence metrics
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if parameters are invalid
+ * @summary Get Post Influence
+ */
+export type getPostInfluenceApiV1GraphsPostInfluenceGetResponse200 = {
+  data: GraphListResponsePostInfluenceDataItem;
+  status: 200;
+};
+
+export type getPostInfluenceApiV1GraphsPostInfluenceGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getPostInfluenceApiV1GraphsPostInfluenceGetResponseComposite =
+  | getPostInfluenceApiV1GraphsPostInfluenceGetResponse200
+  | getPostInfluenceApiV1GraphsPostInfluenceGetResponse422;
+
+export type getPostInfluenceApiV1GraphsPostInfluenceGetResponse =
+  getPostInfluenceApiV1GraphsPostInfluenceGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetPostInfluenceApiV1GraphsPostInfluenceGetUrl = (
+  params: GetPostInfluenceApiV1GraphsPostInfluenceGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/post-influence?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/post-influence`;
+};
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGet = async (
+  params: GetPostInfluenceApiV1GraphsPostInfluenceGetParams,
+  options?: RequestInit,
+): Promise<getPostInfluenceApiV1GraphsPostInfluenceGetResponse> => {
+  const res = await fetch(
+    getGetPostInfluenceApiV1GraphsPostInfluenceGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getPostInfluenceApiV1GraphsPostInfluenceGetResponse["data"] = body
+    ? JSON.parse(body)
+    : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getPostInfluenceApiV1GraphsPostInfluenceGetResponse;
 };
