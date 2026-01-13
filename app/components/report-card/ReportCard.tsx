@@ -1,15 +1,9 @@
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { PlayButtonIcon } from "~/components/icons";
+import type { ReportItem } from "~/data/reports";
 
 export type ReportCardProps = {
   item: ReportItem;
-};
-
-type ReportItem = {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
 };
 
 export const ReportCard = ({ item }: ReportCardProps) => {
