@@ -1,16 +1,24 @@
-import type { NoteEvaluationStatusData } from "./NotesEvaluationStatusChart";
+import dayjs from "dayjs";
+
+import type { NoteEvaluationData } from "~/components/graph";
+
+export type NotesEvaluationStatusApiResponse = {
+  data: NoteEvaluationData[];
+  updatedAt: string;
+};
 
 /**
  * コミュニティーノートの評価状況グラフ用モックデータを生成
  * 元デザイン参考:
- * - 公開中（青）: 左上に集中（helpfulが高く、notHelpfulが低い）
- * - 評価中（紫）: 左下〜中央に広く散らばる
- * - 非公開（ピンク）: 右下付近（notHelpfulが高い）
+ * - 公開中（紫）: 左上に集中（helpfulが高く、notHelpfulが低い）
+ * - 評価中（水色）: 左下〜中央に広く散らばる
+ * - 非公開（青）: 右下付近（notHelpfulが高い）
+ * - 一時公開（ピンク）: 中央付近に点在
  */
-export const generateMockData = (): NoteEvaluationStatusData[] => {
-  const result: NoteEvaluationStatusData[] = [];
+export const generateMockData = (): NoteEvaluationData[] => {
+  const result: NoteEvaluationData[] = [];
 
-  // 公開中（青/シアン）- 左上に集中、helpfulが高くnotHelpfulが低い
+  // 公開中（紫）- 左上に集中、helpfulが高くnotHelpfulが低い
   for (let i = 0; i < 25; i++) {
     result.push({
       noteId: `published-${i + 1}`,
@@ -33,7 +41,7 @@ export const generateMockData = (): NoteEvaluationStatusData[] => {
     });
   }
 
-  // 評価中（紫）- 左下〜中央に広く散らばる
+  // 評価中（水色）- 左下〜中央に広く散らばる
   // 左下に密集するグループ
   for (let i = 0; i < 40; i++) {
     result.push({
@@ -57,7 +65,7 @@ export const generateMockData = (): NoteEvaluationStatusData[] => {
     });
   }
 
-  // 非公開（ピンク）- 右側、notHelpfulが高い
+  // 非公開（青）- 右側、notHelpfulが高い
   for (let i = 0; i < 12; i++) {
     result.push({
       noteId: `unpublished-${i + 1}`,
@@ -80,5 +88,24 @@ export const generateMockData = (): NoteEvaluationStatusData[] => {
     });
   }
 
+  // 一時公開（ピンク）- 中央付近に点在
+  for (let i = 0; i < 15; i++) {
+    result.push({
+      noteId: `temporarilyPublished-${i + 1}`,
+      name: `一時公開ノート${i + 1}`,
+      notHelpful: Math.floor(Math.random() * 150) + 100,
+      helpful: Math.floor(Math.random() * 600) + 600,
+      impressions: Math.floor(Math.random() * 35000000) + 15000000,
+      status: "temporarilyPublished",
+    });
+  }
+
   return result;
+};
+
+export const createMockResponse = (): NotesEvaluationStatusApiResponse => {
+  return {
+    data: generateMockData(),
+    updatedAt: dayjs().format("YYYY-MM-DD"),
+  };
 };

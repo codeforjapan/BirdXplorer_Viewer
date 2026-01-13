@@ -3,15 +3,7 @@ import { useMediaQuery } from "@mantine/hooks";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 
-import { STATUS_COLORS } from "./constants";
-
-/** ステータスの値 */
-export type StatusValue =
-  | "all"
-  | "unpublished"
-  | "evaluating"
-  | "published"
-  | "temporarilyPublished";
+import { STATUS_FILTER_OPTIONS, type StatusValue } from "./constants";
 
 /** ステータスの設定 */
 type StatusConfig = {
@@ -19,19 +11,6 @@ type StatusConfig = {
   label: string;
   color?: string;
 };
-
-/** デフォルトのステータス設定 */
-const DEFAULT_STATUSES: StatusConfig[] = [
-  { value: "all", label: "全て" },
-  { value: "published", label: "公開中", color: STATUS_COLORS.published },
-  { value: "evaluating", label: "評価中", color: STATUS_COLORS.evaluating },
-  { value: "unpublished", label: "非公開", color: STATUS_COLORS.unpublished },
-  {
-    value: "temporarilyPublished",
-    label: "一時公開",
-    color: STATUS_COLORS.temporarilyPublished,
-  },
-];
 
 type GraphStatusFilterProps = {
   value: StatusValue;
@@ -47,7 +26,7 @@ type GraphStatusFilterProps = {
 export const GraphStatusFilter = ({
   value,
   onChange,
-  statuses = DEFAULT_STATUSES,
+  statuses = STATUS_FILTER_OPTIONS,
   label = "ステータス",
 }: GraphStatusFilterProps) => {
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする

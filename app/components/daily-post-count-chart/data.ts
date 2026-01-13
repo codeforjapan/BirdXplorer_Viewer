@@ -1,36 +1,41 @@
 import dayjs from "dayjs";
 
-/** モックデータのデフォルト最新日（現在月） */
-export const MOCK_NEWEST_DATE = dayjs().format("YYYY-MM");
+import type {
+  DailyPostCountDataItem,
+  EventMarker,
+  PeriodRangeValue,
+} from "~/components/graph";
+import { getDefaultPeriodValue } from "~/components/graph";
+import type { PeriodOption } from "~/components/graph/types";
 
-/** モックデータのデフォルト最古日（2年前 + 3ヶ月 = 1年9ヶ月前） */
-export const MOCK_OLDEST_DATE = dayjs()
-  .subtract(2, "year")
-  .add(3, "month")
-  .format("YYYY-MM");
+import { MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS } from "./periodOptions";
 
-/** ポスト日別投稿数データ */
-export type DailyPostCountDataItem = {
-  /** 日付（YYYY-MM-DD） */
-  date: string;
-  published: number;
-  evaluating: number;
-  unpublished: number;
+// 共通型を再エクスポート
+export type { DailyPostCountDataItem, EventMarker } from "~/components/graph";
+
+export type DailyPostCountApiResponse = {
+  data: DailyPostCountDataItem[];
+  eventMarkers?: EventMarker[];
+  updatedAt: string;
 };
 
-/** グラフ上に表示するイベントマーカー */
-export type EventMarker = {
-  /** 日付（YYYY-MM-DD） */
-  date: string;
-  /** 表示ラベル（例: "7/3 公示"） */
-  label: string;
+const resolvePeriod = (
+  period: PeriodRangeValue | undefined,
+  periodOptions: Array<PeriodOption<PeriodRangeValue>>
+): PeriodRangeValue => {
+  if (period && periodOptions.some((option) => option.value === period)) {
+    return period;
+  }
+  return getDefaultPeriodValue(periodOptions);
 };
 
 /**
  * @param period 期間文字列（例: "2024-12_2025-12"）
  * @throws 不正なフォーマットの場合
  */
-const parsePeriod = (period: string): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
+const parsePeriod = (
+  period: PeriodRangeValue
+): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
   const [startStr, endStr] = period.split("_");
   if (!startStr || !endStr) {
     throw new Error(`Invalid period format: ${period}`);
@@ -44,7 +49,9 @@ const parsePeriod = (period: string): { start: dayjs.Dayjs; end: dayjs.Dayjs } =
  * デモ用: 期間の40%/60%地点にマーカーを配置
  * @param period 期間文字列（例: "2024-12_2025-12"）
  */
-export const generateDemoEventMarkers = (period: string): EventMarker[] => {
+export const generateDemoEventMarkers = (
+  period: PeriodRangeValue
+): EventMarker[] => {
   const { start, end } = parsePeriod(period);
   const totalDays = end.diff(start, "day");
   const marker1 = start.add(Math.floor(totalDays * 0.4), "day");
@@ -56,7 +63,9 @@ export const generateDemoEventMarkers = (period: string): EventMarker[] => {
 };
 
 /** @param period 期間文字列（例: "2024-12_2025-12"） */
-export const generateMockData = (period: string): DailyPostCountDataItem[] => {
+export const generateMockData = (
+  period: PeriodRangeValue
+): DailyPostCountDataItem[] => {
   const { start, end } = parsePeriod(period);
 
   const days: DailyPostCountDataItem[] = [];
@@ -81,9 +90,29 @@ export const generateMockData = (period: string): DailyPostCountDataItem[] => {
       0,
       Math.floor(baseFactor * 2 + Math.random() * 5 - 1)
     );
+    const temporarilyPublished = Math.max(
+      0,
+      Math.floor(baseFactor * 1.5 + Math.random() * 4 - 1)
+    );
 
-    days.push({ date: iso, published, evaluating, unpublished });
+    days.push({ date: iso, published, evaluating, unpublished, temporarilyPublished });
   }
 
   return days;
+};
+
+export const createMockResponse = (
+  period?: PeriodRangeValue
+): DailyPostCountApiResponse => {
+  const resolvedPeriod = resolvePeriod(
+    period,
+    MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS
+  );
+  const data = generateMockData(resolvedPeriod);
+
+  return {
+    data,
+    eventMarkers: generateDemoEventMarkers(resolvedPeriod),
+    updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
+  };
 };
