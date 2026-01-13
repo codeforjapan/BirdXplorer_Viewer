@@ -7,10 +7,12 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+
 import { PeriodSelector } from "~/components/period-selector/PeriodSelector";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
-import Fa6SolidCircleQuestion from "~icons/fa6-solid/circle-question";
 import { formatUpdatedAt } from "~/utils/date";
+import Fa6SolidCircleQuestion from "~icons/fa6-solid/circle-question";
+
 import type { PeriodOption } from "./types";
 
 type GraphWrapperProps<T extends string = string> = {

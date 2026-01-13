@@ -5,17 +5,9 @@ import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
 import Fa6SolidChevronDown from "~icons/fa6-solid/chevron-down";
 
+import { PERIOD_OPTIONS } from "./constants";
+
 type PeriodOption<T extends string = string> = { value: T; label: string };
-
-type PeriodValue = "1week" | "1month" | "3months" | "6months" | "1year";
-
-export const PERIOD_OPTIONS: Array<{ value: PeriodValue; label: string }> = [
-  { value: "1week", label: "直近1週間" },
-  { value: "1month", label: "直近1ヶ月" },
-  { value: "3months", label: "直近3ヶ月" },
-  { value: "6months", label: "直近6ヶ月" },
-  { value: "1year", label: "直近1年" },
-];
 
 export type PeriodSelectorProps<T extends string = string> = {
   /** 現在選択されている期間 */
@@ -23,7 +15,7 @@ export type PeriodSelectorProps<T extends string = string> = {
   /** 期間が変更されたときのコールバック */
   onChange?: (value: T) => void;
   /** 期間オプション（指定しない場合はデフォルトのPERIOD_OPTIONSを使用） */
-  periodOptions?: PeriodOption<T>[];
+  periodOptions?: Array<PeriodOption<T>>;
 };
 
 /**
