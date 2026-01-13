@@ -1,10 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Stack } from "@mantine/core";
 import { useState } from "react";
+import { Outlet, useLocation } from "react-router";
 
 import { ReportIcon } from "~/components/icons";
 import { PeriodSelector } from "~/components/period-selector/PeriodSelector";
 import { ReportCard } from "~/components/report-card/ReportCard";
+import { WEB_PATHS } from "~/constants/paths";
 import { REPORT_ITEMS } from "~/data/reports";
 
 import type { LayoutHandle } from "./_layout";
@@ -64,6 +66,13 @@ const getDisplayItems = (period: string) => {
 
 export default function Report() {
   const [period, setPeriod] = useState("1year");
+  const location = useLocation();
+  const isIndexPage = location.pathname === WEB_PATHS.report.index;
+
+  // 詳細ページの場合はOutletをレンダリング
+  if (!isIndexPage) {
+    return <Outlet />;
+  }
 
   const displayItems = getDisplayItems(period);
 
