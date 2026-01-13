@@ -3,8 +3,8 @@ import { Outlet, useMatches } from "react-router";
 import { BreadCrumb, type BreadCrumbItem } from "~/components/BreadCrumb/BreadCrumb";
 import { PageTitle } from "~/components/PageTitle/PageTitle";
 
-export type LayoutHandle = {
-  breadcrumb: BreadCrumbItem[];
+export type LayoutHandle<T = unknown> = {
+  breadcrumb: BreadCrumbItem[] | ((data: T) => BreadCrumbItem[]);
   pageTitle: {
     icon: React.ReactNode;
     title: string;
@@ -21,10 +21,15 @@ export default function Layout() {
     return <Outlet />;
   }
 
+  const breadcrumbItems =
+    typeof handle.breadcrumb === "function"
+      ? handle.breadcrumb(currentRoute?.data)
+      : handle.breadcrumb;
+
   return (
     <div className="px-15 pt-10">
       <div className="mb-9">
-        <BreadCrumb items={handle.breadcrumb} />
+        <BreadCrumb items={breadcrumbItems} />
       </div>
 
       <div className="mb-4.5">
