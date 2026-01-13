@@ -16,21 +16,30 @@ import { mantineTheme } from "~/config/mantine";
 
 dayjs.extend(customParseFormat);
 
-const wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <MemoryRouter>
-      <MantineProvider theme={mantineTheme}>
-        <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
-          {children}
-        </DatesProvider>
-      </MantineProvider>
-    </MemoryRouter>
-  );
+type CustomRenderOptions = Omit<ComponentRenderOptions, "wrapper"> & {
+  initialEntries?: string[];
+  initialIndex?: number;
 };
 
 const customRender = (
   ui: ReactElement,
-  options?: Omit<ComponentRenderOptions, "wrapper">,
-) => render(ui, { wrapper, ...options });
+  options?: CustomRenderOptions,
+) => {
+  const { initialEntries, initialIndex, ...rest } = options ?? {};
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <MemoryRouter initialEntries={initialEntries} initialIndex={initialIndex}>
+        <MantineProvider theme={mantineTheme}>
+          <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
+            {children}
+          </DatesProvider>
+        </MantineProvider>
+      </MemoryRouter>
+    );
+  };
+
+  return render(ui, { wrapper, ...rest });
+};
 
 export { customRender as render };

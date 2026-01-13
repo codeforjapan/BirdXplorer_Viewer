@@ -37,7 +37,7 @@ export const generateMockData = (): AccountRankingData[] => {
     const change = changeValue === 0 ? "→" : `${changeSign}${changeValue}`;
 
     // 世界ランキング（上位ほど低い数値）
-    const worldRank = i + 1 + Math.floor(Math.random() * 3);
+    const worldRank = index + 1 + Math.floor(Math.random() * 3);
 
     result.push({
       username: user.username,
