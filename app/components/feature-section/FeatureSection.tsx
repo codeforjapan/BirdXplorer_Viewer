@@ -1,63 +1,12 @@
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { PageTitle } from "~/components/PageTitle";
+import { FEATURES } from "~/constants/data";
 import { WEB_PATHS } from "~/constants/paths";
 
 export type FeatureSectionProps = {
   className?: string;
 };
-
-type FeatureItem = {
-  title: string;
-  href: string;
-};
-
-type FeatureCategory = {
-  id: number;
-  category: string;
-  color: string;
-  detail: FeatureItem;
-};
-
-// dummy data
-const features: FeatureCategory[] = [
-  {
-    id: 1,
-    category: "選挙特集",
-    color: "bg-green",
-    detail: {
-      title: "2025年 参議院選挙",
-      href: "/feature/2025-sangiin",
-    },
-  },
-  {
-    id: 2,
-    category: "災害特集",
-    color: "bg-blue",
-    detail: {
-      title: "2024年 能登半島地震 能登半島地震 能登半島地震",
-      href: "/feature/2024-noto-earthquake",
-    },
-  },
-  {
-    id: 3,
-    category: "道路特集",
-    color: "bg-green",
-    detail: {
-      title: "2024年 兵庫県知事選挙",
-      href: "/feature/2024-hyogo-governor",
-    },
-  },
-  {
-    id: 4,
-    category: "その他",
-    color: "bg-gray-2",
-    detail: {
-      title: "2024年 XXXXXXXXX",
-      href: "/feature/2024-other",
-    },
-  },
-];
 
 /**
  * Feature Sectionコンポーネント
@@ -82,7 +31,7 @@ export const FeatureSection = ({ className }: FeatureSectionProps) => {
         </a>
       </div>
       <div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-6 lg:grid-cols-4">
-        {features.map((feature) => (
+        {FEATURES.map((feature) => (
           <BaseCard
             body={
               <ul className="space-y-2">
