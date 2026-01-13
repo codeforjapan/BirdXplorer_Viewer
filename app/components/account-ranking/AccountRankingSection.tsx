@@ -63,14 +63,14 @@ export const AccountRankingSection = ({
     <Table.Tr key={item.username}>
       <Table.Td className="text-center text-white">{index + 1}</Table.Td>
       <Table.Td>
-        <Anchor
-          className="!text-white !underline"
+        <a
+          className="!text-body-l !text-white !underline"
           href={buildTwitterProfileUrl(item.username)}
           rel="noopener noreferrer"
           target="_blank"
         >
           {item.displayName}
-        </Anchor>
+        </a>
       </Table.Td>
       <Table.Td className="text-center text-white">
         {item.noteCount.toLocaleString()}

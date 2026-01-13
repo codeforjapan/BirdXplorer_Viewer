@@ -40,7 +40,7 @@ export const ReportSummaryCard = ({
           </div>
         }
       >
-        <p className="text-body-l line-clamp-8 whitespace-pre-wrap text-white">
+        <p className="text-body-l line-height-170 line-clamp-16 whitespace-pre-wrap text-white">
           {description}
         </p>
       </GraphContainer>
