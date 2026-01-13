@@ -1,44 +1,27 @@
 import { Stack } from "@mantine/core";
-import * as React from "react";
+import { useCallback,useMemo, useState } from "react";
 
 import {
-  type CategoryConfig,
+  getStatusLabel,
   GraphContainer,
   GraphSizeLegend,
   GraphStatusFilter,
   GraphWrapper,
+  type NoteEvaluationData,
   ScatterBubbleChart,
-  STATUS_COLORS,
+  STATUS_CATEGORIES,
+  STATUS_FILTER_OPTIONS,
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
+import { getArrayMax, getArrayMin } from "~/utils/math";
 
-import { generateMockData } from "./data";
-
-/**
- * ノート評価状況のカテゴリ設定
- * 凡例の表示順序: 公開中 → 評価中 → 非公開
- */
-const NOTE_STATUS_CATEGORIES: CategoryConfig[] = [
-  { key: "published", name: "公開中", color: STATUS_COLORS.evaluating },
-  { key: "evaluating", name: "評価中", color: STATUS_COLORS.published },
-  { key: "unpublished", name: "非公開", color: STATUS_COLORS.temporarilyPublished },
-];
-
-/** ノート評価状況データの型 */
-export type NoteEvaluationStatusData = {
-  noteId: string;
-  name: string;
-  notHelpful: number;
-  helpful: number;
-  impressions: number;
-  /** ステータス: published=公開中, evaluating=評価中, unpublished=非公開 */
-  status: "published" | "evaluating" | "unpublished";
-};
+import type { NotesEvaluationStatusApiResponse } from "./data";
+import { createMockResponse } from "./data";
 
 export type NotesEvaluationStatusChartProps = {
-  data?: NoteEvaluationStatusData[];
-  /** 更新日（例: "2025年10月13日更新"） */
+  data?: NoteEvaluationData[];
+  /** 更新日（YYYY-MM-DD形式） */
   updatedAt?: string;
 };
 
@@ -48,35 +31,39 @@ export type NotesEvaluationStatusChartProps = {
  */
 export const NotesEvaluationStatusChart = ({
   data,
-  updatedAt = "2025年10月13日更新",
+  updatedAt,
 }: NotesEvaluationStatusChartProps) => {
-  const [status, setStatus] = React.useState<StatusValue>("all");
+  const [status, setStatus] = useState<StatusValue>("all");
 
-  const rawData = React.useMemo(() => data ?? generateMockData(), [data]);
+  const mockResponse = useMemo<NotesEvaluationStatusApiResponse>(
+    () => createMockResponse(),
+    []
+  );
+  const rawData = useMemo(() => data ?? mockResponse.data, [data, mockResponse.data]);
 
-  const axisRange = React.useMemo(() => {
+  const axisRange = useMemo(() => {
     const notHelpfulValues = rawData.map((d) => d.notHelpful);
     const helpfulValues = rawData.map((d) => d.helpful);
     return {
-      xMax: Math.max(...notHelpfulValues),
-      yMax: Math.max(...helpfulValues),
+      xMax: getArrayMax(notHelpfulValues),
+      yMax: getArrayMax(helpfulValues),
     };
   }, [rawData]);
 
-  const impressionRange = React.useMemo(() => {
+  const impressionRange = useMemo(() => {
     const impressions = rawData.map((d) => d.impressions);
     return {
-      min: Math.min(...impressions),
-      max: Math.max(...impressions),
+      min: getArrayMin(impressions),
+      max: getArrayMax(impressions),
     };
   }, [rawData]);
 
-  const filteredData = React.useMemo(() => {
+  const filteredData = useMemo(() => {
     if (status === "all") return rawData;
     return rawData.filter((d) => d.status === status);
   }, [rawData, status]);
 
-  const chartData: ScatterDataItem[] = React.useMemo(() => {
+  const chartData: ScatterDataItem[] = useMemo(() => {
     return filteredData.map((d) => ({
       x: d.notHelpful,
       y: d.helpful,
@@ -86,29 +73,17 @@ export const NotesEvaluationStatusChart = ({
     }));
   }, [filteredData]);
 
-  const tooltipFormatter = React.useCallback((item: ScatterDataItem): string => {
-    const statusNames: Record<string, string> = {
-      published: "公開中",
-      evaluating: "評価中",
-      unpublished: "非公開",
-    };
+  const tooltipFormatter = useCallback((item: ScatterDataItem): string => {
     return `<strong>${item.name}</strong><br/>
       「役に立たなかった」の評価数: ${item.x.toLocaleString()}<br/>
       「役に立った」の評価数: ${item.y.toLocaleString()}<br/>
       インプレッション: ${item.size.toLocaleString()}<br/>
-      ステータス: ${statusNames[item.category as string] ?? item.category}`;
+      ステータス: ${getStatusLabel(item.category as string)}`;
   }, []);
-
-  const statusOptions = [
-    { value: "all" as const, label: "全て" },
-    { value: "published" as const, label: "公開中" },
-    { value: "evaluating" as const, label: "評価中" },
-    { value: "unpublished" as const, label: "非公開" },
-  ];
 
   const footer = (
     <Stack gap="md">
-      <GraphStatusFilter onChange={setStatus} statuses={statusOptions} value={status} />
+      <GraphStatusFilter onChange={setStatus} statuses={STATUS_FILTER_OPTIONS} value={status} />
       <GraphSizeLegend
         label="インプレッション"
         max={impressionRange.max}
@@ -121,13 +96,12 @@ export const NotesEvaluationStatusChart = ({
 
   return (
     <GraphWrapper
-      hidePeriodSelector
       title="コミュニティーノートの評価状況"
-      updatedAt={updatedAt}
+      updatedAt={updatedAt ?? mockResponse.updatedAt}
     >
       <GraphContainer footer={footer}>
         <ScatterBubbleChart
-          categories={NOTE_STATUS_CATEGORIES}
+          categories={STATUS_CATEGORIES}
           data={chartData}
           height="60vh"
           minHeight={400}

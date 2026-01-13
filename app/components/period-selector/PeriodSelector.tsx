@@ -1,20 +1,29 @@
 import { Select } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
-import { PERIOD_OPTIONS } from "~/components/graph/periodConstants";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
 import Fa6SolidChevronDown from "~icons/fa6-solid/chevron-down";
 
-type PeriodOption = { value: string; label: string };
+type PeriodOption<T extends string = string> = { value: T; label: string };
 
-export type PeriodSelectorProps = {
+type PeriodValue = "1week" | "1month" | "3months" | "6months" | "1year";
+
+export const PERIOD_OPTIONS: Array<{ value: PeriodValue; label: string }> = [
+  { value: "1week", label: "直近1週間" },
+  { value: "1month", label: "直近1ヶ月" },
+  { value: "3months", label: "直近3ヶ月" },
+  { value: "6months", label: "直近6ヶ月" },
+  { value: "1year", label: "直近1年" },
+];
+
+export type PeriodSelectorProps<T extends string = string> = {
   /** 現在選択されている期間 */
-  value: string;
+  value?: T;
   /** 期間が変更されたときのコールバック */
-  onChange?: (value: string) => void;
-  /** カスタム期間オプション（指定しない場合はデフォルトのPERIOD_OPTIONSを使用） */
-  periodOptions?: PeriodOption[];
+  onChange?: (value: T) => void;
+  /** 期間オプション（指定しない場合はデフォルトのPERIOD_OPTIONSを使用） */
+  periodOptions?: PeriodOption<T>[];
 };
 
 /**
@@ -23,17 +32,17 @@ export type PeriodSelectorProps = {
  * - モバイル対応
  * - カスタム期間オプション対応
  */
-export const PeriodSelector = ({
+export const PeriodSelector = <T extends string = string,>({
   value,
   onChange,
   periodOptions,
-}: PeriodSelectorProps) => {
+}: PeriodSelectorProps<T>) => {
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
 
   const handleChange = (newValue: string | null) => {
     if (newValue && onChange) {
-      onChange(newValue);
+      onChange(newValue as T);
     }
   };
 

@@ -7,26 +7,24 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-
 import { PeriodSelector } from "~/components/period-selector/PeriodSelector";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6SolidCircleQuestion from "~icons/fa6-solid/circle-question";
+import { formatUpdatedAt } from "~/utils/date";
+import type { PeriodOption } from "./types";
 
-type PeriodOption = { value: string; label: string };
-
-type GraphWrapperProps = {
+type GraphWrapperProps<T extends string = string> = {
   children: React.ReactNode;
   /** コンテナのクラス名 */
   className?: string;
   /** ヘルプアイコンのツールチップテキスト */
   helpText?: string;
-  hidePeriodSelector?: boolean;
-  onPeriodChange?: (value: string) => void;
-  period?: string;
-  /** カスタム期間オプション（指定しない場合はデフォルトのPERIOD_OPTIONSを使用） */
-  periodOptions?: PeriodOption[];
+  onPeriodChange?: (value: T) => void;
+  period?: T;
+  /** カスタム期間オプション */
+  periodOptions?: Array<PeriodOption<T>>;
   title: string;
-  /** 更新日表示（例: "2025年10月13日更新"） */
+  /** 更新日（YYYY-MM-DD形式または表示済み文字列） */
   updatedAt?: string;
 };
 
@@ -35,19 +33,24 @@ type GraphWrapperProps = {
  * - タイトルを左側に表示
  * - 期間選択ドロップダウンを右側に表示（オプション）
  */
-export const GraphWrapper = ({
+export const GraphWrapper = <T extends string = string,>({
   title,
   children,
   className,
   helpText,
-  period = "1month",
+  period,
   onPeriodChange,
-  hidePeriodSelector = false,
   periodOptions,
   updatedAt,
-}: GraphWrapperProps) => {
+}: GraphWrapperProps<T>) => {
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
+  const displayUpdatedAt =
+    updatedAt && /^\d{4}-\d{2}-\d{2}$/.test(updatedAt)
+      ? formatUpdatedAt(updatedAt)
+      : updatedAt;
+
+  const shouldShowPeriodSelector = Boolean(period && periodOptions?.length);
 
   return (
     <Box className={`w-full ${className ?? ""}`}>
@@ -86,14 +89,14 @@ export const GraphWrapper = ({
               </Tooltip>
             )}
           </Group>
-          {updatedAt && (
+          {displayUpdatedAt && (
             <Text c="dimmed" size="sm">
-              {updatedAt}
+              {displayUpdatedAt}
             </Text>
           )}
         </Stack>
 
-        {!hidePeriodSelector && (
+        {shouldShowPeriodSelector && (
           <PeriodSelector
             onChange={onPeriodChange}
             periodOptions={periodOptions}
