@@ -25,11 +25,9 @@ export const generateMockData = (): AccountRankingData[] => {
 
   const result: AccountRankingData[] = [];
 
-  for (let i = 0; i < sampleUsers.length; i++) {
-    const user = sampleUsers[i];
-    
+  for (const [index, user] of sampleUsers.entries()) {
     // 上位ほど付与数が多くなるように設定
-    const noteCount = Math.floor(Math.random() * 100) + (15 - i) * 50 + 300;
+    const noteCount = Math.floor(Math.random() * 100) + (15 - index) * 50 + 300;
     
     // 前回比の変動値（-20 〜 +50の範囲でランダム）
     const changeValue = Math.floor(Math.random() * 70) - 20;
@@ -39,7 +37,7 @@ export const generateMockData = (): AccountRankingData[] => {
     const change = changeValue === 0 ? "→" : `${changeSign}${changeValue}`;
     
     // 世界ランキング（上位ほど低い数値）
-    const worldRank = i + 1 + Math.floor(Math.random() * 3);
+    const worldRank = index + 1 + Math.floor(Math.random() * 3);
 
     result.push({
       username: user.username,

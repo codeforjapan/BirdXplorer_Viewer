@@ -1,4 +1,4 @@
-import { Anchor, Table } from "@mantine/core";
+import { Table } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import * as React from "react";
 
