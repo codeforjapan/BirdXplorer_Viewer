@@ -1,5 +1,7 @@
 import type { EChartsOption } from "echarts";
-import * as React from "react";
+import { useCallback,useMemo } from "react";
+
+import { getArrayMinMax } from "~/utils/math";
 
 import { GRAPH_STYLES } from "./constants";
 import { EChartsGraph } from "./EChartsGraph";
@@ -66,31 +68,27 @@ export const ScatterBubbleChart = ({
   tooltipFormatter,
 }: ScatterBubbleChartProps) => {
   // カテゴリのルックアップマップを作成
-  const categoryMap = React.useMemo(() => {
+  const categoryMap = useMemo(() => {
     return new Map(categories.map((c) => [c.key, c]));
   }, [categories]);
 
   // 凡例の表示順序（categoriesの配列順）
-  const legendOrder = React.useMemo(() => {
+  const legendOrder = useMemo(() => {
     return categories.map((c) => c.name);
   }, [categories]);
 
   // シリーズの描画順序（categoriesの逆順 = 後のものが手前に表示）
-  const seriesOrder = React.useMemo(() => {
+  const seriesOrder = useMemo(() => {
     return [...categories].reverse();
   }, [categories]);
 
-  const sizeRange = React.useMemo(() => {
-    const sizes = data.map((d) => d.size);
-    return {
-      min: Math.min(...sizes),
-      max: Math.max(...sizes),
-    };
+  const sizeRange = useMemo(() => {
+    return getArrayMinMax(data.map((d) => d.size));
   }, [data]);
 
   // EChartsのscatterシリーズはタプル形式のデータを要求するため変換
   // [x, y, size, name, category]
-  const internalData = React.useMemo(() => {
+  const internalData = useMemo(() => {
     return data.map(
       (d) =>
         [d.x, d.y, d.size, d.name, d.category] as [
@@ -103,7 +101,7 @@ export const ScatterBubbleChart = ({
     );
   }, [data]);
 
-  const calculateBubbleSize = React.useCallback(
+  const calculateBubbleSize = useCallback(
     (sizeValue: number): number => {
       if (sizeRange.min === sizeRange.max) {
         return (minBubbleSize + maxBubbleSize) / 2;
@@ -115,7 +113,7 @@ export const ScatterBubbleChart = ({
     [sizeRange, minBubbleSize, maxBubbleSize]
   );
 
-  const option = React.useMemo<EChartsOption>(() => {
+  const option = useMemo<EChartsOption>(() => {
     const defaultTooltipFormatter = (item: ScatterDataItem): string => {
       const categoryConfig = categoryMap.get(item.category);
       const categoryName = categoryConfig?.name ?? String(item.category);
@@ -218,4 +216,3 @@ export const ScatterBubbleChart = ({
 
   return <EChartsGraph height={height} minHeight={minHeight} option={option} />;
 };
-

@@ -42,9 +42,12 @@ describe("BaseCard", () => {
         title="Title"
       />,
     );
-    const element = container.querySelector(".custom-class") as HTMLElement | null;
-    expect(element).toBeTruthy();
-    expect(element?.className).toContain("custom-class");
+    const element = container.querySelector(".custom-class");
+    expect(element).not.toBeNull();
+    expect(element?.classList.contains("custom-class")).toBe(true);
+    // ルート要素であることを確認：Title と Body を含んでいる
+    expect(element?.textContent).toContain("Title");
+    expect(element?.textContent).toContain("Body");
   });
 
   it("renders complex ReactNode as title and body", () => {

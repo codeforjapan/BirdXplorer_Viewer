@@ -21,7 +21,6 @@ export const ReportSummaryCard = ({
   return (
     <GraphWrapper
       className={className}
-      hidePeriodSelector
       title={title}
       updatedAt={updatedAt}
     >
