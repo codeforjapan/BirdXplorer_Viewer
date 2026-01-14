@@ -149,7 +149,7 @@ export const NotesAnnualChartSection = ({
   const lineSeries = useMemo(
     () => ({
       name: "公開率",
-      data: chartData.map((d) => d.publicationRate),
+      data: chartData.map((d) => d.publicationRate * 100),
       color: PUBLICATION_RATE_COLOR,
       visible: visibility.publicationRate,
       unit: "%",

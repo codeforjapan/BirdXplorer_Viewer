@@ -5,7 +5,10 @@ import type {
   EventMarker,
   PeriodRangeValue,
 } from "~/components/graph";
-import { getDefaultPeriodValue } from "~/components/graph";
+import {
+  getDefaultEventMarkersForRangePeriod,
+  getDefaultPeriodValue,
+} from "~/components/graph";
 import type { PeriodOption } from "~/components/graph/types";
 
 import { MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS } from "./periodOptions";
@@ -43,23 +46,6 @@ const parsePeriod = (
   const start = dayjs(startStr, "YYYY-MM").startOf("month");
   const end = dayjs(endStr, "YYYY-MM").endOf("month");
   return { start, end };
-};
-
-/**
- * デモ用: 期間の40%/60%地点にマーカーを配置
- * @param period 期間文字列（例: "2024-12_2025-12"）
- */
-export const generateDemoEventMarkers = (
-  period: PeriodRangeValue
-): EventMarker[] => {
-  const { start, end } = parsePeriod(period);
-  const totalDays = end.diff(start, "day");
-  const marker1 = start.add(Math.floor(totalDays * 0.4), "day");
-  const marker2 = start.add(Math.floor(totalDays * 0.6), "day");
-  return [
-    { date: marker1.format("YYYY-MM-DD"), label: `${marker1.format("M/D")} 公示` },
-    { date: marker2.format("YYYY-MM-DD"), label: `${marker2.format("M/D")} 投開票` },
-  ];
 };
 
 /** @param period 期間文字列（例: "2024-12_2025-12"） */
@@ -112,7 +98,7 @@ export const createMockResponse = (
 
   return {
     data,
-    eventMarkers: generateDemoEventMarkers(resolvedPeriod),
+    eventMarkers: getDefaultEventMarkersForRangePeriod(resolvedPeriod),
     updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
   };
 };

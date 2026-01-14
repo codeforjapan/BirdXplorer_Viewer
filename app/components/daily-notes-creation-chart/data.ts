@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 
 import type { DailyNotesCreationDataItem, EventMarker, RelativePeriodValue } from "~/components/graph";
 import { getDefaultPeriodValue, RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
+import { getDefaultEventMarkersForRelativePeriod } from "~/components/graph";
 import type { PeriodOption } from "~/components/graph/types";
 
 // 共通型を再エクスポート
@@ -51,17 +52,6 @@ const resolvePeriod = (
   return getDefaultPeriodValue(periodOptions);
 };
 
-export const getDefaultEventMarkers = (period?: RelativePeriodValue): EventMarker[] => {
-  const { start, end } = parsePeriod(period);
-  const totalDays = Math.max(1, end.diff(start, "day"));
-  const marker1 = start.add(Math.floor(totalDays * 0.35), "day");
-  const marker2 = start.add(Math.floor(totalDays * 0.7), "day");
-  return [
-    { date: marker1.format("YYYY-MM-DD"), label: `${marker1.format("M/D")} 公示` },
-    { date: marker2.format("YYYY-MM-DD"), label: `${marker2.format("M/D")} 投開票` },
-  ];
-};
-
 export const generateMockData = (
   period?: RelativePeriodValue
 ): DailyNotesCreationDataItem[] => {
@@ -108,7 +98,7 @@ export const createMockResponse = (
 
   return {
     data,
-    eventMarkers: getDefaultEventMarkers(resolvedPeriod),
+    eventMarkers: getDefaultEventMarkersForRelativePeriod(resolvedPeriod),
     updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
   };
 };

@@ -66,7 +66,7 @@ export const generateMockData = (
     const unpublished = Math.floor(Math.random() * 400) + 200;
     const temporarilyPublished = Math.floor(Math.random() * 200) + 100;
     const total = published + evaluating + unpublished + temporarilyPublished;
-    const publicationRate = Math.round((published / total) * 100);
+    const publicationRate = total === 0 ? 0 : Number((published / total).toFixed(2));
 
     return {
       month,
