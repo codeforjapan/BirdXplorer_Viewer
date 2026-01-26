@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 
+import type { GraphApiErrorKind } from "./api";
 import type { CategoryConfig } from "./ScatterBubbleChart";
 import type { EventMarker, PeriodRangeValue } from "./types";
 
@@ -173,4 +174,11 @@ export const getDefaultEventMarkersForRangePeriod = (
 ): EventMarker[] => {
   const { start, end } = parseRangePeriod(period);
   return toEventMarkers(start, end, RANGE_PERIOD_EVENT_MARKER_RATIOS);
+};
+
+export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
+  network: "通信エラーが発生しました。時間をおいて再試行してください。",
+  validation: "パラメータが不正です。期間やフィルターを確認してください。",
+  server: "サーバー側でエラーが発生しました。",
+  parse: "取得したデータ形式が期待と異なります。",
 };

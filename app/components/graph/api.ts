@@ -1,5 +1,7 @@
 import type { ZodSchema } from "zod";
 
+import { DEFAULT_GRAPH_ERROR_MESSAGES } from "./constants";
+
 export type GraphApiErrorKind = "network" | "validation" | "server" | "parse";
 
 export type GraphApiError = {
@@ -12,13 +14,6 @@ export type GraphApiError = {
 export type GraphFetchResult<T> =
   | { ok: true; data: T; updatedAt: string }
   | { ok: false; error: GraphApiError };
-
-export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
-  network: "通信エラーが発生しました。時間をおいて再試行してください。",
-  validation: "パラメータが不正です。期間やフィルターを確認してください。",
-  server: "サーバー側でエラーが発生しました。",
-  parse: "取得したデータ形式が期待と異なります。",
-};
 
 const buildGraphApiError = ({
   kind,
