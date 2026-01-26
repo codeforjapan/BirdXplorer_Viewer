@@ -142,13 +142,13 @@ export const EVENT_MARKER_LABELS = ["公示", "投開票"] as const;
  * 形式さえ合えばOKとのことなので固定値を使用
  */
 export const API_EVENT_MARKERS_RELATIVE: EventMarker[] = [
-  { date: "2025-02-01", label: "2/1 公示" },
-  { date: "2025-02-15", label: "2/15 投開票" },
+  // { date: "2025-02-01", label: "2/1 公示" },
+  // { date: "2025-02-15", label: "2/15 投開票" },
 ] as const;
 
 export const API_EVENT_MARKERS_RANGE: EventMarker[] = [
-  { date: "2025-03-01", label: "3/1 公示" },
-  { date: "2025-03-20", label: "3/20 投開票" },
+  // { date: "2025-03-01", label: "3/1 公示" },
+  // { date: "2025-03-20", label: "3/20 投開票" },
 ] as const;
 
 export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
