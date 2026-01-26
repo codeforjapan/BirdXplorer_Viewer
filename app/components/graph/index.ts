@@ -41,8 +41,8 @@ export {
   fetchGraphList,
   parseGraphListResponse,
   toGraphApiErrorFromStatus,
-  DEFAULT_GRAPH_ERROR_MESSAGES,
 } from "./api";
+export { DEFAULT_GRAPH_ERROR_MESSAGES } from "./constants";
 export {
   toDailyNotesCreationData,
   toDailyPostCountData,
