@@ -29,14 +29,22 @@ export {
   GRAPH_STYLES,
   getStatusLabel,
   EVENT_MARKER_LABELS,
-  getDefaultEventMarkersForRelativePeriod,
-  getDefaultEventMarkersForRangePeriod,
 } from "./constants";
+export {
+  getEventMarkersForRelativePeriod,
+  getEventMarkersForRangePeriod,
+} from "./eventMarkers";
 export type { StatusColorKey, StatusLabelKey, StatusValue } from "./constants";
 export { RELATIVE_PERIOD_OPTIONS } from "./constants";
+export { DEFAULT_EVALUATION_PERIOD } from "./constants";
 export type { RelativePeriodValue } from "./constants";
 export { getDefaultPeriodValue } from "./periodUtils";
-export type { GraphApiError, GraphApiErrorKind, GraphFetchResult } from "./api";
+export type {
+  GraphApiError,
+  GraphApiErrorKind,
+  GraphFetchResult,
+  GraphFetchResultWithMarkers,
+} from "./api";
 export {
   fetchGraphList,
   parseGraphListResponse,

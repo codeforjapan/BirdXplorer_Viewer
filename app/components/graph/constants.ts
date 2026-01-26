@@ -1,8 +1,6 @@
-import dayjs from "dayjs";
-
 import type { GraphApiErrorKind } from "./api";
 import type { CategoryConfig } from "./ScatterBubbleChart";
-import type { EventMarker, PeriodRangeValue } from "./types";
+import type { EventMarker, PeriodOption, PeriodRangeValue } from "./types";
 
 /**
  * ステータスカラー定数
@@ -89,6 +87,16 @@ export const getStatusLabel = (status: string): string => {
   return STATUS_LABELS[status as StatusLabelKey] ?? status;
 };
 
+export type DefaultPeriodValue = "1week" | "1month" | "3months" | "6months" | "1year";
+
+export const DEFAULT_PERIOD_OPTIONS: Array<{ value: DefaultPeriodValue; label: string }> = [
+  { value: "1week", label: "直近1週間" },
+  { value: "1month", label: "直近1ヶ月" },
+  { value: "3months", label: "直近3ヶ月" },
+  { value: "6months", label: "直近6ヶ月" },
+  { value: "1year", label: "直近1年" },
+];
+
 /**
  * 相対期間の値（フロントエンドで管理）
  */
@@ -99,15 +107,29 @@ export type RelativePeriodValue =
   | "6months"
   | "1year";
 
-/**
- * 相対期間のオプション（フロントエンドで管理）
- * Mantine Select用のdata形式
- */
-export const RELATIVE_PERIOD_OPTIONS: Array<{ value: RelativePeriodValue; label: string }> = [
+export const RELATIVE_PERIOD_OPTIONS: Array<PeriodOption<RelativePeriodValue>> = [
   { value: "1month", label: "直近1ヶ月" },
   { value: "3months", label: "直近3ヶ月" },
   { value: "6months", label: "直近6ヶ月" },
   { value: "1year", label: "直近1年" },
+];
+
+export const DEFAULT_EVALUATION_PERIOD: RelativePeriodValue = "6months";
+
+export const API_DAILY_POST_COUNT_PERIOD_OPTIONS: Array<
+  PeriodOption<PeriodRangeValue>
+> = [
+  { value: "2025-02_2026-01", label: "2025/02 〜 2026/01" },
+  { value: "2024-02_2025-01", label: "2024/02 〜 2025/01" },
+  { value: "2023-02_2024-01", label: "2023/02 〜 2024/01" },
+];
+
+export const API_NOTES_ANNUAL_PERIOD_OPTIONS: Array<
+  PeriodOption<PeriodRangeValue>
+> = [
+  { value: "2025-02_2026-01", label: "2025/02 〜 2026/01" },
+  { value: "2024-02_2025-01", label: "2024/02 〜 2025/01" },
+  { value: "2023-02_2024-01", label: "2023/02 〜 2024/01" },
 ];
 
 /**
@@ -115,66 +137,19 @@ export const RELATIVE_PERIOD_OPTIONS: Array<{ value: RelativePeriodValue; label:
  */
 export const EVENT_MARKER_LABELS = ["公示", "投開票"] as const;
 
-const RELATIVE_PERIOD_EVENT_MARKER_RATIOS = [0.35, 0.7] as const;
-const RANGE_PERIOD_EVENT_MARKER_RATIOS = [0.4, 0.6] as const;
+/**
+ * API向けのイベントマーカー（仮置き）
+ * 形式さえ合えばOKとのことなので固定値を使用
+ */
+export const API_EVENT_MARKERS_RELATIVE: EventMarker[] = [
+  { date: "2025-02-01", label: "2/1 公示" },
+  { date: "2025-02-15", label: "2/15 投開票" },
+] as const;
 
-const toEventMarkers = (
-  start: dayjs.Dayjs,
-  end: dayjs.Dayjs,
-  ratios: readonly number[]
-): EventMarker[] => {
-  const totalDays = Math.max(1, end.diff(start, "day"));
-
-  return ratios.map((ratio, index) => {
-    const date = start.add(Math.floor(totalDays * ratio), "day");
-    const label = EVENT_MARKER_LABELS[index] ?? EVENT_MARKER_LABELS[0];
-    return {
-      date: date.format("YYYY-MM-DD"),
-      label: `${date.format("M/D")} ${label}`.trim(),
-    };
-  });
-};
-
-const parseRelativePeriod = (period?: RelativePeriodValue) => {
-  const end = dayjs().startOf("day");
-  switch (period) {
-    case "1week":
-      return { start: end.subtract(1, "week"), end };
-    case "3months":
-      return { start: end.subtract(3, "month"), end };
-    case "6months":
-      return { start: end.subtract(6, "month"), end };
-    case "1year":
-      return { start: end.subtract(1, "year"), end };
-    case "1month":
-    default:
-      return { start: end.subtract(1, "month"), end };
-  }
-};
-
-const parseRangePeriod = (period: PeriodRangeValue) => {
-  const [startStr, endStr] = period.split("_");
-  if (!startStr || !endStr) {
-    throw new Error(`Invalid period format: ${period}`);
-  }
-  const start = dayjs(startStr, "YYYY-MM").startOf("month");
-  const end = dayjs(endStr, "YYYY-MM").endOf("month");
-  return { start, end };
-};
-
-export const getDefaultEventMarkersForRelativePeriod = (
-  period?: RelativePeriodValue
-): EventMarker[] => {
-  const { start, end } = parseRelativePeriod(period);
-  return toEventMarkers(start, end, RELATIVE_PERIOD_EVENT_MARKER_RATIOS);
-};
-
-export const getDefaultEventMarkersForRangePeriod = (
-  period: PeriodRangeValue
-): EventMarker[] => {
-  const { start, end } = parseRangePeriod(period);
-  return toEventMarkers(start, end, RANGE_PERIOD_EVENT_MARKER_RATIOS);
-};
+export const API_EVENT_MARKERS_RANGE: EventMarker[] = [
+  { date: "2025-03-01", label: "3/1 公示" },
+  { date: "2025-03-20", label: "3/20 投開票" },
+] as const;
 
 export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
   network: "通信エラーが発生しました。時間をおいて再試行してください。",

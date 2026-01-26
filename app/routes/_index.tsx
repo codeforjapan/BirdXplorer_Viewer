@@ -3,6 +3,20 @@ import { Container, Grid, Stack } from "@mantine/core";
 import { AboutSection } from "~/components/about-section";
 import { AccountRankingSection } from "~/components/account-ranking";
 import { FeatureSection } from "~/components/feature-section";
+import type { GraphFetchResult } from "~/components/graph";
+import type {
+  MonthlyNoteData,
+  NoteEvaluationData,
+  StatusValue,
+} from "~/components/graph";
+import {
+  DEFAULT_GRAPH_LIMIT,
+  fetchNotesAnnualGraph,
+  fetchNotesEvaluationGraph,
+  getDefaultNotesAnnualRange,
+  getDefaultRelativePeriod,
+  safeGraphFetch,
+} from "~/components/graph/graphFetchers";
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
 import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
@@ -10,11 +24,54 @@ import { ReportCardSection } from "~/components/report-card-section/ReportCardSe
 import type { Route } from "./+types/_index";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const loader = (_args: Route.LoaderArgs) => {
-  return {};
+export const loader = async (_args: Route.LoaderArgs) => {
+  const status: StatusValue = "all";
+  const defaultRelativePeriod = getDefaultRelativePeriod();
+  const defaultNotesAnnualRange = getDefaultNotesAnnualRange();
+
+  const settled = await Promise.allSettled([
+    safeGraphFetch(async () =>
+      fetchNotesAnnualGraph({ range: defaultNotesAnnualRange, status })
+    ),
+    safeGraphFetch(async () =>
+      fetchNotesEvaluationGraph({
+        period: defaultRelativePeriod,
+        status,
+        limit: DEFAULT_GRAPH_LIMIT,
+      })
+    ),
+  ]);
+
+  const notesAnnual =
+    settled[0].status === "fulfilled"
+      ? settled[0].value
+      : ({
+          ok: false,
+          error: {
+            kind: "network",
+            message: "通信エラーが発生しました。時間をおいて再試行してください。",
+          },
+        } as GraphFetchResult<MonthlyNoteData[]>);
+  const notesEvaluation =
+    settled[1].status === "fulfilled"
+      ? settled[1].value
+      : ({
+          ok: false,
+          error: {
+            kind: "network",
+            message: "通信エラーが発生しました。時間をおいて再試行してください。",
+          },
+        } as GraphFetchResult<NoteEvaluationData[]>);
+
+  return {
+    graphs: {
+      notesAnnual,
+      notesEvaluation,
+    },
+  };
 };
 
-export default function Index({}: Route.ComponentProps) {
+export default function Index({ loaderData }: Route.ComponentProps) {
   return (
     <main>
       <Container className="py-8" size="xl">
@@ -22,10 +79,13 @@ export default function Index({}: Route.ComponentProps) {
           <AboutSection />
           <FeatureSection />
           <ReportCardSection maxItems={4} />
-          <NotesAnnualChartSection />
+          <NotesAnnualChartSection initialResult={loaderData.graphs.notesAnnual} />
           <Grid align="stretch" gutter="xl">
             <Grid.Col span={{ base: 12, md: 6 }}>
-              <NotesEvaluationChartSection className="h-full" />
+              <NotesEvaluationChartSection
+                className="h-full"
+                initialResult={loaderData.graphs.notesEvaluation}
+              />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6 }}>
               <AccountRankingSection className="h-full" />

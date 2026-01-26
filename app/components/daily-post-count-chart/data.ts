@@ -5,13 +5,9 @@ import type {
   EventMarker,
   PeriodRangeValue,
 } from "~/components/graph";
-import {
-  getDefaultEventMarkersForRangePeriod,
-  getDefaultPeriodValue,
-} from "~/components/graph";
+import { getDefaultPeriodValue,getEventMarkersForRangePeriod } from "~/components/graph";
+import { getDailyPostCountPeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
-
-import { MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS } from "./periodOptions";
 
 // 共通型を再エクスポート
 export type { DailyPostCountDataItem, EventMarker } from "~/components/graph";
@@ -90,15 +86,12 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: PeriodRangeValue
 ): DailyPostCountApiResponse => {
-  const resolvedPeriod = resolvePeriod(
-    period,
-    MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS
-  );
+  const resolvedPeriod = resolvePeriod(period, getDailyPostCountPeriodOptions());
   const data = generateMockData(resolvedPeriod);
 
   return {
     data,
-    eventMarkers: getDefaultEventMarkersForRangePeriod(resolvedPeriod),
+    eventMarkers: getEventMarkersForRangePeriod(resolvedPeriod),
     updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
   };
 };

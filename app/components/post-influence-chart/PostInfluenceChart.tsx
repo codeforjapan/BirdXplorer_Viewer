@@ -1,10 +1,15 @@
 import { Stack } from "@mantine/core";
-import { useCallback,useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useFetcher, useRevalidator } from "react-router";
 
 import {
+  DEFAULT_EVALUATION_PERIOD,
   getStatusLabel,
   GraphContainer,
+  type GraphFetchResult,
   GraphSizeLegend,
+  GraphState,
+  type GraphStateStatus,
   GraphStatusFilter,
   GraphWrapper,
   type PostInfluenceData,
@@ -16,15 +21,11 @@ import {
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
 import { getArrayMax, getArrayMin } from "~/utils/math";
 
-import { createMockResponse } from "./data";
-
 // PostInfluenceData は ~/components/graph から再エクスポート
 export type { PostInfluenceData } from "~/components/graph";
 
 export type PostInfluenceChartProps = {
-  data?: PostInfluenceData[];
-  /** 更新日（YYYY-MM-DD形式） */
-  updatedAt?: string;
+  initialResult?: GraphFetchResult<PostInfluenceData[]>;
 };
 
 /**
@@ -32,15 +33,52 @@ export type PostInfluenceChartProps = {
  * X軸: リポスト数、Y軸: いいね数、バブルサイズ: インプレッション
  */
 export const PostInfluenceChart = ({
-  data,
-  updatedAt,
+  initialResult,
 }: PostInfluenceChartProps) => {
   const [status, setStatus] = useState<StatusValue>("all");
+  const fetcher = useFetcher<GraphFetchResult<PostInfluenceData[]>>();
+  const revalidator = useRevalidator();
+  const hasFetcherLoaded = useRef(false);
+  const hasMounted = useRef(false);
+  const [lastUrl, setLastUrl] = useState<string | null>(null);
 
-  const mockResponse = useMemo(() => createMockResponse(), []);
+  const currentResult = fetcher.data ?? initialResult;
+
+  useEffect(() => {
+    const nextUrl = `/resources/graphs/post-influence?period=${DEFAULT_EVALUATION_PERIOD}&status=${status}&limit=200`;
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      setLastUrl(nextUrl);
+      if (!initialResult) {
+        hasFetcherLoaded.current = true;
+        void fetcher.load(nextUrl);
+      }
+      return;
+    }
+    if (nextUrl === lastUrl) return;
+    setLastUrl(nextUrl);
+    hasFetcherLoaded.current = true;
+    void fetcher.load(nextUrl);
+  }, [fetcher, initialResult, lastUrl, status]);
+
+  const graphStatus = useMemo<GraphStateStatus>(() => {
+    if (fetcher.state !== "idle") return "loading";
+    if (!currentResult) return "loading";
+    if (!currentResult.ok) return "error";
+    return currentResult.data.length === 0 ? "empty" : "success";
+  }, [currentResult, fetcher.state]);
+
+  const handleRetry = useCallback(() => {
+    if (hasFetcherLoaded.current && lastUrl) {
+      void fetcher.load(lastUrl);
+      return;
+    }
+    void revalidator.revalidate();
+  }, [fetcher, lastUrl, revalidator]);
+
   const rawData = useMemo(
-    () => data ?? mockResponse.data,
-    [data, mockResponse.data]
+    () => (currentResult?.ok ? currentResult.data : []),
+    [currentResult]
   );
 
   const axisRange = useMemo(() => {
@@ -99,21 +137,27 @@ export const PostInfluenceChart = ({
   return (
     <GraphWrapper
       title="ポストの影響力"
-      updatedAt={updatedAt ?? mockResponse.updatedAt}
+      updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
-      <GraphContainer footer={footer}>
-        <ScatterBubbleChart
-          categories={STATUS_CATEGORIES}
-          data={chartData}
-          height="60vh"
-          minHeight={400}
-          tooltipFormatter={tooltipFormatter}
-          xAxisMax={axisRange.xMax}
-          xAxisName="リポスト数"
-          yAxisMax={axisRange.yMax}
-          yAxisName="いいね数"
-        />
-      </GraphContainer>
+      <GraphState
+        error={currentResult?.ok ? undefined : currentResult?.error}
+        onRetry={handleRetry}
+        status={graphStatus}
+      >
+        <GraphContainer footer={footer}>
+          <ScatterBubbleChart
+            categories={STATUS_CATEGORIES}
+            data={chartData}
+            height="60vh"
+            minHeight={400}
+            tooltipFormatter={tooltipFormatter}
+            xAxisMax={axisRange.xMax}
+            xAxisName="リポスト数"
+            yAxisMax={axisRange.yMax}
+            yAxisName="いいね数"
+          />
+        </GraphContainer>
+      </GraphState>
     </GraphWrapper>
   );
 };

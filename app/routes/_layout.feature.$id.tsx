@@ -6,6 +6,30 @@ import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
 import { ReportSummaryCard } from "~/components/feature/report-summary-card";
+import type { GraphFetchResult, GraphFetchResultWithMarkers } from "~/components/graph";
+import type {
+  DailyNotesCreationDataItem,
+  DailyPostCountDataItem,
+  MonthlyNoteData,
+  NoteEvaluationData,
+  PostInfluenceData,
+  StatusValue,
+} from "~/components/graph";
+import {
+  DEFAULT_GRAPH_LIMIT,
+  fetchDailyNotesGraph,
+  fetchDailyPostsGraph,
+  fetchNotesAnnualGraph,
+  fetchNotesEvaluationGraph,
+  fetchNotesEvaluationStatusGraph,
+  fetchPostInfluenceGraph,
+  getDefaultDailyPostsRange,
+  getDefaultNotesAnnualRange,
+  getDefaultRelativePeriod,
+  safeGraphFetch,
+  safeGraphFetchWithMarkers,
+} from "~/components/graph/graphFetchers";
+import { DEFAULT_EVALUATION_PERIOD } from "~/components/graph/periodOptions";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { NotesEvaluationStatusChart } from "~/components/notes-evaluation-status-chart";
 import { PostInfluenceChart } from "~/components/post-influence-chart";
@@ -65,25 +89,94 @@ const getAllFeatures = (): FeatureCategory[] => {
   return FEATURES;
 };
 
-export const loader = ({ params }: Route.LoaderArgs) => {
+type GraphLoaderData = {
+  dailyNotes: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
+  dailyPosts: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
+  notesAnnual: GraphFetchResult<MonthlyNoteData[]>;
+  notesEvaluation: GraphFetchResult<NoteEvaluationData[]>;
+  notesEvaluationStatus: GraphFetchResult<NoteEvaluationData[]>;
+  postInfluence: GraphFetchResult<PostInfluenceData[]>;
+};
+
+const createFallbackError = <T,>(): GraphFetchResultWithMarkers<T> => ({
+  ok: false,
+  error: { kind: "network", message: "通信エラーが発生しました。時間をおいて再試行してください。" },
+});
+
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const id = params.id;
 
   if (!id) {
     return {
       feature: null,
+      graphs: null,
     };
   }
 
   const features = getAllFeatures();
   const feature = features.find((f) => f.detail.href === `/feature/${id}`);
 
+  const status: StatusValue = "all";
+  const defaultRelativePeriod = getDefaultRelativePeriod();
+  const defaultDailyPostsRange = getDefaultDailyPostsRange();
+  const defaultNotesAnnualRange = getDefaultNotesAnnualRange();
+
+  const settled = await Promise.allSettled([
+    safeGraphFetchWithMarkers(async () =>
+      fetchDailyNotesGraph({ period: defaultRelativePeriod, status })
+    ),
+    safeGraphFetchWithMarkers(async () =>
+      fetchDailyPostsGraph({ range: defaultDailyPostsRange, status })
+    ),
+    safeGraphFetch(async () =>
+      fetchNotesAnnualGraph({ range: defaultNotesAnnualRange, status })
+    ),
+    safeGraphFetch(async () =>
+      fetchNotesEvaluationGraph({
+        period: defaultRelativePeriod,
+        status,
+        limit: DEFAULT_GRAPH_LIMIT,
+      })
+    ),
+    safeGraphFetch(async () =>
+      fetchNotesEvaluationStatusGraph({
+        period: DEFAULT_EVALUATION_PERIOD,
+        status,
+        limit: DEFAULT_GRAPH_LIMIT,
+      })
+    ),
+    safeGraphFetch(async () =>
+      fetchPostInfluenceGraph({
+        period: DEFAULT_EVALUATION_PERIOD,
+        status,
+        limit: DEFAULT_GRAPH_LIMIT,
+      })
+    ),
+  ]);
+
+  const graphs: GraphLoaderData = {
+    dailyNotes:
+      settled[0].status === "fulfilled" ? settled[0].value : createFallbackError(),
+    dailyPosts:
+      settled[1].status === "fulfilled" ? settled[1].value : createFallbackError(),
+    notesAnnual:
+      settled[2].status === "fulfilled" ? settled[2].value : createFallbackError(),
+    notesEvaluation:
+      settled[3].status === "fulfilled" ? settled[3].value : createFallbackError(),
+    notesEvaluationStatus:
+      settled[4].status === "fulfilled" ? settled[4].value : createFallbackError(),
+    postInfluence:
+      settled[5].status === "fulfilled" ? settled[5].value : createFallbackError(),
+  };
+
   return {
     feature: feature ?? null,
+    graphs,
   };
 };
 
 export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
-  const { feature } = loaderData;
+  const { feature, graphs } = loaderData;
 
   if (!feature) {
     return (
@@ -116,16 +209,16 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           <AccountRankingSection />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyPostCountChart />
+          <DailyPostCountChart initialResult={graphs?.dailyPosts} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyNotesCreationChart />
+          <DailyNotesCreationChart initialResult={graphs?.dailyNotes} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <PostInfluenceChart />
+          <PostInfluenceChart initialResult={graphs?.postInfluence} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <NotesEvaluationStatusChart />
+          <NotesEvaluationStatusChart initialResult={graphs?.notesEvaluationStatus} />
         </Grid.Col>
       </Grid>
 

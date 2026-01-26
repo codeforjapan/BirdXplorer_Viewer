@@ -1,6 +1,7 @@
 import type { ZodSchema } from "zod";
 
 import { DEFAULT_GRAPH_ERROR_MESSAGES } from "./constants";
+import type { EventMarker } from "./types";
 
 export type GraphApiErrorKind = "network" | "validation" | "server" | "parse";
 
@@ -13,6 +14,10 @@ export type GraphApiError = {
 
 export type GraphFetchResult<T> =
   | { ok: true; data: T; updatedAt: string }
+  | { ok: false; error: GraphApiError };
+
+export type GraphFetchResultWithMarkers<T> =
+  | { ok: true; data: T; updatedAt: string; eventMarkers: EventMarker[] }
   | { ok: false; error: GraphApiError };
 
 const buildGraphApiError = ({

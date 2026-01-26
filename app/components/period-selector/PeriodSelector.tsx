@@ -1,11 +1,10 @@
 import { Select } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
+import { DEFAULT_PERIOD_OPTIONS } from "~/components/graph/constants";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
 import Fa6SolidChevronDown from "~icons/fa6-solid/chevron-down";
-
-import { PERIOD_OPTIONS } from "./constants";
 
 type PeriodOption<T extends string = string> = { value: T; label: string };
 
@@ -45,7 +44,7 @@ export const PeriodSelector = <T extends string = string,>({
         offset: 4,
         position: "bottom-end",
       }}
-      data={periodOptions ?? PERIOD_OPTIONS}
+      data={periodOptions ?? DEFAULT_PERIOD_OPTIONS}
       leftSection={<Fa6RegularCalendar className="size-4 text-primary" />}
       onChange={handleChange}
       rightSection={<Fa6SolidChevronDown className="size-3 text-white" />}

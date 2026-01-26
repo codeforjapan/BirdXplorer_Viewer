@@ -2,9 +2,8 @@ import dayjs from "dayjs";
 
 import type { MonthlyNoteData, PeriodRangeValue } from "~/components/graph";
 import { getDefaultPeriodValue } from "~/components/graph";
+import { getNotesAnnualPeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
-
-import { NOTES_ANNUAL_PERIOD_OPTIONS } from "./periodOptions";
 
 // 共通型を再エクスポート
 export type { MonthlyNoteData } from "~/components/graph";
@@ -82,7 +81,7 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: PeriodRangeValue
 ): NotesAnnualApiResponse => {
-  const resolvedPeriod = resolvePeriod(period, NOTES_ANNUAL_PERIOD_OPTIONS);
+  const resolvedPeriod = resolvePeriod(period, getNotesAnnualPeriodOptions());
   const data = generateMockData(resolvedPeriod);
   const lastMonth = data[data.length - 1]?.month;
   const updatedAt = lastMonth

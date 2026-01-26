@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 
 import type { DailyNotesCreationDataItem, EventMarker, RelativePeriodValue } from "~/components/graph";
-import { getDefaultPeriodValue, RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
-import { getDefaultEventMarkersForRelativePeriod } from "~/components/graph";
+import { getDefaultPeriodValue, getEventMarkersForRelativePeriod } from "~/components/graph";
+import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
 
 // 共通型を再エクスポート
@@ -93,12 +93,12 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: RelativePeriodValue
 ): DailyNotesCreationApiResponse => {
-  const resolvedPeriod = resolvePeriod(period, RELATIVE_PERIOD_OPTIONS);
+  const resolvedPeriod = resolvePeriod(period, getRelativePeriodOptions());
   const data = generateMockData(resolvedPeriod);
 
   return {
     data,
-    eventMarkers: getDefaultEventMarkersForRelativePeriod(resolvedPeriod),
+    eventMarkers: getEventMarkersForRelativePeriod(resolvedPeriod),
     updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
   };
 };

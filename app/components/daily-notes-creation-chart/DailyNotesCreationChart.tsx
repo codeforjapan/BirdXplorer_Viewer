@@ -1,31 +1,26 @@
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useFetcher, useRevalidator } from "react-router";
 
 import type { MarkLineConfig, RelativePeriodValue, StatusValue } from "~/components/graph";
 import {
   getDefaultPeriodValue,
   GraphContainer,
+  type GraphFetchResultWithMarkers,
+  GraphState,
+  type GraphStateStatus,
   GraphStatusFilter,
   GraphWrapper,
-  RELATIVE_PERIOD_OPTIONS,
   StackedBarLineChart,
   STATUS_COLORS,
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
+import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
 
-import type {
-  DailyNotesCreationApiResponse,
-  DailyNotesCreationDataItem,
-  EventMarker,
-} from "./data";
-import { createMockResponse } from "./data";
+import type { DailyNotesCreationDataItem, EventMarker } from "./data";
 
 export type DailyNotesCreationChartProps = {
-  data?: DailyNotesCreationDataItem[];
-  /** 更新日（YYYY-MM-DD形式） */
-  updatedAt?: string;
-  /** イベントマーカー（例: ["7/3 公示", "7/20 投開票"]） */
-  eventMarkers?: EventMarker[];
+  initialResult?: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
 };
 
 /**
@@ -33,32 +28,20 @@ export type DailyNotesCreationChartProps = {
  * ステータス別（公開中/評価中/非公開/一時公開）にフィルタリング可能
  */
 export const DailyNotesCreationChart = ({
-  data,
-  updatedAt,
-  eventMarkers,
+  initialResult,
 }: DailyNotesCreationChartProps) => {
-  const options = useMemo(() => RELATIVE_PERIOD_OPTIONS, []);
+  const options = useMemo(() => getRelativePeriodOptions(), []);
   const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<RelativePeriodValue>(defaultPeriod);
   const [status, setStatus] = useState<StatusValue>("all");
+  const fetcher =
+    useFetcher<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>>();
+  const revalidator = useRevalidator();
+  const hasFetcherLoaded = useRef(false);
+  const hasMounted = useRef(false);
+  const [lastUrl, setLastUrl] = useState<string | null>(null);
 
-  const mockResponse = useMemo<DailyNotesCreationApiResponse>(
-    () => createMockResponse(period),
-    [period]
-  );
-
-  // TODO: APIからデータを取得するロジックを実装する
-  // 現在はモックデータを使用（periodに応じて生成）
-  const rawData = useMemo(
-    () => data ?? mockResponse.data,
-    [data, mockResponse.data]
-  );
-
-  // イベントマーカー（未指定時はデモ用のデフォルトマーカーを使用）
-  const markers = useMemo(
-    () => eventMarkers ?? mockResponse.eventMarkers,
-    [eventMarkers, mockResponse.eventMarkers]
-  );
+  const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
     if (!options.length) return;
@@ -69,6 +52,50 @@ export const DailyNotesCreationChart = ({
       defaultPeriod;
     setPeriod(fallback);
   }, [options, defaultPeriod, period]);
+
+  useEffect(() => {
+    if (!period) return;
+    const nextUrl = `/resources/graphs/daily-notes?period=${period}&status=${status}`;
+
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      setLastUrl(nextUrl);
+      if (!initialResult) {
+        hasFetcherLoaded.current = true;
+        void fetcher.load(nextUrl);
+      }
+      return;
+    }
+
+    if (nextUrl === lastUrl) return;
+    setLastUrl(nextUrl);
+    hasFetcherLoaded.current = true;
+    void fetcher.load(nextUrl);
+  }, [fetcher, initialResult, lastUrl, period, status]);
+
+  const graphStatus = useMemo<GraphStateStatus>(() => {
+    if (fetcher.state !== "idle") return "loading";
+    if (!currentResult) return "loading";
+    if (!currentResult.ok) return "error";
+    return currentResult.data.length === 0 ? "empty" : "success";
+  }, [currentResult, fetcher.state]);
+
+  const handleRetry = useCallback(() => {
+    if (hasFetcherLoaded.current && lastUrl) {
+      void fetcher.load(lastUrl);
+      return;
+    }
+    void revalidator.revalidate();
+  }, [fetcher, lastUrl, revalidator]);
+
+  const rawData = useMemo(
+    () => (currentResult?.ok ? currentResult.data : []),
+    [currentResult]
+  );
+  const markers = useMemo<EventMarker[]>(
+    () => (currentResult?.ok ? currentResult.eventMarkers : []),
+    [currentResult]
+  );
 
   const categories = useMemo(
     () => rawData.map((d) => dayjs(d.date).format("M/D")),
@@ -141,19 +168,25 @@ export const DailyNotesCreationChart = ({
       period={period}
       periodOptions={options}
       title="コミュニティノートの日別作成数"
-      updatedAt={updatedAt ?? mockResponse.updatedAt}
+      updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
-      <GraphContainer footer={footer}>
-        <StackedBarLineChart
-          barSeries={barSeries}
-          categories={categories}
-          height="60vh"
-          leftYAxis={{ name: "コミュニティノート作成数" }}
-          markLines={markLines}
-          minHeight={400}
-          showLegend
-        />
-      </GraphContainer>
+      <GraphState
+        error={currentResult?.ok ? undefined : currentResult?.error}
+        onRetry={handleRetry}
+        status={graphStatus}
+      >
+        <GraphContainer footer={footer}>
+          <StackedBarLineChart
+            barSeries={barSeries}
+            categories={categories}
+            height="60vh"
+            leftYAxis={{ name: "コミュニティノート作成数" }}
+            markLines={markLines}
+            minHeight={400}
+            showLegend
+          />
+        </GraphContainer>
+      </GraphState>
     </GraphWrapper>
   );
 };
