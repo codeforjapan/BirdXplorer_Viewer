@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { GRAPH_DATA_SOURCE } from "~/config/graphDataSource";
+import { isGraphMockEnabled } from "~/config/graphDataSource";
 
 import {
   API_DAILY_POST_COUNT_PERIOD_OPTIONS,
@@ -46,11 +46,11 @@ export const MOCK_NOTES_ANNUAL_PERIOD_OPTIONS =
 export const getRelativePeriodOptions = () => RELATIVE_PERIOD_OPTIONS;
 
 export const getDailyPostCountPeriodOptions = () =>
-  GRAPH_DATA_SOURCE === "mock"
+  isGraphMockEnabled()
     ? MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS
     : API_DAILY_POST_COUNT_PERIOD_OPTIONS;
 
 export const getNotesAnnualPeriodOptions = () =>
-  GRAPH_DATA_SOURCE === "mock"
+  isGraphMockEnabled()
     ? MOCK_NOTES_ANNUAL_PERIOD_OPTIONS
     : API_NOTES_ANNUAL_PERIOD_OPTIONS;

@@ -2,7 +2,13 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
-import type { MarkLineConfig, PeriodRangeValue, StatusValue } from "~/components/graph";
+import type {
+  DailyPostCountDataItem,
+  EventMarker,
+  MarkLineConfig,
+  PeriodRangeValue,
+  StatusValue,
+} from "~/components/graph";
 import {
   getDefaultPeriodValue,
   GraphContainer,
@@ -16,8 +22,6 @@ import {
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
 import { getDailyPostCountPeriodOptions } from "~/components/graph/periodOptions";
-
-import type { DailyPostCountDataItem, EventMarker } from "./data";
 
 export type DailyPostCountChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;

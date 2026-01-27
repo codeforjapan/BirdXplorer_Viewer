@@ -5,6 +5,7 @@ import {
   safeGraphFetchWithMarkers,
 } from "~/components/graph/graphFetchers";
 import { getDailyPostCountPeriodOptions } from "~/components/graph/periodOptions";
+import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { Route } from "./+types/resources.graphs.daily-posts";
 
@@ -15,8 +16,13 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     getDailyPostCountPeriodOptions()
   );
   const status = resolveStatus(params.get("status"));
+  const cacheKey = buildGraphCacheKey("daily-posts", { range, status });
+  const cached = graphCache.get(cacheKey);
+  if (cached) return cached;
 
-  return safeGraphFetchWithMarkers(async () =>
+  const result = await safeGraphFetchWithMarkers(async () =>
     fetchDailyPostsGraph({ range, status })
   );
+  if (result.ok) graphCache.set(cacheKey, result);
+  return result;
 };

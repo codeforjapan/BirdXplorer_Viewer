@@ -23,6 +23,7 @@ export default defineConfig({
   test: {
     projects: [
       {
+        plugins: [tsconfigPaths()],
         test: {
           name: "Node",
           environment: "node",

@@ -1,12 +1,16 @@
 import dayjs from "dayjs";
 
-import type { DailyNotesCreationDataItem, EventMarker, RelativePeriodValue } from "~/components/graph";
-import { getDefaultPeriodValue, getEventMarkersForRelativePeriod } from "~/components/graph";
+import type {
+  DailyNotesCreationDataItem,
+  EventMarker,
+  RelativePeriodValue,
+} from "~/components/graph";
+import {
+  getDefaultPeriodValue,
+  getEventMarkersForRelativePeriod,
+} from "~/components/graph";
 import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
-
-// 共通型を再エクスポート
-export type { DailyNotesCreationDataItem, EventMarker } from "~/components/graph";
 
 export type DailyNotesCreationApiResponse = {
   data: DailyNotesCreationDataItem[];
@@ -18,7 +22,9 @@ export type DailyNotesCreationApiResponse = {
  * デフォルトのイベントマーカーを生成（デモ用）
  * 期間内に2つのマーカーを配置
  */
-const parsePeriod = (period?: RelativePeriodValue): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
+const parsePeriod = (
+  period?: RelativePeriodValue
+): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
   if (period?.includes("_")) {
     const [startStr, endStr] = period.split("_");
     const start = dayjs(startStr, "YYYY-MM").startOf("month");
@@ -84,7 +90,13 @@ export const generateMockData = (
       Math.floor(baseFactor * 1.5 + Math.random() * 4 - 1)
     );
 
-    days.push({ date: iso, published, evaluating, unpublished, temporarilyPublished });
+    days.push({
+      date: iso,
+      published,
+      evaluating,
+      unpublished,
+      temporarilyPublished,
+    });
   }
 
   return days;

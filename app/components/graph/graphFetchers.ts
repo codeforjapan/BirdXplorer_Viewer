@@ -1,14 +1,8 @@
-import { createMockResponse as createDailyNotesMockResponse } from "~/components/daily-notes-creation-chart/data";
-import { createMockResponse as createDailyPostsMockResponse } from "~/components/daily-post-count-chart/data";
 import {
   getDailyPostCountPeriodOptions,
   getNotesAnnualPeriodOptions,
 } from "~/components/graph/periodOptions";
-import { createMockResponse as createNotesAnnualMockResponse } from "~/components/notes-annual-chart/data";
-import { createMockResponse as createNotesEvaluationMockResponse } from "~/components/notes-evaluation-chart/data";
-import { createMockResponse as createNotesEvaluationStatusMockResponse } from "~/components/notes-evaluation-status-chart/data";
-import { createMockResponse as createPostInfluenceMockResponse } from "~/components/post-influence-chart/data";
-import { GRAPH_DATA_SOURCE } from "~/config/graphDataSource";
+import { isGraphMockEnabled } from "~/config/graphDataSource";
 import {
   getDailyNotesApiV1GraphsDailyNotesGet,
   getDailyPostsApiV1GraphsDailyPostsGet,
@@ -124,8 +118,9 @@ export const fetchDailyNotesGraph = async ({
   period: RelativePeriodValue;
   status: StatusValue;
 }): Promise<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createDailyNotesMockResponse(period);
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import("~/mocks/graph/daily-notes");
+    const mock = createMockResponse(period);
     const markers =
       mock.eventMarkers ?? getEventMarkersForRelativePeriod(period);
     return {
@@ -158,8 +153,9 @@ export const fetchDailyPostsGraph = async ({
   range: PeriodRangeValue;
   status: StatusValue;
 }): Promise<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createDailyPostsMockResponse(range);
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import("~/mocks/graph/daily-posts");
+    const mock = createMockResponse(range);
     const markers =
       mock.eventMarkers ?? getEventMarkersForRangePeriod(range);
     return {
@@ -192,8 +188,9 @@ export const fetchNotesAnnualGraph = async ({
   range: PeriodRangeValue;
   status: StatusValue;
 }): Promise<GraphFetchResult<MonthlyNoteData[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createNotesAnnualMockResponse(range);
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import("~/mocks/graph/notes-annual");
+    const mock = createMockResponse(range);
     return {
       ok: true,
       data: mock.data,
@@ -224,8 +221,9 @@ export const fetchNotesEvaluationGraph = async ({
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createNotesEvaluationMockResponse(period);
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import("~/mocks/graph/notes-evaluation");
+    const mock = createMockResponse(period);
     return {
       ok: true,
       data: mock.data,
@@ -256,8 +254,11 @@ export const fetchNotesEvaluationStatusGraph = async ({
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createNotesEvaluationStatusMockResponse();
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import(
+      "~/mocks/graph/notes-evaluation-status"
+    );
+    const mock = createMockResponse();
     return {
       ok: true,
       data: mock.data,
@@ -293,8 +294,9 @@ export const fetchPostInfluenceGraph = async ({
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<PostInfluenceData[]>> => {
-  if (GRAPH_DATA_SOURCE === "mock") {
-    const mock = createPostInfluenceMockResponse();
+  if (isGraphMockEnabled()) {
+    const { createMockResponse } = await import("~/mocks/graph/post-influence");
+    const mock = createMockResponse();
     return {
       ok: true,
       data: mock.data,

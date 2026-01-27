@@ -2,7 +2,13 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
-import type { MarkLineConfig, RelativePeriodValue, StatusValue } from "~/components/graph";
+import type {
+  DailyNotesCreationDataItem,
+  EventMarker,
+  MarkLineConfig,
+  RelativePeriodValue,
+  StatusValue,
+} from "~/components/graph";
 import {
   getDefaultPeriodValue,
   GraphContainer,
@@ -16,8 +22,6 @@ import {
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
 import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
-
-import type { DailyNotesCreationDataItem, EventMarker } from "./data";
 
 export type DailyNotesCreationChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;

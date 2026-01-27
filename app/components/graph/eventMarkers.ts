@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { GRAPH_DATA_SOURCE } from "~/config/graphDataSource";
+import { isGraphMockEnabled } from "~/config/graphDataSource";
 
 import {
   API_EVENT_MARKERS_RANGE,
@@ -60,9 +60,7 @@ const parseRangePeriod = (period: PeriodRangeValue) => {
 export const getEventMarkersForRelativePeriod = (
   period?: RelativePeriodValue
 ): EventMarker[] => {
-  if (GRAPH_DATA_SOURCE === "api") {
-    return API_EVENT_MARKERS_RELATIVE;
-  }
+  if (!isGraphMockEnabled()) return API_EVENT_MARKERS_RELATIVE;
   const { start, end } = parseRelativePeriod(period);
   return toEventMarkers(start, end, RELATIVE_PERIOD_EVENT_MARKER_RATIOS);
 };
@@ -70,9 +68,7 @@ export const getEventMarkersForRelativePeriod = (
 export const getEventMarkersForRangePeriod = (
   period: PeriodRangeValue
 ): EventMarker[] => {
-  if (GRAPH_DATA_SOURCE === "api") {
-    return API_EVENT_MARKERS_RANGE;
-  }
+  if (!isGraphMockEnabled()) return API_EVENT_MARKERS_RANGE;
   const { start, end } = parseRangePeriod(period);
   return toEventMarkers(start, end, RANGE_PERIOD_EVENT_MARKER_RATIOS);
 };
