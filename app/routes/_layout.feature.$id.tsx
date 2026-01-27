@@ -11,7 +11,6 @@ import type { GraphFetchResult, GraphFetchResultWithMarkers } from "~/components
 import type {
   DailyNotesCreationDataItem,
   DailyPostCountDataItem,
-  MonthlyNoteData,
   NoteEvaluationData,
   PostInfluenceData,
   StatusValue,
@@ -20,12 +19,9 @@ import {
   DEFAULT_GRAPH_LIMIT,
   fetchDailyNotesGraph,
   fetchDailyPostsGraph,
-  fetchNotesAnnualGraph,
-  fetchNotesEvaluationGraph,
   fetchNotesEvaluationStatusGraph,
   fetchPostInfluenceGraph,
   getDefaultDailyPostsRange,
-  getDefaultNotesAnnualRange,
   getDefaultRelativePeriod,
   safeGraphFetch,
   safeGraphFetchWithMarkers,
@@ -94,8 +90,6 @@ const getAllFeatures = (): FeatureCategory[] => {
 type GraphLoaderData = {
   dailyNotes: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
   dailyPosts: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
-  notesAnnual: GraphFetchResult<MonthlyNoteData[]>;
-  notesEvaluation: GraphFetchResult<NoteEvaluationData[]>;
   notesEvaluationStatus: GraphFetchResult<NoteEvaluationData[]>;
   postInfluence: GraphFetchResult<PostInfluenceData[]>;
 };
@@ -121,7 +115,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const status: StatusValue = "all";
   const defaultRelativePeriod = getDefaultRelativePeriod();
   const defaultDailyPostsRange = getDefaultDailyPostsRange();
-  const defaultNotesAnnualRange = getDefaultNotesAnnualRange();
 
   const dailyNotesKey = buildGraphCacheKey("daily-notes", {
     period: defaultRelativePeriod,
@@ -130,15 +123,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const dailyPostsKey = buildGraphCacheKey("daily-posts", {
     range: defaultDailyPostsRange,
     status,
-  });
-  const notesAnnualKey = buildGraphCacheKey("notes-annual", {
-    range: defaultNotesAnnualRange,
-    status,
-  });
-  const notesEvaluationKey = buildGraphCacheKey("notes-evaluation", {
-    period: defaultRelativePeriod,
-    status,
-    limit: DEFAULT_GRAPH_LIMIT,
   });
   const notesEvaluationStatusKey = buildGraphCacheKey(
     "notes-evaluation-status",
@@ -162,12 +146,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     graphCache.get(dailyPostsKey) as
       | GraphFetchResultWithMarkers<DailyPostCountDataItem[]>
       | undefined;
-  const notesAnnualCached = graphCache.get(notesAnnualKey) as
-    | GraphFetchResult<MonthlyNoteData[]>
-    | undefined;
-  const notesEvaluationCached = graphCache.get(notesEvaluationKey) as
-    | GraphFetchResult<NoteEvaluationData[]>
-    | undefined;
   const notesEvaluationStatusCached = graphCache.get(
     notesEvaluationStatusKey
   ) as GraphFetchResult<NoteEvaluationData[]> | undefined;
@@ -194,27 +172,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
             status,
           });
           if (result.ok) graphCache.set(dailyPostsKey, result);
-          return result;
-        }),
-    notesAnnualCached
-      ? Promise.resolve(notesAnnualCached)
-      : safeGraphFetch(async () => {
-          const result = await fetchNotesAnnualGraph({
-            range: defaultNotesAnnualRange,
-            status,
-          });
-          if (result.ok) graphCache.set(notesAnnualKey, result);
-          return result;
-        }),
-    notesEvaluationCached
-      ? Promise.resolve(notesEvaluationCached)
-      : safeGraphFetch(async () => {
-          const result = await fetchNotesEvaluationGraph({
-            period: defaultRelativePeriod,
-            status,
-            limit: DEFAULT_GRAPH_LIMIT,
-          });
-          if (result.ok) graphCache.set(notesEvaluationKey, result);
           return result;
         }),
     notesEvaluationStatusCached
@@ -246,14 +203,10 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       settled[0].status === "fulfilled" ? settled[0].value : createFallbackError(),
     dailyPosts:
       settled[1].status === "fulfilled" ? settled[1].value : createFallbackError(),
-    notesAnnual:
-      settled[2].status === "fulfilled" ? settled[2].value : createFallbackError(),
-    notesEvaluation:
-      settled[3].status === "fulfilled" ? settled[3].value : createFallbackError(),
     notesEvaluationStatus:
-      settled[4].status === "fulfilled" ? settled[4].value : createFallbackError(),
+      settled[2].status === "fulfilled" ? settled[2].value : createFallbackError(),
     postInfluence:
-      settled[5].status === "fulfilled" ? settled[5].value : createFallbackError(),
+      settled[3].status === "fulfilled" ? settled[3].value : createFallbackError(),
   };
 
   return {

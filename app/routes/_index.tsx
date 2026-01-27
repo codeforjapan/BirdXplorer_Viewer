@@ -20,6 +20,7 @@ import {
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
 import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
+import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { Route } from "./+types/_index";
 
@@ -29,17 +30,47 @@ export const loader = async (_args: Route.LoaderArgs) => {
   const defaultRelativePeriod = getDefaultRelativePeriod();
   const defaultNotesAnnualRange = getDefaultNotesAnnualRange();
 
+  // キャッシュキー構築
+  const notesAnnualKey = buildGraphCacheKey("notes-annual", {
+    range: defaultNotesAnnualRange,
+    status,
+  });
+  const notesEvaluationKey = buildGraphCacheKey("notes-evaluation", {
+    period: defaultRelativePeriod,
+    status,
+    limit: DEFAULT_GRAPH_LIMIT,
+  });
+
+  // キャッシュ確認
+  const notesAnnualCached = graphCache.get(notesAnnualKey) as
+    | GraphFetchResult<MonthlyNoteData[]>
+    | undefined;
+  const notesEvaluationCached = graphCache.get(notesEvaluationKey) as
+    | GraphFetchResult<NoteEvaluationData[]>
+    | undefined;
+
   const settled = await Promise.allSettled([
-    safeGraphFetch(async () =>
-      fetchNotesAnnualGraph({ range: defaultNotesAnnualRange, status })
-    ),
-    safeGraphFetch(async () =>
-      fetchNotesEvaluationGraph({
-        period: defaultRelativePeriod,
-        status,
-        limit: DEFAULT_GRAPH_LIMIT,
-      })
-    ),
+    notesAnnualCached
+      ? Promise.resolve(notesAnnualCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchNotesAnnualGraph({
+            range: defaultNotesAnnualRange,
+            status,
+          });
+          if (result.ok) graphCache.set(notesAnnualKey, result);
+          return result;
+        }),
+    notesEvaluationCached
+      ? Promise.resolve(notesEvaluationCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchNotesEvaluationGraph({
+            period: defaultRelativePeriod,
+            status,
+            limit: DEFAULT_GRAPH_LIMIT,
+          });
+          if (result.ok) graphCache.set(notesEvaluationKey, result);
+          return result;
+        }),
   ]);
 
   const notesAnnual =
