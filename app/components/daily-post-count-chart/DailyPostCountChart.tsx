@@ -1,31 +1,30 @@
 import dayjs from "dayjs";
-import { useEffect,useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useFetcher, useRevalidator } from "react-router";
 
-import type { MarkLineConfig, PeriodRangeValue, StatusValue } from "~/components/graph";
+import type {
+  DailyPostCountDataItem,
+  EventMarker,
+  MarkLineConfig,
+  PeriodRangeValue,
+  StatusValue,
+} from "~/components/graph";
 import {
   getDefaultPeriodValue,
   GraphContainer,
+  type GraphFetchResultWithMarkers,
+  GraphState,
+  type GraphStateStatus,
   GraphStatusFilter,
   GraphWrapper,
   StackedBarLineChart,
   STATUS_COLORS,
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
-
-import type {
-  DailyPostCountApiResponse,
-  DailyPostCountDataItem,
-  EventMarker,
-} from "./data";
-import { createMockResponse } from "./data";
-import { MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS } from "./periodOptions";
+import { getDailyPostCountPeriodOptions } from "~/components/graph/periodOptions";
 
 export type DailyPostCountChartProps = {
-  data?: DailyPostCountDataItem[];
-  /** 更新日（YYYY-MM-DD形式） */
-  updatedAt?: string;
-  /** イベントマーカー（例: ["7/3 公示", "7/20 投開票"]） */
-  eventMarkers?: EventMarker[];
+  initialResult?: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
 };
 
 /**
@@ -33,13 +32,17 @@ export type DailyPostCountChartProps = {
  * ステータス別（公開中/評価中/非公開/一時公開）にフィルタリング可能
  */
 export const DailyPostCountChart = ({
-  data,
-  updatedAt,
-  eventMarkers,
+  initialResult,
 }: DailyPostCountChartProps) => {
-  const options = useMemo(() => MOCK_DAILY_POST_COUNT_PERIOD_OPTIONS, []);
+  const options = useMemo(() => getDailyPostCountPeriodOptions(), []);
   const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
+  const fetcher =
+    useFetcher<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>>();
+  const revalidator = useRevalidator();
+  const hasFetcherLoaded = useRef(false);
+  const hasMounted = useRef(false);
+  const [lastUrl, setLastUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!options.length) return;
@@ -52,22 +55,50 @@ export const DailyPostCountChart = ({
   }, [options, defaultPeriod, period]);
   const [status, setStatus] = useState<StatusValue>("all");
 
-  const mockResponse = useMemo<DailyPostCountApiResponse>(
-    () => createMockResponse(period),
-    [period]
-  );
+  const currentResult = fetcher.data ?? initialResult;
 
-  // TODO: 期間変更時にAPIからデータを取得するロジックを実装する
-  // 現在はモックデータを使用（periodに応じて生成）
+  useEffect(() => {
+    if (!period) return;
+    const nextUrl = `/resources/graphs/daily-posts?range=${period}&status=${status}`;
+
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      setLastUrl(nextUrl);
+      if (!initialResult) {
+        hasFetcherLoaded.current = true;
+        void fetcher.load(nextUrl);
+      }
+      return;
+    }
+
+    if (nextUrl === lastUrl) return;
+    setLastUrl(nextUrl);
+    hasFetcherLoaded.current = true;
+    void fetcher.load(nextUrl);
+  }, [fetcher, initialResult, lastUrl, period, status]);
+
+  const graphStatus = useMemo<GraphStateStatus>(() => {
+    if (fetcher.state !== "idle") return "loading";
+    if (!currentResult) return "loading";
+    if (!currentResult.ok) return "error";
+    return currentResult.data.length === 0 ? "empty" : "success";
+  }, [currentResult, fetcher.state]);
+
+  const handleRetry = useCallback(() => {
+    if (hasFetcherLoaded.current && lastUrl) {
+      void fetcher.load(lastUrl);
+      return;
+    }
+    void revalidator.revalidate();
+  }, [fetcher, lastUrl, revalidator]);
+
   const rawData = useMemo(
-    () => data ?? mockResponse.data,
-    [data, mockResponse.data]
+    () => (currentResult?.ok ? currentResult.data : []),
+    [currentResult]
   );
-
-  // イベントマーカー（未指定時はデモ用マーカーを生成）
-  const markers = useMemo(
-    () => eventMarkers ?? mockResponse.eventMarkers,
-    [eventMarkers, mockResponse.eventMarkers]
+  const markers = useMemo<EventMarker[]>(
+    () => (currentResult?.ok ? currentResult.eventMarkers : []),
+    [currentResult]
   );
 
   const categories = useMemo(
@@ -141,19 +172,25 @@ export const DailyPostCountChart = ({
       period={period}
       periodOptions={options}
       title="ポストの日別投稿数"
-      updatedAt={updatedAt ?? mockResponse.updatedAt}
+      updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
-      <GraphContainer footer={footer}>
-        <StackedBarLineChart
-          barSeries={barSeries}
-          categories={categories}
-          height="60vh"
-          leftYAxis={{ name: "ポスト投稿数" }}
-          markLines={markLines}
-          minHeight={400}
-          showLegend
-        />
-      </GraphContainer>
+      <GraphState
+        error={currentResult?.ok ? undefined : currentResult?.error}
+        onRetry={handleRetry}
+        status={graphStatus}
+      >
+        <GraphContainer footer={footer}>
+          <StackedBarLineChart
+            barSeries={barSeries}
+            categories={categories}
+            height="60vh"
+            leftYAxis={{ name: "ポスト投稿数" }}
+            markLines={markLines}
+            minHeight={400}
+            showLegend
+          />
+        </GraphContainer>
+      </GraphState>
     </GraphWrapper>
   );
 };

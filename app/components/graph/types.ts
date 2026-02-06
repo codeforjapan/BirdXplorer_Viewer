@@ -81,7 +81,7 @@ export type DailyPostCountDataItem = {
 export type MonthlyNoteData = {
   /** 月（YYYY-MM形式） */
   month: string;
-  /** 公開率（0〜100のパーセンテージ） */
+  /** 公開率（0〜1の比率。UI側で×100して%表示） */
   publicationRate: number;
 } & StatusCounts;
 

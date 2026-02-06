@@ -1,18 +1,19 @@
 import { Group, Text, UnstyledButton } from "@mantine/core";
-import { useEffect,useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useFetcher, useRevalidator } from "react-router";
 
 import type { MonthlyNoteData, PeriodRangeValue } from "~/components/graph";
 import {
   getDefaultPeriodValue,
   GraphContainer,
+  type GraphFetchResult,
+  GraphState,
+  type GraphStateStatus,
   GraphWrapper,
   StackedBarLineChart,
   STATUS_COLORS,
 } from "~/components/graph";
-
-import type { NotesAnnualApiResponse } from "./data";
-import { createMockResponse } from "./data";
-import { NOTES_ANNUAL_PERIOD_OPTIONS } from "./periodOptions";
+import { getNotesAnnualPeriodOptions } from "~/components/graph/periodOptions";
 
 /** 公開率の色（オレンジ） */
 const PUBLICATION_RATE_COLOR = "#ffa726";
@@ -62,34 +63,25 @@ type SeriesVisibility = {
 };
 
 type NotesAnnualChartSectionProps = {
-  /** グラフデータ */
-  data?: MonthlyNoteData[];
   /** ヘルプテキスト（ツールチップで表示） */
   helpText?: string;
-  /** 更新日（YYYY-MM-DD形式） */
-  updatedAt?: string;
+  initialResult?: GraphFetchResult<MonthlyNoteData[]>;
 };
 
 export const NotesAnnualChartSection = ({
-  data,
   helpText = "このグラフは、過去1年間のコミュニティノートの数と公開率を月ごとに表示しています。",
-  updatedAt,
+  initialResult,
 }: NotesAnnualChartSectionProps) => {
-  const options = useMemo(() => NOTES_ANNUAL_PERIOD_OPTIONS, []);
+  const options = useMemo(() => getNotesAnnualPeriodOptions(), []);
   const defaultPeriod = getDefaultPeriodValue(options);
   const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
+  const fetcher = useFetcher<GraphFetchResult<MonthlyNoteData[]>>();
+  const revalidator = useRevalidator();
+  const hasFetcherLoaded = useRef(false);
+  const hasMounted = useRef(false);
+  const [lastUrl, setLastUrl] = useState<string | null>(null);
 
-  const mockResponse = useMemo<NotesAnnualApiResponse>(
-    () => createMockResponse(period),
-    [period]
-  );
-
-  // TODO: 期間変更時にAPIからデータを取得するロジックを実装する
-  // 現在はモックデータを使用（periodに応じて生成）
-  const chartData = useMemo(
-    () => data ?? mockResponse.data,
-    [data, mockResponse.data]
-  );
+  const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
     if (!options.length) return;
@@ -100,6 +92,46 @@ export const NotesAnnualChartSection = ({
       defaultPeriod;
     setPeriod(fallback);
   }, [options, defaultPeriod, period]);
+
+  useEffect(() => {
+    if (!period) return;
+    const nextUrl = `/resources/graphs/notes-annual?range=${period}&status=all`;
+
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      setLastUrl(nextUrl);
+      if (!initialResult) {
+        hasFetcherLoaded.current = true;
+        void fetcher.load(nextUrl);
+      }
+      return;
+    }
+
+    if (nextUrl === lastUrl) return;
+    setLastUrl(nextUrl);
+    hasFetcherLoaded.current = true;
+    void fetcher.load(nextUrl);
+  }, [fetcher, initialResult, lastUrl, period]);
+
+  const graphStatus = useMemo<GraphStateStatus>(() => {
+    if (fetcher.state !== "idle") return "loading";
+    if (!currentResult) return "loading";
+    if (!currentResult.ok) return "error";
+    return currentResult.data.length === 0 ? "empty" : "success";
+  }, [currentResult, fetcher.state]);
+
+  const handleRetry = useCallback(() => {
+    if (hasFetcherLoaded.current && lastUrl) {
+      void fetcher.load(lastUrl);
+      return;
+    }
+    void revalidator.revalidate();
+  }, [fetcher, lastUrl, revalidator]);
+
+  const chartData = useMemo(
+    () => (currentResult?.ok ? currentResult.data : []),
+    [currentResult]
+  );
 
   const [visibility, setVisibility] = useState<SeriesVisibility>({
     published: true,
@@ -114,7 +146,10 @@ export const NotesAnnualChartSection = ({
   };
 
   // グラフデータを変換（YYYY-MM → YYYY/MM に変換して表示）
-  const categories = chartData.map((d) => d.month.replace("-", "/"));
+  const categories = useMemo(
+    () => chartData.map((d) => d.month.replace("-", "/")),
+    [chartData]
+  );
   const barSeries = useMemo(
     () => [
       // 積み上げ順序: 下から「公開中→評価中→非公開→一時公開」（他のグラフと統一）
@@ -149,7 +184,7 @@ export const NotesAnnualChartSection = ({
   const lineSeries = useMemo(
     () => ({
       name: "公開率",
-      data: chartData.map((d) => d.publicationRate),
+      data: chartData.map((d) => d.publicationRate * 100),
       color: PUBLICATION_RATE_COLOR,
       visible: visibility.publicationRate,
       unit: "%",
@@ -207,19 +242,25 @@ export const NotesAnnualChartSection = ({
       period={period}
       periodOptions={options}
       title="1年間のコミュニティノート数と公開率"
-      updatedAt={updatedAt ?? mockResponse.updatedAt}
+      updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
-      <GraphContainer footer={footer}>
-        <StackedBarLineChart
-          barSeries={barSeries}
-          categories={categories}
-          height="400px"
-          leftYAxis={{ name: "コミュニティノート作成数" }}
-          lineSeries={lineSeries}
-          minHeight={350}
-          rightYAxis={{ min: 0, max: 100 }}
-        />
-      </GraphContainer>
+      <GraphState
+        error={currentResult?.ok ? undefined : currentResult?.error}
+        onRetry={handleRetry}
+        status={graphStatus}
+      >
+        <GraphContainer footer={footer}>
+          <StackedBarLineChart
+            barSeries={barSeries}
+            categories={categories}
+            height="400px"
+            leftYAxis={{ name: "コミュニティノート作成数" }}
+            lineSeries={lineSeries}
+            minHeight={350}
+            rightYAxis={{ min: 0, max: 100 }}
+          />
+        </GraphContainer>
+      </GraphState>
     </GraphWrapper>
   );
 };

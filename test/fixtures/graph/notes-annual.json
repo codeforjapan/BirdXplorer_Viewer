@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "month": "2025-01",
+      "published": 10,
+      "evaluating": 5,
+      "unpublished": 2,
+      "temporarilyPublished": 1,
+      "publicationRate": 0.5
+    }
+  ],
+  "updatedAt": "2025-01"
+}

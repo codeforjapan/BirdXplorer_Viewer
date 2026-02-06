@@ -1,11 +1,16 @@
 import dayjs from "dayjs";
 
-import type { DailyNotesCreationDataItem, EventMarker, RelativePeriodValue } from "~/components/graph";
-import { getDefaultPeriodValue, RELATIVE_PERIOD_OPTIONS } from "~/components/graph";
+import type {
+  DailyNotesCreationDataItem,
+  EventMarker,
+  RelativePeriodValue,
+} from "~/components/graph";
+import {
+  getDefaultPeriodValue,
+  getEventMarkersForRelativePeriod,
+} from "~/components/graph";
+import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
-
-// 共通型を再エクスポート
-export type { DailyNotesCreationDataItem, EventMarker } from "~/components/graph";
 
 export type DailyNotesCreationApiResponse = {
   data: DailyNotesCreationDataItem[];
@@ -17,7 +22,9 @@ export type DailyNotesCreationApiResponse = {
  * デフォルトのイベントマーカーを生成（デモ用）
  * 期間内に2つのマーカーを配置
  */
-const parsePeriod = (period?: RelativePeriodValue): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
+const parsePeriod = (
+  period?: RelativePeriodValue
+): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
   if (period?.includes("_")) {
     const [startStr, endStr] = period.split("_");
     const start = dayjs(startStr, "YYYY-MM").startOf("month");
@@ -49,17 +56,6 @@ const resolvePeriod = (
     return period;
   }
   return getDefaultPeriodValue(periodOptions);
-};
-
-export const getDefaultEventMarkers = (period?: RelativePeriodValue): EventMarker[] => {
-  const { start, end } = parsePeriod(period);
-  const totalDays = Math.max(1, end.diff(start, "day"));
-  const marker1 = start.add(Math.floor(totalDays * 0.35), "day");
-  const marker2 = start.add(Math.floor(totalDays * 0.7), "day");
-  return [
-    { date: marker1.format("YYYY-MM-DD"), label: `${marker1.format("M/D")} 公示` },
-    { date: marker2.format("YYYY-MM-DD"), label: `${marker2.format("M/D")} 投開票` },
-  ];
 };
 
 export const generateMockData = (
@@ -94,7 +90,13 @@ export const generateMockData = (
       Math.floor(baseFactor * 1.5 + Math.random() * 4 - 1)
     );
 
-    days.push({ date: iso, published, evaluating, unpublished, temporarilyPublished });
+    days.push({
+      date: iso,
+      published,
+      evaluating,
+      unpublished,
+      temporarilyPublished,
+    });
   }
 
   return days;
@@ -103,12 +105,12 @@ export const generateMockData = (
 export const createMockResponse = (
   period?: RelativePeriodValue
 ): DailyNotesCreationApiResponse => {
-  const resolvedPeriod = resolvePeriod(period, RELATIVE_PERIOD_OPTIONS);
+  const resolvedPeriod = resolvePeriod(period, getRelativePeriodOptions());
   const data = generateMockData(resolvedPeriod);
 
   return {
     data,
-    eventMarkers: getDefaultEventMarkers(resolvedPeriod),
+    eventMarkers: getEventMarkersForRelativePeriod(resolvedPeriod),
     updatedAt: data[data.length - 1]?.date ?? dayjs().format("YYYY-MM-DD"),
   };
 };

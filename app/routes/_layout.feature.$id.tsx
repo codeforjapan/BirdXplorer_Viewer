@@ -1,17 +1,39 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Container, Grid } from "@mantine/core";
+import type { ShouldRevalidateFunction } from "react-router";
 
 import { AccountRankingSection } from "~/components/account-ranking";
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
 import { ReportSummaryCard } from "~/components/feature/report-summary-card";
+import type { GraphFetchResult, GraphFetchResultWithMarkers } from "~/components/graph";
+import type {
+  DailyNotesCreationDataItem,
+  DailyPostCountDataItem,
+  NoteEvaluationData,
+  PostInfluenceData,
+  StatusValue,
+} from "~/components/graph";
+import {
+  DEFAULT_GRAPH_LIMIT,
+  fetchDailyNotesGraph,
+  fetchDailyPostsGraph,
+  fetchNotesEvaluationStatusGraph,
+  fetchPostInfluenceGraph,
+  getDefaultDailyPostsRange,
+  getDefaultRelativePeriod,
+  safeGraphFetch,
+  safeGraphFetchWithMarkers,
+} from "~/components/graph/graphFetchers";
+import { DEFAULT_EVALUATION_PERIOD } from "~/components/graph/periodOptions";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { NotesEvaluationStatusChart } from "~/components/notes-evaluation-status-chart";
 import { PostInfluenceChart } from "~/components/post-influence-chart";
 import { SectionTitle } from "~/components/SectionTitle";
 import { FEATURES } from "~/constants/data";
 import { WEB_PATHS } from "~/constants/paths";
+import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature.$id";
@@ -65,25 +87,152 @@ const getAllFeatures = (): FeatureCategory[] => {
   return FEATURES;
 };
 
-export const loader = ({ params }: Route.LoaderArgs) => {
+type GraphLoaderData = {
+  dailyNotes: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
+  dailyPosts: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
+  notesEvaluationStatus: GraphFetchResult<NoteEvaluationData[]>;
+  postInfluence: GraphFetchResult<PostInfluenceData[]>;
+};
+
+const createFallbackError = <T,>(): GraphFetchResultWithMarkers<T> => ({
+  ok: false,
+  error: { kind: "network", message: "通信エラーが発生しました。時間をおいて再試行してください。" },
+});
+
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const id = params.id;
 
   if (!id) {
     return {
       feature: null,
+      graphs: null,
     };
   }
 
   const features = getAllFeatures();
   const feature = features.find((f) => f.detail.href === `/feature/${id}`);
 
+  const status: StatusValue = "all";
+  const defaultRelativePeriod = getDefaultRelativePeriod();
+  const defaultDailyPostsRange = getDefaultDailyPostsRange();
+
+  const dailyNotesKey = buildGraphCacheKey("daily-notes", {
+    period: defaultRelativePeriod,
+    status,
+  });
+  const dailyPostsKey = buildGraphCacheKey("daily-posts", {
+    range: defaultDailyPostsRange,
+    status,
+  });
+  const notesEvaluationStatusKey = buildGraphCacheKey(
+    "notes-evaluation-status",
+    {
+      period: DEFAULT_EVALUATION_PERIOD,
+      status,
+      limit: DEFAULT_GRAPH_LIMIT,
+    }
+  );
+  const postInfluenceKey = buildGraphCacheKey("post-influence", {
+    period: DEFAULT_EVALUATION_PERIOD,
+    status,
+    limit: DEFAULT_GRAPH_LIMIT,
+  });
+
+  const dailyNotesCached =
+    graphCache.get(dailyNotesKey) as
+      | GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>
+      | undefined;
+  const dailyPostsCached =
+    graphCache.get(dailyPostsKey) as
+      | GraphFetchResultWithMarkers<DailyPostCountDataItem[]>
+      | undefined;
+  const notesEvaluationStatusCached = graphCache.get(
+    notesEvaluationStatusKey
+  ) as GraphFetchResult<NoteEvaluationData[]> | undefined;
+  const postInfluenceCached = graphCache.get(postInfluenceKey) as
+    | GraphFetchResult<PostInfluenceData[]>
+    | undefined;
+
+  const settled = await Promise.allSettled([
+    dailyNotesCached
+      ? Promise.resolve(dailyNotesCached)
+      : safeGraphFetchWithMarkers(async () => {
+          const result = await fetchDailyNotesGraph({
+            period: defaultRelativePeriod,
+            status,
+          });
+          if (result.ok) graphCache.set(dailyNotesKey, result);
+          return result;
+        }),
+    dailyPostsCached
+      ? Promise.resolve(dailyPostsCached)
+      : safeGraphFetchWithMarkers(async () => {
+          const result = await fetchDailyPostsGraph({
+            range: defaultDailyPostsRange,
+            status,
+          });
+          if (result.ok) graphCache.set(dailyPostsKey, result);
+          return result;
+        }),
+    notesEvaluationStatusCached
+      ? Promise.resolve(notesEvaluationStatusCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchNotesEvaluationStatusGraph({
+            period: DEFAULT_EVALUATION_PERIOD,
+            status,
+            limit: DEFAULT_GRAPH_LIMIT,
+          });
+          if (result.ok) graphCache.set(notesEvaluationStatusKey, result);
+          return result;
+        }),
+    postInfluenceCached
+      ? Promise.resolve(postInfluenceCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchPostInfluenceGraph({
+            period: DEFAULT_EVALUATION_PERIOD,
+            status,
+            limit: DEFAULT_GRAPH_LIMIT,
+          });
+          if (result.ok) graphCache.set(postInfluenceKey, result);
+          return result;
+        }),
+  ]);
+
+  const graphs: GraphLoaderData = {
+    dailyNotes:
+      settled[0].status === "fulfilled" ? settled[0].value : createFallbackError(),
+    dailyPosts:
+      settled[1].status === "fulfilled" ? settled[1].value : createFallbackError(),
+    notesEvaluationStatus:
+      settled[2].status === "fulfilled" ? settled[2].value : createFallbackError(),
+    postInfluence:
+      settled[3].status === "fulfilled" ? settled[3].value : createFallbackError(),
+  };
+
   return {
     feature: feature ?? null,
+    graphs,
   };
 };
 
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentParams,
+  nextParams,
+  currentUrl,
+  nextUrl,
+}) => {
+
+  if (currentParams.id !== nextParams.id) return true;
+
+  const graphKeys = ["period", "status", "range", "limit"];
+  const hasGraphChange = graphKeys.some(
+    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key)
+  );
+  return hasGraphChange;
+};
+
 export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
-  const { feature } = loaderData;
+  const { feature, graphs } = loaderData;
 
   if (!feature) {
     return (
@@ -116,16 +265,16 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           <AccountRankingSection />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyPostCountChart />
+          <DailyPostCountChart initialResult={graphs?.dailyPosts} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyNotesCreationChart />
+          <DailyNotesCreationChart initialResult={graphs?.dailyNotes} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <PostInfluenceChart />
+          <PostInfluenceChart initialResult={graphs?.postInfluence} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <NotesEvaluationStatusChart />
+          <NotesEvaluationStatusChart initialResult={graphs?.notesEvaluationStatus} />
         </Grid.Col>
       </Grid>
 
