@@ -66,7 +66,7 @@ export const loader = ({ params }: Route.LoaderArgs): LoaderData => {
 };
 
 export default function ReportDetail({ loaderData }: Route.ComponentProps) {
-  const { report } = loaderData as LoaderData;
+  const { report } = loaderData;
 
   if (!report) {
     return (

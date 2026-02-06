@@ -33,7 +33,7 @@ describe("ReportCardSection", () => {
   it("should render report items with links", () => {
     const screen = render(<ReportCardSection />);
     expect(screen.getByText("2025年 9月レポート")).toBeTruthy();
-    const reportLink = screen.container.querySelector('a[href="/report/1"]');
+    const reportLink = screen.container.querySelector('a[href="/report/2025/09"]');
     expect(reportLink).toBeTruthy();
   });
 
