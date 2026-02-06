@@ -80,7 +80,8 @@ export const loader = async (_args: Route.LoaderArgs) => {
           ok: false,
           error: {
             kind: "network",
-            message: "通信エラーが発生しました。時間をおいて再試行してください。",
+            message:
+              "通信エラーが発生しました。時間をおいて再試行してください。",
           },
         } as GraphFetchResult<MonthlyNoteData[]>);
   const notesEvaluation =
@@ -90,7 +91,8 @@ export const loader = async (_args: Route.LoaderArgs) => {
           ok: false,
           error: {
             kind: "network",
-            message: "通信エラーが発生しました。時間をおいて再試行してください。",
+            message:
+              "通信エラーが発生しました。時間をおいて再試行してください。",
           },
         } as GraphFetchResult<NoteEvaluationData[]>);
 
@@ -110,7 +112,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           <AboutSection />
           <FeatureSection />
           <ReportCardSection maxItems={4} />
-          <NotesAnnualChartSection initialResult={loaderData.graphs.notesAnnual} />
+          <NotesAnnualChartSection
+            initialResult={loaderData.graphs.notesAnnual}
+          />
           <Grid align="stretch" gutter="xl">
             <Grid.Col span={{ base: 12, md: 6 }}>
               <NotesEvaluationChartSection
@@ -126,7 +130,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           <iframe
             height="2330px"
             sandbox="allow-scripts allow-popups allow-forms"
-            src="/kouchou-ai/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
+            src="/kouchou-ai/202506/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
             title="広聴AI"
             width="100%"
           />

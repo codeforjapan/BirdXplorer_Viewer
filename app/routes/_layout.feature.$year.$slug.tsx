@@ -36,7 +36,7 @@ import { WEB_PATHS } from "~/constants/paths";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { LayoutHandle } from "./_layout";
-import type { Route } from "./+types/_layout.feature.$id";
+import type { Route } from "./+types/_layout.feature.$year.$slug";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.feature) {
@@ -100,9 +100,9 @@ const createFallbackError = <T,>(): GraphFetchResultWithMarkers<T> => ({
 });
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
-  const id = params.id;
+  const { year, slug } = params;
 
-  if (!id) {
+  if (!year || !slug) {
     return {
       feature: null,
       graphs: null,
@@ -110,7 +110,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   }
 
   const features = getAllFeatures();
-  const feature = features.find((f) => f.detail.href === `/feature/${id}`);
+  const feature = features.find((f) => f.detail.href === `/feature/${year}/${slug}`);
 
   const status: StatusValue = "all";
   const defaultRelativePeriod = getDefaultRelativePeriod();
@@ -222,7 +222,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
   nextUrl,
 }) => {
 
-  if (currentParams.id !== nextParams.id) return true;
+  if (currentParams.year !== nextParams.year || currentParams.slug !== nextParams.slug) return true;
 
   const graphKeys = ["period", "status", "range", "limit"];
   const hasGraphChange = graphKeys.some(

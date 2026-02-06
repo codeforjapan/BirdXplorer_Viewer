@@ -5,20 +5,25 @@ import { ReportIcon } from "~/components/icons";
 import { OtherReportCardSection } from "~/components/other-report-card-section/OtherReportCardSection";
 import { WEB_PATHS } from "~/constants/paths";
 import type { ReportItem } from "~/data/reports";
-import { REPORT_ITEMS } from "~/data/reports";
+import { DEFAULT_KOUCHOU_AI_PATH, REPORT_ITEMS } from "~/data/reports";
 
 import type { LayoutHandle } from "./_layout";
-import type { Route } from "./+types/_layout.report.$id";
+import type { Route } from "./+types/_layout.report.$year.$month";
+
+type LoaderData = {
+  report: ReportItem | null;
+};
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.report) {
+  const loaderData = data as LoaderData | undefined;
+  if (!loaderData?.report) {
     return [{ title: "レポートが見つかりません - BirdXplorer" }];
   }
   return [
-    { title: `${data.report.title} - BirdXplorer` },
+    { title: `${loaderData.report.title} - BirdXplorer` },
     {
       name: "description",
-      content: `${data.report.title}のレポートページ`,
+      content: `${loaderData.report.title}のレポートページ`,
     },
     { name: "robots", content: "noindex, nofollow" },
   ];
@@ -40,10 +45,11 @@ const getAllReports = (): ReportItem[] => {
   return REPORT_ITEMS;
 };
 
-export const loader = ({ params }: Route.LoaderArgs) => {
-  const id = params.id;
+export const loader = ({ params }: Route.LoaderArgs): LoaderData => {
+  const typedParams = params as { year?: string; month?: string };
+  const { year, month } = typedParams;
 
-  if (!id) {
+  if (!year || !month) {
     return {
       report: null,
     };
@@ -51,7 +57,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 
   const reports = getAllReports();
   const report = reports.find(
-    (r) => r.href === WEB_PATHS.report.show.replace(":id", id),
+    (r) => r.href === `/report/${year}/${month}`,
   );
 
   return {
@@ -60,7 +66,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 };
 
 export default function ReportDetail({ loaderData }: Route.ComponentProps) {
-  const { report } = loaderData;
+  const { report } = loaderData as LoaderData;
 
   if (!report) {
     return (
@@ -82,7 +88,7 @@ export default function ReportDetail({ loaderData }: Route.ComponentProps) {
       <iframe
         height="2330px"
         sandbox="allow-scripts allow-popups allow-forms"
-        src="/kouchou-ai/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
+        src={String(report.kouchouAiPath ?? DEFAULT_KOUCHOU_AI_PATH)}
         title="広聴AI"
         width="100%"
       />
