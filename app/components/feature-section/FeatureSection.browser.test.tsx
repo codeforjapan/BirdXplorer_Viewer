@@ -28,13 +28,13 @@ describe("FeatureSection", () => {
     const screen = render(<FeatureSection />);
     expect(screen.getByText("2025年 参議院選挙")).toBeTruthy();
     const sangiinLink = screen.container.querySelector(
-      'a[href="/feature/2025-sangiin"]',
+      'a[href="/feature/2025/sangiin"]',
     );
     expect(sangiinLink).toBeTruthy();
 
     expect(screen.getByText(/2024年 能登半島地震/)).toBeTruthy();
     const notoLink = screen.container.querySelector(
-      'a[href="/feature/2024-noto-earthquake"]',
+      'a[href="/feature/2024/noto-earthquake"]',
     );
     expect(notoLink).toBeTruthy();
   });

@@ -2,6 +2,10 @@
 
 - 📖 [Remix docs](https://remix.run/docs)
 
+## データ更新
+
+Feature（特集）や Report（月次レポート）のデータ更新方法については、[データ更新ガイド](./docs/DATA_UPDATE_GUIDE.md)を参照してください。
+
 ## Development
 
 Run the dev server:

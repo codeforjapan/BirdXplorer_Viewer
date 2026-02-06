@@ -7,7 +7,7 @@ export const FEATURES: FeatureCategory[] = [
     color: "bg-green",
     detail: {
       title: "2025年 参議院選挙",
-      href: "/feature/2025-sangiin",
+      href: "/feature/2025/sangiin",
     },
   },
   {
@@ -16,7 +16,7 @@ export const FEATURES: FeatureCategory[] = [
     color: "bg-blue",
     detail: {
       title: "2024年 能登半島地震 能登半島地震 能登半島地震",
-      href: "/feature/2024-noto-earthquake",
+      href: "/feature/2024/noto-earthquake",
     },
   },
   {
@@ -25,7 +25,7 @@ export const FEATURES: FeatureCategory[] = [
     color: "bg-green",
     detail: {
       title: "2024年 兵庫県知事選挙",
-      href: "/feature/2024-hyogo-governor",
+      href: "/feature/2024/hyogo-governor",
     },
   },
   {
@@ -34,7 +34,7 @@ export const FEATURES: FeatureCategory[] = [
     color: "bg-gray-2",
     detail: {
       title: "2024年 XXXXXXXXX",
-      href: "/feature/2024-other",
+      href: "/feature/2024/other",
     },
   },
 ];
