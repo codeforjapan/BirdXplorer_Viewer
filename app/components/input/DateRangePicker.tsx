@@ -63,6 +63,90 @@ export const DateRangePicker = ({
         label: {
           marginBottom: "8px",
         },
+        levelsGroup: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        calendarHeader: {
+          backgroundColor: "var(--color-gray-1)",
+          color: "white",
+        },
+        calendarHeaderControl: {
+          color: "white",
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+        },
+        calendarHeaderLevel: {
+          color: "white",
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+        },
+        monthsList: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        monthsListCell: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        yearsList: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        yearsListCell: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        month: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        monthCell: {
+          color: "white",
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
+          },
+        },
+        yearsListControl: {
+          color: "white",
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
+          },
+        },
+        monthsListControl: {
+          color: "white",
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
+          },
+        },
+        day: {
+          color: "white",
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
+          },
+          "&[data-in-range]": {
+            backgroundColor: "rgba(var(--color-primary-rgb), 0.2)",
+            color: "white",
+          },
+          "&:hover": {
+            backgroundColor: "var(--color-gray-2)",
+          },
+          "&[data-outside]": {
+            color: "var(--color-gray-4)",
+          },
+        },
+        weekday: {
+          color: "var(--color-gray-4)",
+        },
       }}
       type="range"
       value={value}

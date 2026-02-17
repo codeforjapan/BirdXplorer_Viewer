@@ -4,14 +4,17 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { GetPostInfluenceApiV1GraphsPostInfluenceGetPeriod } from "./getPostInfluenceApiV1GraphsPostInfluenceGetPeriod";
 import type { GetPostInfluenceApiV1GraphsPostInfluenceGetStatus } from "./getPostInfluenceApiV1GraphsPostInfluenceGetStatus";
 
 export type GetPostInfluenceApiV1GraphsPostInfluenceGetParams = {
   /**
-   * Time period for data aggregation
+   * Start timestamp in milliseconds (Unix epoch, UTC)
    */
-  period: GetPostInfluenceApiV1GraphsPostInfluenceGetPeriod;
+  start_date: number;
+  /**
+   * End timestamp in milliseconds (Unix epoch, UTC)
+   */
+  end_date: number;
   /**
    * Filter by note publication status
    */

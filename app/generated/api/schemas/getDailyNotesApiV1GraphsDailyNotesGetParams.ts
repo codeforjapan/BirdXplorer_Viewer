@@ -4,14 +4,17 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { GetDailyNotesApiV1GraphsDailyNotesGetPeriod } from "./getDailyNotesApiV1GraphsDailyNotesGetPeriod";
 import type { GetDailyNotesApiV1GraphsDailyNotesGetStatus } from "./getDailyNotesApiV1GraphsDailyNotesGetStatus";
 
 export type GetDailyNotesApiV1GraphsDailyNotesGetParams = {
   /**
-   * Time period for data aggregation
+   * Start timestamp in milliseconds (Unix epoch, UTC)
    */
-  period: GetDailyNotesApiV1GraphsDailyNotesGetPeriod;
+  start_date: number;
+  /**
+   * End timestamp in milliseconds (Unix epoch, UTC)
+   */
+  end_date: number;
   /**
    * Filter by note publication status
    */

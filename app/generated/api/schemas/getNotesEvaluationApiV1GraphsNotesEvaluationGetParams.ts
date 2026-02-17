@@ -4,14 +4,17 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { GetNotesEvaluationApiV1GraphsNotesEvaluationGetPeriod } from "./getNotesEvaluationApiV1GraphsNotesEvaluationGetPeriod";
 import type { GetNotesEvaluationApiV1GraphsNotesEvaluationGetStatus } from "./getNotesEvaluationApiV1GraphsNotesEvaluationGetStatus";
 
 export type GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams = {
   /**
-   * Time period for data aggregation
+   * Start timestamp in milliseconds (Unix epoch, UTC)
    */
-  period: GetNotesEvaluationApiV1GraphsNotesEvaluationGetPeriod;
+  start_date: number;
+  /**
+   * End timestamp in milliseconds (Unix epoch, UTC)
+   */
+  end_date: number;
   /**
    * Filter by note publication status
    */

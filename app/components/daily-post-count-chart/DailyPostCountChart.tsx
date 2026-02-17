@@ -2,15 +2,14 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
+import type { DateRange } from "~/components/date-range-selector";
 import type {
   DailyPostCountDataItem,
   EventMarker,
   MarkLineConfig,
-  PeriodRangeValue,
   StatusValue,
 } from "~/components/graph";
 import {
-  getDefaultPeriodValue,
   GraphContainer,
   type GraphFetchResultWithMarkers,
   GraphState,
@@ -21,7 +20,7 @@ import {
   STATUS_COLORS,
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
-import { getDailyPostCountPeriodOptions } from "~/components/graph/periodOptions";
+import { dateRangeToTimestamps, periodRangeToTimestamps } from "~/utils/dateRange";
 
 export type DailyPostCountChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
@@ -34,9 +33,12 @@ export type DailyPostCountChartProps = {
 export const DailyPostCountChart = ({
   initialResult,
 }: DailyPostCountChartProps) => {
-  const options = useMemo(() => getDailyPostCountPeriodOptions(), []);
-  const defaultPeriod = getDefaultPeriodValue(options);
-  const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
+  // デフォルトの日付範囲を設定（2025-02_2026-01）
+  const defaultTimestamps = periodRangeToTimestamps("2025-02_2026-01");
+  const [dateRange, setDateRange] = useState<DateRange>([
+    new Date(defaultTimestamps.start_date),
+    new Date(defaultTimestamps.end_date),
+  ]);
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>>();
   const revalidator = useRevalidator();
@@ -44,22 +46,15 @@ export const DailyPostCountChart = ({
   const hasMounted = useRef(false);
   const [lastUrl, setLastUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!options.length) return;
-    if (period && options.some((option) => option.value === period)) return;
-    const fallback =
-      options.find((option) => option.value === defaultPeriod)?.value ??
-      options[0]?.value ??
-      defaultPeriod;
-    setPeriod(fallback);
-  }, [options, defaultPeriod, period]);
   const [status, setStatus] = useState<StatusValue>("all");
 
   const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
-    if (!period) return;
-    const nextUrl = `/resources/graphs/daily-posts?range=${period}&status=${status}`;
+    const timestamps = dateRangeToTimestamps(dateRange);
+    if (!timestamps) return;
+
+    const nextUrl = `/resources/graphs/daily-posts?start_date=${timestamps.start_date}&end_date=${timestamps.end_date}&status=${status}`;
 
     if (!hasMounted.current) {
       hasMounted.current = true;
@@ -75,7 +70,7 @@ export const DailyPostCountChart = ({
     setLastUrl(nextUrl);
     hasFetcherLoaded.current = true;
     void fetcher.load(nextUrl);
-  }, [fetcher, initialResult, lastUrl, period, status]);
+  }, [fetcher, initialResult, lastUrl, dateRange, status]);
 
   const graphStatus = useMemo<GraphStateStatus>(() => {
     if (fetcher.state !== "idle") return "loading";
@@ -168,9 +163,8 @@ export const DailyPostCountChart = ({
 
   return (
     <GraphWrapper
-      onPeriodChange={setPeriod}
-      period={period}
-      periodOptions={options}
+      dateRange={dateRange}
+      onDateRangeChange={setDateRange}
       title="ポストの日別投稿数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

@@ -8,9 +8,13 @@ import type { GetNotesAnnualApiV1GraphsNotesAnnualGetStatus } from "./getNotesAn
 
 export type GetNotesAnnualApiV1GraphsNotesAnnualGetParams = {
   /**
-   * Month range in format YYYY-MM_YYYY-MM
+   * Start timestamp in milliseconds (Unix epoch, UTC)
    */
-  range: string;
+  start_date: number;
+  /**
+   * End timestamp in milliseconds (Unix epoch, UTC)
+   */
+  end_date: number;
   /**
    * Filter by note publication status
    */

@@ -2,8 +2,8 @@ import { Stack } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
+import type { DateRange } from "~/components/date-range-selector";
 import {
-  DEFAULT_EVALUATION_PERIOD,
   getStatusLabel,
   GraphContainer,
   type GraphFetchResult,
@@ -19,6 +19,7 @@ import {
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
+import { dateRangeToTimestamps, getDefaultDateRange } from "~/utils/dateRange";
 import { getArrayMax, getArrayMin } from "~/utils/math";
 
 // PostInfluenceData は ~/components/graph から再エクスポート
@@ -35,6 +36,7 @@ export type PostInfluenceChartProps = {
 export const PostInfluenceChart = ({
   initialResult,
 }: PostInfluenceChartProps) => {
+  const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<PostInfluenceData[]>>();
   const revalidator = useRevalidator();
@@ -45,7 +47,10 @@ export const PostInfluenceChart = ({
   const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
-    const nextUrl = `/resources/graphs/post-influence?period=${DEFAULT_EVALUATION_PERIOD}&status=${status}&limit=200`;
+    const timestamps = dateRangeToTimestamps(dateRange);
+    if (!timestamps) return;
+
+    const nextUrl = `/resources/graphs/post-influence?start_date=${timestamps.start_date}&end_date=${timestamps.end_date}&status=${status}&limit=200`;
     if (!hasMounted.current) {
       hasMounted.current = true;
       setLastUrl(nextUrl);
@@ -59,7 +64,7 @@ export const PostInfluenceChart = ({
     setLastUrl(nextUrl);
     hasFetcherLoaded.current = true;
     void fetcher.load(nextUrl);
-  }, [fetcher, initialResult, lastUrl, status]);
+  }, [fetcher, initialResult, lastUrl, dateRange, status]);
 
   const graphStatus = useMemo<GraphStateStatus>(() => {
     if (fetcher.state !== "idle") return "loading";
@@ -136,6 +141,8 @@ export const PostInfluenceChart = ({
 
   return (
     <GraphWrapper
+      dateRange={dateRange}
+      onDateRangeChange={setDateRange}
       title="ポストの影響力"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

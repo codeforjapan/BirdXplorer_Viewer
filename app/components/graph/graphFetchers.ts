@@ -103,6 +103,16 @@ export const resolveLimit = (
   return fallback;
 };
 
+export const resolveDateTimestamp = (
+  value?: string | null,
+  fallback?: number
+): number | undefined => {
+  if (!value) return fallback;
+  const parsed = Number.parseInt(value, 10);
+  if (Number.isFinite(parsed) && parsed > 0) return parsed;
+  return fallback;
+};
+
 const toNetworkError = <T,>(): GraphFetchResult<T> => ({
   ok: false,
   error: {
@@ -112,17 +122,19 @@ const toNetworkError = <T,>(): GraphFetchResult<T> => ({
 });
 
 export const fetchDailyNotesGraph = async ({
-  period,
+  start_date,
+  end_date,
   status,
 }: {
-  period: RelativePeriodValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
 }): Promise<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/daily-notes");
-    const mock = createMockResponse(period);
-    const markers =
-      mock.eventMarkers ?? getEventMarkersForRelativePeriod(period);
+    // モックの場合は従来のperiodを推定（後方互換性のため）
+    const mock = createMockResponse("6months");
+    const markers = mock.eventMarkers ?? [];
     return {
       ok: true,
       data: mock.data,
@@ -132,7 +144,7 @@ export const fetchDailyNotesGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyNotesApiV1GraphsDailyNotesGet({ period, status }),
+    async () => getDailyNotesApiV1GraphsDailyNotesGet({ start_date, end_date, status }),
     getDailyNotesApiV1GraphsDailyNotesGetResponse,
   );
 
@@ -142,22 +154,24 @@ export const fetchDailyNotesGraph = async ({
     ok: true,
     data: toDailyNotesCreationData(result.data),
     updatedAt: result.updatedAt,
-    eventMarkers: getEventMarkersForRelativePeriod(period),
+    eventMarkers: [],
   };
 };
 
 export const fetchDailyPostsGraph = async ({
-  range,
+  start_date,
+  end_date,
   status,
 }: {
-  range: PeriodRangeValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
 }): Promise<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/daily-posts");
-    const mock = createMockResponse(range);
-    const markers =
-      mock.eventMarkers ?? getEventMarkersForRangePeriod(range);
+    // モックの場合は従来のrangeを使用（後方互換性のため）
+    const mock = createMockResponse("2025-02_2026-01");
+    const markers = mock.eventMarkers ?? [];
     return {
       ok: true,
       data: mock.data,
@@ -167,7 +181,7 @@ export const fetchDailyPostsGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyPostsApiV1GraphsDailyPostsGet({ range, status }),
+    async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status }),
     getDailyPostsApiV1GraphsDailyPostsGetResponse,
   );
 
@@ -177,20 +191,23 @@ export const fetchDailyPostsGraph = async ({
     ok: true,
     data: toDailyPostCountData(result.data),
     updatedAt: result.updatedAt,
-    eventMarkers: getEventMarkersForRangePeriod(range),
+    eventMarkers: [],
   };
 };
 
 export const fetchNotesAnnualGraph = async ({
-  range,
+  start_date,
+  end_date,
   status,
 }: {
-  range: PeriodRangeValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
 }): Promise<GraphFetchResult<MonthlyNoteData[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/notes-annual");
-    const mock = createMockResponse(range);
+    // モックの場合は従来のrangeを使用（後方互換性のため）
+    const mock = createMockResponse("2025-02_2026-01");
     return {
       ok: true,
       data: mock.data,
@@ -199,7 +216,7 @@ export const fetchNotesAnnualGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getNotesAnnualApiV1GraphsNotesAnnualGet({ range, status }),
+    async () => getNotesAnnualApiV1GraphsNotesAnnualGet({ start_date, end_date, status }),
     getNotesAnnualApiV1GraphsNotesAnnualGetResponse,
   );
 
@@ -213,17 +230,20 @@ export const fetchNotesAnnualGraph = async ({
 };
 
 export const fetchNotesEvaluationGraph = async ({
-  period,
+  start_date,
+  end_date,
   status,
   limit,
 }: {
-  period: RelativePeriodValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/notes-evaluation");
-    const mock = createMockResponse(period);
+    // モックの場合は従来のperiodを使用（後方互換性のため）
+    const mock = createMockResponse("6months");
     return {
       ok: true,
       data: mock.data,
@@ -232,7 +252,7 @@ export const fetchNotesEvaluationGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getNotesEvaluationApiV1GraphsNotesEvaluationGet({ period, status, limit }),
+    async () => getNotesEvaluationApiV1GraphsNotesEvaluationGet({ start_date, end_date, status, limit }),
     getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
   );
 
@@ -246,11 +266,13 @@ export const fetchNotesEvaluationGraph = async ({
 };
 
 export const fetchNotesEvaluationStatusGraph = async ({
-  period,
+  start_date,
+  end_date,
   status,
   limit,
 }: {
-  period: RelativePeriodValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
@@ -269,7 +291,8 @@ export const fetchNotesEvaluationStatusGraph = async ({
   const result = await fetchGraphList(
     async () =>
       getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet({
-        period,
+        start_date,
+        end_date,
         status,
         limit,
       }),
@@ -286,11 +309,13 @@ export const fetchNotesEvaluationStatusGraph = async ({
 };
 
 export const fetchPostInfluenceGraph = async ({
-  period,
+  start_date,
+  end_date,
   status,
   limit,
 }: {
-  period: RelativePeriodValue;
+  start_date: number;
+  end_date: number;
   status: StatusValue;
   limit: number;
 }): Promise<GraphFetchResult<PostInfluenceData[]>> => {
@@ -306,7 +331,7 @@ export const fetchPostInfluenceGraph = async ({
 
   const result = await fetchGraphList(
     async () =>
-      getPostInfluenceApiV1GraphsPostInfluenceGet({ period, status, limit }),
+      getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status, limit }),
     getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
   );
 
