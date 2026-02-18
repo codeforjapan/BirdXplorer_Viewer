@@ -38,6 +38,13 @@ export type AdvancedSearchFormProps = {
   topics: Topic[];
 };
 
+const darkInputStyles = {
+  input: { color: "white" },
+  label: { marginBottom: "8px" },
+} as const;
+
+const darkInputClassNames = { input: "!bg-gray-1 !border-gray-5" } as const;
+
 export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
   const { defaultValue, lastResult, onSubmit, topics } = props;
 
@@ -96,11 +103,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
 
   return (
     <Stack className="relative" gap="md">
-      <Stack className="sticky top-0 z-10 bg-white pt-4">
+      <Stack className="sticky top-0 z-10 bg-[var(--color-gray-1)] pt-4">
         <Group justify="space-between">
           <Group>
-            <ModalCloseButton aria-label="簡易検索に戻る" size="lg" />
-            <Text className="self-end" size="xl">
+            <ModalCloseButton aria-label="簡易検索に戻る" c="white" size="lg" />
+            <Text c="white" className="self-end" size="xl">
               詳細な条件で検索
             </Text>
           </Group>
@@ -112,7 +119,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
             検索
           </SubmitButton>
         </Group>
-        <Divider />
+        <Divider color="gray.7" />
       </Stack>
       <Form
         className="relative"
@@ -122,6 +129,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
       >
         <div className="grid grid-cols-1 gap-6">
           <Autocomplete
+            c="white"
+            classNames={darkInputClassNames}
             data={["10", "20", "50", "100"]}
             description="80: 1ページに最大 80 件のコミュニティノートを表示"
             disabled={searchInProgress}
@@ -133,12 +142,15 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
             errorProps={{ component: "div" }}
             inputWrapperOrder={mantineInputOrder}
             label="1ページあたりの表示件数"
+            styles={darkInputStyles}
             {...getInputProps(fields.limit, { type: "number" })}
           />
-          <Fieldset legend="キーワード">
+          <Fieldset c="white" legend="キーワード">
             <Stack>
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.note_includes_text.errors) && (
@@ -146,12 +158,15 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートに含まれるキーワード"
+                styles={darkInputStyles}
                 {...getInputProps(fields.note_includes_text, {
                   type: "text",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.note_excludes_text.errors) && (
@@ -159,12 +174,15 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートに含まれないキーワード"
+                styles={darkInputStyles}
                 {...getInputProps(fields.note_excludes_text, {
                   type: "text",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.post_includes_text.errors) && (
@@ -172,12 +190,15 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="X のポストに含まれるキーワード"
+                styles={darkInputStyles}
                 {...getInputProps(fields.post_includes_text, {
                   type: "text",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.post_excludes_text.errors) && (
@@ -185,14 +206,15 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="X のポストに含まれないキーワード"
+                styles={darkInputStyles}
                 {...getInputProps(fields.post_excludes_text, {
                   type: "text",
                 })}
               />
             </Stack>
           </Fieldset>
-          <Divider />
-          <Fieldset legend="絞り込み">
+          <Divider color="gray.7" />
+          <Fieldset c="white" legend="絞り込み">
             <Stack>
               <TopicSelect
                 currentLanguage={shortLanguage}
@@ -207,6 +229,8 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 languages={LANGUAGE_ID_TO_LABEL}
               />
               <MultiSelect
+                c="white"
+                classNames={darkInputClassNames}
                 clearable
                 data={Object.entries(NOTE_CURRENT_STATUS).map(
                   ([value, label]) => ({
@@ -226,6 +250,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 onChange={changeNoteStatus}
                 onFocus={focusNoteStatus}
                 searchable
+                styles={darkInputStyles}
                 value={noteStatusValue}
               />
               <DateRangePicker
@@ -239,11 +264,13 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               />
             </Stack>
           </Fieldset>
-          <Divider />
-          <Fieldset legend="ノートに紐ついたポストで絞り込み">
+          <Divider color="gray.7" />
+          <Fieldset c="white" legend="ノートに紐ついたポストで絞り込み">
             <Stack>
               <TagsInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.x_user_names.errors) && (
@@ -254,10 +281,13 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 onBlur={blurXUserNames}
                 onChange={changeXUserNames}
                 onFocus={focusXUserNames}
+                styles={darkInputStyles}
                 value={xUserNamesValue}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
@@ -270,15 +300,18 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの投稿者のフォロワー数"
-                rightSection={<Text>人以上</Text>}
+                rightSection={<Text c="white">人以上</Text>}
                 rightSectionPointerEvents="none"
                 rightSectionWidth="4em"
+                styles={darkInputStyles}
                 {...getInputProps(fields.x_user_followers_count_from, {
                   type: "number",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
@@ -291,15 +324,18 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの投稿者のフォロー数"
-                rightSection={<Text>人以上</Text>}
+                rightSection={<Text c="white">人以上</Text>}
                 rightSectionPointerEvents="none"
                 rightSectionWidth="4em"
+                styles={darkInputStyles}
                 {...getInputProps(fields.x_user_follow_count_from, {
                   type: "number",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
@@ -308,15 +344,18 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの最小いいね数"
-                rightSection={<Text>以上</Text>}
+                rightSection={<Text c="white">以上</Text>}
                 rightSectionPointerEvents="none"
                 rightSectionWidth="3em"
+                styles={darkInputStyles}
                 {...getInputProps(fields.post_like_count_from, {
                   type: "number",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
@@ -329,15 +368,18 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの最小リポスト数"
-                rightSection={<Text>以上</Text>}
+                rightSection={<Text c="white">以上</Text>}
                 rightSectionPointerEvents="none"
                 rightSectionWidth="3em"
+                styles={darkInputStyles}
                 {...getInputProps(fields.post_repost_count_from, {
                   type: "number",
                 })}
               />
               <TextInput
                 autoComplete="off"
+                c="white"
+                classNames={darkInputClassNames}
                 data-1p-ignore
                 disabled={searchInProgress}
                 error={
@@ -350,9 +392,10 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   )
                 }
                 label="コミュニティノートがついたポストの最小インプレッション数"
-                rightSection={<Text>以上</Text>}
+                rightSection={<Text c="white">以上</Text>}
                 rightSectionPointerEvents="none"
                 rightSectionWidth="3em"
+                styles={darkInputStyles}
                 {...getInputProps(fields.post_impression_count_from, {
                   type: "number",
                 })}

@@ -275,7 +275,7 @@ export const SearchForm = (props: SearchFormProps) => {
               Search
             </SubmitButton>
             <UnstyledButton
-              c="pink"
+              c="blue"
               className="ms-auto me-0"
               onClick={openAdvancedSearch}
               type="button"

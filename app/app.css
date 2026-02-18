@@ -130,6 +130,12 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* Mantine DatePickerInput - ドロップダウンのダークテーマ */
+.mantine-Popover-dropdown[data-dates-dropdown] {
+  background-color: var(--color-gray-1);
+  border-color: var(--color-gray-5);
+}
+
 /* Mantine Select Option - ホバー時・アクティブ時・選択済みのスタイル */
 .mantine-Select-option:hover,
 .mantine-Select-option[data-combobox-active],

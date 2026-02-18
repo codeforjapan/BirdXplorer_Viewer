@@ -1,8 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Container, Grid } from "@mantine/core";
+import { Box, Container, Grid } from "@mantine/core";
 import type { ShouldRevalidateFunction } from "react-router";
 
 import { AccountRankingSection } from "~/components/account-ranking";
+import { AutoResizeIframe } from "~/components/auto-resize-iframe/AutoResizeIframe";
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
@@ -21,22 +22,22 @@ import {
   fetchDailyPostsGraph,
   fetchNotesEvaluationStatusGraph,
   fetchPostInfluenceGraph,
-  getDefaultDailyPostsRange,
-  getDefaultRelativePeriod,
   safeGraphFetch,
   safeGraphFetchWithMarkers,
 } from "~/components/graph/graphFetchers";
-import { DEFAULT_EVALUATION_PERIOD } from "~/components/graph/periodOptions";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { NotesEvaluationStatusChart } from "~/components/notes-evaluation-status-chart";
 import { PostInfluenceChart } from "~/components/post-influence-chart";
 import { SectionTitle } from "~/components/SectionTitle";
-import { FEATURES } from "~/constants/data";
+import { FEATURES } from "~/data/features";
+import type { Feature } from "~/data/features";
 import { WEB_PATHS } from "~/constants/paths";
+import { relativePeriodToTimestamps, timestampsToDateRange } from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature.$year.$slug";
+import { DEFAULT_KOUCHOU_AI_PATH } from "~/data/reports";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.feature) {
@@ -67,23 +68,8 @@ export const handle: LayoutHandle = {
   },
 };
 
-type FeatureItem = {
-  title: string;
-  href: string;
-};
-
-type FeatureCategory = {
-  id: number;
-  category: string;
-  color: string;
-  detail: FeatureItem;
-};
-
-const REPORT_SUMMARY_CARD_DESCRIPTION =
-  "奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化などが提案されています。これらの施策は、住民の生活の質向上と地域の持続可能な発展を目指。奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化などが提案されています。これらの施策は、住民の生活の質向上と地域の持続可能な発展を目指奈良市の持続可能な発展を目指す意見が多岐にわたって集まっています。都市開発や交通インフラの革新、地域活性化、教育と地域社会の連携、観光振興、地域資源の活用、市民参加とAI活用による市政改革、高齢化社会への対応、防災力強化、環境保全、医療・教育の連携強化などが提案されています。これらの施策は、住民の生活の質向上と地域の持続可能な発展を目指。奈良市の持続可能な発展を目指す意見。";
-
 // 特集データ（実際の実装では、APIから取得するか、共有のデータファイルから取得）
-const getAllFeatures = (): FeatureCategory[] => {
+const getAllFeatures = (): Feature[] => {
   return FEATURES;
 };
 
@@ -106,6 +92,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     return {
       feature: null,
       graphs: null,
+      graphTimestamps: relativePeriodToTimestamps("6months"),
     };
   }
 
@@ -113,27 +100,39 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const feature = features.find((f) => f.detail.href === `/feature/${year}/${slug}`);
 
   const status: StatusValue = "all";
-  const defaultRelativePeriod = getDefaultRelativePeriod();
-  const defaultDailyPostsRange = getDefaultDailyPostsRange();
+
+  const defaultTimestamps = relativePeriodToTimestamps("6months");
+  const graphTimestamps = feature?.startDate && feature?.endDate
+    ? {
+        start_date: new Date(feature.startDate).getTime(),
+        end_date: new Date(feature.endDate).getTime(),
+      }
+    : defaultTimestamps;
+
+  const { start_date, end_date } = graphTimestamps;
 
   const dailyNotesKey = buildGraphCacheKey("daily-notes", {
-    period: defaultRelativePeriod,
+    start_date,
+    end_date,
     status,
   });
   const dailyPostsKey = buildGraphCacheKey("daily-posts", {
-    range: defaultDailyPostsRange,
+    start_date,
+    end_date,
     status,
   });
   const notesEvaluationStatusKey = buildGraphCacheKey(
     "notes-evaluation-status",
     {
-      period: DEFAULT_EVALUATION_PERIOD,
+      start_date,
+      end_date,
       status,
       limit: DEFAULT_GRAPH_LIMIT,
     }
   );
   const postInfluenceKey = buildGraphCacheKey("post-influence", {
-    period: DEFAULT_EVALUATION_PERIOD,
+    start_date,
+    end_date,
     status,
     limit: DEFAULT_GRAPH_LIMIT,
   });
@@ -157,20 +156,14 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     dailyNotesCached
       ? Promise.resolve(dailyNotesCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyNotesGraph({
-            period: defaultRelativePeriod,
-            status,
-          });
+          const result = await fetchDailyNotesGraph({ start_date, end_date, status });
           if (result.ok) graphCache.set(dailyNotesKey, result);
           return result;
         }),
     dailyPostsCached
       ? Promise.resolve(dailyPostsCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyPostsGraph({
-            range: defaultDailyPostsRange,
-            status,
-          });
+          const result = await fetchDailyPostsGraph({ start_date, end_date, status });
           if (result.ok) graphCache.set(dailyPostsKey, result);
           return result;
         }),
@@ -178,7 +171,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       ? Promise.resolve(notesEvaluationStatusCached)
       : safeGraphFetch(async () => {
           const result = await fetchNotesEvaluationStatusGraph({
-            period: DEFAULT_EVALUATION_PERIOD,
+            start_date,
+            end_date,
             status,
             limit: DEFAULT_GRAPH_LIMIT,
           });
@@ -189,7 +183,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       ? Promise.resolve(postInfluenceCached)
       : safeGraphFetch(async () => {
           const result = await fetchPostInfluenceGraph({
-            period: DEFAULT_EVALUATION_PERIOD,
+            start_date,
+            end_date,
             status,
             limit: DEFAULT_GRAPH_LIMIT,
           });
@@ -212,6 +207,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return {
     feature: feature ?? null,
     graphs,
+    graphTimestamps,
   };
 };
 
@@ -232,7 +228,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 };
 
 export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
-  const { feature, graphs } = loaderData;
+  const { feature, graphs, graphTimestamps } = loaderData;
+  const initialDateRange = timestampsToDateRange(graphTimestamps);
 
   if (!feature) {
     return (
@@ -255,7 +252,7 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <ReportSummaryCard
             className="h-full"
-            description={REPORT_SUMMARY_CARD_DESCRIPTION}
+            description={feature.detail.description ?? ""}
             href={`${WEB_PATHS.feature.index}/${feature.id}/report`}
             title="レポート"
             updatedAt="2025年1月15日更新"
@@ -265,18 +262,30 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           <AccountRankingSection />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyPostCountChart initialResult={graphs?.dailyPosts} />
+          <DailyPostCountChart initialDateRange={initialDateRange} initialResult={graphs?.dailyPosts} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyNotesCreationChart initialResult={graphs?.dailyNotes} />
+          <DailyNotesCreationChart initialDateRange={initialDateRange} initialResult={graphs?.dailyNotes} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <PostInfluenceChart initialResult={graphs?.postInfluence} />
+          <PostInfluenceChart initialDateRange={initialDateRange} initialResult={graphs?.postInfluence} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <NotesEvaluationStatusChart initialResult={graphs?.notesEvaluationStatus} />
+          <NotesEvaluationStatusChart initialDateRange={initialDateRange} initialResult={graphs?.notesEvaluationStatus} />
         </Grid.Col>
       </Grid>
+
+      {
+        feature.kouchouAiPath && (
+          <Box my="xl">
+            <AutoResizeIframe
+              sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
+              src={String(feature.kouchouAiPath)}
+              title="広聴AI"
+            />
+          </Box>
+        )
+      }
 
       {/* 他の特集へのリンクなど */}
       <section className="py-4">

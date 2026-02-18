@@ -34,9 +34,9 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
   new RegExp("^[0-9A-F]{64}$");
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccessfulRatingNeededToEarnInMin = 0;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne = 1768306214578;
+export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne = 1771239424103;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne = 1768306214578;
+export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne = 1771239424103;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseModelingGroupMin = 0;
 
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponse =
@@ -120,9 +120,9 @@ export const getNotesApiV1DataNotesGetQueryNoteIdsItemRegExp = new RegExp(
   "^[0-9]{19}$",
 );
 export const getNotesApiV1DataNotesGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1768306214971;
+export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1771239424501;
 export const getNotesApiV1DataNotesGetQueryCreatedAtToMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne = 1768306214972;
+export const getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne = 1771239424501;
 export const getNotesApiV1DataNotesGetQueryOffsetDefault = 0;
 export const getNotesApiV1DataNotesGetQueryOffsetMin = 0;
 export const getNotesApiV1DataNotesGetQueryLimitDefault = 100;
@@ -242,7 +242,7 @@ export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemTopicIdMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax = 1768306214587;
+export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax = 1771239424112;
 export const getNotesApiV1DataNotesGetResponseDataItemHasBeenHelpfuledDefault = false;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountDefault = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountMin = 0;
@@ -254,7 +254,7 @@ export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountDefaul
 export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMin = 1152921600000;
 
-export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax = 1768306214584;
+export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax = 1771239424109;
 export const getNotesApiV1DataNotesGetResponseMetaNextMaxOne = 2083;
 export const getNotesApiV1DataNotesGetResponseMetaPrevMaxOne = 2083;
 
@@ -425,9 +425,9 @@ export const getPostsApiV1DataPostsGetQueryUserIdsItemRegExp = new RegExp(
   "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1768306214978;
+export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1771239424508;
 export const getPostsApiV1DataPostsGetQueryCreatedAtToMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne = 1768306214979;
+export const getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne = 1771239424509;
 export const getPostsApiV1DataPostsGetQueryOffsetDefault = 0;
 export const getPostsApiV1DataPostsGetQueryOffsetMin = 0;
 export const getPostsApiV1DataPostsGetQueryLimitDefault = 100;
@@ -520,10 +520,10 @@ export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemWidthMin =
 export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemHeightMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax = 1768306214596;
+export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax = 1771239424121;
 export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMin = 1152921600000;
 
-export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax = 1768306214596;
+export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax = 1771239424121;
 export const getPostsApiV1DataPostsGetResponseDataItemLikeCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemRepostCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemImpressionCountMin = 0;
@@ -680,9 +680,9 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
  */
 export const searchApiV1DataSearchGetQueryTopicIdsItemMin = 0;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne = 1768306214986;
+export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne = 1771239424516;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtToMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne = 1768306214986;
+export const searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne = 1771239424516;
 export const searchApiV1DataSearchGetQueryOffsetDefault = 0;
 export const searchApiV1DataSearchGetQueryOffsetMin = 0;
 export const searchApiV1DataSearchGetQueryLimitDefault = 100;
@@ -842,7 +842,7 @@ export const searchApiV1DataSearchGetResponseDataItemPostIdRegExp = new RegExp(
 );
 export const searchApiV1DataSearchGetResponseDataItemCreatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemCreatedAtMax = 1768306214771;
+export const searchApiV1DataSearchGetResponseDataItemCreatedAtMax = 1771239424297;
 export const searchApiV1DataSearchGetResponseDataItemPostPostIdRegExp =
   new RegExp("^([0-9]{1,19}|)$");
 export const searchApiV1DataSearchGetResponseDataItemPostXUserIdRegExp =
@@ -857,10 +857,10 @@ export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemWidthMi
 export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemHeightMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax = 1768306214596;
+export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax = 1771239424121;
 export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMin = 1152921600000;
 
-export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax = 1768306214596;
+export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax = 1771239424121;
 export const searchApiV1DataSearchGetResponseDataItemPostLikeCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostRepostCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostImpressionCountMin = 0;
@@ -1118,7 +1118,7 @@ export const searchApiV1DataSearchGetResponse = zod.object({
  * Get daily community note creation trends.
 
 Returns aggregated daily counts of community notes grouped by publication status
-for the specified time period.
+for the specified date range (maximum 30 days).
 
 **Publication Status Categories:**
 - `published`: Notes with status CURRENTLY_RATED_HELPFUL
@@ -1126,15 +1126,15 @@ for the specified time period.
 - `evaluating`: Notes currently being evaluated (NEEDS_MORE_RATINGS, never been helpful)
 - `unpublished`: All other notes
 
-**Time Periods:**
-- `1week`: Last 7 days
-- `1month`: Last 30 days
-- `3months`: Last 90 days
-- `6months`: Last 180 days
-- `1year`: Last 365 days
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
 
 Args:
-    period: Time period for aggregation (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific status or "all" for all statuses (default: "all")
 
 Returns:
@@ -1143,15 +1143,28 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if parameters are invalid
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Daily Notes
  */
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMin = 1152921600000;
+
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMax = 1771239424588;
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMin = 1152921600000;
+
+export const getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMax = 1771239424588;
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryStatusDefault = "all";
 
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryParams = zod.object({
-  period: zod
-    .enum(["1week", "1month", "3months", "6months", "1year"])
-    .describe("Time period for data aggregation"),
+  start_date: zod
+    .number()
+    .min(getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMin)
+    .max(getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMax)
+    .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+  end_date: zod
+    .number()
+    .min(getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMin)
+    .max(getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMax)
+    .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
       "all",
@@ -1219,7 +1232,7 @@ export const getDailyNotesApiV1GraphsDailyNotesGetResponse = zod.object({
 /**
  * Get daily post volume trends.
 
-Returns aggregated daily counts of posts for the specified month range,
+Returns aggregated daily counts of posts for the specified date range (maximum 30 days),
 optionally filtered by associated community note status.
 
 **Status Filter:**
@@ -1229,13 +1242,15 @@ optionally filtered by associated community note status.
 - `evaluating`: Posts with notes being evaluated
 - `unpublished`: Posts with no notes or unpublished notes
 
-**Date Range Format:**
-- Format: `YYYY-MM_YYYY-MM` (e.g., "2025-01_2025-03")
-- Maximum range: 1 year (12 months)
-- Both months inclusive
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
 
 Args:
-    range: Month range for aggregation (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific note status or "all" (default: "all")
 
 Returns:
@@ -1244,13 +1259,28 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if range format is invalid or exceeds limits
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Daily Posts
  */
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMin = 1152921600000;
+
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMax = 1771239424590;
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMin = 1152921600000;
+
+export const getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMax = 1771239424590;
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryStatusDefault = "all";
 
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryParams = zod.object({
-  range: zod.string().describe("Month range in format YYYY-MM_YYYY-MM"),
+  start_date: zod
+    .number()
+    .min(getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMin)
+    .max(getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMax)
+    .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+  end_date: zod
+    .number()
+    .min(getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMin)
+    .max(getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMax)
+    .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
       "all",
@@ -1303,7 +1333,7 @@ export const getDailyPostsApiV1GraphsDailyPostsGetResponse = zod.object({
  * Get monthly note publication rates.
 
 Returns aggregated monthly counts of community notes with publication rate
-(ratio of published notes to total notes) for the specified month range.
+(ratio of published notes to total notes) for the specified date range (maximum 365 days).
 
 **Publication Rate**: published_count / total_notes (0.0 if no notes)
 
@@ -1314,13 +1344,16 @@ Returns aggregated monthly counts of community notes with publication rate
 - `evaluating`: Only notes being evaluated
 - `unpublished`: Only unpublished notes
 
-**Date Range Format:**
-- Format: `YYYY-MM_YYYY-MM` (e.g., "2024-01_2024-12")
-- Maximum range: 24 months
-- Both months inclusive
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 365 days (approximately 12 months)
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
+- Results are automatically aggregated by month
 
 Args:
-    range: Month range for aggregation (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific note status or "all" (default: "all")
 
 Returns:
@@ -1329,13 +1362,28 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if range format is invalid or exceeds limits
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Notes Annual
  */
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMin = 1152921600000;
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMax = 1771239424591;
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMin = 1152921600000;
+
+export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMax = 1771239424592;
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStatusDefault = "all";
 
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryParams = zod.object({
-  range: zod.string().describe("Month range in format YYYY-MM_YYYY-MM"),
+  start_date: zod
+    .number()
+    .min(getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMin)
+    .max(getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMax)
+    .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+  end_date: zod
+    .number()
+    .min(getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMin)
+    .max(getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMax)
+    .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
       "all",
@@ -1416,7 +1464,7 @@ export const getNotesAnnualApiV1GraphsNotesAnnualGetResponse = zod.object({
  * Get individual note evaluation metrics.
 
 Returns top notes by impression count with helpfulness ratings,
-ordered descending by impression count for moderation review.
+ordered descending by impression count for moderation review (maximum 30 days range).
 
 **Metrics:**
 - helpfulCount: Number of helpful ratings
@@ -1432,15 +1480,15 @@ ordered descending by impression count for moderation review.
 - `evaluating`: Only notes being evaluated
 - `unpublished`: Only unpublished notes
 
-**Time Periods:**
-- `1week`: Last 7 days
-- `1month`: Last 30 days
-- `3months`: Last 90 days
-- `6months`: Last 180 days
-- `1year`: Last 365 days
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
 
 Args:
-    period: Time period for filtering (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific status or "all" (default: "all")
     limit: Maximum number of results (default: 200, max: 200)
 
@@ -1450,9 +1498,15 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if parameters are invalid
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Notes Evaluation
  */
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMin = 1152921600000;
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMax = 1771239424593;
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMin = 1152921600000;
+
+export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMax = 1771239424594;
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStatusDefault =
   "all";
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitDefault = 200;
@@ -1460,9 +1514,16 @@ export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitMax = 200;
 
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryParams =
   zod.object({
-    period: zod
-      .enum(["1week", "1month", "3months", "6months", "1year"])
-      .describe("Time period for data aggregation"),
+    start_date: zod
+      .number()
+      .min(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMin)
+      .max(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMax)
+      .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+    end_date: zod
+      .number()
+      .min(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMin)
+      .max(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMax)
+      .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
         "all",
@@ -1533,7 +1594,7 @@ export const getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse =
  * Get individual note evaluation metrics ordered by helpful count.
 
 Alternative sorting to notes-evaluation endpoint - orders by helpfulCount instead
-of impressionCount for moderation review workflows.
+of impressionCount for moderation review workflows (maximum 30 days range).
 
 **Metrics:**
 - helpfulCount: Number of helpful ratings
@@ -1549,15 +1610,15 @@ of impressionCount for moderation review workflows.
 - `evaluating`: Only notes being evaluated
 - `unpublished`: Only unpublished notes
 
-**Time Periods:**
-- `1week`: Last 7 days
-- `1month`: Last 30 days
-- `3months`: Last 90 days
-- `6months`: Last 180 days
-- `1year`: Last 365 days
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
 
 Args:
-    period: Time period for filtering (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific status or "all" (default: "all")
     limit: Maximum number of results (default: 200, max: 200)
 
@@ -1567,9 +1628,15 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if parameters are invalid
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Notes Evaluation Status
  */
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMin = 1152921600000;
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMax = 1771239424595;
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMin = 1152921600000;
+
+export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMax = 1771239424596;
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStatusDefault =
   "all";
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitDefault = 200;
@@ -1577,9 +1644,24 @@ export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLim
 
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryParams =
   zod.object({
-    period: zod
-      .enum(["1week", "1month", "3months", "6months", "1year"])
-      .describe("Time period for data aggregation"),
+    start_date: zod
+      .number()
+      .min(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMin,
+      )
+      .max(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMax,
+      )
+      .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+    end_date: zod
+      .number()
+      .min(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMin,
+      )
+      .max(
+        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMax,
+      )
+      .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
         "all",
@@ -1654,7 +1736,7 @@ export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse
  * Get individual post influence metrics.
 
 Returns top posts by impression count with engagement metrics (reposts, likes),
-ordered descending by impression count for analyzing viral content.
+ordered descending by impression count for analyzing viral content (maximum 30 days range).
 
 **Metrics:**
 - repostCount: Number of times post was reposted
@@ -1670,15 +1752,15 @@ ordered descending by impression count for analyzing viral content.
 - `evaluating`: Posts with notes being evaluated
 - `unpublished`: Posts with no notes or unpublished notes
 
-**Time Periods:**
-- `1week`: Last 7 days
-- `1month`: Last 30 days
-- `3months`: Last 90 days
-- `6months`: Last 180 days
-- `1year`: Last 365 days
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+- Timestamps must be >= 2006-07-15 (Twitter founding) and <= current time
 
 Args:
-    period: Time period for filtering (required)
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
     status: Filter by specific note status or "all" (default: "all")
     limit: Maximum number of results (default: 200, max: 200)
 
@@ -1688,9 +1770,15 @@ Returns:
     - updatedAt: Last data update timestamp (YYYY-MM-DD format)
 
 Raises:
-    HTTPException: 400 if parameters are invalid
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
  * @summary Get Post Influence
  */
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMin = 1152921600000;
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMax = 1771239424598;
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMin = 1152921600000;
+
+export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMax = 1771239424598;
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStatusDefault =
   "all";
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitDefault = 200;
@@ -1698,9 +1786,16 @@ export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitMax = 200;
 
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryParams =
   zod.object({
-    period: zod
-      .enum(["1week", "1month", "3months", "6months", "1year"])
-      .describe("Time period for data aggregation"),
+    start_date: zod
+      .number()
+      .min(getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMin)
+      .max(getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMax)
+      .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
+    end_date: zod
+      .number()
+      .min(getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMin)
+      .max(getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMax)
+      .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
         "all",

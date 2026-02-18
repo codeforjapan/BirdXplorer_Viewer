@@ -73,7 +73,6 @@ export const SearchPagination = ({
       {prevTo ? (
         <ActionIcon
           aria-label="前のページへ移動する"
-          color="pink"
           component={Link}
           disabled={isNetworkBusy}
           loading={prevLoading}
@@ -91,7 +90,6 @@ export const SearchPagination = ({
       {nextTo ? (
         <ActionIcon
           aria-label="次のページへ移動する"
-          color="pink"
           component={Link}
           disabled={isNetworkBusy}
           loading={nextLoading}

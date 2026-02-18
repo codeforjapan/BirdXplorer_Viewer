@@ -1,7 +1,7 @@
 export type GraphDataSource = "api" | "mock";
 
 const getGraphDataSource = (): GraphDataSource => {
-  return "mock";
+  return "api";
 };
 
 export const GRAPH_DATA_SOURCE: GraphDataSource = getGraphDataSource();

@@ -13,30 +13,36 @@ import {
   DEFAULT_GRAPH_LIMIT,
   fetchNotesAnnualGraph,
   fetchNotesEvaluationGraph,
-  getDefaultNotesAnnualRange,
-  getDefaultRelativePeriod,
   safeGraphFetch,
 } from "~/components/graph/graphFetchers";
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
 import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
+import { getDefault14DayRange, periodRangeToTimestamps, relativePeriodToTimestamps } from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { Route } from "./+types/_index";
+import { AutoResizeIframe } from "~/components/auto-resize-iframe/AutoResizeIframe";
+import { PageTitle } from "~/components/PageTitle";
+import { FeatureIcon } from "~/components/icons";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const loader = async (_args: Route.LoaderArgs) => {
   const status: StatusValue = "all";
-  const defaultRelativePeriod = getDefaultRelativePeriod();
-  const defaultNotesAnnualRange = getDefaultNotesAnnualRange();
+
+  // デフォルトの日付範囲を設定
+  const defaultNotesAnnualTimestamps = periodRangeToTimestamps("2025-02_2026-01");
+  const defaultEvaluationTimestamps = getDefault14DayRange();
 
   // キャッシュキー構築
   const notesAnnualKey = buildGraphCacheKey("notes-annual", {
-    range: defaultNotesAnnualRange,
+    start_date: defaultNotesAnnualTimestamps.start_date,
+    end_date: defaultNotesAnnualTimestamps.end_date,
     status,
   });
   const notesEvaluationKey = buildGraphCacheKey("notes-evaluation", {
-    period: defaultRelativePeriod,
+    start_date: defaultEvaluationTimestamps.start_date,
+    end_date: defaultEvaluationTimestamps.end_date,
     status,
     limit: DEFAULT_GRAPH_LIMIT,
   });
@@ -54,7 +60,8 @@ export const loader = async (_args: Route.LoaderArgs) => {
       ? Promise.resolve(notesAnnualCached)
       : safeGraphFetch(async () => {
           const result = await fetchNotesAnnualGraph({
-            range: defaultNotesAnnualRange,
+            start_date: defaultNotesAnnualTimestamps.start_date,
+            end_date: defaultNotesAnnualTimestamps.end_date,
             status,
           });
           if (result.ok) graphCache.set(notesAnnualKey, result);
@@ -64,7 +71,8 @@ export const loader = async (_args: Route.LoaderArgs) => {
       ? Promise.resolve(notesEvaluationCached)
       : safeGraphFetch(async () => {
           const result = await fetchNotesEvaluationGraph({
-            period: defaultRelativePeriod,
+            start_date: defaultEvaluationTimestamps.start_date,
+            end_date: defaultEvaluationTimestamps.end_date,
             status,
             limit: DEFAULT_GRAPH_LIMIT,
           });
@@ -127,12 +135,15 @@ export default function Index({ loaderData }: Route.ComponentProps) {
             </Grid.Col>
           </Grid>
 
-          <iframe
-            height="2330px"
-            sandbox="allow-scripts allow-popups allow-forms"
-            src="/kouchou-ai/202506/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
+          <PageTitle
+              icon={<FeatureIcon isActive />}
+              subtitle="広聴AIによる可視化"
+              title="Overview"
+            />
+          <AutoResizeIframe
+            sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
+            src="/kouchou-ai/2026/01/d2ca1370-0e55-4e51-95e2-9dd3c105a202/index.html"
             title="広聴AI"
-            width="100%"
           />
         </Stack>
       </Container>

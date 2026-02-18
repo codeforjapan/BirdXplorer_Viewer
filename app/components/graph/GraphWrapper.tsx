@@ -8,6 +8,8 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
+import type { DateRange } from "~/components/date-range-selector";
+import { DateRangeSelector } from "~/components/date-range-selector";
 import { PeriodSelector } from "~/components/period-selector/PeriodSelector";
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import { formatUpdatedAt } from "~/utils/date";
@@ -21,6 +23,11 @@ type GraphWrapperProps<T extends string = string> = {
   className?: string;
   /** ヘルプアイコンのツールチップテキスト */
   helpText?: string;
+  /** DateRangeSelectorを使う場合の日付範囲 */
+  dateRange?: DateRange;
+  /** DateRangeSelectorの変更コールバック */
+  onDateRangeChange?: (value: DateRange) => void;
+  /** PeriodSelectorを使う場合の期間値（後方互換性のため） */
   onPeriodChange?: (value: T) => void;
   period?: T;
   /** カスタム期間オプション */
@@ -33,13 +40,15 @@ type GraphWrapperProps<T extends string = string> = {
 /**
  * グラフやランキングなどをラップする汎用コンテナー
  * - タイトルを左側に表示
- * - 期間選択ドロップダウンを右側に表示（オプション）
+ * - 期間選択（DateRangeSelectorまたはPeriodSelector）を右側に表示（オプション）
  */
 export const GraphWrapper = <T extends string = string,>({
   title,
   children,
   className,
   helpText,
+  dateRange,
+  onDateRangeChange,
   period,
   onPeriodChange,
   periodOptions,
@@ -52,6 +61,9 @@ export const GraphWrapper = <T extends string = string,>({
       ? formatUpdatedAt(updatedAt)
       : updatedAt;
 
+  // DateRangeSelectorを使用するかどうか
+  const shouldShowDateRangeSelector = Boolean(dateRange && onDateRangeChange);
+  // PeriodSelectorを使用するかどうか（後方互換性のため）
   const shouldShowPeriodSelector = Boolean(period && periodOptions?.length);
 
   return (
@@ -98,13 +110,16 @@ export const GraphWrapper = <T extends string = string,>({
           )}
         </Stack>
 
-        {shouldShowPeriodSelector && (
+        {/* DateRangeSelectorまたはPeriodSelectorを表示 */}
+        {shouldShowDateRangeSelector ? (
+          <DateRangeSelector onChange={onDateRangeChange} value={dateRange} />
+        ) : shouldShowPeriodSelector ? (
           <PeriodSelector
             onChange={onPeriodChange}
             periodOptions={periodOptions}
             value={period}
           />
-        )}
+        ) : null}
       </Group>
 
       {/* コンテンツ */}

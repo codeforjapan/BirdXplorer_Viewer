@@ -2,15 +2,14 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
+import type { DateRange } from "~/components/date-range-selector";
 import type {
   DailyNotesCreationDataItem,
   EventMarker,
   MarkLineConfig,
-  RelativePeriodValue,
   StatusValue,
 } from "~/components/graph";
 import {
-  getDefaultPeriodValue,
   GraphContainer,
   type GraphFetchResultWithMarkers,
   GraphState,
@@ -21,10 +20,11 @@ import {
   STATUS_COLORS,
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
-import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
+import { dateRangeToTimestamps, getDefaultDateRange } from "~/utils/dateRange";
 
 export type DailyNotesCreationChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
+  initialDateRange?: DateRange;
 };
 
 /**
@@ -33,10 +33,9 @@ export type DailyNotesCreationChartProps = {
  */
 export const DailyNotesCreationChart = ({
   initialResult,
+  initialDateRange,
 }: DailyNotesCreationChartProps) => {
-  const options = useMemo(() => getRelativePeriodOptions(), []);
-  const defaultPeriod = getDefaultPeriodValue(options);
-  const [period, setPeriod] = useState<RelativePeriodValue>(defaultPeriod);
+  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>>();
@@ -48,18 +47,10 @@ export const DailyNotesCreationChart = ({
   const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
-    if (!options.length) return;
-    if (period && options.some((option) => option.value === period)) return;
-    const fallback =
-      options.find((option) => option.value === defaultPeriod)?.value ??
-      options[0]?.value ??
-      defaultPeriod;
-    setPeriod(fallback);
-  }, [options, defaultPeriod, period]);
+    const timestamps = dateRangeToTimestamps(dateRange);
+    if (!timestamps) return;
 
-  useEffect(() => {
-    if (!period) return;
-    const nextUrl = `/resources/graphs/daily-notes?period=${period}&status=${status}`;
+    const nextUrl = `/resources/graphs/daily-notes?start_date=${timestamps.start_date}&end_date=${timestamps.end_date}&status=${status}`;
 
     if (!hasMounted.current) {
       hasMounted.current = true;
@@ -75,7 +66,7 @@ export const DailyNotesCreationChart = ({
     setLastUrl(nextUrl);
     hasFetcherLoaded.current = true;
     void fetcher.load(nextUrl);
-  }, [fetcher, initialResult, lastUrl, period, status]);
+  }, [fetcher, initialResult, lastUrl, dateRange, status]);
 
   const graphStatus = useMemo<GraphStateStatus>(() => {
     if (fetcher.state !== "idle") return "loading";
@@ -168,9 +159,8 @@ export const DailyNotesCreationChart = ({
 
   return (
     <GraphWrapper
-      onPeriodChange={setPeriod}
-      period={period}
-      periodOptions={options}
+      dateRange={dateRange}
+      onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="コミュニティノートの日別作成数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

@@ -129,7 +129,6 @@ export default function Search({
                   )}
 
                   <Group
-                    className="max-h-[calc(100vh-10rem)] overflow-y-auto"
                     gap="lg"
                   >
                     <Notes
@@ -139,6 +138,16 @@ export default function Search({
                       }
                     />
                   </Group>
+
+                  {searchQuery && (
+                    <SearchPagination
+                      className="ms-auto me-0"
+                      currentQuery={searchQuery}
+                      loading={isNetworkBusy}
+                      meta={paginationMeta}
+                      visibleItemCount={notes.length}
+                    />
+                  )}
                 </Stack>
               </>
             ) : (

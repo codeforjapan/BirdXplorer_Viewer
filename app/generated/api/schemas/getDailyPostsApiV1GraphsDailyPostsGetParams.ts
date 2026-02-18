@@ -8,9 +8,13 @@ import type { GetDailyPostsApiV1GraphsDailyPostsGetStatus } from "./getDailyPost
 
 export type GetDailyPostsApiV1GraphsDailyPostsGetParams = {
   /**
-   * Month range in format YYYY-MM_YYYY-MM
+   * Start timestamp in milliseconds (Unix epoch, UTC)
    */
-  range: string;
+  start_date: number;
+  /**
+   * End timestamp in milliseconds (Unix epoch, UTC)
+   */
+  end_date: number;
   /**
    * Filter by note publication status
    */

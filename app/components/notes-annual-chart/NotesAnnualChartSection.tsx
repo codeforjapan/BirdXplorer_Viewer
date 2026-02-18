@@ -2,9 +2,9 @@ import { Group, Text, UnstyledButton } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
-import type { MonthlyNoteData, PeriodRangeValue } from "~/components/graph";
+import type { DateRange } from "~/components/date-range-selector";
+import type { MonthlyNoteData } from "~/components/graph";
 import {
-  getDefaultPeriodValue,
   GraphContainer,
   type GraphFetchResult,
   GraphState,
@@ -13,7 +13,7 @@ import {
   StackedBarLineChart,
   STATUS_COLORS,
 } from "~/components/graph";
-import { getNotesAnnualPeriodOptions } from "~/components/graph/periodOptions";
+import { dateRangeToTimestamps, periodRangeToTimestamps } from "~/utils/dateRange";
 
 /** 公開率の色（オレンジ） */
 const PUBLICATION_RATE_COLOR = "#ffa726";
@@ -72,9 +72,12 @@ export const NotesAnnualChartSection = ({
   helpText = "このグラフは、過去1年間のコミュニティノートの数と公開率を月ごとに表示しています。",
   initialResult,
 }: NotesAnnualChartSectionProps) => {
-  const options = useMemo(() => getNotesAnnualPeriodOptions(), []);
-  const defaultPeriod = getDefaultPeriodValue(options);
-  const [period, setPeriod] = useState<PeriodRangeValue>(defaultPeriod);
+  // デフォルトの日付範囲を設定（2025-02_2026-01）
+  const defaultTimestamps = periodRangeToTimestamps("2025-02_2026-01");
+  const [dateRange, setDateRange] = useState<DateRange>([
+    new Date(defaultTimestamps.start_date),
+    new Date(defaultTimestamps.end_date),
+  ]);
   const fetcher = useFetcher<GraphFetchResult<MonthlyNoteData[]>>();
   const revalidator = useRevalidator();
   const hasFetcherLoaded = useRef(false);
@@ -84,18 +87,10 @@ export const NotesAnnualChartSection = ({
   const currentResult = fetcher.data ?? initialResult;
 
   useEffect(() => {
-    if (!options.length) return;
-    if (period && options.some((option) => option.value === period)) return;
-    const fallback =
-      options.find((option) => option.value === defaultPeriod)?.value ??
-      options[0]?.value ??
-      defaultPeriod;
-    setPeriod(fallback);
-  }, [options, defaultPeriod, period]);
+    const timestamps = dateRangeToTimestamps(dateRange);
+    if (!timestamps) return;
 
-  useEffect(() => {
-    if (!period) return;
-    const nextUrl = `/resources/graphs/notes-annual?range=${period}&status=all`;
+    const nextUrl = `/resources/graphs/notes-annual?start_date=${timestamps.start_date}&end_date=${timestamps.end_date}&status=all`;
 
     if (!hasMounted.current) {
       hasMounted.current = true;
@@ -111,7 +106,7 @@ export const NotesAnnualChartSection = ({
     setLastUrl(nextUrl);
     hasFetcherLoaded.current = true;
     void fetcher.load(nextUrl);
-  }, [fetcher, initialResult, lastUrl, period]);
+  }, [fetcher, initialResult, lastUrl, dateRange]);
 
   const graphStatus = useMemo<GraphStateStatus>(() => {
     if (fetcher.state !== "idle") return "loading";
@@ -237,10 +232,9 @@ export const NotesAnnualChartSection = ({
 
   return (
     <GraphWrapper
+      dateRange={dateRange}
       helpText={helpText}
-      onPeriodChange={setPeriod}
-      period={period}
-      periodOptions={options}
+      onDateRangeChange={setDateRange}
       title="1年間のコミュニティノート数と公開率"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Container } from "@mantine/core";
 
+import { AutoResizeIframe } from "~/components/auto-resize-iframe/AutoResizeIframe";
 import { ReportIcon } from "~/components/icons";
 import { OtherReportCardSection } from "~/components/other-report-card-section/OtherReportCardSection";
 import { WEB_PATHS } from "~/constants/paths";
@@ -85,12 +86,14 @@ export default function ReportDetail({ loaderData }: Route.ComponentProps) {
         {report.title}
       </h2>
 
-      <iframe
-        height="2330px"
-        sandbox="allow-scripts allow-popups allow-forms"
+      <p className="text-body-l mb-6 text-white">
+        {report.description}
+      </p>
+
+      <AutoResizeIframe
+        sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
         src={String(report.kouchouAiPath ?? DEFAULT_KOUCHOU_AI_PATH)}
         title="広聴AI"
-        width="100%"
       />
 
       <OtherReportCardSection className="mt-4 md:mt-8" maxItems={4} />
