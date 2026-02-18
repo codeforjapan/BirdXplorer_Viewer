@@ -3,6 +3,7 @@ import { Box, Container, Grid } from "@mantine/core";
 import type { ShouldRevalidateFunction } from "react-router";
 
 import { AccountRankingSection } from "~/components/account-ranking";
+import { AutoResizeIframe } from "~/components/auto-resize-iframe/AutoResizeIframe";
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
@@ -277,12 +278,10 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
       {
         feature.kouchouAiPath && (
           <Box my="xl">
-            <iframe
-              height="2330px"
-              sandbox="allow-scripts allow-popups allow-forms"
+            <AutoResizeIframe
+              sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
               src={String(feature.kouchouAiPath)}
               title="広聴AI"
-              width="100%"
             />
           </Box>
         )
