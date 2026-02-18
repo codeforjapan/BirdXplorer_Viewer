@@ -95,3 +95,14 @@ export const getDefaultDateRange = (): [Date, Date] => {
   const timestamps = relativePeriodToTimestamps("6months");
   return timestampsToDateRange(timestamps);
 };
+
+/**
+ * コミュニティノート評価分布図のデフォルト範囲を取得（3日前〜17日前）
+ */
+export const getDefault14DayRange = (): DateRangeTimestamps => {
+  const now = dayjs();
+  return {
+    start_date: now.subtract(17, "day").startOf("day").valueOf(),
+    end_date: now.subtract(3, "day").endOf("day").valueOf(),
+  };
+};

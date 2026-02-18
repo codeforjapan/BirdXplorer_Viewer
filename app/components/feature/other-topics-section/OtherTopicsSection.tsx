@@ -2,22 +2,11 @@ import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { PlayButtonIcon } from "~/components/icons";
 import { SectionTitle } from "~/components/SectionTitle";
 import { WEB_PATHS } from "~/constants/paths";
+import type { Feature } from "~/data/features";
 
 export type OtherTopicsSectionProps = {
   className?: string;
-  features: FeatureCategory[];
-};
-
-type FeatureItem = {
-  title: string;
-  href: string;
-};
-
-type FeatureCategory = {
-  id: number;
-  category: string;
-  color: string;
-  detail: FeatureItem;
+  features: Feature[];
 };
 
 export const OtherTopicsSection = ({

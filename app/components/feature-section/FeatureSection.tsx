@@ -1,7 +1,7 @@
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { PageTitle } from "~/components/PageTitle";
-import { FEATURES } from "~/constants/data";
+import { FEATURES } from "~/data/features";
 import { WEB_PATHS } from "~/constants/paths";
 
 export type FeatureSectionProps = {
@@ -35,17 +35,13 @@ export const FeatureSection = ({ className }: FeatureSectionProps) => {
           <BaseCard
             body={
               <ul className="space-y-2">
-                <li>
-                  <a
-                    className="text-heading-m-compact flex items-start gap-2 text-white hover:underline"
-                    href={feature.detail.href}
-                  >
-                    <PlayButtonIcon className="shrink-0" isActive />
-                    <span>{feature.detail.title}</span>
-                  </a>
+                <li className="text-heading-m-compact flex items-start gap-2 text-white">
+                  <PlayButtonIcon className="shrink-0" isActive />
+                  <span>{feature.detail.title}</span>
                 </li>
               </ul>
             }
+            href={feature.detail.href}
             key={feature.id}
             title={<span className="text-white">{feature.category}</span>}
             titleBgColor={feature.color}

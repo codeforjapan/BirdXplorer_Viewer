@@ -24,6 +24,7 @@ import { dateRangeToTimestamps, getDefaultDateRange } from "~/utils/dateRange";
 
 export type DailyNotesCreationChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
+  initialDateRange?: DateRange;
 };
 
 /**
@@ -32,8 +33,9 @@ export type DailyNotesCreationChartProps = {
  */
 export const DailyNotesCreationChart = ({
   initialResult,
+  initialDateRange,
 }: DailyNotesCreationChartProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>>();
@@ -158,7 +160,7 @@ export const DailyNotesCreationChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
-      onDateRangeChange={setDateRange}
+      onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="コミュニティノートの日別作成数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

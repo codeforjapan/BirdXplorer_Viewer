@@ -24,6 +24,7 @@ import { dateRangeToTimestamps, periodRangeToTimestamps } from "~/utils/dateRang
 
 export type DailyPostCountChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
+  initialDateRange?: DateRange;
 };
 
 /**
@@ -32,13 +33,16 @@ export type DailyPostCountChartProps = {
  */
 export const DailyPostCountChart = ({
   initialResult,
+  initialDateRange,
 }: DailyPostCountChartProps) => {
   // デフォルトの日付範囲を設定（2025-02_2026-01）
   const defaultTimestamps = periodRangeToTimestamps("2025-02_2026-01");
-  const [dateRange, setDateRange] = useState<DateRange>([
-    new Date(defaultTimestamps.start_date),
-    new Date(defaultTimestamps.end_date),
-  ]);
+  const [dateRange, setDateRange] = useState<DateRange>(
+    initialDateRange ?? [
+      new Date(defaultTimestamps.start_date),
+      new Date(defaultTimestamps.end_date),
+    ]
+  );
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>>();
   const revalidator = useRevalidator();
@@ -164,7 +168,7 @@ export const DailyPostCountChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
-      onDateRangeChange={setDateRange}
+      onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="ポストの日別投稿数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

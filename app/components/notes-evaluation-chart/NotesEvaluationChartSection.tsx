@@ -16,7 +16,7 @@ import {
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
-import { dateRangeToTimestamps, getDefaultDateRange } from "~/utils/dateRange";
+import { dateRangeToTimestamps, getDefault14DayRange, timestampsToDateRange } from "~/utils/dateRange";
 import { getArrayMax } from "~/utils/math";
 
 export type NotesEvaluationChartSectionProps = {
@@ -32,7 +32,7 @@ export const NotesEvaluationChartSection = ({
   className,
   initialResult,
 }: NotesEvaluationChartSectionProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(timestampsToDateRange(getDefault14DayRange()));
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<NoteEvaluationData[]>>();
   const revalidator = useRevalidator();

@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router";
 
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
-import { FEATURES } from "~/constants/data";
+import { FEATURES } from "~/data/features";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature";

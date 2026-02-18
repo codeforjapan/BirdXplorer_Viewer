@@ -18,7 +18,7 @@ import {
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
 import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
-import { periodRangeToTimestamps, relativePeriodToTimestamps } from "~/utils/dateRange";
+import { getDefault14DayRange, periodRangeToTimestamps, relativePeriodToTimestamps } from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { Route } from "./+types/_index";
@@ -29,7 +29,7 @@ export const loader = async (_args: Route.LoaderArgs) => {
 
   // デフォルトの日付範囲を設定
   const defaultNotesAnnualTimestamps = periodRangeToTimestamps("2025-02_2026-01");
-  const defaultEvaluationTimestamps = relativePeriodToTimestamps("6months");
+  const defaultEvaluationTimestamps = getDefault14DayRange();
 
   // キャッシュキー構築
   const notesAnnualKey = buildGraphCacheKey("notes-annual", {
@@ -135,7 +135,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           <iframe
             height="2330px"
             sandbox="allow-scripts allow-popups allow-forms"
-            src="/kouchou-ai/202506/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
+            src="/kouchou-ai/2025/06/52c5c1bc-fb89-4aa9-ab67-b35e2f663cf2/index.html"
             title="広聴AI"
             width="100%"
           />

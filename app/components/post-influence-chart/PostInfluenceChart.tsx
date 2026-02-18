@@ -27,6 +27,7 @@ export type { PostInfluenceData } from "~/components/graph";
 
 export type PostInfluenceChartProps = {
   initialResult?: GraphFetchResult<PostInfluenceData[]>;
+  initialDateRange?: DateRange;
 };
 
 /**
@@ -35,8 +36,9 @@ export type PostInfluenceChartProps = {
  */
 export const PostInfluenceChart = ({
   initialResult,
+  initialDateRange,
 }: PostInfluenceChartProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<PostInfluenceData[]>>();
   const revalidator = useRevalidator();
@@ -142,7 +144,7 @@ export const PostInfluenceChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
-      onDateRangeChange={setDateRange}
+      onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="ポストの影響力"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

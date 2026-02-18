@@ -144,6 +144,8 @@ export const ScatterBubbleChart = ({
       tooltip: {
         backgroundColor: GRAPH_STYLES.tooltipBgColor,
         borderColor: GRAPH_STYLES.tooltipBorderColor,
+        confine: true,
+        extraCssText: "max-width: 220px; word-break: break-word; white-space: normal;",
         formatter: (param) => {
           if (Array.isArray(param)) return "";
           const [x, y, size, name, category] = param.value as [
@@ -155,7 +157,7 @@ export const ScatterBubbleChart = ({
           ];
           return formatter({ x, y, size, name, category });
         },
-        textStyle: { color: "#fff" },
+        textStyle: { color: "#fff", fontSize: 11 },
         trigger: "item",
       },
       grid: { bottom: 80, left: 80, right: 40, top: 60 },

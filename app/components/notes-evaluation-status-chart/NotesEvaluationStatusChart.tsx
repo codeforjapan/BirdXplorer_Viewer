@@ -24,6 +24,7 @@ import { getArrayMax, getArrayMin } from "~/utils/math";
 
 export type NotesEvaluationStatusChartProps = {
   initialResult?: GraphFetchResult<NoteEvaluationData[]>;
+  initialDateRange?: DateRange;
 };
 
 /**
@@ -32,8 +33,9 @@ export type NotesEvaluationStatusChartProps = {
  */
 export const NotesEvaluationStatusChart = ({
   initialResult,
+  initialDateRange,
 }: NotesEvaluationStatusChartProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<NoteEvaluationData[]>>();
   const revalidator = useRevalidator();
@@ -139,7 +141,7 @@ export const NotesEvaluationStatusChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
-      onDateRangeChange={setDateRange}
+      onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="コミュニティーノートの評価状況"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
