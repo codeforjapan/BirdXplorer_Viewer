@@ -2,6 +2,8 @@ import { Stack } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
+import { postLinkFromPostId } from "~/feature/twitter/link-builder";
+
 import type { DateRange } from "~/components/date-range-selector";
 import {
   getStatusLabel,
@@ -117,8 +119,13 @@ export const PostInfluenceChart = ({
       size: d.impressions,
       name: d.name,
       category: d.status,
+      itemId: d.postId,
     }));
   }, [filteredData]);
+
+  const handleBubbleClick = useCallback((postId: string) => {
+    window.open(postLinkFromPostId(postId), "_blank", "noopener,noreferrer");
+  }, []);
 
   const tooltipFormatter = useCallback((item: ScatterDataItem): string => {
     return `<strong>${item.name}</strong><br/>
@@ -159,6 +166,7 @@ export const PostInfluenceChart = ({
             data={chartData}
             height="60vh"
             minHeight={400}
+            onBubbleClick={handleBubbleClick}
             tooltipFormatter={tooltipFormatter}
             xAxisMax={axisRange.xMax}
             xAxisName="リポスト数"

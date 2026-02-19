@@ -11,6 +11,8 @@ type EChartsGraphProps = {
   minHeight?: number;
   /** ローディング中の表示 */
   loadingFallback?: React.ReactNode;
+  /** EChartsイベントハンドラ */
+  onEvents?: Record<string, (params: unknown) => void>;
 };
 
 /**
@@ -23,17 +25,26 @@ export const EChartsGraph = ({
   height = "60vh",
   minHeight = 360,
   loadingFallback,
+  onEvents,
 }: EChartsGraphProps): React.ReactNode => {
   const [ReactECharts, setReactECharts] = useState<React.ComponentType<{
     option: EChartsOption;
     style?: React.CSSProperties;
+    onEvents?: Record<string, (params: unknown) => void>;
   }> | null>(null);
 
   // クライアントサイドでのみecharts-for-reactをロード（SSR対策）
   useEffect(() => {
     const loadECharts = async () => {
       const mod = await import("echarts-for-react");
-      setReactECharts(() => mod.default);
+      setReactECharts(
+        () =>
+          mod.default as React.ComponentType<{
+            option: EChartsOption;
+            style?: React.CSSProperties;
+            onEvents?: Record<string, (params: unknown) => void>;
+          }>
+      );
     };
     void loadECharts();
   }, []);
@@ -53,6 +64,7 @@ export const EChartsGraph = ({
 
   return (
     <ReactECharts
+      onEvents={onEvents}
       option={option}
       style={{
         width: "100%",

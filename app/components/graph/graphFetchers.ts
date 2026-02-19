@@ -180,6 +180,57 @@ export const fetchDailyPostsGraph = async ({
     };
   }
 
+  // status=all の場合、APIはステータス別の内訳を返さないため
+  // 各ステータスを個別に呼び出して統合する
+  if (status === "all") {
+    const specificStatuses = [
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ] as const;
+
+    const results = await Promise.allSettled(
+      specificStatuses.map((s) =>
+        fetchGraphList(
+          async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status: s }),
+          getDailyPostsApiV1GraphsDailyPostsGetResponse,
+        )
+      )
+    );
+
+    let updatedAt = "";
+    let hasSuccess = false;
+    const allItems: Array<{ date: string; postCount: number; status: string }> = [];
+
+    for (let i = 0; i < specificStatuses.length; i++) {
+      const s = specificStatuses[i];
+      const r = results[i];
+      if (r === undefined || s === undefined) continue;
+      if (r.status === "fulfilled" && r.value.ok) {
+        hasSuccess = true;
+        updatedAt = r.value.updatedAt;
+        for (const item of r.value.data) {
+          allItems.push({ date: item.date, postCount: item.postCount, status: s });
+        }
+      }
+    }
+
+    if (!hasSuccess) {
+      return {
+        ok: false,
+        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+      };
+    }
+
+    return {
+      ok: true,
+      data: toDailyPostCountData(allItems),
+      updatedAt,
+      eventMarkers: [],
+    };
+  }
+
   const result = await fetchGraphList(
     async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status }),
     getDailyPostsApiV1GraphsDailyPostsGetResponse,
@@ -288,6 +339,59 @@ export const fetchNotesEvaluationStatusGraph = async ({
     };
   }
 
+  // status=all の場合、APIはステータス別の内訳を正しく返さないため
+  // 各ステータスを個別に呼び出して統合する
+  if (status === "all") {
+    const specificStatuses = [
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ] as const;
+
+    const results = await Promise.allSettled(
+      specificStatuses.map((s) =>
+        fetchGraphList(
+          async () =>
+            getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet({
+              start_date,
+              end_date,
+              status: s,
+              limit,
+            }),
+          getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
+        )
+      )
+    );
+
+    let updatedAt = "";
+    let hasSuccess = false;
+    const allData: NoteEvaluationData[] = [];
+
+    for (let i = 0; i < specificStatuses.length; i++) {
+      const r = results[i];
+      if (r === undefined) continue;
+      if (r.status === "fulfilled" && r.value.ok) {
+        hasSuccess = true;
+        updatedAt = r.value.updatedAt;
+        allData.push(...toNoteEvaluationData(r.value.data));
+      }
+    }
+
+    if (!hasSuccess) {
+      return {
+        ok: false,
+        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+      };
+    }
+
+    return {
+      ok: true,
+      data: allData,
+      updatedAt,
+    };
+  }
+
   const result = await fetchGraphList(
     async () =>
       getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet({
@@ -326,6 +430,54 @@ export const fetchPostInfluenceGraph = async ({
       ok: true,
       data: mock.data,
       updatedAt: mock.updatedAt,
+    };
+  }
+
+  // status=all の場合、APIはステータス別の内訳を正しく返さないため
+  // 各ステータスを個別に呼び出して統合する
+  if (status === "all") {
+    const specificStatuses = [
+      "published",
+      "evaluating",
+      "unpublished",
+      "temporarilyPublished",
+    ] as const;
+
+    const results = await Promise.allSettled(
+      specificStatuses.map((s) =>
+        fetchGraphList(
+          async () =>
+            getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status: s, limit }),
+          getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
+        )
+      )
+    );
+
+    let updatedAt = "";
+    let hasSuccess = false;
+    const allData: PostInfluenceData[] = [];
+
+    for (let i = 0; i < specificStatuses.length; i++) {
+      const r = results[i];
+      if (r === undefined) continue;
+      if (r.status === "fulfilled" && r.value.ok) {
+        hasSuccess = true;
+        updatedAt = r.value.updatedAt;
+        allData.push(...toPostInfluenceData(r.value.data));
+      }
+    }
+
+    if (!hasSuccess) {
+      return {
+        ok: false,
+        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+      };
+    }
+
+    return {
+      ok: true,
+      data: allData,
+      updatedAt,
     };
   }
 

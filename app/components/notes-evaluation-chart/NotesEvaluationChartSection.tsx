@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
+import { getNotesApiV1DataNotesGet } from "~/generated/api/client";
+import { postLinkFromPostId } from "~/feature/twitter/link-builder";
+
 import type { DateRange } from "~/components/date-range-selector";
 import {
   getStatusLabel,
@@ -106,8 +109,17 @@ export const NotesEvaluationChartSection = ({
       size: d.impressions,
       name: d.name,
       category: d.status,
+      itemId: d.noteId,
     }));
   }, [filteredData]);
+
+  const handleBubbleClick = useCallback(async (noteId: string) => {
+    const response = await getNotesApiV1DataNotesGet({ note_ids: [noteId] });
+    if (response.status !== 200) return;
+    const postId = response.data.data[0]?.postId;
+    if (!postId) return;
+    window.open(postLinkFromPostId(postId), "_blank", "noopener,noreferrer");
+  }, []);
 
   const tooltipFormatter = useCallback((item: ScatterDataItem): string => {
     return `<strong>${item.name}</strong><br/>
@@ -140,6 +152,7 @@ export const NotesEvaluationChartSection = ({
             data={chartData}
             height="60vh"
             minHeight={400}
+            onBubbleClick={handleBubbleClick}
             tooltipFormatter={tooltipFormatter}
             xAxisMax={axisRange.xMax}
             xAxisName="「役に立たなかった」の評価数"

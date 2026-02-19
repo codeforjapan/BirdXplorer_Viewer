@@ -15,6 +15,12 @@ type DateRangePickerProps = Parameters<typeof useDateRangeInputControl>[0] & {
    * @see {@link https://day.js.org/docs/en/display/format Day.js のフォーマット仕様}
    */
   valueFormat?: string;
+  /**
+   * 選択できる日付範囲の最大日数
+   *
+   * @default 30
+   */
+  maxRange?: number;
 };
 
 export const DateRangePicker = ({
@@ -23,6 +29,7 @@ export const DateRangePicker = ({
   fromField,
   label,
   valueFormat,
+  maxRange = 30,
   convertMantineValueToForm,
   convertFormValueToMantine,
 }: DateRangePickerProps) => {
@@ -40,12 +47,25 @@ export const DateRangePicker = ({
     convertFormValueToMantine,
   });
 
+  const getDayProps = (date: Date) => {
+    const [from, to] = value ?? [null, null];
+    if (from && !to) {
+      const diffMs = date.getTime() - from.getTime();
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays > maxRange || diffDays < -maxRange) {
+        return { disabled: true };
+      }
+    }
+    return {};
+  };
+
   return (
     <DatePickerInput
       c="white"
       classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       clearable
       disabled={disabled}
+      getDayProps={getDayProps}
       error={
         containsNonNullValues(fromField.errors, toField.errors) && (
           <FormError errors={[fromField.errors, toField.errors]} />

@@ -1,5 +1,5 @@
 import type { EChartsOption } from "echarts";
-import { useCallback,useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import { getArrayMinMax } from "~/utils/math";
 
@@ -27,6 +27,8 @@ export type ScatterDataItem = {
   name: string;
   /** カテゴリ識別子（categoriesのkeyと対応） */
   category: string | number;
+  /** クリック時に使用するID（例: noteId） */
+  itemId?: string;
 };
 
 export type ScatterBubbleChartProps = {
@@ -46,6 +48,8 @@ export type ScatterBubbleChartProps = {
   minBubbleSize?: number;
   maxBubbleSize?: number;
   tooltipFormatter?: (item: ScatterDataItem) => string;
+  /** バブルクリック時のコールバック。itemId が設定されているバブルのみ呼ばれる */
+  onBubbleClick?: (itemId: string) => void;
 };
 
 /**
@@ -66,6 +70,7 @@ export const ScatterBubbleChart = ({
   minBubbleSize = 10,
   maxBubbleSize = 50,
   tooltipFormatter,
+  onBubbleClick,
 }: ScatterBubbleChartProps) => {
   // カテゴリのルックアップマップを作成
   const categoryMap = useMemo(() => {
@@ -87,16 +92,17 @@ export const ScatterBubbleChart = ({
   }, [data]);
 
   // EChartsのscatterシリーズはタプル形式のデータを要求するため変換
-  // [x, y, size, name, category]
+  // [x, y, size, name, category, itemId]
   const internalData = useMemo(() => {
     return data.map(
       (d) =>
-        [d.x, d.y, d.size, d.name, d.category] as [
+        [d.x, d.y, d.size, d.name, d.category, d.itemId] as [
           number,
           number,
           number,
           string,
           string | number,
+          string | undefined,
         ]
     );
   }, [data]);
@@ -112,6 +118,17 @@ export const ScatterBubbleChart = ({
     },
     [sizeRange, minBubbleSize, maxBubbleSize]
   );
+
+  const onEvents = useMemo(() => {
+    if (!onBubbleClick) return undefined;
+    return {
+      click: (params: unknown) => {
+        const p = params as { value?: [number, number, number, string, string | number, string | undefined] };
+        const itemId = p.value?.[5];
+        if (itemId) onBubbleClick(itemId);
+      },
+    };
+  }, [onBubbleClick]);
 
   const option = useMemo<EChartsOption>(() => {
     const defaultTooltipFormatter = (item: ScatterDataItem): string => {
@@ -148,14 +165,15 @@ export const ScatterBubbleChart = ({
         extraCssText: "max-width: 220px; word-break: break-word; white-space: normal;",
         formatter: (param) => {
           if (Array.isArray(param)) return "";
-          const [x, y, size, name, category] = param.value as [
+          const [x, y, size, name, category, itemId] = param.value as [
             number,
             number,
             number,
             string,
             string | number,
+            string | undefined,
           ];
-          return formatter({ x, y, size, name, category });
+          return formatter({ x, y, size, name, category, itemId });
         },
         textStyle: { color: "#fff", fontSize: 11 },
         trigger: "item",
@@ -216,5 +234,5 @@ export const ScatterBubbleChart = ({
     tooltipFormatter,
   ]);
 
-  return <EChartsGraph height={height} minHeight={minHeight} option={option} />;
+  return <EChartsGraph height={height} minHeight={minHeight} onEvents={onEvents} option={option} />;
 };
