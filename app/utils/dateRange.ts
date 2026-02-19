@@ -106,3 +106,36 @@ export const getDefault14DayRange = (): DateRangeTimestamps => {
     end_date: now.subtract(3, "day").endOf("day").valueOf(),
   };
 };
+
+export type AccountRankingPeriod = "1week" | "2weeks" | "1month";
+
+/**
+ * アカウントランキング用の期間をUNIXミリ秒の範囲に変換
+ * 終了日は常に2日前、開始日は期間に応じて 9/16/32 日前
+ */
+export const rankingPeriodToTimestamps = (
+  period: AccountRankingPeriod
+): DateRangeTimestamps => {
+  const now = dayjs();
+  const end = now.subtract(2, "day").endOf("day");
+
+  let startDaysAgo: number;
+  switch (period) {
+    case "1week":
+      startDaysAgo = 9;
+      break;
+    case "2weeks":
+      startDaysAgo = 16;
+      break;
+    case "1month":
+      startDaysAgo = 31;
+      break;
+    default:
+      startDaysAgo = 9;
+  }
+
+  return {
+    start_date: now.subtract(startDaysAgo, "day").startOf("day").valueOf(),
+    end_date: end.valueOf(),
+  };
+};

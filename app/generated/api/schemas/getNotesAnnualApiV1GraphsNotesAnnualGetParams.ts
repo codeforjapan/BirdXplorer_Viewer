@@ -19,4 +19,12 @@ export type GetNotesAnnualApiV1GraphsNotesAnnualGetParams = {
    * Filter by note publication status
    */
   status?: GetNotesAnnualApiV1GraphsNotesAnnualGetStatus;
+  /**
+   * Comma-separated language codes to filter by (e.g., ja,en)
+   */
+  language?: string | null;
+  /**
+   * Comma-separated keywords for AND search in note summaries
+   */
+  keywords?: string | null;
 };

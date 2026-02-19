@@ -13,11 +13,13 @@ import type {
   GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetParams,
   GetPostInfluenceApiV1GraphsPostInfluenceGetParams,
   GetPostsApiV1DataPostsGetParams,
+  GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetParams,
   GraphListResponseDailyNotesCreationDataItem,
   GraphListResponseDailyPostCountDataItem,
   GraphListResponseMonthlyNoteDataItem,
   GraphListResponseNoteEvaluationDataItem,
   GraphListResponsePostInfluenceDataItem,
+  GraphListResponseTopNoteAccountDataItem,
   HTTPValidationError,
   Message,
   NoteListResponse,
@@ -660,12 +662,12 @@ Args:
     start_date: Start timestamp in milliseconds (required)
     end_date: End timestamp in milliseconds (required)
     status: Filter by specific status or "all" (default: "all")
-    limit: Maximum number of results (default: 200, max: 200)
+    limit: Maximum number of results (default: 200, max: 5000)
 
 Returns:
     GraphListResponse containing:
     - data: List of individual note evaluation metrics
-    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+    - updatedAt: Last data update timestamp (YYYY-MM-DDformat)
 
 Raises:
     HTTPException: 400 if validation fails, 422 if timestamp format invalid
@@ -761,7 +763,7 @@ Args:
     start_date: Start timestamp in milliseconds (required)
     end_date: End timestamp in milliseconds (required)
     status: Filter by specific status or "all" (default: "all")
-    limit: Maximum number of results (default: 200, max: 200)
+    limit: Maximum number of results (default: 200, max: 5000)
 
 Returns:
     GraphListResponse containing:
@@ -870,7 +872,7 @@ Args:
     start_date: Start timestamp in milliseconds (required)
     end_date: End timestamp in milliseconds (required)
     status: Filter by specific note status or "all" (default: "all")
-    limit: Maximum number of results (default: 200, max: 200)
+    limit: Maximum number of results (default: 200, max: 5000)
 
 Returns:
     GraphListResponse containing:
@@ -940,4 +942,96 @@ export const getPostInfluenceApiV1GraphsPostInfluenceGet = async (
     status: res.status,
     headers: res.headers,
   } as getPostInfluenceApiV1GraphsPostInfluenceGetResponse;
+};
+
+/**
+ * Get top accounts by note count with period-over-period comparison.
+
+Returns the top 10 accounts ranked by number of notes created in the specified
+date range (maximum 30 days), together with the change from the equivalent
+previous period of the same length.
+
+**Previous Period Calculation:**
+- Current period: [start_date, end_date]
+- Duration: end_date - start_date (in milliseconds)
+- Previous period: [start_date - duration, start_date - 1ms]
+- note_count_change = current_count - previous_count (0 if no previous data)
+
+**Date Range:**
+- Timestamps must be in milliseconds (Unix epoch, UTC)
+- Maximum range: 30 days
+- start_date must be <= end_date
+
+Args:
+    start_date: Start timestamp in milliseconds (required)
+    end_date: End timestamp in milliseconds (required)
+    status: Filter by specific note status or "all" (default: "all")
+
+Returns:
+    GraphListResponse containing:
+    - data: List of top 10 accounts with rank, username, note_count, note_count_change
+    - updatedAt: Last data update timestamp (YYYY-MM-DD format)
+
+Raises:
+    HTTPException: 400 if validation fails, 422 if timestamp format invalid
+ * @summary Get Top Note Accounts
+ */
+export type getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse200 = {
+  data: GraphListResponseTopNoteAccountDataItem;
+  status: 200;
+};
+
+export type getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse422 = {
+  data: HTTPValidationError;
+  status: 422;
+};
+
+export type getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponseComposite =
+  | getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse200
+  | getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse422;
+
+export type getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse =
+  getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponseComposite & {
+    headers: Headers;
+  };
+
+export const getGetTopNoteAccountsApiV1GraphsTopNoteAccountsGetUrl = (
+  params: GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/top-note-accounts?${stringifiedParams}`
+    : `https://dev.api-birdxplorer.code4japan.org/api/v1/graphs/top-note-accounts`;
+};
+
+export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGet = async (
+  params: GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetParams,
+  options?: RequestInit,
+): Promise<getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse> => {
+  const res = await fetch(
+    getGetTopNoteAccountsApiV1GraphsTopNoteAccountsGetUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  const data: getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse["data"] =
+    body ? JSON.parse(body) : {};
+
+  return {
+    data,
+    status: res.status,
+    headers: res.headers,
+  } as getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse;
 };

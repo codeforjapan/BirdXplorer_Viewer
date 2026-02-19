@@ -4,9 +4,9 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { GetNotesEvaluationApiV1GraphsNotesEvaluationGetStatus } from "./getNotesEvaluationApiV1GraphsNotesEvaluationGetStatus";
+import type { GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetStatus } from "./getTopNoteAccountsApiV1GraphsTopNoteAccountsGetStatus";
 
-export type GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams = {
+export type GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetParams = {
   /**
    * Start timestamp in milliseconds (Unix epoch, UTC)
    */
@@ -18,11 +18,7 @@ export type GetNotesEvaluationApiV1GraphsNotesEvaluationGetParams = {
   /**
    * Filter by note publication status
    */
-  status?: GetNotesEvaluationApiV1GraphsNotesEvaluationGetStatus;
-  /**
-   * Maximum number of results (max 5000)
-   */
-  limit?: number;
+  status?: GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetStatus;
   /**
    * Comma-separated language codes to filter by (e.g., ja,en)
    */

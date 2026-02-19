@@ -19,4 +19,12 @@ export type GetDailyNotesApiV1GraphsDailyNotesGetParams = {
    * Filter by note publication status
    */
   status?: GetDailyNotesApiV1GraphsDailyNotesGetStatus;
+  /**
+   * Comma-separated language codes to filter by (e.g., ja,en)
+   */
+  language?: string | null;
+  /**
+   * Comma-separated keywords for AND search in note summaries
+   */
+  keywords?: string | null;
 };

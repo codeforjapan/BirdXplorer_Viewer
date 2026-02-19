@@ -10,6 +10,7 @@ import {
   getNotesEvaluationApiV1GraphsNotesEvaluationGet,
   getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet,
   getPostInfluenceApiV1GraphsPostInfluenceGet,
+  getTopNoteAccountsApiV1GraphsTopNoteAccountsGet,
 } from "~/generated/api/client";
 import {
   getDailyNotesApiV1GraphsDailyNotesGetResponse,
@@ -18,6 +19,7 @@ import {
   getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
   getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
   getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
+  getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
 } from "~/generated/api/zod/schema";
 
 import {
@@ -34,10 +36,6 @@ import {
 } from "./api";
 import type { RelativePeriodValue, StatusValue } from "./constants";
 import { DEFAULT_GRAPH_ERROR_MESSAGES, RELATIVE_PERIOD_OPTIONS } from "./constants";
-import {
-  getEventMarkersForRangePeriod,
-  getEventMarkersForRelativePeriod,
-} from "./eventMarkers";
 import { getDefaultPeriodValue } from "./periodUtils";
 import type { PeriodOption, PeriodRangeValue } from "./types";
 import type {
@@ -47,6 +45,7 @@ import type {
   NoteEvaluationData,
   PostInfluenceData,
 } from "./types";
+import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
 
 export const DEFAULT_GRAPH_LIMIT = 200;
 
@@ -494,6 +493,20 @@ export const fetchPostInfluenceGraph = async ({
     data: toPostInfluenceData(result.data),
     updatedAt: result.updatedAt,
   };
+};
+
+export const fetchTopNoteAccountsGraph = async ({
+  start_date,
+  end_date,
+}: {
+  start_date: number;
+  end_date: number;
+}): Promise<GraphFetchResult<TopNoteAccountDataItem[]>> => {
+  return fetchGraphList(
+    async () =>
+      getTopNoteAccountsApiV1GraphsTopNoteAccountsGet({ start_date, end_date }),
+    getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
+  );
 };
 
 export const getDefaultDailyPostsRange = (): PeriodRangeValue =>

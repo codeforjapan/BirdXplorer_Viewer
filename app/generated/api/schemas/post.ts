@@ -28,13 +28,13 @@ export interface Post {
   /**
    * Post の作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1771239424121
+   * @maximum 1771487364784
    */
   createdAt: number;
   /**
    * Post の情報がETLで取得された日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1771239424121
+   * @maximum 1771487364784
    */
   aggregatedAt: number;
   /**

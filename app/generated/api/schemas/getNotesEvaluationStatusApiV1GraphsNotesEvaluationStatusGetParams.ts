@@ -21,7 +21,15 @@ export type GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetParams =
      */
     status?: GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetStatus;
     /**
-     * Maximum number of results (max 200)
+     * Maximum number of results (max 5000)
      */
     limit?: number;
+    /**
+     * Comma-separated language codes to filter by (e.g., ja,en)
+     */
+    language?: string | null;
+    /**
+     * Comma-separated keywords for AND search in note summaries
+     */
+    keywords?: string | null;
   };
