@@ -124,10 +124,14 @@ export const fetchDailyNotesGraph = async ({
   start_date,
   end_date,
   status,
+  language,
+  keywords,
 }: {
   start_date: number;
   end_date: number;
   status: StatusValue;
+  language?: string;
+  keywords?: string;
 }): Promise<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/daily-notes");
@@ -143,7 +147,7 @@ export const fetchDailyNotesGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyNotesApiV1GraphsDailyNotesGet({ start_date, end_date, status }),
+    async () => getDailyNotesApiV1GraphsDailyNotesGet({ start_date, end_date, status, language, keywords }),
     getDailyNotesApiV1GraphsDailyNotesGetResponse,
   );
 
@@ -161,10 +165,14 @@ export const fetchDailyPostsGraph = async ({
   start_date,
   end_date,
   status,
+  language,
+  keywords,
 }: {
   start_date: number;
   end_date: number;
   status: StatusValue;
+  language?: string;
+  keywords?: string;
 }): Promise<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/daily-posts");
@@ -192,7 +200,7 @@ export const fetchDailyPostsGraph = async ({
     const results = await Promise.allSettled(
       specificStatuses.map((s) =>
         fetchGraphList(
-          async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status: s }),
+          async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status: s, language, keywords }),
           getDailyPostsApiV1GraphsDailyPostsGetResponse,
         )
       )
@@ -231,7 +239,7 @@ export const fetchDailyPostsGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status }),
+    async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status, language, keywords }),
     getDailyPostsApiV1GraphsDailyPostsGetResponse,
   );
 
@@ -320,11 +328,15 @@ export const fetchNotesEvaluationStatusGraph = async ({
   end_date,
   status,
   limit,
+  language,
+  keywords,
 }: {
   start_date: number;
   end_date: number;
   status: StatusValue;
   limit: number;
+  language?: string;
+  keywords?: string;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import(
@@ -357,6 +369,8 @@ export const fetchNotesEvaluationStatusGraph = async ({
               end_date,
               status: s,
               limit,
+              language,
+              keywords,
             }),
           getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
         )
@@ -398,6 +412,8 @@ export const fetchNotesEvaluationStatusGraph = async ({
         end_date,
         status,
         limit,
+        language,
+        keywords,
       }),
     getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
   );
@@ -416,11 +432,15 @@ export const fetchPostInfluenceGraph = async ({
   end_date,
   status,
   limit,
+  language,
+  keywords,
 }: {
   start_date: number;
   end_date: number;
   status: StatusValue;
   limit: number;
+  language?: string;
+  keywords?: string;
 }): Promise<GraphFetchResult<PostInfluenceData[]>> => {
   if (isGraphMockEnabled()) {
     const { createMockResponse } = await import("~/mocks/graph/post-influence");
@@ -446,7 +466,7 @@ export const fetchPostInfluenceGraph = async ({
       specificStatuses.map((s) =>
         fetchGraphList(
           async () =>
-            getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status: s, limit }),
+            getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status: s, limit, language, keywords }),
           getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
         )
       )
@@ -482,7 +502,7 @@ export const fetchPostInfluenceGraph = async ({
 
   const result = await fetchGraphList(
     async () =>
-      getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status, limit }),
+      getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status, limit, language, keywords }),
     getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
   );
 

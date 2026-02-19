@@ -15,6 +15,8 @@ export type AccountRankingSectionProps = {
   className?: string;
   initialResult?: GraphFetchResult<TopNoteAccountDataItem[]>;
   initialPeriod?: AccountRankingPeriod;
+  /** 固定の日付範囲（指定時は期間セレクターを非表示にしてこの期間を使用） */
+  fixedTimestamps?: { start_date: number; end_date: number };
 };
 
 const PERIOD_OPTIONS: Array<{ value: AccountRankingPeriod; label: string }> = [
@@ -40,6 +42,7 @@ export const AccountRankingSection = ({
   className,
   initialResult,
   initialPeriod = "1week",
+  fixedTimestamps,
 }: AccountRankingSectionProps) => {
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
   const [period, setPeriod] = React.useState<AccountRankingPeriod>(initialPeriod);
@@ -52,7 +55,7 @@ export const AccountRankingSection = ({
   const currentResult = fetcher.data ?? initialResult;
 
   React.useEffect(() => {
-    const { start_date, end_date } = rankingPeriodToTimestamps(period);
+    const { start_date, end_date } = fixedTimestamps ?? rankingPeriodToTimestamps(period);
     const nextUrl = `/resources/graphs/top-note-accounts?start_date=${start_date}&end_date=${end_date}`;
 
     if (!hasMounted.current) {
@@ -69,7 +72,7 @@ export const AccountRankingSection = ({
     setLastUrl(nextUrl);
     hasFetcherLoaded.current = true;
     void fetcher.load(nextUrl);
-  }, [fetcher, initialResult, lastUrl, period]);
+  }, [fetcher, fixedTimestamps, initialResult, lastUrl, period]);
 
   const graphStatus = React.useMemo<GraphStateStatus>(() => {
     if (fetcher.state !== "idle") return "loading";
@@ -118,9 +121,9 @@ export const AccountRankingSection = ({
   return (
     <GraphWrapper
       className={className}
-      onPeriodChange={setPeriod}
-      period={period}
-      periodOptions={PERIOD_OPTIONS}
+      onPeriodChange={fixedTimestamps ? undefined : setPeriod}
+      period={fixedTimestamps ? undefined : period}
+      periodOptions={fixedTimestamps ? undefined : PERIOD_OPTIONS}
       title="アカウントランキング"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >

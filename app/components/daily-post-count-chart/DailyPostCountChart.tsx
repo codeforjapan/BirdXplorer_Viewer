@@ -169,7 +169,7 @@ export const DailyPostCountChart = ({
     <GraphWrapper
       dateRange={dateRange}
       onDateRangeChange={initialDateRange ? undefined : setDateRange}
-      title="ポストの日別投稿数"
+      title="ノートがついたポストの日別投稿数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
     >
       <GraphState

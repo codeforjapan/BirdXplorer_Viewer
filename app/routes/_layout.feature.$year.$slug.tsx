@@ -100,6 +100,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const feature = features.find((f) => f.detail.href === `/feature/${year}/${slug}`);
 
   const status: StatusValue = "all";
+  const language = feature?.language;
+  const keywords = feature?.keywords;
 
   const defaultTimestamps = relativePeriodToTimestamps("6months");
   const graphTimestamps = feature?.startDate && feature?.endDate
@@ -115,11 +117,15 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     start_date,
     end_date,
     status,
+    language,
+    keywords,
   });
   const dailyPostsKey = buildGraphCacheKey("daily-posts", {
     start_date,
     end_date,
     status,
+    language,
+    keywords,
   });
   const notesEvaluationStatusKey = buildGraphCacheKey(
     "notes-evaluation-status",
@@ -128,6 +134,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       end_date,
       status,
       limit: DEFAULT_GRAPH_LIMIT,
+      language,
+      keywords,
     }
   );
   const postInfluenceKey = buildGraphCacheKey("post-influence", {
@@ -135,6 +143,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     end_date,
     status,
     limit: DEFAULT_GRAPH_LIMIT,
+    language,
+    keywords,
   });
 
   const dailyNotesCached =
@@ -156,14 +166,14 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     dailyNotesCached
       ? Promise.resolve(dailyNotesCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyNotesGraph({ start_date, end_date, status });
+          const result = await fetchDailyNotesGraph({ start_date, end_date, status, language, keywords });
           if (result.ok) graphCache.set(dailyNotesKey, result);
           return result;
         }),
     dailyPostsCached
       ? Promise.resolve(dailyPostsCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyPostsGraph({ start_date, end_date, status });
+          const result = await fetchDailyPostsGraph({ start_date, end_date, status, language, keywords });
           if (result.ok) graphCache.set(dailyPostsKey, result);
           return result;
         }),
@@ -175,6 +185,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
             end_date,
             status,
             limit: DEFAULT_GRAPH_LIMIT,
+            language,
+            keywords,
           });
           if (result.ok) graphCache.set(notesEvaluationStatusKey, result);
           return result;
@@ -187,6 +199,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
             end_date,
             status,
             limit: DEFAULT_GRAPH_LIMIT,
+            language,
+            keywords,
           });
           if (result.ok) graphCache.set(postInfluenceKey, result);
           return result;
@@ -245,7 +259,7 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
   return (
     <Container px="0" size="xl">
       <h2 className="text-heading-xl-sp md:text-heading-xl mb-4 text-white">
-        2025年 参議院選挙関連 コミュニティノート
+        {feature.detail.title}
       </h2>
       {/* ReportSummaryCardとグラフを2列に配置 */}
       <Grid align="stretch" gutter="xl" py="md">
@@ -259,7 +273,7 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <AccountRankingSection />
+          <AccountRankingSection fixedTimestamps={graphTimestamps} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <DailyPostCountChart initialDateRange={initialDateRange} initialResult={graphs?.dailyPosts} />

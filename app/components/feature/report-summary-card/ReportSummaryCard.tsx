@@ -24,21 +24,7 @@ export const ReportSummaryCard = ({
       title={title}
       updatedAt={updatedAt}
     >
-      <GraphContainer
-        footer={
-          <div className="flex justify-end">
-            <Button
-              className="!text-body-l"
-              component="a"
-              href={href}
-              radius="md"
-              variant="outline"
-            >
-              レポートの詳細を見る
-            </Button>
-          </div>
-        }
-      >
+      <GraphContainer>
         <p className="text-body-l line-height-170 line-clamp-16 whitespace-pre-wrap text-white">
           {description}
         </p>
