@@ -34,9 +34,7 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
   new RegExp("^[0-9A-F]{64}$");
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccessfulRatingNeededToEarnInMin = 0;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne = 1771487364767;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne = 1152921600000;
-export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne = 1771487364767;
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseModelingGroupMin = 0;
 
 export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponse =
@@ -63,18 +61,12 @@ export const getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipant
       .min(
         getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMinOne,
       )
-      .max(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastStateChangeMaxOne,
-      )
       .or(zod.string())
       .or(zod.string()),
     timestampOfLastEarnOut: zod
       .number()
       .min(
         getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMinOne,
-      )
-      .max(
-        getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseTimestampOfLastEarnOutMaxOne,
       )
       .or(zod.string()),
     modelingPopulation: zod.enum(["CORE", "EXPANSION"]),
@@ -120,9 +112,7 @@ export const getNotesApiV1DataNotesGetQueryNoteIdsItemRegExp = new RegExp(
   "^[0-9]{19}$",
 );
 export const getNotesApiV1DataNotesGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne = 1771487365148;
 export const getNotesApiV1DataNotesGetQueryCreatedAtToMinOne = 1152921600000;
-export const getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne = 1771487365148;
 export const getNotesApiV1DataNotesGetQueryOffsetDefault = 0;
 export const getNotesApiV1DataNotesGetQueryOffsetMin = 0;
 export const getNotesApiV1DataNotesGetQueryLimitDefault = 100;
@@ -143,7 +133,6 @@ export const getNotesApiV1DataNotesGetQueryParams = zod.object({
   created_at_from: zod
     .number()
     .min(getNotesApiV1DataNotesGetQueryCreatedAtFromMinOne)
-    .max(getNotesApiV1DataNotesGetQueryCreatedAtFromMaxOne)
     .or(zod.null())
     .optional()
     .describe(
@@ -152,7 +141,6 @@ export const getNotesApiV1DataNotesGetQueryParams = zod.object({
   created_at_to: zod
     .number()
     .min(getNotesApiV1DataNotesGetQueryCreatedAtToMinOne)
-    .max(getNotesApiV1DataNotesGetQueryCreatedAtToMaxOne)
     .or(zod.null())
     .optional()
     .describe(
@@ -241,8 +229,6 @@ export const getNotesApiV1DataNotesGetResponseDataItemPostIdRegExp = new RegExp(
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemTopicIdMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemTopicsItemReferenceCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMin = 1152921600000;
-
-export const getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax = 1771487364775;
 export const getNotesApiV1DataNotesGetResponseDataItemHasBeenHelpfuledDefault = false;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountDefault = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemRateCountMin = 0;
@@ -253,8 +239,6 @@ export const getNotesApiV1DataNotesGetResponseDataItemNotHelpfulCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountDefault = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountMin = 0;
 export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMin = 1152921600000;
-
-export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax = 1771487364773;
 export const getNotesApiV1DataNotesGetResponseMetaNextMaxOne = 2083;
 export const getNotesApiV1DataNotesGetResponseMetaPrevMaxOne = 2083;
 
@@ -333,7 +317,6 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
         createdAt: zod
           .number()
           .min(getNotesApiV1DataNotesGetResponseDataItemCreatedAtMin)
-          .max(getNotesApiV1DataNotesGetResponseDataItemCreatedAtMax)
           .describe(
             "コミュニティノートの作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)",
           ),
@@ -376,9 +359,6 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
                   .number()
                   .min(
                     getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMin,
-                  )
-                  .max(
-                    getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMax,
                   )
                   .describe(
                     "ステータス変更日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)",
@@ -425,9 +405,7 @@ export const getPostsApiV1DataPostsGetQueryUserIdsItemRegExp = new RegExp(
   "^([0-9]{1,19}|)$",
 );
 export const getPostsApiV1DataPostsGetQueryCreatedAtFromMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne = 1771487365154;
 export const getPostsApiV1DataPostsGetQueryCreatedAtToMinOne = 1152921600000;
-export const getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne = 1771487365155;
 export const getPostsApiV1DataPostsGetQueryOffsetDefault = 0;
 export const getPostsApiV1DataPostsGetQueryOffsetMin = 0;
 export const getPostsApiV1DataPostsGetQueryLimitDefault = 100;
@@ -451,7 +429,6 @@ export const getPostsApiV1DataPostsGetQueryParams = zod.object({
   created_at_from: zod
     .number()
     .min(getPostsApiV1DataPostsGetQueryCreatedAtFromMinOne)
-    .max(getPostsApiV1DataPostsGetQueryCreatedAtFromMaxOne)
     .or(zod.string())
     .or(zod.null())
     .optional()
@@ -461,7 +438,6 @@ export const getPostsApiV1DataPostsGetQueryParams = zod.object({
   created_at_to: zod
     .number()
     .min(getPostsApiV1DataPostsGetQueryCreatedAtToMinOne)
-    .max(getPostsApiV1DataPostsGetQueryCreatedAtToMaxOne)
     .or(zod.string())
     .or(zod.null())
     .optional()
@@ -519,11 +495,7 @@ export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemUrlMax = 2
 export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemWidthMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemMediaDetailsItemHeightMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMin = 1152921600000;
-
-export const getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax = 1771487364784;
 export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMin = 1152921600000;
-
-export const getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax = 1771487364784;
 export const getPostsApiV1DataPostsGetResponseDataItemLikeCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemRepostCountMin = 0;
 export const getPostsApiV1DataPostsGetResponseDataItemImpressionCountMin = 0;
@@ -606,12 +578,10 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
         createdAt: zod
           .number()
           .min(getPostsApiV1DataPostsGetResponseDataItemCreatedAtMin)
-          .max(getPostsApiV1DataPostsGetResponseDataItemCreatedAtMax)
           .describe("Post の作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)"),
         aggregatedAt: zod
           .number()
           .min(getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMin)
-          .max(getPostsApiV1DataPostsGetResponseDataItemAggregatedAtMax)
           .describe(
             "Post の情報がETLで取得された日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)",
           ),
@@ -680,9 +650,7 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
  */
 export const searchApiV1DataSearchGetQueryTopicIdsItemMin = 0;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne = 1771487365161;
 export const searchApiV1DataSearchGetQueryNoteCreatedAtToMinOne = 1152921600000;
-export const searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne = 1771487365162;
 export const searchApiV1DataSearchGetQueryOffsetDefault = 0;
 export const searchApiV1DataSearchGetQueryOffsetMin = 0;
 export const searchApiV1DataSearchGetQueryLimitDefault = 100;
@@ -762,7 +730,6 @@ export const searchApiV1DataSearchGetQueryParams = zod.object({
   note_created_at_from: zod
     .number()
     .min(searchApiV1DataSearchGetQueryNoteCreatedAtFromMinOne)
-    .max(searchApiV1DataSearchGetQueryNoteCreatedAtFromMaxOne)
     .or(zod.string())
     .or(zod.null())
     .optional()
@@ -772,7 +739,6 @@ export const searchApiV1DataSearchGetQueryParams = zod.object({
   note_created_at_to: zod
     .number()
     .min(searchApiV1DataSearchGetQueryNoteCreatedAtToMinOne)
-    .max(searchApiV1DataSearchGetQueryNoteCreatedAtToMaxOne)
     .or(zod.string())
     .or(zod.null())
     .optional()
@@ -841,8 +807,6 @@ export const searchApiV1DataSearchGetResponseDataItemPostIdRegExp = new RegExp(
   "^([0-9]{1,19}|)$",
 );
 export const searchApiV1DataSearchGetResponseDataItemCreatedAtMin = 1152921600000;
-
-export const searchApiV1DataSearchGetResponseDataItemCreatedAtMax = 1771487364951;
 export const searchApiV1DataSearchGetResponseDataItemPostPostIdRegExp =
   new RegExp("^([0-9]{1,19}|)$");
 export const searchApiV1DataSearchGetResponseDataItemPostXUserIdRegExp =
@@ -856,11 +820,7 @@ export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemUrlMax 
 export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemWidthMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostMediaDetailsItemHeightMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMin = 1152921600000;
-
-export const searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax = 1771487364784;
 export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMin = 1152921600000;
-
-export const searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax = 1771487364784;
 export const searchApiV1DataSearchGetResponseDataItemPostLikeCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostRepostCountMin = 0;
 export const searchApiV1DataSearchGetResponseDataItemPostImpressionCountMin = 0;
@@ -943,7 +903,6 @@ export const searchApiV1DataSearchGetResponse = zod.object({
         createdAt: zod
           .number()
           .min(searchApiV1DataSearchGetResponseDataItemCreatedAtMin)
-          .max(searchApiV1DataSearchGetResponseDataItemCreatedAtMax)
           .describe(
             "コミュニティノートの作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)",
           ),
@@ -1036,12 +995,10 @@ export const searchApiV1DataSearchGetResponse = zod.object({
             createdAt: zod
               .number()
               .min(searchApiV1DataSearchGetResponseDataItemPostCreatedAtMin)
-              .max(searchApiV1DataSearchGetResponseDataItemPostCreatedAtMax)
               .describe("Post の作成日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)"),
             aggregatedAt: zod
               .number()
               .min(searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMin)
-              .max(searchApiV1DataSearchGetResponseDataItemPostAggregatedAtMax)
               .describe(
                 "Post の情報がETLで取得された日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)",
               ),
@@ -1147,23 +1104,17 @@ Raises:
  * @summary Get Daily Notes
  */
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMin = 1152921600000;
-
-export const getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMax = 1771487365245;
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMin = 1152921600000;
-
-export const getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMax = 1771487365246;
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryStatusDefault = "all";
 
 export const getDailyNotesApiV1GraphsDailyNotesGetQueryParams = zod.object({
   start_date: zod
     .number()
     .min(getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMin)
-    .max(getDailyNotesApiV1GraphsDailyNotesGetQueryStartDateMax)
     .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
   end_date: zod
     .number()
     .min(getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMin)
-    .max(getDailyNotesApiV1GraphsDailyNotesGetQueryEndDateMax)
     .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
@@ -1273,23 +1224,17 @@ Raises:
  * @summary Get Daily Posts
  */
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMin = 1152921600000;
-
-export const getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMax = 1771487365248;
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMin = 1152921600000;
-
-export const getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMax = 1771487365248;
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryStatusDefault = "all";
 
 export const getDailyPostsApiV1GraphsDailyPostsGetQueryParams = zod.object({
   start_date: zod
     .number()
     .min(getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMin)
-    .max(getDailyPostsApiV1GraphsDailyPostsGetQueryStartDateMax)
     .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
   end_date: zod
     .number()
     .min(getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMin)
-    .max(getDailyPostsApiV1GraphsDailyPostsGetQueryEndDateMax)
     .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
@@ -1386,23 +1331,17 @@ Raises:
  * @summary Get Notes Annual
  */
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMin = 1152921600000;
-
-export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMax = 1771487365250;
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMin = 1152921600000;
-
-export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMax = 1771487365251;
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryStatusDefault = "all";
 
 export const getNotesAnnualApiV1GraphsNotesAnnualGetQueryParams = zod.object({
   start_date: zod
     .number()
     .min(getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMin)
-    .max(getNotesAnnualApiV1GraphsNotesAnnualGetQueryStartDateMax)
     .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
   end_date: zod
     .number()
     .min(getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMin)
-    .max(getNotesAnnualApiV1GraphsNotesAnnualGetQueryEndDateMax)
     .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
   status: zod
     .enum([
@@ -1532,11 +1471,7 @@ Raises:
  * @summary Get Notes Evaluation
  */
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMin = 1152921600000;
-
-export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMax = 1771487365253;
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMin = 1152921600000;
-
-export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMax = 1771487365253;
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStatusDefault =
   "all";
 export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryLimitDefault = 200;
@@ -1547,12 +1482,10 @@ export const getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryParams =
     start_date: zod
       .number()
       .min(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMin)
-      .max(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryStartDateMax)
       .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
     end_date: zod
       .number()
       .min(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMin)
-      .max(getNotesEvaluationApiV1GraphsNotesEvaluationGetQueryEndDateMax)
       .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
@@ -1672,11 +1605,7 @@ Raises:
  * @summary Get Notes Evaluation Status
  */
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMin = 1152921600000;
-
-export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMax = 1771487365256;
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMin = 1152921600000;
-
-export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMax = 1771487365256;
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStatusDefault =
   "all";
 export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryLimitDefault = 200;
@@ -1689,17 +1618,11 @@ export const getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryPar
       .min(
         getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMin,
       )
-      .max(
-        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryStartDateMax,
-      )
       .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
     end_date: zod
       .number()
       .min(
         getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMin,
-      )
-      .max(
-        getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetQueryEndDateMax,
       )
       .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
@@ -1824,11 +1747,7 @@ Raises:
  * @summary Get Post Influence
  */
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMin = 1152921600000;
-
-export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMax = 1771487365259;
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMin = 1152921600000;
-
-export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMax = 1771487365259;
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryStatusDefault =
   "all";
 export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryLimitDefault = 200;
@@ -1839,12 +1758,10 @@ export const getPostInfluenceApiV1GraphsPostInfluenceGetQueryParams =
     start_date: zod
       .number()
       .min(getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMin)
-      .max(getPostInfluenceApiV1GraphsPostInfluenceGetQueryStartDateMax)
       .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
     end_date: zod
       .number()
       .min(getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMin)
-      .max(getPostInfluenceApiV1GraphsPostInfluenceGetQueryEndDateMax)
       .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
@@ -1956,11 +1873,7 @@ Raises:
  * @summary Get Top Note Accounts
  */
 export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryStartDateMin = 1152921600000;
-
-export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryStartDateMax = 1771487365262;
 export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryEndDateMin = 1152921600000;
-
-export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryEndDateMax = 1771487365262;
 export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryStatusDefault =
   "all";
 
@@ -1969,12 +1882,10 @@ export const getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryParams =
     start_date: zod
       .number()
       .min(getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryStartDateMin)
-      .max(getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryStartDateMax)
       .describe("Start timestamp in milliseconds (Unix epoch, UTC)"),
     end_date: zod
       .number()
       .min(getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryEndDateMin)
-      .max(getTopNoteAccountsApiV1GraphsTopNoteAccountsGetQueryEndDateMax)
       .describe("End timestamp in milliseconds (Unix epoch, UTC)"),
     status: zod
       .enum([
