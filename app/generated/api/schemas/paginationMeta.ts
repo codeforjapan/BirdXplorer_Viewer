@@ -12,4 +12,6 @@ export interface PaginationMeta {
   next?: PaginationMetaNext;
   /** 前のページのリクエスト用 URL */
   prev?: PaginationMetaPrev;
+  /** 検索結果の総件数 */
+  total?: number;
 }

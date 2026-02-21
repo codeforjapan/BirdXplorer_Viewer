@@ -241,6 +241,7 @@ export const getNotesApiV1DataNotesGetResponseDataItemSomewhatHelpfulCountMin = 
 export const getNotesApiV1DataNotesGetResponseDataItemCurrentStatusHistoryItemDateMin = 1152921600000;
 export const getNotesApiV1DataNotesGetResponseMetaNextMaxOne = 2083;
 export const getNotesApiV1DataNotesGetResponseMetaPrevMaxOne = 2083;
+export const getNotesApiV1DataNotesGetResponseMetaTotalDefault = 0;
 
 export const getNotesApiV1DataNotesGetResponse = zod.object({
   data: zod
@@ -388,6 +389,7 @@ export const getNotesApiV1DataNotesGetResponse = zod.object({
       .or(zod.null())
       .optional()
       .describe("前のページのリクエスト用 URL"),
+    total: zod.number().optional().describe("検索結果の総件数"),
   }),
 });
 
@@ -503,6 +505,7 @@ export const getPostsApiV1DataPostsGetResponseDataItemLinksItemUrlMax = 2083;
 export const getPostsApiV1DataPostsGetResponseDataItemLinkMax = 2083;
 export const getPostsApiV1DataPostsGetResponseMetaNextMaxOne = 2083;
 export const getPostsApiV1DataPostsGetResponseMetaPrevMaxOne = 2083;
+export const getPostsApiV1DataPostsGetResponseMetaTotalDefault = 0;
 
 export const getPostsApiV1DataPostsGetResponse = zod.object({
   data: zod
@@ -641,6 +644,7 @@ export const getPostsApiV1DataPostsGetResponse = zod.object({
       .or(zod.null())
       .optional()
       .describe("前のページのリクエスト用 URL"),
+    total: zod.number().optional().describe("検索結果の総件数"),
   }),
 });
 
@@ -828,6 +832,7 @@ export const searchApiV1DataSearchGetResponseDataItemPostLinksItemUrlMax = 2083;
 export const searchApiV1DataSearchGetResponseDataItemPostLinkMax = 2083;
 export const searchApiV1DataSearchGetResponseMetaNextMaxOne = 2083;
 export const searchApiV1DataSearchGetResponseMetaPrevMaxOne = 2083;
+export const searchApiV1DataSearchGetResponseMetaTotalDefault = 0;
 
 export const searchApiV1DataSearchGetResponse = zod.object({
   data: zod
@@ -1068,6 +1073,7 @@ export const searchApiV1DataSearchGetResponse = zod.object({
       .or(zod.null())
       .optional()
       .describe("前のページのリクエスト用 URL"),
+    total: zod.number().optional().describe("検索結果の総件数"),
   }),
 });
 
