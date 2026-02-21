@@ -143,6 +143,10 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
       faker.helpers.arrayElement([faker.internet.url(), null]),
       undefined,
     ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
+      undefined,
+    ]),
   },
   ...overrideResponse,
 });
@@ -202,6 +206,10 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
     ]),
     prev: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.internet.url(), null]),
+      undefined,
+    ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
   },
@@ -307,6 +315,10 @@ export const getSearchApiV1DataSearchGetResponseMock = (
     ]),
     prev: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.internet.url(), null]),
+      undefined,
+    ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
   },
