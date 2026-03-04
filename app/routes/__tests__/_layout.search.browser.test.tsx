@@ -178,8 +178,11 @@ describe("Search Page", () => {
     expect(emptyStateContent).toBeTruthy();
     const emptyStateCard = emptyStateContent?.closest("[data-with-border]");
     expect(emptyStateCard).toBeTruthy();
+    if (!emptyStateCard) {
+      throw new Error("search-empty-state card not found");
+    }
     expect(
-      window.getComputedStyle(emptyStateCard as Element).backgroundColor,
+      window.getComputedStyle(emptyStateCard).backgroundColor,
     ).toBe("rgb(21, 32, 43)");
   });
 

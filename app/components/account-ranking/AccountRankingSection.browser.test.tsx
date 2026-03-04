@@ -2,11 +2,13 @@ import { MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, it } from "vitest";
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import { render } from "vitest-browser-react";
 
 import type { GraphFetchResult } from "~/components/graph";
 import { mantineTheme } from "~/config/mantine";
 import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
+
 import { AccountRankingSection } from "./AccountRankingSection";
 
 const mockResult: GraphFetchResult<TopNoteAccountDataItem[]> = {

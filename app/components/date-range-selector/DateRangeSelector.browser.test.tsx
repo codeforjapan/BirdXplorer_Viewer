@@ -1,6 +1,7 @@
+import "~/app.css";
+
 import { userEvent } from "@vitest/browser/context";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import "~/app.css";
 
 import { render } from "../../../test/test-react";
 import { DateRangeSelector } from "./DateRangeSelector";

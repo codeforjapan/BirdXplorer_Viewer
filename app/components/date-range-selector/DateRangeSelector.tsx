@@ -1,6 +1,7 @@
+import "dayjs/locale/ja";
+
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import { useMediaQuery } from "@mantine/hooks";
-import "dayjs/locale/ja";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
@@ -46,6 +47,15 @@ export const DateRangeSelector = ({
         minDate={minDate}
         onChange={onChange}
         placeholder={placeholder}
+        popoverProps={{
+          styles: {
+            dropdown: {
+              backgroundColor: "var(--color-gray-1)",
+              border: "1px solid var(--color-gray-2)",
+              borderRadius: "8px",
+            },
+          },
+        }}
         styles={{
           root: {
             maxWidth: "280px",
@@ -61,14 +71,6 @@ export const DateRangeSelector = ({
             minWidth: isMobile ? "220px" : "260px",
             paddingLeft: "36px",
             paddingRight: "12px",
-          },
-          dropdown: {
-            backgroundColor: "var(--color-gray-1)",
-            border: "1px solid var(--color-gray-2)",
-            borderRadius: "8px",
-          },
-          calendar: {
-            backgroundColor: "var(--color-gray-1)",
           },
           calendarHeader: {
             backgroundColor: "var(--color-gray-1)",
