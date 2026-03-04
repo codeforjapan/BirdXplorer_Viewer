@@ -143,3 +143,24 @@ body {
   background-color: var(--color-gray-2);
   color: white;
 }
+
+/* DatePickerInput hover color unification for ISSUE-302 */
+[data-dates-dropdown] .mantine-DatePickerInput-calendarHeaderControl:hover,
+[data-dates-dropdown] .mantine-DatePickerInput-calendarHeaderLevel:hover,
+[data-dates-dropdown] .mantine-DatePickerInput-monthsListControl:hover:not([data-selected]),
+[data-dates-dropdown] .mantine-DatePickerInput-yearsListControl:hover:not([data-selected]),
+[data-dates-dropdown] .mantine-DatePickerInput-day:hover:not([data-static]):not([data-disabled]):not(:disabled):not([data-selected]):not([data-in-range]),
+[data-dates-dropdown] .mantine-DatePickerInput-day[data-in-range]:hover:not([data-disabled]):not([data-static]) {
+  background-color: var(--color-gray-2);
+  color: white;
+}
+
+[data-dates-dropdown] .mantine-DatePickerInput-calendarHeaderControl:active,
+[data-dates-dropdown] .mantine-DatePickerInput-calendarHeaderLevel:active,
+[data-dates-dropdown] .mantine-DatePickerInput-monthsListControl:active:not([data-selected]),
+[data-dates-dropdown] .mantine-DatePickerInput-yearsListControl:active:not([data-selected]),
+[data-dates-dropdown] .mantine-DatePickerInput-day:active:not([data-static]):not([data-disabled]):not(:disabled):not([data-selected]):not([data-in-range]),
+[data-dates-dropdown] .mantine-DatePickerInput-day[data-in-range]:active:not([data-disabled]):not([data-static]) {
+  background-color: var(--color-gray-2);
+  color: white;
+}

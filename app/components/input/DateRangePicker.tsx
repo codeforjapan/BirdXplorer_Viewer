@@ -90,15 +90,9 @@ export const DateRangePicker = ({
         },
         calendarHeaderControl: {
           color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
         },
         calendarHeaderLevel: {
           color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
         },
         levelsGroup: {
           backgroundColor: "var(--color-gray-1)",
@@ -108,9 +102,6 @@ export const DateRangePicker = ({
         },
         monthCell: {
           color: "white",
-          "&:hover:not([data-selected])": {
-            backgroundColor: "var(--color-gray-2)",
-          },
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -124,9 +115,6 @@ export const DateRangePicker = ({
         },
         monthsListControl: {
           color: "white",
-          "&:hover:not([data-selected])": {
-            backgroundColor: "var(--color-gray-2)",
-          },
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -140,9 +128,6 @@ export const DateRangePicker = ({
         },
         yearsListControl: {
           color: "white",
-          "&:hover:not([data-selected])": {
-            backgroundColor: "var(--color-gray-2)",
-          },
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -159,10 +144,6 @@ export const DateRangePicker = ({
               "color-mix(in srgb, var(--color-primary) 20%, transparent)",
             color: "white",
           },
-          "&:hover:not([data-selected]):not([data-in-range]):not([data-disabled]):not(:disabled):not([data-static])":
-            {
-              backgroundColor: "var(--color-gray-2)",
-            },
           "&[data-outside]": {
             color: "var(--color-gray-4)",
           },
