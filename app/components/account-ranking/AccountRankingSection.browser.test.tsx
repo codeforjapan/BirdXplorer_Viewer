@@ -1,7 +1,11 @@
+import { MantineProvider } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, it } from "vitest";
+import { render } from "vitest-browser-react";
 
-import { render } from "../../../test/test-react";
 import type { GraphFetchResult } from "~/components/graph";
+import { mantineTheme } from "~/config/mantine";
 import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
 import { AccountRankingSection } from "./AccountRankingSection";
 
@@ -15,14 +19,37 @@ const mockResult: GraphFetchResult<TopNoteAccountDataItem[]> = {
   ],
 };
 
+const renderWithDataRouter = () => {
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: <AccountRankingSection initialResult={mockResult} />,
+      },
+    ],
+    {
+      initialEntries: ["/"],
+      initialIndex: 0,
+    },
+  );
+
+  return render(
+    <MantineProvider theme={mantineTheme}>
+      <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
+        <RouterProvider router={router} />
+      </DatesProvider>
+    </MantineProvider>,
+  );
+};
+
 describe("AccountRankingSection", () => {
   it("should render the component with title", () => {
-    const screen = render(<AccountRankingSection initialResult={mockResult} />);
+    const screen = renderWithDataRouter();
     expect(screen.getByText("アカウントランキング")).toBeTruthy();
   });
 
   it("should display table headers correctly", () => {
-    const screen = render(<AccountRankingSection initialResult={mockResult} />);
+    const screen = renderWithDataRouter();
     expect(screen.getByText("順位")).toBeTruthy();
     expect(screen.getByText("ユーザー名")).toBeTruthy();
     expect(screen.getByText("付与数")).toBeTruthy();
@@ -30,14 +57,14 @@ describe("AccountRankingSection", () => {
   });
 
   it("should display ranking data in table rows", () => {
-    const screen = render(<AccountRankingSection initialResult={mockResult} />);
+    const screen = renderWithDataRouter();
     expect(screen.getByText("テストユーザー1")).toBeTruthy();
     expect(screen.getByText("544")).toBeTruthy();
     expect(screen.getByText("+12")).toBeTruthy();
   });
 
   it("should display rank numbers from API data", () => {
-    const screen = render(<AccountRankingSection initialResult={mockResult} />);
+    const screen = renderWithDataRouter();
     const table = screen.getByRole("table");
     const rows = table.element().querySelectorAll("tbody tr");
 
@@ -48,13 +75,13 @@ describe("AccountRankingSection", () => {
   });
 
   it("should handle period selection dropdown defaulting to 直近1週間", () => {
-    const { container } = render(<AccountRankingSection initialResult={mockResult} />);
+    const { container } = renderWithDataRouter();
     const select = container.querySelector("input");
     expect(select?.getAttribute("value")).toBe("直近1週間");
   });
 
   it("should apply correct color to change values", () => {
-    const screen = render(<AccountRankingSection initialResult={mockResult} />);
+    const screen = renderWithDataRouter();
 
     // Positive change should be green
     const positiveChange = screen.getByText("+12");
@@ -63,5 +90,14 @@ describe("AccountRankingSection", () => {
     // Negative change should be red
     const negativeChange = screen.getByText("-3");
     expect(negativeChange.element().classList.contains("text-red")).toBe(true);
+  });
+
+  it("should not set data-hover attribute on table rows", () => {
+    const screen = renderWithDataRouter();
+    const rows = screen.getByRole("table").element().querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+      expect(row.getAttribute("data-hover")).toBeNull();
+    });
   });
 });

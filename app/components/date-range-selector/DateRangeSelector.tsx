@@ -71,6 +71,7 @@ export const DateRangeSelector = ({
             backgroundColor: "var(--color-gray-1)",
           },
           calendarHeader: {
+            backgroundColor: "var(--color-gray-1)",
             color: "white",
           },
           calendarHeaderControl: {
@@ -85,10 +86,7 @@ export const DateRangeSelector = ({
               backgroundColor: "var(--color-gray-2)",
             },
           },
-          monthsList: {
-            backgroundColor: "var(--color-gray-1)",
-          },
-          yearsList: {
+          levelsGroup: {
             backgroundColor: "var(--color-gray-1)",
           },
           month: {
@@ -96,7 +94,7 @@ export const DateRangeSelector = ({
           },
           monthCell: {
             color: "white",
-            "&:hover": {
+            "&:hover:not([data-selected])": {
               backgroundColor: "var(--color-gray-2)",
             },
             "&[data-selected]": {
@@ -104,9 +102,31 @@ export const DateRangeSelector = ({
               color: "white",
             },
           },
-          yearCell: {
+          monthsList: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          monthsListCell: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          monthsListControl: {
             color: "white",
-            "&:hover": {
+            "&:hover:not([data-selected])": {
+              backgroundColor: "var(--color-gray-2)",
+            },
+            "&[data-selected]": {
+              backgroundColor: "var(--color-primary)",
+              color: "white",
+            },
+          },
+          yearsList: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          yearsListCell: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          yearsListControl: {
+            color: "white",
+            "&:hover:not([data-selected])": {
               backgroundColor: "var(--color-gray-2)",
             },
             "&[data-selected]": {
@@ -121,12 +141,14 @@ export const DateRangeSelector = ({
               color: "white",
             },
             "&[data-in-range]": {
-              backgroundColor: "rgba(var(--color-primary-rgb), 0.2)",
+              backgroundColor:
+                "color-mix(in srgb, var(--color-primary) 20%, transparent)",
               color: "white",
             },
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
-            },
+            "&:hover:not([data-selected]):not([data-in-range]):not([data-disabled]):not(:disabled):not([data-static])":
+              {
+                backgroundColor: "var(--color-gray-2)",
+              },
             "&[data-outside]": {
               color: "var(--color-gray-4)",
             },
