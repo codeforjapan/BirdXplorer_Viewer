@@ -72,8 +72,17 @@ export const NotesAnnualChartSection = ({
   helpText = "このグラフは、過去1年間のコミュニティノートの数と公開率を月ごとに表示しています。",
   initialResult,
 }: NotesAnnualChartSectionProps) => {
-  // デフォルトの日付範囲を設定（2025-02_2026-01）
-  const defaultTimestamps = periodRangeToTimestamps("2025-02_2026-01");
+  // デフォルトの日付範囲を設定（今日から過去12ヶ月）
+  const defaultTimestamps = useMemo(() => {
+    const now = new Date();
+    const endYear = now.getFullYear();
+    const endMonth = now.getMonth() + 1;
+    const startDate = new Date(endYear, endMonth - 12 - 1, 1);
+    const startYear = startDate.getFullYear();
+    const startMonth = startDate.getMonth() + 1;
+    const period = `${startYear}-${String(startMonth).padStart(2, "0")}_${endYear}-${String(endMonth).padStart(2, "0")}`;
+    return periodRangeToTimestamps(period);
+  }, []);
   const [dateRange, setDateRange] = useState<DateRange>([
     new Date(defaultTimestamps.start_date),
     new Date(defaultTimestamps.end_date),

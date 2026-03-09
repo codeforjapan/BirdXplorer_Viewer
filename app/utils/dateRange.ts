@@ -63,7 +63,7 @@ export const relativePeriodToTimestamps = (
  * 期間範囲（"2025-02_2026-01"形式）をUNIXミリ秒の範囲に変換
  */
 export const periodRangeToTimestamps = (
-  range: PeriodRangeValue
+  range: string
 ): DateRangeTimestamps => {
   const [startMonth, endMonth] = range.split("_");
 
