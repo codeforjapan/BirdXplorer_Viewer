@@ -42,12 +42,12 @@ export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticip
       max: undefined,
     }),
     timestampOfLastStateChange: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1771487364767 }),
+      faker.number.int({ min: 1152921600000, max: undefined }),
       "0",
       "103308100",
     ]),
     timestampOfLastEarnOut: faker.helpers.arrayElement([
-      faker.number.int({ min: 1152921600000, max: 1771487364767 }),
+      faker.number.int({ min: 1152921600000, max: undefined }),
       "1",
     ]),
     modelingPopulation: faker.helpers.arrayElement(
@@ -102,7 +102,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
       faker.helpers.arrayElement(Object.values(NoteStatus)),
       null,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1771487364775 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: undefined }),
     hasBeenHelpfuled: faker.helpers.arrayElement([
       faker.datatype.boolean(),
       undefined,
@@ -129,7 +129,7 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
         (_, i) => i + 1,
       ).map(() => ({
         status: faker.helpers.arrayElement(Object.values(NoteStatus)),
-        date: faker.number.int({ min: 1152921600000, max: 1771487364773 }),
+        date: faker.number.int({ min: 1152921600000, max: undefined }),
       })),
       undefined,
     ]),
@@ -141,6 +141,10 @@ export const getGetNotesApiV1DataNotesGetResponseMock = (
     ]),
     prev: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.internet.url(), null]),
+      undefined,
+    ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
   },
@@ -181,8 +185,8 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
       })),
       undefined,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1771487364784 }),
-    aggregatedAt: faker.number.int({ min: 1152921600000, max: 1771487364784 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: undefined }),
+    aggregatedAt: faker.number.int({ min: 1152921600000, max: undefined }),
     likeCount: faker.number.int({ min: 0, max: undefined }),
     repostCount: faker.number.int({ min: 0, max: undefined }),
     impressionCount: faker.number.int({ min: 0, max: undefined }),
@@ -202,6 +206,10 @@ export const getGetPostsApiV1DataPostsGetResponseMock = (
     ]),
     prev: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.internet.url(), null]),
+      undefined,
+    ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
   },
@@ -241,7 +249,7 @@ export const getSearchApiV1DataSearchGetResponseMock = (
       ] as const),
       null,
     ]),
-    createdAt: faker.number.int({ min: 1152921600000, max: 1771487364951 }),
+    createdAt: faker.number.int({ min: 1152921600000, max: undefined }),
     hasBeenHelpfuled: faker.datatype.boolean(),
     rateCount: faker.number.int({ min: undefined, max: undefined }),
     helpfulCount: faker.number.int({ min: undefined, max: undefined }),
@@ -280,11 +288,8 @@ export const getSearchApiV1DataSearchGetResponseMock = (
           })),
           undefined,
         ]),
-        createdAt: faker.number.int({ min: 1152921600000, max: 1771487364784 }),
-        aggregatedAt: faker.number.int({
-          min: 1152921600000,
-          max: 1771487364784,
-        }),
+        createdAt: faker.number.int({ min: 1152921600000, max: undefined }),
+        aggregatedAt: faker.number.int({ min: 1152921600000, max: undefined }),
         likeCount: faker.number.int({ min: 0, max: undefined }),
         repostCount: faker.number.int({ min: 0, max: undefined }),
         impressionCount: faker.number.int({ min: 0, max: undefined }),
@@ -310,6 +315,10 @@ export const getSearchApiV1DataSearchGetResponseMock = (
     ]),
     prev: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.internet.url(), null]),
+      undefined,
+    ]),
+    total: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
   },

@@ -15,7 +15,6 @@ export interface NoteStatusHistory {
   /**
    * ステータス変更日時 (ミリ秒単位の UNIX EPOCH TIMESTAMP)
    * @minimum 1152921600000
-   * @maximum 1771487364773
    */
   date: number;
 }

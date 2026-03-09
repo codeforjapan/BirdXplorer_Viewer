@@ -65,6 +65,7 @@ export const DateRangePicker = ({
       classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       clearable
       disabled={disabled}
+      maxDate={new Date()}
       getDayProps={getDayProps}
       error={
         containsNonNullValues(fromField.errors, toField.errors) && (

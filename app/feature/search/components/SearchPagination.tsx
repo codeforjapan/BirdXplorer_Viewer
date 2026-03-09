@@ -69,6 +69,7 @@ export const SearchPagination = ({
     <Group {...groupProps}>
       <Text c="white">
         {pageFirstItemIndex} ～ {totalDisplayedItems} 件目を表示中
+        {meta.total != null && `（全 ${meta.total} 件）`}
       </Text>
       {prevTo ? (
         <ActionIcon
