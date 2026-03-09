@@ -13,7 +13,7 @@ import {
   StackedBarLineChart,
   STATUS_COLORS,
 } from "~/components/graph";
-import { dateRangeToTimestamps, periodRangeToTimestamps } from "~/utils/dateRange";
+import { dateRangeToTimestamps, getDefault12MonthRange } from "~/utils/dateRange";
 
 /** 公開率の色（オレンジ） */
 const PUBLICATION_RATE_COLOR = "#ffa726";
@@ -72,17 +72,8 @@ export const NotesAnnualChartSection = ({
   helpText = "このグラフは、過去1年間のコミュニティノートの数と公開率を月ごとに表示しています。",
   initialResult,
 }: NotesAnnualChartSectionProps) => {
-  // デフォルトの日付範囲を設定（今日から過去12ヶ月）
-  const defaultTimestamps = useMemo(() => {
-    const now = new Date();
-    const endYear = now.getFullYear();
-    const endMonth = now.getMonth() + 1;
-    const startDate = new Date(endYear, endMonth - 12 - 1, 1);
-    const startYear = startDate.getFullYear();
-    const startMonth = startDate.getMonth() + 1;
-    const period = `${startYear}-${String(startMonth).padStart(2, "0")}_${endYear}-${String(endMonth).padStart(2, "0")}`;
-    return periodRangeToTimestamps(period);
-  }, []);
+  // デフォルトの日付範囲を設定（今月を含む過去12ヶ月）
+  const defaultTimestamps = useMemo(() => getDefault12MonthRange(), []);
   const [dateRange, setDateRange] = useState<DateRange>([
     new Date(defaultTimestamps.start_date),
     new Date(defaultTimestamps.end_date),

@@ -107,6 +107,19 @@ export const getDefault14DayRange = (): DateRangeTimestamps => {
   };
 };
 
+/**
+ * 年次グラフのデフォルト範囲を取得（今月を含む過去12ヶ月）
+ */
+export const getDefault12MonthRange = (): DateRangeTimestamps => {
+  const now = dayjs();
+  const end = now.endOf("month");
+  const start = now.subtract(11, "month").startOf("month");
+  return {
+    start_date: start.valueOf(),
+    end_date: end.valueOf(),
+  };
+};
+
 export type AccountRankingPeriod = "1week" | "2weeks" | "1month";
 
 /**
