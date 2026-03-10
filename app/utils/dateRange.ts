@@ -63,7 +63,7 @@ export const relativePeriodToTimestamps = (
  * 期間範囲（"2025-02_2026-01"形式）をUNIXミリ秒の範囲に変換
  */
 export const periodRangeToTimestamps = (
-  range: PeriodRangeValue
+  range: string
 ): DateRangeTimestamps => {
   const [startMonth, endMonth] = range.split("_");
 
@@ -104,6 +104,19 @@ export const getDefault14DayRange = (): DateRangeTimestamps => {
   return {
     start_date: now.subtract(17, "day").startOf("day").valueOf(),
     end_date: now.subtract(3, "day").endOf("day").valueOf(),
+  };
+};
+
+/**
+ * 年次グラフのデフォルト範囲を取得（今月を含む過去12ヶ月）
+ */
+export const getDefault12MonthRange = (): DateRangeTimestamps => {
+  const now = dayjs();
+  const end = now.endOf("month");
+  const start = now.subtract(11, "month").startOf("month");
+  return {
+    start_date: start.valueOf(),
+    end_date: end.valueOf(),
   };
 };
 

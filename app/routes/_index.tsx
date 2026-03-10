@@ -18,7 +18,7 @@ import {
 import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
 import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
 import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
-import { getDefault14DayRange, periodRangeToTimestamps, relativePeriodToTimestamps } from "~/utils/dateRange";
+import { getDefault12MonthRange, getDefault14DayRange } from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { Route } from "./+types/_index";
@@ -31,7 +31,7 @@ export const loader = async (_args: Route.LoaderArgs) => {
   const status: StatusValue = "all";
 
   // デフォルトの日付範囲を設定
-  const defaultNotesAnnualTimestamps = periodRangeToTimestamps("2025-02_2026-01");
+  const defaultNotesAnnualTimestamps = getDefault12MonthRange();
   const defaultEvaluationTimestamps = getDefault14DayRange();
 
   // キャッシュキー構築

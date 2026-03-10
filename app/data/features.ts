@@ -84,6 +84,6 @@ export const FEATURES: Feature[] = [
     startDate: "2026-01-19",
     endDate: "2026-02-08",
     kouchouAiPath: "/kouchou-ai/shugiin/96adb751-6703-4ee2-9fec-eef5326d8660/index.html",
-    language: "ja"
+    language: "ja",
   },
 ];
