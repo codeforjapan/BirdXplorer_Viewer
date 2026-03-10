@@ -17,19 +17,19 @@ export const isLanguageIdentifierLiteral = (
 
 export const LANGUAGE_ID_TO_LABEL = {
   // 言語
+  ja: "日本語",
+  en: "英語",
   ar: "アラビア語",
   ca: "カタロニア語",
   da: "デンマーク語",
   de: "ドイツ語",
   el: "ギリシャ語",
-  en: "英語",
   es: "スペイン語",
   fa: "ペルシア語",
   fi: "フィンランド語",
   fr: "フランス語",
   he: "ヘブライ語",
   it: "イタリア語",
-  ja: "日本語",
   nl: "オランダ語",
   pl: "ポーランド語",
   pt: "ポルトガル語",
