@@ -65,15 +65,15 @@ export const DateRangePicker = ({
       classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       clearable
       disabled={disabled}
-      maxDate={new Date()}
-      getDayProps={getDayProps}
       error={
         containsNonNullValues(fromField.errors, toField.errors) && (
           <FormError errors={[fromField.errors, toField.errors]} />
         )
       }
       errorProps={{ component: "div" }}
+      getDayProps={getDayProps}
       label={label}
+      maxDate={new Date()}
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
@@ -84,23 +84,27 @@ export const DateRangePicker = ({
         label: {
           marginBottom: "8px",
         },
-        levelsGroup: {
-          backgroundColor: "var(--color-gray-1)",
-        },
         calendarHeader: {
           backgroundColor: "var(--color-gray-1)",
           color: "white",
         },
         calendarHeaderControl: {
           color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
         },
         calendarHeaderLevel: {
           color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
+        },
+        levelsGroup: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        month: {
+          backgroundColor: "var(--color-gray-1)",
+        },
+        monthCell: {
+          color: "white",
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
           },
         },
         monthsList: {
@@ -109,40 +113,21 @@ export const DateRangePicker = ({
         monthsListCell: {
           backgroundColor: "var(--color-gray-1)",
         },
+        monthsListControl: {
+          color: "white",
+          "&[data-selected]": {
+            backgroundColor: "var(--color-primary)",
+            color: "white",
+          },
+        },
         yearsList: {
           backgroundColor: "var(--color-gray-1)",
         },
         yearsListCell: {
           backgroundColor: "var(--color-gray-1)",
         },
-        month: {
-          backgroundColor: "var(--color-gray-1)",
-        },
-        monthCell: {
-          color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
-          "&[data-selected]": {
-            backgroundColor: "var(--color-primary)",
-            color: "white",
-          },
-        },
         yearsListControl: {
           color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
-          "&[data-selected]": {
-            backgroundColor: "var(--color-primary)",
-            color: "white",
-          },
-        },
-        monthsListControl: {
-          color: "white",
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
-          },
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -155,11 +140,9 @@ export const DateRangePicker = ({
             color: "white",
           },
           "&[data-in-range]": {
-            backgroundColor: "rgba(var(--color-primary-rgb), 0.2)",
+            backgroundColor:
+              "color-mix(in srgb, var(--color-primary) 20%, transparent)",
             color: "white",
-          },
-          "&:hover": {
-            backgroundColor: "var(--color-gray-2)",
           },
           "&[data-outside]": {
             color: "var(--color-gray-4)",

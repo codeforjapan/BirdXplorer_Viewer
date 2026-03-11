@@ -135,7 +135,6 @@ export const AccountRankingSection = ({
         <GraphContainer>
           <div className="w-full overflow-x-auto">
             <Table
-              highlightOnHover
               horizontalSpacing={isMobile ? "xs" : "md"}
               striped="even"
               stripedColor="var(--color-gray-1)"

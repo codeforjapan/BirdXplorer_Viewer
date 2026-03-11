@@ -1,6 +1,7 @@
+import "dayjs/locale/ja";
+
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import { useMediaQuery } from "@mantine/hooks";
-import "dayjs/locale/ja";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
@@ -46,6 +47,15 @@ export const DateRangeSelector = ({
         minDate={minDate}
         onChange={onChange}
         placeholder={placeholder}
+        popoverProps={{
+          styles: {
+            dropdown: {
+              backgroundColor: "var(--color-gray-1)",
+              border: "1px solid var(--color-gray-2)",
+              borderRadius: "8px",
+            },
+          },
+        }}
         styles={{
           root: {
             maxWidth: "280px",
@@ -62,33 +72,17 @@ export const DateRangeSelector = ({
             paddingLeft: "36px",
             paddingRight: "12px",
           },
-          dropdown: {
-            backgroundColor: "var(--color-gray-1)",
-            border: "1px solid var(--color-gray-2)",
-            borderRadius: "8px",
-          },
-          calendar: {
-            backgroundColor: "var(--color-gray-1)",
-          },
           calendarHeader: {
+            backgroundColor: "var(--color-gray-1)",
             color: "white",
           },
           calendarHeaderControl: {
             color: "white",
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
-            },
           },
           calendarHeaderLevel: {
             color: "white",
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
-            },
           },
-          monthsList: {
-            backgroundColor: "var(--color-gray-1)",
-          },
-          yearsList: {
+          levelsGroup: {
             backgroundColor: "var(--color-gray-1)",
           },
           month: {
@@ -96,19 +90,32 @@ export const DateRangeSelector = ({
           },
           monthCell: {
             color: "white",
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
-            },
             "&[data-selected]": {
               backgroundColor: "var(--color-primary)",
               color: "white",
             },
           },
-          yearCell: {
+          monthsList: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          monthsListCell: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          monthsListControl: {
             color: "white",
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
+            "&[data-selected]": {
+              backgroundColor: "var(--color-primary)",
+              color: "white",
             },
+          },
+          yearsList: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          yearsListCell: {
+            backgroundColor: "var(--color-gray-1)",
+          },
+          yearsListControl: {
+            color: "white",
             "&[data-selected]": {
               backgroundColor: "var(--color-primary)",
               color: "white",
@@ -121,11 +128,9 @@ export const DateRangeSelector = ({
               color: "white",
             },
             "&[data-in-range]": {
-              backgroundColor: "rgba(var(--color-primary-rgb), 0.2)",
+              backgroundColor:
+                "color-mix(in srgb, var(--color-primary) 20%, transparent)",
               color: "white",
-            },
-            "&:hover": {
-              backgroundColor: "var(--color-gray-2)",
             },
             "&[data-outside]": {
               color: "var(--color-gray-4)",

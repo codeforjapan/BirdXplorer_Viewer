@@ -152,17 +152,24 @@ export default function Search({
               </>
             ) : (
               <Card
+                bg="var(--color-twitter-dark-1)"
                 className="grid size-full place-content-center"
                 padding="lg"
                 radius="md"
                 w="100%"
                 withBorder
               >
-                <div className="flex flex-col items-center justify-center gap-4 text-white">
+                <div
+                  className="flex flex-col items-center justify-center gap-4 text-white"
+                  data-testid="search-empty-state-card"
+                >
                   <Fa6SolidMagnifyingGlass className="text-4xl text-current" />
-                  <span className="text-center text-lg font-semibold text-balance text-white">
-                    コミュニティノートが見つかりませんでした
-                  </span>
+                  <p className="text-center text-lg font-semibold text-balance text-white">
+                    検索結果がありません
+                  </p>
+                  <p className="text-center text-sm text-balance text-white">
+                    該当するコミュニティノートが見つかりませんでした。検索条件を変更して再検索してください。
+                  </p>
                 </div>
               </Card>
             )}

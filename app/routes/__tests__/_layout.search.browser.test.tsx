@@ -5,6 +5,7 @@
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
+import "~/app.css";
 
 import { MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
@@ -139,7 +140,7 @@ describe("Search Page", () => {
     ).toBeTruthy();
   });
 
-  it("renders empty message when no search results", () => {
+  it("renders empty message when no search results", async () => {
     const mockLoaderData = {
       data: {
         topics: mockTopics,
@@ -160,9 +161,29 @@ describe("Search Page", () => {
 
     const screen = renderWithRouter(mockLoaderData);
 
+    await vi.waitFor(() => {
+      expect(screen.getByText("検索結果がありません").query()).toBeTruthy();
+    });
     expect(
-      screen.getByText("コミュニティノートが見つかりませんでした"),
+      screen
+        .getByText(
+          "該当するコミュニティノートが見つかりませんでした。検索条件を変更して再検索してください。",
+        )
+        .query(),
     ).toBeTruthy();
+
+    const emptyStateContent = screen
+      .getByTestId("search-empty-state-card")
+      .query();
+    expect(emptyStateContent).toBeTruthy();
+    const emptyStateCard = emptyStateContent?.closest("[data-with-border]");
+    expect(emptyStateCard).toBeTruthy();
+    if (!emptyStateCard) {
+      throw new Error("search-empty-state card not found");
+    }
+    expect(
+      window.getComputedStyle(emptyStateCard).backgroundColor,
+    ).toBe("rgb(21, 32, 43)");
   });
 
   it("renders Notes when search results exist", () => {
