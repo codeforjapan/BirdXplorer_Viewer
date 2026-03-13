@@ -2,8 +2,8 @@ import { useLocation } from "react-router";
 
 import { LogoIcon } from "~/components/logo";
 
-import { SideBarNav } from "./SideBarNav";
 import { NAV_ITEMS } from "./navItems";
+import { SideBarNav } from "./SideBarNav";
 
 export type SideMenuProps = {
   className?: string;

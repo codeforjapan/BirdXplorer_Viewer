@@ -3,8 +3,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 
-import { SideBarNav } from "./SideBarNav";
 import { NAV_ITEMS } from "./navItems";
+import { SideBarNav } from "./SideBarNav";
 
 export function MobileMenuButton() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,14 +17,14 @@ export function MobileMenuButton() {
   return (
     <>
       <Drawer
-        opened={opened}
         onClose={close}
-        withCloseButton={false}
+        opened={opened}
         size="200px"
         styles={{
           body: { padding: 0, backgroundColor: "black", height: "100%" },
           content: { backgroundColor: "black" },
         }}
+        withCloseButton={false}
       >
         <nav className="flex flex-col p-5 pt-10">
           {NAV_ITEMS.map((item) => (
