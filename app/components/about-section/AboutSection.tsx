@@ -20,7 +20,7 @@ export const AboutSection = ({ className }: AboutSectionProps) => {
 
   return (
     <section className={className}>
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
         <PageTitle
           icon={<InfoIcon isActive />}
           subtitle="バードエクスプローラについて"
@@ -38,7 +38,8 @@ export const AboutSection = ({ className }: AboutSectionProps) => {
       </div>
       <div className="p-4 md:p-6">
         <Text c="white" className={isMobile ? "text-body-m" : "text-body-l"}>
-          BirdXplorerは、Code for Japanが開発するオープンソースの情報分析・可視化ツールです。X（旧Twitter）のコミュニティノートデータを活用し、真偽不明情報の動向や議論の背景を可視化するAPIおよびダッシュボードを提供します。AIによるトピック分類や関連投稿の分析を通じて、市民・研究者・メディアが情報空間を客観的に把握し、健全な公共議論を支えることを目的としています。市民参加型で情報環境を読み解くための基盤として、ハッカソンや研究、公共的プロジェクトで活用されています。{" "}
+          BirdXplorerは、Code for
+          Japanが開発するオープンソースの情報分析・可視化ツールです。X（旧Twitter）のコミュニティノートデータを活用し、真偽不明情報の動向や議論の背景を可視化するAPIおよびダッシュボードを提供します。AIによるトピック分類や関連投稿の分析を通じて、市民・研究者・メディアが情報空間を客観的に把握し、健全な公共議論を支えることを目的としています。市民参加型で情報環境を読み解くための基盤として、ハッカソンや研究、公共的プロジェクトで活用されています。{" "}
           【
           <a
             className="inline-flex items-center gap-2 text-primary hover:underline"

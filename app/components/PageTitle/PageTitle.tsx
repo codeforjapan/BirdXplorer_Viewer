@@ -15,7 +15,7 @@ export function PageTitle({
 }: PageTitleProps) {
   return (
     <div
-      className={`flex h-auto flex-col items-start gap-2 md:h-12 md:flex-row md:items-center md:gap-3 ${className ?? ""}`}
+      className={`flex h-auto flex-row items-center gap-2 md:h-12 md:gap-3 ${className ?? ""}`}
     >
       <div className="flex items-center gap-3">
         <div className="size-6 shrink-0">{icon}</div>
