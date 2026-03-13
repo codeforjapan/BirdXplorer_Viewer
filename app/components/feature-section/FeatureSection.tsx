@@ -1,8 +1,8 @@
 import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { PageTitle } from "~/components/PageTitle";
-import { FEATURES } from "~/data/features";
 import { WEB_PATHS } from "~/constants/paths";
+import { FEATURES } from "~/data/features";
 
 export type FeatureSectionProps = {
   className?: string;
@@ -30,23 +30,26 @@ export const FeatureSection = ({ className }: FeatureSectionProps) => {
           <span>View All</span>
         </a>
       </div>
-      <div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-6 lg:grid-cols-4">
-        {FEATURES.map((feature) => (
-          <BaseCard
-            body={
-              <ul className="space-y-2">
-                <li className="text-heading-m-compact flex items-start gap-2 text-white">
-                  <PlayButtonIcon className="shrink-0" isActive />
-                  <span>{feature.detail.title}</span>
-                </li>
-              </ul>
-            }
-            href={feature.detail.href}
-            key={feature.id}
-            title={<span className="text-white">{feature.category}</span>}
-            titleBgColor={feature.color}
-          />
-        ))}
+      <div className="overflow-x-auto md:overflow-x-visible">
+        <div className="flex gap-4 py-4 md:grid md:grid-cols-2 md:gap-8 md:p-6 lg:grid-cols-4">
+          {FEATURES.map((feature) => (
+            <div className="w-[280px] shrink-0 md:w-auto" key={feature.id}>
+              <BaseCard
+                body={
+                  <ul className="space-y-2">
+                    <li className="text-heading-m-compact flex items-start gap-2 text-white">
+                      <PlayButtonIcon className="shrink-0" isActive />
+                      <span>{feature.detail.title}</span>
+                    </li>
+                  </ul>
+                }
+                href={feature.detail.href}
+                title={<span className="text-white">{feature.category}</span>}
+                titleBgColor={feature.color}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
