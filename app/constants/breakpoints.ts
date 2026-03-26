@@ -11,4 +11,3 @@ export const TABLET_BREAKPOINT = "(max-width: 768px)";
 
 /** デスクトップ判定用のメディアクエリ（1024px以下） */
 export const DESKTOP_BREAKPOINT = "(max-width: 1024px)";
-

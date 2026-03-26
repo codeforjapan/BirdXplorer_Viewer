@@ -22,14 +22,14 @@ app/constants/data.ts
 
 ```typescript
 type FeatureItem = {
-  title: string;  // 特集タイトル
-  href: string;   // 特集ページへのパス
+  title: string; // 特集タイトル
+  href: string; // 特集ページへのパス
 };
 
 type FeatureCategory = {
-  id: number;        // 一意のID
-  category: string;  // カテゴリ名（例: "選挙特集", "災害特集"）
-  color: string;     // 背景色クラス（例: "bg-green", "bg-blue"）
+  id: number; // 一意のID
+  category: string; // カテゴリ名（例: "選挙特集", "災害特集"）
+  color: string; // 背景色クラス（例: "bg-green", "bg-blue"）
   detail: FeatureItem;
 };
 ```
@@ -63,8 +63,8 @@ export const FEATURES: FeatureCategory[] = [
 
 ### URL形式
 
-| 形式 | 例 |
-|------|-----|
+| 形式                     | 例                      |
+| ------------------------ | ----------------------- |
 | `/feature/{year}/{slug}` | `/feature/2025/sangiin` |
 
 ---
@@ -81,11 +81,11 @@ app/data/reports.ts
 
 ```typescript
 type ReportItem = {
-  id: string;         // 一意のID（文字列）
-  title: string;      // レポートタイトル
+  id: string; // 一意のID（文字列）
+  title: string; // レポートタイトル
   description: string; // レポートの説明文
-  href: string;       // レポートページへのパス
-  date: Date;         // レポートの日付
+  href: string; // レポートページへのパス
+  date: Date; // レポートの日付
   kouchouAiPath?: string; // 広聴AIレポートのパス（オプション）
 };
 ```
@@ -101,8 +101,7 @@ export const REPORT_ITEMS: ReportItem[] = [
   {
     id: "19", // 既存の最大ID + 1
     title: "2025年 10月レポート",
-    description:
-      "レポートの説明文をここに記載します。...",
+    description: "レポートの説明文をここに記載します。...",
     href: buildReportHref(2025, 10), // /report/2025/10 が生成される
     date: new Date("2025-10-01"),
     // kouchouAiPath: "/kouchou-ai/202510/{uuid}/index.html", // 広聴AIレポートがある場合
@@ -120,8 +119,8 @@ export const REPORT_ITEMS: ReportItem[] = [
 
 ### URL形式
 
-| 形式 | 例 |
-|------|-----|
+| 形式                     | 例                                     |
+| ------------------------ | -------------------------------------- |
 | `/report/{year}/{month}` | `/report/2025/09`（月は2桁でゼロ埋め） |
 
 ---
@@ -191,14 +190,14 @@ public/
 
 ### 関連ファイル一覧
 
-| 用途 | ファイルパス |
-|------|-------------|
-| Feature データ定義 | `app/constants/data.ts` |
-| Feature 型定義 | `app/types/feature.ts` |
-| Report データ定義 | `app/data/reports.ts` |
-| Feature 詳細ページ | `app/routes/_layout.feature.$year.$slug.tsx` |
-| Report 詳細ページ | `app/routes/_layout.report.$year.$month.tsx` |
-| 広聴AI 静的ファイル | `public/kouchou-ai/` |
+| 用途                | ファイルパス                                 |
+| ------------------- | -------------------------------------------- |
+| Feature データ定義  | `app/constants/data.ts`                      |
+| Feature 型定義      | `app/types/feature.ts`                       |
+| Report データ定義   | `app/data/reports.ts`                        |
+| Feature 詳細ページ  | `app/routes/_layout.feature.$year.$slug.tsx` |
+| Report 詳細ページ   | `app/routes/_layout.report.$year.$month.tsx` |
+| 広聴AI 静的ファイル | `public/kouchou-ai/`                         |
 
 ### パス定義
 

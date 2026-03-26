@@ -20,7 +20,10 @@ import {
   STATUS_COLORS,
   STATUS_FILTER_OPTIONS,
 } from "~/components/graph";
-import { dateRangeToTimestamps, periodRangeToTimestamps } from "~/utils/dateRange";
+import {
+  dateRangeToTimestamps,
+  periodRangeToTimestamps,
+} from "~/utils/dateRange";
 
 export type DailyPostCountChartProps = {
   initialResult?: GraphFetchResultWithMarkers<DailyPostCountDataItem[]>;
@@ -41,7 +44,7 @@ export const DailyPostCountChart = ({
     initialDateRange ?? [
       new Date(defaultTimestamps.start_date),
       new Date(defaultTimestamps.end_date),
-    ]
+    ],
   );
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>>();
@@ -93,31 +96,38 @@ export const DailyPostCountChart = ({
 
   const rawData = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
   const markers = useMemo<EventMarker[]>(
     () => (currentResult?.ok ? currentResult.eventMarkers : []),
-    [currentResult]
+    [currentResult],
   );
 
   const categories = useMemo(
     () => rawData.map((d) => dayjs(d.date).format("YY/M/D")),
-    [rawData]
+    [rawData],
   );
 
   // イベントマーカーをMarkLineConfigに変換
   const markLines = useMemo<MarkLineConfig[]>(() => {
-    return markers?.length ? markers
-      .map((marker) => ({
-        xAxisValue: dayjs(marker.date).format("YY/M/D"),
-        label: marker.label,
-      }))
-      .filter((m) => categories.includes(m.xAxisValue)) : [];
+    return markers?.length
+      ? markers
+          .map((marker) => ({
+            xAxisValue: dayjs(marker.date).format("YY/M/D"),
+            label: marker.label,
+          }))
+          .filter((m) => categories.includes(m.xAxisValue))
+      : [];
   }, [markers, categories]);
 
   const seriesVisibility = useMemo(() => {
     if (status === "all") {
-      return { published: true, evaluating: true, unpublished: true, temporarilyPublished: true };
+      return {
+        published: true,
+        evaluating: true,
+        unpublished: true,
+        temporarilyPublished: true,
+      };
     }
     return {
       published: status === "published",
@@ -154,7 +164,7 @@ export const DailyPostCountChart = ({
         visible: seriesVisibility.temporarilyPublished,
       },
     ],
-    [rawData, seriesVisibility]
+    [rawData, seriesVisibility],
   );
 
   const footer = (

@@ -37,7 +37,9 @@ export const NotesEvaluationStatusChart = ({
   initialResult,
   initialDateRange,
 }: NotesEvaluationStatusChartProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(
+    initialDateRange ?? getDefaultDateRange(),
+  );
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<NoteEvaluationData[]>>();
   const revalidator = useRevalidator();
@@ -84,7 +86,7 @@ export const NotesEvaluationStatusChart = ({
 
   const rawData = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
 
   const axisRange = useMemo(() => {
@@ -138,7 +140,11 @@ export const NotesEvaluationStatusChart = ({
 
   const footer = (
     <Stack gap="md">
-      <GraphStatusFilter onChange={setStatus} statuses={STATUS_FILTER_OPTIONS} value={status} />
+      <GraphStatusFilter
+        onChange={setStatus}
+        statuses={STATUS_FILTER_OPTIONS}
+        value={status}
+      />
       <GraphSizeLegend
         label="インプレッション"
         max={impressionRange.max}

@@ -4,7 +4,11 @@
  */
 
 /** APIデータ用のステータス型（フィルター用の"all"を含まない） */
-export type NoteStatus = "published" | "evaluating" | "unpublished" | "temporarilyPublished";
+export type NoteStatus =
+  | "published"
+  | "evaluating"
+  | "unpublished"
+  | "temporarilyPublished";
 
 /** 公開ステータス別の件数 */
 export type StatusCounts = {
@@ -100,7 +104,10 @@ export type EventMarker = {
  * 期間選択オプション
  * 期間切り替え可能なグラフで使用（フロントエンド定数）
  */
-export type PeriodOption<T extends string = string> = { value: T; label: string };
+export type PeriodOption<T extends string = string> = {
+  value: T;
+  label: string;
+};
 
 /** 年月（YYYY-MM形式） */
 export type YearMonth = `${number}-${number}`;

@@ -64,14 +64,15 @@ export const formatDateJa = (isoDate: string): string => {
  */
 export const formatDateLocalized = (
   isoDate: string,
-  options: { locale?: string; timeZone?: string } = {}
+  options: { locale?: string; timeZone?: string } = {},
 ): string => {
   const date = parseIsoDateToUtcDate(isoDate);
   if (!date) {
     return isoDate;
   }
 
-  const { locale = DEFAULT_DATE_LOCALE, timeZone = DEFAULT_DATE_TIME_ZONE } = options;
+  const { locale = DEFAULT_DATE_LOCALE, timeZone = DEFAULT_DATE_TIME_ZONE } =
+    options;
   return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "numeric",

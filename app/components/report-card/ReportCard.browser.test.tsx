@@ -42,8 +42,6 @@ describe("ReportCard", () => {
     const { container } = render(<ReportCard item={mockReportItem} />);
     const description = container.querySelector(".line-clamp-6");
     expect(description).not.toBeNull();
-    expect(description?.textContent).toContain(
-      "これはテスト用のレポートです",
-    );
+    expect(description?.textContent).toContain("これはテスト用のレポートです");
   });
 });

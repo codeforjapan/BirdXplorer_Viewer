@@ -11,7 +11,7 @@ describe("GraphErrorState", () => {
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
-      />
+      />,
     );
 
     expect(screen.getByText("network error")).toBeTruthy();
@@ -20,7 +20,7 @@ describe("GraphErrorState", () => {
 
   it("hides retry button when onRetry is absent", () => {
     const screen = render(
-      <GraphErrorState error={{ kind: "server", message: "server error" }} />
+      <GraphErrorState error={{ kind: "server", message: "server error" }} />,
     );
 
     expect(screen.getByText("server error")).toBeTruthy();
@@ -33,7 +33,7 @@ describe("GraphErrorState", () => {
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
-      />
+      />,
     );
 
     const retryButton = screen.getByText("再試行");
@@ -48,7 +48,7 @@ describe("GraphErrorState", () => {
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
-      />
+      />,
     );
 
     const retryButton = screen.getByText("再試行");
@@ -67,7 +67,7 @@ describe("GraphErrorState", () => {
           message: "Validation failed",
           issues: ["Invalid period", "Missing status"],
         }}
-      />
+      />,
     );
 
     expect(screen.getByText("Validation failed")).toBeTruthy();
@@ -83,7 +83,7 @@ describe("GraphErrorState", () => {
           message: "Validation failed",
           issues: ["Issue 1", "Issue 2", "Issue 3", "Issue 4", "Issue 5"],
         }}
-      />
+      />,
     );
 
     expect(screen.getByText("Issue 1")).toBeTruthy();
@@ -102,12 +102,14 @@ describe("GraphErrorState", () => {
           message: "Server error",
           issues: [],
         }}
-      />
+      />,
     );
 
     expect(screen.getByText("Server error")).toBeTruthy();
     // issues が空の場合、Stack コンポーネントが追加でレンダリングされないことを確認
-    const textElements = screen.container.querySelectorAll('[class*="mantine-Text-root"]');
+    const textElements = screen.container.querySelectorAll(
+      '[class*="mantine-Text-root"]',
+    );
     // エラーメッセージの1つだけがあるはず
     expect(textElements.length).toBe(1);
   });
@@ -119,11 +121,13 @@ describe("GraphErrorState", () => {
           kind: "server",
           message: "Server error",
         }}
-      />
+      />,
     );
 
     expect(screen.getByText("Server error")).toBeTruthy();
-    const textElements = screen.container.querySelectorAll('[class*="mantine-Text-root"]');
+    const textElements = screen.container.querySelectorAll(
+      '[class*="mantine-Text-root"]',
+    );
     expect(textElements.length).toBe(1);
   });
 });

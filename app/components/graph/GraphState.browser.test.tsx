@@ -9,7 +9,7 @@ describe("GraphState", () => {
     const screen = render(
       <GraphState status="success">
         <div>success-content</div>
-      </GraphState>
+      </GraphState>,
     );
 
     expect(screen.getByText("success-content")).toBeTruthy();
@@ -19,7 +19,7 @@ describe("GraphState", () => {
     const screen = render(
       <GraphState status="loading">
         <div>success-content</div>
-      </GraphState>
+      </GraphState>,
     );
 
     const skeleton = screen.container.querySelector(".mantine-Skeleton-root");
@@ -30,7 +30,7 @@ describe("GraphState", () => {
     const screen = render(
       <GraphState status="empty">
         <div>success-content</div>
-      </GraphState>
+      </GraphState>,
     );
 
     expect(screen.getByText("表示できるデータがありません")).toBeTruthy();
@@ -45,7 +45,7 @@ describe("GraphState", () => {
     const screen = render(
       <GraphState error={error} status="error">
         <div>success-content</div>
-      </GraphState>
+      </GraphState>,
     );
 
     expect(screen.getByText("server error")).toBeTruthy();

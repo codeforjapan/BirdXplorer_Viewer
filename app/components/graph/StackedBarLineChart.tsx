@@ -115,7 +115,11 @@ export const StackedBarLineChart = ({
       stack: stackName,
       // showLegend=true の場合は ECharts の凡例クリックで表示/非表示を切り替える
       // showLegend=false の場合は従来どおり visible=false を空データで表現
-      data: showLegend ? series.data : series.visible !== false ? series.data : [],
+      data: showLegend
+        ? series.data
+        : series.visible !== false
+          ? series.data
+          : [],
       itemStyle: { color: series.color },
       barWidth: index === 0 ? barWidth : undefined,
       animation: false,
@@ -168,34 +172,54 @@ export const StackedBarLineChart = ({
           if (!Array.isArray(params) || params.length === 0) return "";
           const firstParam = params[0];
           const category =
-            typeof firstParam === "object" && firstParam !== null && "axisValue" in firstParam
+            typeof firstParam === "object" &&
+            firstParam !== null &&
+            "axisValue" in firstParam
               ? String(firstParam.axisValue)
               : "";
           let html = `<strong>${category}</strong><br/>`;
 
           // 棒グラフと折れ線グラフを分離
           const barParams = params.filter(
-            (p) => typeof p === "object" && p !== null && "seriesName" in p && p.seriesName !== lineSeries?.name
+            (p) =>
+              typeof p === "object" &&
+              p !== null &&
+              "seriesName" in p &&
+              p.seriesName !== lineSeries?.name,
           );
           const lineParams = params.filter(
-            (p) => typeof p === "object" && p !== null && "seriesName" in p && p.seriesName === lineSeries?.name
+            (p) =>
+              typeof p === "object" &&
+              p !== null &&
+              "seriesName" in p &&
+              p.seriesName === lineSeries?.name,
           );
 
           // 棒グラフは逆順で表示（視覚的な積み上げ順と一致: 上から下）
           [...barParams].reverse().forEach((param) => {
-            if (typeof param === "object" && param !== null && "seriesName" in param) {
+            if (
+              typeof param === "object" &&
+              param !== null &&
+              "seriesName" in param
+            ) {
               const value = param.value as number;
-              const marker = typeof param.marker === "string" ? param.marker : "";
+              const marker =
+                typeof param.marker === "string" ? param.marker : "";
               html += `${marker} ${param.seriesName}: ${value.toLocaleString()}<br/>`;
             }
           });
 
           // 折れ線グラフは最後に表示
           lineParams.forEach((param) => {
-            if (typeof param === "object" && param !== null && "seriesName" in param) {
+            if (
+              typeof param === "object" &&
+              param !== null &&
+              "seriesName" in param
+            ) {
               const value = param.value as number;
               const unit = lineSeries?.unit ?? "";
-              const marker = typeof param.marker === "string" ? param.marker : "";
+              const marker =
+                typeof param.marker === "string" ? param.marker : "";
               html += `${marker} ${param.seriesName}: ${value.toLocaleString()}${unit}<br/>`;
             }
           });
@@ -267,4 +291,3 @@ export const StackedBarLineChart = ({
 
   return <EChartsGraph height={height} minHeight={minHeight} option={option} />;
 };
-

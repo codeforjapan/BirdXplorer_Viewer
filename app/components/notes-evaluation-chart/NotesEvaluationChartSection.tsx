@@ -18,7 +18,11 @@ import {
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
 import { postLinkFromPostId } from "~/feature/twitter/link-builder";
 import { getNotesApiV1DataNotesGet } from "~/generated/api/client";
-import { dateRangeToTimestamps, getDefault14DayRange, timestampsToDateRange } from "~/utils/dateRange";
+import {
+  dateRangeToTimestamps,
+  getDefault14DayRange,
+  timestampsToDateRange,
+} from "~/utils/dateRange";
 import { getArrayMax } from "~/utils/math";
 
 export type NotesEvaluationChartSectionProps = {
@@ -34,7 +38,9 @@ export const NotesEvaluationChartSection = ({
   className,
   initialResult,
 }: NotesEvaluationChartSectionProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(timestampsToDateRange(getDefault14DayRange()));
+  const [dateRange, setDateRange] = useState<DateRange>(
+    timestampsToDateRange(getDefault14DayRange()),
+  );
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher = useFetcher<GraphFetchResult<NoteEvaluationData[]>>();
   const revalidator = useRevalidator();
@@ -83,7 +89,7 @@ export const NotesEvaluationChartSection = ({
 
   const rawData = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
 
   // フィルター前の全データから軸の最大値を算出（フィルター後だと軸のスケールが変動してしまう）
@@ -126,9 +132,7 @@ export const NotesEvaluationChartSection = ({
       「役に立った」の評価数: ${item.y.toLocaleString()}<br/>
       インプレッション: ${item.size.toLocaleString()}<br/>
       ステータス: ${getStatusLabel(item.category as string)}`;
-    },
-    [],
-  );
+  }, []);
 
   const footer = <GraphStatusFilter onChange={setStatus} value={status} />;
 

@@ -11,7 +11,7 @@ export type DateRangeTimestamps = {
  * Dateオブジェクトの範囲をUNIXミリ秒に変換
  */
 export const dateRangeToTimestamps = (
-  dateRange: [Date | null, Date | null]
+  dateRange: [Date | null, Date | null],
 ): DateRangeTimestamps | null => {
   const [start, end] = dateRange;
   if (!start || !end) return null;
@@ -26,7 +26,7 @@ export const dateRangeToTimestamps = (
  * 相対的な期間（"1month", "3months"など）をUNIXミリ秒の範囲に変換
  */
 export const relativePeriodToTimestamps = (
-  period: RelativePeriodValue
+  period: RelativePeriodValue,
 ): DateRangeTimestamps => {
   const now = dayjs();
   const end = now.endOf("day");
@@ -61,9 +61,7 @@ export const relativePeriodToTimestamps = (
 /**
  * 期間範囲（"2025-02_2026-01"形式）をUNIXミリ秒の範囲に変換
  */
-export const periodRangeToTimestamps = (
-  range: string
-): DateRangeTimestamps => {
+export const periodRangeToTimestamps = (range: string): DateRangeTimestamps => {
   const [startMonth, endMonth] = range.split("_");
 
   const start = dayjs(startMonth, "YYYY-MM").startOf("month");
@@ -79,7 +77,7 @@ export const periodRangeToTimestamps = (
  * UNIXミリ秒の範囲をDateオブジェクトの範囲に変換
  */
 export const timestampsToDateRange = (
-  timestamps: DateRangeTimestamps
+  timestamps: DateRangeTimestamps,
 ): [Date, Date] => {
   return [
     dayjs(timestamps.start_date).toDate(),
@@ -126,7 +124,7 @@ export type AccountRankingPeriod = "1week" | "2weeks" | "1month";
  * 終了日は常に2日前、開始日は期間に応じて 9/16/32 日前
  */
 export const rankingPeriodToTimestamps = (
-  period: AccountRankingPeriod
+  period: AccountRankingPeriod,
 ): DateRangeTimestamps => {
   const now = dayjs();
   const end = now.subtract(2, "day").endOf("day");

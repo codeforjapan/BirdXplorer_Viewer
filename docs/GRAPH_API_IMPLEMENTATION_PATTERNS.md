@@ -6,18 +6,18 @@
 
 ### 1.1 登場人物と責務のマトリックス
 
-| レイヤー | ファイル | 責務 |
-|---------|---------|------|
-| **API型** | `app/generated/api/schemas/` | Orval生成のAPIレスポンス型 |
-| **UI型** | `app/components/graph/types.ts` | フロントエンドで使用するデータ型 |
-| **API呼び出し** | `app/components/graph/api.ts` | fetch実行、エラー正規化、Zodパース |
-| **アダプタ** | `app/components/graph/adapters.ts` | API型→UI型変換 |
-| **データ取得** | `app/components/graph/graphFetchers.ts` | Mock/API切り替え、fetch*Graph関数群 |
-| **キャッシュ** | `app/utils/graphCache.ts` | メモリキャッシュ管理 |
-| **Resource Route** | `app/routes/resources.graphs.*.ts` | クライアント再取得用エンドポイント |
-| **Loader** | `app/routes/_layout.feature.$id.tsx` | 初期データ取得、SSR |
-| **UI状態管理** | `app/components/graph/GraphState.tsx` | loading/error/empty/success状態 |
-| **UIコンポーネント** | `app/components/*/` | 個別グラフの表示ロジック |
+| レイヤー             | ファイル                                | 責務                                 |
+| -------------------- | --------------------------------------- | ------------------------------------ |
+| **API型**            | `app/generated/api/schemas/`            | Orval生成のAPIレスポンス型           |
+| **UI型**             | `app/components/graph/types.ts`         | フロントエンドで使用するデータ型     |
+| **API呼び出し**      | `app/components/graph/api.ts`           | fetch実行、エラー正規化、Zodパース   |
+| **アダプタ**         | `app/components/graph/adapters.ts`      | API型→UI型変換                       |
+| **データ取得**       | `app/components/graph/graphFetchers.ts` | Mock/API切り替え、fetch\*Graph関数群 |
+| **キャッシュ**       | `app/utils/graphCache.ts`               | メモリキャッシュ管理                 |
+| **Resource Route**   | `app/routes/resources.graphs.*.ts`      | クライアント再取得用エンドポイント   |
+| **Loader**           | `app/routes/_layout.feature.$id.tsx`    | 初期データ取得、SSR                  |
+| **UI状態管理**       | `app/components/graph/GraphState.tsx`   | loading/error/empty/success状態      |
+| **UIコンポーネント** | `app/components/*/`                     | 個別グラフの表示ロジック             |
 
 ### 1.2 ファイル構成図
 
@@ -61,6 +61,7 @@ app/
 ```
 
 **コードパス**:
+
 1. `app/routes/_layout.feature.$id.tsx:102` - Loader関数
 2. `app/utils/graphCache.ts:17` - `buildGraphCacheKey()`でキャッシュキー生成
 3. `app/components/graph/graphFetchers.ts` - `fetch*Graph()`でデータ取得
@@ -95,6 +96,7 @@ const settled = await Promise.allSettled([
 ```
 
 **コードパス**:
+
 1. `app/components/daily-notes-creation-chart/DailyNotesCreationChart.tsx:77` - `fetcher.load()`
 2. `app/routes/resources.graphs.daily-notes.ts:15` - Resource Route Loader
 3. `app/components/graph/graphFetchers.ts:114` - `fetchDailyNotesGraph()`
@@ -114,7 +116,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   if (cached) return cached;
 
   const result = await safeGraphFetchWithMarkers(async () =>
-    fetchDailyNotesGraph({ period, status })
+    fetchDailyNotesGraph({ period, status }),
   );
   if (result.ok) graphCache.set(cacheKey, result);
   return result;
@@ -129,42 +131,46 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
 #### `api.ts`: API呼び出しとエラー正規化
 
-| 関数 | 責務 |
-|------|------|
-| `fetchGraphList<T>()` | fetch実行、例外キャッチ、Zodパース |
+| 関数                          | 責務                                  |
+| ----------------------------- | ------------------------------------- |
+| `fetchGraphList<T>()`         | fetch実行、例外キャッチ、Zodパース    |
 | `parseGraphListResponse<T>()` | HTTPステータス判定、Zodパース結果返却 |
-| `toGraphApiErrorFromStatus()` | HTTPステータスからエラー種別を判定 |
+| `toGraphApiErrorFromStatus()` | HTTPステータスからエラー種別を判定    |
 
 ```typescript
 // api.ts:104-115
-export const fetchGraphList = async <T,>(
+export const fetchGraphList = async <T>(
   fetcher: () => Promise<{ status: number; data: unknown }>,
-  schema: ZodSchema<{ data: T[]; updatedAt: string }>
+  schema: ZodSchema<{ data: T[]; updatedAt: string }>,
 ): Promise<GraphFetchResult<T[]>> => {
   try {
     const response = await fetcher();
     return parseGraphListResponse(response, schema);
   } catch (error) {
     const message = error instanceof Error ? error.message : undefined;
-    return { ok: false, error: buildGraphApiError({ kind: "network", message }) };
+    return {
+      ok: false,
+      error: buildGraphApiError({ kind: "network", message }),
+    };
   }
 };
 ```
 
-#### `graphFetchers.ts`: fetch*Graph関数群
+#### `graphFetchers.ts`: fetch\*Graph関数群
 
 各グラフ用のfetch関数を提供します。Mock/API切り替えはここで行われます。
 
-| 関数 | 対象グラフ |
-|------|----------|
-| `fetchDailyNotesGraph()` | 日別ノート作成数 |
-| `fetchDailyPostsGraph()` | 日別ポスト数 |
-| `fetchNotesAnnualGraph()` | 年間ノート統計 |
-| `fetchNotesEvaluationGraph()` | ノート評価 |
+| 関数                                | 対象グラフ           |
+| ----------------------------------- | -------------------- |
+| `fetchDailyNotesGraph()`            | 日別ノート作成数     |
+| `fetchDailyPostsGraph()`            | 日別ポスト数         |
+| `fetchNotesAnnualGraph()`           | 年間ノート統計       |
+| `fetchNotesEvaluationGraph()`       | ノート評価           |
 | `fetchNotesEvaluationStatusGraph()` | ノート評価ステータス |
-| `fetchPostInfluenceGraph()` | ポスト影響力 |
+| `fetchPostInfluenceGraph()`         | ポスト影響力         |
 
 **共通ヘルパー**:
+
 - `resolveRelativePeriod()`: 相対期間パラメータの検証
 - `resolveRangePeriod()`: 範囲期間パラメータの検証
 - `resolveStatus()`: ステータスパラメータの検証
@@ -175,13 +181,13 @@ export const fetchGraphList = async <T,>(
 
 API型からUI型への変換を担当します。
 
-| 関数 | 変換内容 |
-|------|---------|
-| `toDailyNotesCreationData()` | パススルー（変換不要） |
-| `toDailyPostCountData()` | 日付でグループ化、ステータス別に集計 |
-| `toMonthlyNoteData()` | パススルー |
-| `toNoteEvaluationData()` | フィールド名変換（helpfulCount→helpful等） |
-| `toPostInfluenceData()` | フィールド名変換（repostCount→reposts等） |
+| 関数                         | 変換内容                                   |
+| ---------------------------- | ------------------------------------------ |
+| `toDailyNotesCreationData()` | パススルー（変換不要）                     |
+| `toDailyPostCountData()`     | 日付でグループ化、ステータス別に集計       |
+| `toMonthlyNoteData()`        | パススルー                                 |
+| `toNoteEvaluationData()`     | フィールド名変換（helpfulCount→helpful等） |
+| `toPostInfluenceData()`      | フィールド名変換（repostCount→reposts等）  |
 
 ### 3.2 UI層
 
@@ -201,7 +207,8 @@ export const GraphState = ({
   children,
 }: GraphStateProps) => {
   if (status === "loading") return <GraphLoading />;
-  if (status === "error") return <GraphErrorState error={error} onRetry={onRetry} />;
+  if (status === "error")
+    return <GraphErrorState error={error} onRetry={onRetry} />;
   if (status === "empty") return <EmptyState message={emptyMessage} />;
   return <>{children}</>;
 };
@@ -250,26 +257,26 @@ export type GraphApiErrorKind = "network" | "validation" | "server" | "parse";
 export type GraphApiError = {
   kind: GraphApiErrorKind;
   message: string;
-  issues?: string[];  // バリデーションエラーの詳細
-  status?: number;    // HTTPステータスコード
+  issues?: string[]; // バリデーションエラーの詳細
+  status?: number; // HTTPステータスコード
 };
 ```
 
 ### 4.2 エラー分類ルール
 
-| 条件 | kind | 説明 |
-|------|------|------|
-| fetch例外 | `network` | ネットワーク障害、タイムアウト |
-| HTTP 400/422 | `validation` | パラメータ不正（issuesにdetail配列を格納） |
-| HTTP 5xx | `server` | サーバー内部エラー |
-| Zod parse失敗 | `parse` | レスポンス形式が期待と異なる |
+| 条件          | kind         | 説明                                       |
+| ------------- | ------------ | ------------------------------------------ |
+| fetch例外     | `network`    | ネットワーク障害、タイムアウト             |
+| HTTP 400/422  | `validation` | パラメータ不正（issuesにdetail配列を格納） |
+| HTTP 5xx      | `server`     | サーバー内部エラー                         |
+| Zod parse失敗 | `parse`      | レスポンス形式が期待と異なる               |
 
 **エラー分類の実装** (`api.ts:63-76`):
 
 ```typescript
 export const toGraphApiErrorFromStatus = (
   status: number,
-  data?: unknown
+  data?: unknown,
 ): GraphApiError => {
   if (status === 400 || status === 422) {
     return buildGraphApiError({
@@ -296,6 +303,7 @@ export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
 ```
 
 **GraphErrorStateコンポーネント** (`GraphErrorState.tsx`):
+
 - `error.message`を表示
 - `error.issues`がある場合は最大3件表示
 - `onRetry`が渡された場合は再試行ボタンを表示
@@ -308,7 +316,7 @@ export const DEFAULT_GRAPH_ERROR_MESSAGES: Record<GraphApiErrorKind, string> = {
 
 ```typescript
 // graphCache.ts:5-6
-export const GRAPH_CACHE_TTL_MS = 30_000;  // 30秒
+export const GRAPH_CACHE_TTL_MS = 30_000; // 30秒
 const GRAPH_CACHE_MAX_ENTRIES = 100;
 ```
 
@@ -324,7 +332,7 @@ const GRAPH_CACHE_MAX_ENTRIES = 100;
 // graphCache.ts:17-29
 export const buildGraphCacheKey = (
   graphType: string,
-  params: Record<string, string | number | undefined>
+  params: Record<string, string | number | undefined>,
 ): string => {
   const search = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -337,6 +345,7 @@ export const buildGraphCacheKey = (
 ```
 
 **キャッシュキーの例**:
+
 - `"daily-notes?period=1month&status=all"`
 - `"daily-posts?range=2025-02_2026-01&status=all"`
 - `"notes-evaluation-status?period=6months&status=all&limit=200"`
@@ -358,7 +367,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
   const graphKeys = ["period", "status", "range", "limit"];
   const hasGraphChange = graphKeys.some(
-    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key)
+    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key),
   );
   return hasGraphChange;
 };
@@ -375,7 +384,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 export type GraphDataSource = "api" | "mock";
 
 const getGraphDataSource = (): GraphDataSource => {
-  return "mock";  // 現在はmockに固定
+  return "mock"; // 現在はmockに固定
 };
 
 export const GRAPH_DATA_SOURCE: GraphDataSource = getGraphDataSource();
@@ -439,10 +448,10 @@ if (isGraphMockEnabled()) {
 
 ### クイックリファレンス
 
-| 目的 | 参照ファイル |
-|------|------------|
-| 新しいグラフ型を追加したい | `types.ts` → `adapters.ts` → `graphFetchers.ts` |
+| 目的                           | 参照ファイル                                    |
+| ------------------------------ | ----------------------------------------------- |
+| 新しいグラフ型を追加したい     | `types.ts` → `adapters.ts` → `graphFetchers.ts` |
 | エラー表示をカスタマイズしたい | `constants.ts` (`DEFAULT_GRAPH_ERROR_MESSAGES`) |
-| キャッシュ動作を変更したい | `graphCache.ts` |
-| Mock/API切り替えを変更したい | `graphDataSource.ts` |
-| 期間オプションを変更したい | `periodOptions.ts`, `constants.ts` |
+| キャッシュ動作を変更したい     | `graphCache.ts`                                 |
+| Mock/API切り替えを変更したい   | `graphDataSource.ts`                            |
+| 期間オプションを変更したい     | `periodOptions.ts`, `constants.ts`              |

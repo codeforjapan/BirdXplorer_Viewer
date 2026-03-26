@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  Group,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+import { ActionIcon, Box, Group, Stack, Text, Tooltip } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import type { DateRange } from "~/components/date-range-selector";
@@ -42,7 +35,7 @@ type GraphWrapperProps<T extends string = string> = {
  * - タイトルを左側に表示
  * - 期間選択（DateRangeSelectorまたはPeriodSelector）を右側に表示（オプション）
  */
-export const GraphWrapper = <T extends string = string,>({
+export const GraphWrapper = <T extends string = string>({
   title,
   children,
   className,

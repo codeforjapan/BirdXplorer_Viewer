@@ -5,16 +5,19 @@
 ## 1. このガイドの対象とゴール
 
 ### 対象作業
+
 - **新規グラフ追加**: 新しい種類のグラフをAPIから取得して表示
 - **既存グラフ修正**: パラメータ追加、データ構造変更、表示ロジック変更
 - **グラフ削除**: 不要になったグラフの削除
 
 ### ゴール
+
 - 統一パターンに沿った安全な変更
 - レビューしやすいコード
 - 将来の保守性確保
 
 ### 前提知識
+
 - [GRAPH_API_IMPLEMENTATION_PATTERNS.md](./GRAPH_API_IMPLEMENTATION_PATTERNS.md) を読んでいること
 - React Router (Remix) の Loader と useFetcher の基本を理解していること
 
@@ -63,16 +66,20 @@
    - エンドポイント、パラメータ、レスポンス形式を把握
 
 2. **Orval生成型を確認**
+
    ```
    app/generated/api/schemas/
    ```
+
    - 対応する型が生成されているか確認
    - 型が古い場合は `pnpm orval` で再生成
 
 3. **Zodスキーマを確認**
+
    ```
    app/generated/api/zod/schema.ts
    ```
+
    - レスポンスのバリデーションスキーマが存在するか確認
 
 ### Step 2: UI型定義追加
@@ -94,6 +101,7 @@ export type UserActivityData = {
 ```
 
 **ポイント**:
+
 - API型とは別に、UIで使いやすい型を定義
 - JSDocコメントで各フィールドの意味を明記
 - 必要に応じて `StatusCounts` などの既存型を継承
@@ -107,7 +115,7 @@ import type { UserActivityDataItem as ApiUserActivityDataItem } from "~/generate
 import type { UserActivityData } from "./types";
 
 export const toUserActivityData = (
-  items: ApiUserActivityDataItem[]
+  items: ApiUserActivityDataItem[],
 ): UserActivityData[] => {
   return items.map((item) => ({
     userId: item.userId,
@@ -120,6 +128,7 @@ export const toUserActivityData = (
 ```
 
 **ポイント**:
+
 - API型からUI型への変換のみを担当
 - 副作用なし（純粋関数）
 - 不正な値のフォールバック処理をここで行う
@@ -156,7 +165,8 @@ export const fetchUserActivityGraph = async ({
 
   // API呼び出し
   const result = await fetchGraphList(
-    async () => getUserActivityApiV1GraphsUserActivityGet({ period, status, limit }),
+    async () =>
+      getUserActivityApiV1GraphsUserActivityGet({ period, status, limit }),
     getUserActivityApiV1GraphsUserActivityGetResponse,
   );
 
@@ -171,6 +181,7 @@ export const fetchUserActivityGraph = async ({
 ```
 
 **ポイント**:
+
 - Mock/API分岐を必ず実装
 - `fetchGraphList`を使用してエラー正規化
 - イベントマーカーが必要な場合は`GraphFetchResultWithMarkers`を返す
@@ -180,10 +191,7 @@ export const fetchUserActivityGraph = async ({
 `app/routes/resources.graphs.user-activity.ts` を新規作成します。
 
 ```typescript
-import type {
-  UserActivityData,
-  GraphFetchResult,
-} from "~/components/graph";
+import type { UserActivityData, GraphFetchResult } from "~/components/graph";
 import {
   fetchUserActivityGraph,
   resolveRelativePeriod,
@@ -202,7 +210,11 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const status = resolveStatus(params.get("status"));
   const limit = resolveLimit(params.get("limit"), DEFAULT_GRAPH_LIMIT);
 
-  const cacheKey = buildGraphCacheKey("user-activity", { period, status, limit });
+  const cacheKey = buildGraphCacheKey("user-activity", {
+    period,
+    status,
+    limit,
+  });
 
   // キャッシュ確認
   const cached = graphCache.get(cacheKey) as
@@ -212,7 +224,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
   // データ取得
   const result = await safeGraphFetch(async () =>
-    fetchUserActivityGraph({ period, status, limit })
+    fetchUserActivityGraph({ period, status, limit }),
   );
 
   // 成功時のみキャッシュ保存
@@ -223,6 +235,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 ```
 
 **ポイント**:
+
 - `resolve*`関数でパラメータを正規化
 - キャッシュ確認 → 取得 → 保存の流れを守る
 - 成功時のみキャッシュに保存
@@ -250,7 +263,9 @@ export type UserActivityChartProps = {
   initialResult?: GraphFetchResult<UserActivityData[]>;
 };
 
-export const UserActivityChart = ({ initialResult }: UserActivityChartProps) => {
+export const UserActivityChart = ({
+  initialResult,
+}: UserActivityChartProps) => {
   const defaultPeriod = getDefaultPeriodValue(RELATIVE_PERIOD_OPTIONS);
   const [period, setPeriod] = useState(defaultPeriod);
   const fetcher = useFetcher<GraphFetchResult<UserActivityData[]>>();
@@ -301,7 +316,7 @@ export const UserActivityChart = ({ initialResult }: UserActivityChartProps) => 
 
   const data = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
 
   return (
@@ -317,9 +332,7 @@ export const UserActivityChart = ({ initialResult }: UserActivityChartProps) => 
         onRetry={handleRetry}
         status={graphStatus}
       >
-        <GraphContainer>
-          {/* グラフ本体をここに実装 */}
-        </GraphContainer>
+        <GraphContainer>{/* グラフ本体をここに実装 */}</GraphContainer>
       </GraphState>
     </GraphWrapper>
   );
@@ -327,6 +340,7 @@ export const UserActivityChart = ({ initialResult }: UserActivityChartProps) => 
 ```
 
 **パターンのポイント**:
+
 - `initialResult`でLoader結果を受け取る
 - `useFetcher`でクライアント再取得
 - `hasMounted`で初回マウント時の二重fetchを防止
@@ -343,7 +357,7 @@ export const UserActivityChart = ({ initialResult }: UserActivityChartProps) => 
 type GraphLoaderData = {
   dailyNotes: GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>;
   // ... 既存のグラフ
-  userActivity: GraphFetchResult<UserActivityData[]>;  // 追加
+  userActivity: GraphFetchResult<UserActivityData[]>; // 追加
 };
 
 // 2. Loaderでキャッシュキー作成
@@ -378,7 +392,9 @@ const settled = await Promise.allSettled([
 const graphs: GraphLoaderData = {
   // ... 既存
   userActivity:
-    settled[4].status === "fulfilled" ? settled[4].value : createFallbackError(),
+    settled[4].status === "fulfilled"
+      ? settled[4].value
+      : createFallbackError(),
 };
 ```
 
@@ -532,21 +548,21 @@ grep -r "user-activity" app/routes/
 
 ## 6. よく使う部品の早見表
 
-| 用途 | ファイル | 関数/型 |
-|------|---------|--------|
-| API呼び出し | `api.ts` | `fetchGraphList<T>()` |
-| エラー正規化 | `api.ts` | `parseGraphListResponse<T>()` |
-| 型変換 | `adapters.ts` | `to*Data()` |
-| キャッシュキー | `graphCache.ts` | `buildGraphCacheKey()` |
-| キャッシュ操作 | `graphCache.ts` | `graphCache.get()`, `graphCache.set()` |
-| 相対期間解決 | `graphFetchers.ts` | `resolveRelativePeriod()` |
-| 範囲期間解決 | `graphFetchers.ts` | `resolveRangePeriod()` |
-| ステータス解決 | `graphFetchers.ts` | `resolveStatus()` |
-| 安全なfetch | `graphFetchers.ts` | `safeGraphFetch()`, `safeGraphFetchWithMarkers()` |
-| 状態表示 | `GraphState.tsx` | `<GraphState status={...}>` |
-| エラー表示 | `GraphErrorState.tsx` | `<GraphErrorState error={...}>` |
-| タイトル+期間 | `GraphWrapper.tsx` | `<GraphWrapper>` |
-| レイアウト | `GraphContainer.tsx` | `<GraphContainer>` |
+| 用途           | ファイル              | 関数/型                                           |
+| -------------- | --------------------- | ------------------------------------------------- |
+| API呼び出し    | `api.ts`              | `fetchGraphList<T>()`                             |
+| エラー正規化   | `api.ts`              | `parseGraphListResponse<T>()`                     |
+| 型変換         | `adapters.ts`         | `to*Data()`                                       |
+| キャッシュキー | `graphCache.ts`       | `buildGraphCacheKey()`                            |
+| キャッシュ操作 | `graphCache.ts`       | `graphCache.get()`, `graphCache.set()`            |
+| 相対期間解決   | `graphFetchers.ts`    | `resolveRelativePeriod()`                         |
+| 範囲期間解決   | `graphFetchers.ts`    | `resolveRangePeriod()`                            |
+| ステータス解決 | `graphFetchers.ts`    | `resolveStatus()`                                 |
+| 安全なfetch    | `graphFetchers.ts`    | `safeGraphFetch()`, `safeGraphFetchWithMarkers()` |
+| 状態表示       | `GraphState.tsx`      | `<GraphState status={...}>`                       |
+| エラー表示     | `GraphErrorState.tsx` | `<GraphErrorState error={...}>`                   |
+| タイトル+期間  | `GraphWrapper.tsx`    | `<GraphWrapper>`                                  |
+| レイアウト     | `GraphContainer.tsx`  | `<GraphContainer>`                                |
 
 ---
 
@@ -555,14 +571,17 @@ grep -r "user-activity" app/routes/
 ### ユニットテスト
 
 **テスト対象**:
+
 - アダプタ変換の正確性
 - エラー正規化ロジック
 
 **テストファイル**:
+
 - `app/components/graph/adapters.test.ts`
 - `app/components/graph/api.test.ts`
 
 **テストパターン**:
+
 ```typescript
 describe("graph adapters", () => {
   it("to*Data returns expected structure", () => {
@@ -580,6 +599,7 @@ describe("graph adapters", () => {
 ### ブラウザテスト
 
 **確認項目**:
+
 - GraphState状態遷移（loading → success/error/empty）
 - エラー表示とリトライ動作
 - 期間切り替えによるデータ更新

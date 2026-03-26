@@ -25,6 +25,7 @@
 > コンポーネント名: `DailyNotesCreationChart`
 
 ### 概要
+
 日別のコミュニティノート作成数をステータス別に表示する積み上げ棒グラフ
 
 ### データ型
@@ -45,6 +46,7 @@ type DailyNotesCreationDataItem = {
 ```
 
 ### イベントマーカー（オプション）
+
 グラフ上に縦線でイベントを表示する場合に使用
 
 ```typescript
@@ -63,13 +65,29 @@ type EventMarker = {
 ```json
 {
   "data": [
-    { "date": "2025-01-01", "published": 5, "evaluating": 12, "unpublished": 3, "temporarilyPublished": 2 },
-    { "date": "2025-01-02", "published": 8, "evaluating": 15, "unpublished": 2, "temporarilyPublished": 3 },
-    { "date": "2025-01-03", "published": 3, "evaluating": 9, "unpublished": 4, "temporarilyPublished": 1 }
+    {
+      "date": "2025-01-01",
+      "published": 5,
+      "evaluating": 12,
+      "unpublished": 3,
+      "temporarilyPublished": 2
+    },
+    {
+      "date": "2025-01-02",
+      "published": 8,
+      "evaluating": 15,
+      "unpublished": 2,
+      "temporarilyPublished": 3
+    },
+    {
+      "date": "2025-01-03",
+      "published": 3,
+      "evaluating": 9,
+      "unpublished": 4,
+      "temporarilyPublished": 1
+    }
   ],
-  "eventMarkers": [
-    { "date": "2025-01-02", "label": "1/2 イベント発生" }
-  ],
+  "eventMarkers": [{ "date": "2025-01-02", "label": "1/2 イベント発生" }],
   "updatedAt": "2025-01-03"
 }
 ```
@@ -81,6 +99,7 @@ type EventMarker = {
 > コンポーネント名: `DailyPostCountChart`
 
 ### 概要
+
 期間単位でポストの日別投稿数をステータス別に表示する積み上げ棒グラフ
 
 ### データ型
@@ -118,12 +137,22 @@ type EventMarker = {
 ```json
 {
   "data": [
-    { "date": "2024-12-01", "published": 10, "evaluating": 5, "unpublished": 2, "temporarilyPublished": 1 },
-    { "date": "2024-12-02", "published": 12, "evaluating": 8, "unpublished": 3, "temporarilyPublished": 2 }
+    {
+      "date": "2024-12-01",
+      "published": 10,
+      "evaluating": 5,
+      "unpublished": 2,
+      "temporarilyPublished": 1
+    },
+    {
+      "date": "2024-12-02",
+      "published": 12,
+      "evaluating": 8,
+      "unpublished": 3,
+      "temporarilyPublished": 2
+    }
   ],
-  "eventMarkers": [
-    { "date": "2024-12-01", "label": "12/1 キャンペーン開始" }
-  ],
+  "eventMarkers": [{ "date": "2024-12-01", "label": "12/1 キャンペーン開始" }],
   "updatedAt": "2024-12-02"
 }
 ```
@@ -135,6 +164,7 @@ type EventMarker = {
 > コンポーネント名: `NotesAnnualChartSection`
 
 ### 概要
+
 月別のコミュニティノート数と公開率を表示する積み上げ棒グラフ＋折れ線グラフ
 
 ### データ型
@@ -169,9 +199,30 @@ publicationRate = (published / (published + evaluating + unpublished + temporari
 ```json
 {
   "data": [
-    { "month": "2024-10", "published": 650, "evaluating": 350, "unpublished": 200, "temporarilyPublished": 100, "publicationRate": 50 },
-    { "month": "2024-11", "published": 720, "evaluating": 400, "unpublished": 180, "temporarilyPublished": 120, "publicationRate": 51 },
-    { "month": "2024-12", "published": 800, "evaluating": 420, "unpublished": 220, "temporarilyPublished": 110, "publicationRate": 52 }
+    {
+      "month": "2024-10",
+      "published": 650,
+      "evaluating": 350,
+      "unpublished": 200,
+      "temporarilyPublished": 100,
+      "publicationRate": 50
+    },
+    {
+      "month": "2024-11",
+      "published": 720,
+      "evaluating": 400,
+      "unpublished": 180,
+      "temporarilyPublished": 120,
+      "publicationRate": 51
+    },
+    {
+      "month": "2024-12",
+      "published": 800,
+      "evaluating": 420,
+      "unpublished": 220,
+      "temporarilyPublished": 110,
+      "publicationRate": 52
+    }
   ],
   "updatedAt": "2024-12-31"
 }
@@ -184,7 +235,9 @@ publicationRate = (published / (published + evaluating + unpublished + temporari
 > コンポーネント名: `NotesEvaluationChartSection`
 
 ### 概要
-コミュニティノートの評価分布をバブルチャートで表示  
+
+コミュニティノートの評価分布をバブルチャートで表示
+
 - X軸: 「役に立たなかった」の評価数
 - Y軸: 「役に立った」の評価数
 - バブルサイズ: インプレッション数
@@ -210,11 +263,11 @@ type NoteEvaluationData = {
 
 ### ステータス値
 
-| 値 | 意味 |
-|----|------|
-| `"published"` | 公開中 |
-| `"evaluating"` | 評価中 |
-| `"unpublished"` | 非公開 |
+| 値                       | 意味     |
+| ------------------------ | -------- |
+| `"published"`            | 公開中   |
+| `"evaluating"`           | 評価中   |
+| `"unpublished"`          | 非公開   |
 | `"temporarilyPublished"` | 一時公開 |
 
 ### レスポンス例
@@ -250,7 +303,9 @@ type NoteEvaluationData = {
 > コンポーネント名: `NotesEvaluationStatusChart`
 
 ### 概要
-コミュニティノートの評価状況をバブルチャートで表示  
+
+コミュニティノートの評価状況をバブルチャートで表示
+
 - X軸: 「役に立たなかった」の評価数
 - Y軸: 「役に立った」の評価数
 - バブルサイズ: インプレッション数
@@ -278,11 +333,11 @@ type NoteEvaluationData = {
 
 ### ステータス値
 
-| 値 | 意味 |
-|----|------|
-| `"published"` | 公開中 |
-| `"evaluating"` | 評価中 |
-| `"unpublished"` | 非公開 |
+| 値                       | 意味     |
+| ------------------------ | -------- |
+| `"published"`            | 公開中   |
+| `"evaluating"`           | 評価中   |
+| `"unpublished"`          | 非公開   |
 | `"temporarilyPublished"` | 一時公開 |
 
 ### レスポンス例
@@ -326,7 +381,9 @@ type NoteEvaluationData = {
 > コンポーネント名: `PostInfluenceChart`
 
 ### 概要
-ポストの影響力をバブルチャートで表示  
+
+ポストの影響力をバブルチャートで表示
+
 - X軸: リポスト数
 - Y軸: いいね数
 - バブルサイズ: インプレッション数
@@ -352,11 +409,11 @@ type PostInfluenceData = {
 
 ### ステータス値
 
-| 値 | 意味 |
-|----|------|
-| `"published"` | 公開中 |
-| `"evaluating"` | 評価中 |
-| `"unpublished"` | 非公開 |
+| 値                       | 意味     |
+| ------------------------ | -------- |
+| `"published"`            | 公開中   |
+| `"evaluating"`           | 評価中   |
+| `"unpublished"`          | 非公開   |
 | `"temporarilyPublished"` | 一時公開 |
 
 > 💡 **補足**: このステータスは、ポストについているコミュニティノートのステータスを表します
@@ -405,14 +462,18 @@ type PostInfluenceData = {
 バックエンドでも共通のenumとして定義することを推奨します。
 
 ```typescript
-type NoteStatus = "published" | "evaluating" | "unpublished" | "temporarilyPublished";
+type NoteStatus =
+  | "published"
+  | "evaluating"
+  | "unpublished"
+  | "temporarilyPublished";
 ```
 
-| 値 | 意味 | 説明 |
-|----|------|------|
-| `"published"` | 公開中 | ノートが公開されている状態 |
-| `"evaluating"` | 評価中 | ノートが評価プロセス中の状態 |
-| `"unpublished"` | 非公開 | ノートが非公開の状態 |
+| 値                       | 意味     | 説明                               |
+| ------------------------ | -------- | ---------------------------------- |
+| `"published"`            | 公開中   | ノートが公開されている状態         |
+| `"evaluating"`           | 評価中   | ノートが評価プロセス中の状態       |
+| `"unpublished"`          | 非公開   | ノートが非公開の状態               |
 | `"temporarilyPublished"` | 一時公開 | ノートが一時的に公開されている状態 |
 
 ### ステータス件数型（StatusCounts）
@@ -445,6 +506,7 @@ type PeriodOption = { value: string; label: string };
 > 💡 **補足**: 期間オプションはフロントエンドで定数管理します（APIレスポンスには含めません）。
 
 ### updatedAt
+
 全てのグラフで共通して使用される更新日
 
 ```typescript
@@ -458,12 +520,12 @@ updatedAt: string;
 
 フロントエンドでは以下の色でステータスを表示しています：
 
-| ステータス | 色 | カラーコード |
-|-----------|-----|-------------|
-| 公開中（published） | 紫 | `#ab47bc` |
-| 評価中（evaluating） | 水色 | `#42a5f5` |
-| 非公開（unpublished） | 青 | `#2979ff` |
-| 一時公開（temporarilyPublished） | ピンク | `#ec407a` |
+| ステータス                       | 色     | カラーコード |
+| -------------------------------- | ------ | ------------ |
+| 公開中（published）              | 紫     | `#ab47bc`    |
+| 評価中（evaluating）             | 水色   | `#42a5f5`    |
+| 非公開（unpublished）            | 青     | `#2979ff`    |
+| 一時公開（temporarilyPublished） | ピンク | `#ec407a`    |
 
 ---
 
@@ -477,36 +539,36 @@ updatedAt: string;
 
 以下のグラフでは期間選択が可能です：
 
-| グラフ | パラメータ形式 | 説明 |
-|--------|---------------|------|
-| DailyNotesCreationChart | `"1week"`, `"1month"`, `"3months"`, `"6months"`, `"1year"` | 相対期間指定 |
+| グラフ                      | パラメータ形式                                             | 説明         |
+| --------------------------- | ---------------------------------------------------------- | ------------ |
+| DailyNotesCreationChart     | `"1week"`, `"1month"`, `"3months"`, `"6months"`, `"1year"` | 相対期間指定 |
 | NotesEvaluationChartSection | `"1week"`, `"1month"`, `"3months"`, `"6months"`, `"1year"` | 相対期間指定 |
-| DailyPostCountChart | `"YYYY-MM_YYYY-MM"` (例: `"2024-12_2025-12"`) | 期間範囲指定 |
-| NotesAnnualChartSection | `"YYYY-MM_YYYY-MM"` (例: `"2024-10_2025-09"`) | 期間範囲指定 |
+| DailyPostCountChart         | `"YYYY-MM_YYYY-MM"` (例: `"2024-12_2025-12"`)              | 期間範囲指定 |
+| NotesAnnualChartSection     | `"YYYY-MM_YYYY-MM"` (例: `"2024-10_2025-09"`)              | 期間範囲指定 |
 
 > 💡 **補足**: `"YYYY-MM_YYYY-MM"` のレンジ指定は開始月・終了月の両方を含む（inclusive）想定です。月次集計は開始月〜終了月の全月、日次集計は開始月初日〜終了月末日までを対象にしてください。
 
 ### 相対期間オプション（フロントエンド定数）
 
-| 値 | ラベル |
-|----|--------|
-| `"1week"` | 直近1週間 |
-| `"1month"` | 直近1ヶ月 |
+| 値          | ラベル    |
+| ----------- | --------- |
+| `"1week"`   | 直近1週間 |
+| `"1month"`  | 直近1ヶ月 |
 | `"3months"` | 直近3ヶ月 |
 | `"6months"` | 直近6ヶ月 |
-| `"1year"` | 直近1年 |
+| `"1year"`   | 直近1年   |
 
 ### ステータスフィルター（status）
 
 すべてのグラフで使用可能なフィルターパラメータ:
 
-| 値 | 意味 |
-|----|------|
-| `"all"` | 全て（フィルターなし） |
-| `"published"` | 公開中のみ |
-| `"evaluating"` | 評価中のみ |
-| `"unpublished"` | 非公開のみ |
-| `"temporarilyPublished"` | 一時公開のみ |
+| 値                       | 意味                   |
+| ------------------------ | ---------------------- |
+| `"all"`                  | 全て（フィルターなし） |
+| `"published"`            | 公開中のみ             |
+| `"evaluating"`           | 評価中のみ             |
+| `"unpublished"`          | 非公開のみ             |
+| `"temporarilyPublished"` | 一時公開のみ           |
 
 > 💡 **補足**: フィルタリングはフロントエンド側で行うこともできますが、データ量が多い場合はバックエンドでフィルタリングすることを推奨します。
 
@@ -514,14 +576,14 @@ updatedAt: string;
 
 ## 型定義まとめ表
 
-| グラフ | メインデータ型 | 配列 | 備考 |
-|--------|---------------|------|------|
-| DailyNotesCreationChart | `DailyNotesCreationDataItem` | ✅ | EventMarkerオプション、4種類ステータス |
-| DailyPostCountChart | `DailyPostCountDataItem` | ✅ | EventMarkerオプション、4種類ステータス |
-| NotesAnnualChartSection | `MonthlyNoteData` | ✅ | 公開率含む、monthはYYYY-MM形式、4種類ステータス |
-| NotesEvaluationChartSection | `NoteEvaluationData` | ✅ | 4種類ステータス |
-| NotesEvaluationStatusChart | `NoteEvaluationData` | ✅ | 評価分布図と同じ型を使用、4種類ステータス |
-| PostInfluenceChart | `PostInfluenceData` | ✅ | 4種類ステータス |
+| グラフ                      | メインデータ型               | 配列 | 備考                                            |
+| --------------------------- | ---------------------------- | ---- | ----------------------------------------------- |
+| DailyNotesCreationChart     | `DailyNotesCreationDataItem` | ✅   | EventMarkerオプション、4種類ステータス          |
+| DailyPostCountChart         | `DailyPostCountDataItem`     | ✅   | EventMarkerオプション、4種類ステータス          |
+| NotesAnnualChartSection     | `MonthlyNoteData`            | ✅   | 公開率含む、monthはYYYY-MM形式、4種類ステータス |
+| NotesEvaluationChartSection | `NoteEvaluationData`         | ✅   | 4種類ステータス                                 |
+| NotesEvaluationStatusChart  | `NoteEvaluationData`         | ✅   | 評価分布図と同じ型を使用、4種類ステータス       |
+| PostInfluenceChart          | `PostInfluenceData`          | ✅   | 4種類ステータス                                 |
 
 ---
 
@@ -529,10 +591,10 @@ updatedAt: string;
 
 すべての日付フィールドはハイフン区切りで統一されています：
 
-| 形式 | 使用箇所 | 例 |
-|------|---------|-----|
-| `YYYY-MM-DD` | 日付フィールド（date） | `"2025-01-15"` |
-| `YYYY-MM` | 月フィールド（month）、期間メタデータ | `"2025-01"` |
+| 形式         | 使用箇所                              | 例             |
+| ------------ | ------------------------------------- | -------------- |
+| `YYYY-MM-DD` | 日付フィールド（date）                | `"2025-01-15"` |
+| `YYYY-MM`    | 月フィールド（month）、期間メタデータ | `"2025-01"`    |
 
 ---
 

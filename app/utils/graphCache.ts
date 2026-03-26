@@ -1,4 +1,7 @@
-import type { GraphFetchResult, GraphFetchResultWithMarkers } from "~/components/graph";
+import type {
+  GraphFetchResult,
+  GraphFetchResultWithMarkers,
+} from "~/components/graph";
 
 import { createMemoryCache } from "./memoryCache";
 
@@ -16,7 +19,7 @@ export const graphCache = createMemoryCache<GraphCacheValue>({
 
 export const buildGraphCacheKey = (
   graphType: string,
-  params: Record<string, string | number | undefined>
+  params: Record<string, string | number | undefined>,
 ): string => {
   const search = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {

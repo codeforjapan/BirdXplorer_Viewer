@@ -9,7 +9,10 @@ type MemoryCacheOptions = {
   maxEntries: number;
 };
 
-export const createMemoryCache = <T>({ ttlMs, maxEntries }: MemoryCacheOptions) => {
+export const createMemoryCache = <T>({
+  ttlMs,
+  maxEntries,
+}: MemoryCacheOptions) => {
   const cache = new Map<string, CacheEntry<T>>();
 
   const prune = () => {
@@ -23,7 +26,7 @@ export const createMemoryCache = <T>({ ttlMs, maxEntries }: MemoryCacheOptions) 
     if (cache.size <= maxEntries) return;
 
     const entries = Array.from(cache.entries()).sort(
-      (a, b) => a[1].updatedAt - b[1].updatedAt
+      (a, b) => a[1].updatedAt - b[1].updatedAt,
     );
     const excess = entries.length - maxEntries;
     entries.slice(0, excess).forEach(([key]) => cache.delete(key));

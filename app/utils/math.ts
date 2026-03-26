@@ -8,7 +8,7 @@ export const getArrayMin = (values: number[], fallback = 0): number => {
 
 export const getArrayMinMax = (
   values: number[],
-  fallback = 0
+  fallback = 0,
 ): { min: number; max: number } => {
   if (!values.length) {
     return { min: fallback, max: fallback };

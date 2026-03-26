@@ -1,2 +1,1 @@
 export { SectionTitle } from "./SectionTitle";
-

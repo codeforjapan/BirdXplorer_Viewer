@@ -85,9 +85,7 @@ describe("DateRangePicker", () => {
     const expectedStart = new Date(2025, 0, 10).toISOString();
     const expectedEnd = new Date(2025, 0, 15).toISOString();
     const span = screen.getByLabelText("result");
-    expect(span).toHaveTextContent(
-      `${expectedStart} – ${expectedEnd}`,
-    );
+    expect(span).toHaveTextContent(`${expectedStart} – ${expectedEnd}`);
   });
 
   test("convert で指定した処理を用いてフォームの値を UI に反映できる", () => {

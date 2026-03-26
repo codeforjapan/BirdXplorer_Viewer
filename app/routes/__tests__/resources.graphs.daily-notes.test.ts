@@ -1,6 +1,14 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "vitest";
 
 import { graphCache } from "~/utils/graphCache";
 
@@ -29,7 +37,7 @@ describe("resources.graphs.daily-notes loader", () => {
       http.get("*/api/v1/graphs/daily-notes", () => {
         callCount += 1;
         return HttpResponse.json(dailyNotesFixture, { status: 200 });
-      })
+      }),
     );
   });
 
@@ -63,9 +71,9 @@ describe("resources.graphs.daily-notes loader", () => {
       http.get("*/api/v1/graphs/daily-notes", () => {
         return HttpResponse.json(
           { message: "Internal Server Error" },
-          { status: 500 }
+          { status: 500 },
         );
-      })
+      }),
     );
 
     const url =
@@ -82,10 +90,15 @@ describe("resources.graphs.daily-notes loader", () => {
     server.use(
       http.get("*/api/v1/graphs/daily-notes", () => {
         return HttpResponse.json(
-          { detail: [{ msg: "Invalid period format" }, { msg: "Status is required" }] },
-          { status: 422 }
+          {
+            detail: [
+              { msg: "Invalid period format" },
+              { msg: "Status is required" },
+            ],
+          },
+          { status: 422 },
         );
-      })
+      }),
     );
 
     const url =
@@ -103,11 +116,8 @@ describe("resources.graphs.daily-notes loader", () => {
   it("returns validation error when API returns 400", async () => {
     server.use(
       http.get("*/api/v1/graphs/daily-notes", () => {
-        return HttpResponse.json(
-          { detail: ["Bad request"] },
-          { status: 400 }
-        );
-      })
+        return HttpResponse.json({ detail: ["Bad request"] }, { status: 400 });
+      }),
     );
 
     const url =
@@ -126,9 +136,9 @@ describe("resources.graphs.daily-notes loader", () => {
         callCount += 1;
         return HttpResponse.json(
           { message: "Internal Server Error" },
-          { status: 500 }
+          { status: 500 },
         );
-      })
+      }),
     );
 
     const url =

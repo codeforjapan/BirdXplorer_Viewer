@@ -103,7 +103,7 @@ export const ScatterBubbleChart = ({
           string,
           string | number,
           string | undefined,
-        ]
+        ],
     );
   }, [data]);
 
@@ -112,18 +112,28 @@ export const ScatterBubbleChart = ({
       if (sizeRange.min === sizeRange.max) {
         return (minBubbleSize + maxBubbleSize) / 2;
       }
-      const ratio = (sizeValue - sizeRange.min) / (sizeRange.max - sizeRange.min);
+      const ratio =
+        (sizeValue - sizeRange.min) / (sizeRange.max - sizeRange.min);
       // 平方根でスケーリング: バブルの「面積」が値に比例するようにするため（直径を線形にすると面積が二乗で増え、視覚的に誇張される）
       return minBubbleSize + Math.sqrt(ratio) * (maxBubbleSize - minBubbleSize);
     },
-    [sizeRange, minBubbleSize, maxBubbleSize]
+    [sizeRange, minBubbleSize, maxBubbleSize],
   );
 
   const onEvents = useMemo(() => {
     if (!onBubbleClick) return undefined;
     return {
       click: (params: unknown) => {
-        const p = params as { value?: [number, number, number, string, string | number, string | undefined] };
+        const p = params as {
+          value?: [
+            number,
+            number,
+            number,
+            string,
+            string | number,
+            string | undefined,
+          ];
+        };
         const itemId = p.value?.[5];
         if (itemId) onBubbleClick(itemId);
       },
@@ -162,7 +172,8 @@ export const ScatterBubbleChart = ({
         backgroundColor: GRAPH_STYLES.tooltipBgColor,
         borderColor: GRAPH_STYLES.tooltipBorderColor,
         confine: true,
-        extraCssText: "max-width: 220px; word-break: break-word; white-space: normal;",
+        extraCssText:
+          "max-width: 220px; word-break: break-word; white-space: normal;",
         formatter: (param) => {
           if (Array.isArray(param)) return "";
           const [x, y, size, name, category, itemId] = param.value as [
@@ -215,7 +226,9 @@ export const ScatterBubbleChart = ({
           borderWidth: 1,
         },
         name: categoryConfig.name,
-        symbolSize: (val: [number, number, number, string, string | number]) => {
+        symbolSize: (
+          val: [number, number, number, string, string | number],
+        ) => {
           return calculateBubbleSize(val[2]);
         },
         type: "scatter",
@@ -234,5 +247,12 @@ export const ScatterBubbleChart = ({
     tooltipFormatter,
   ]);
 
-  return <EChartsGraph height={height} minHeight={minHeight} onEvents={onEvents} option={option} />;
+  return (
+    <EChartsGraph
+      height={height}
+      minHeight={minHeight}
+      onEvents={onEvents}
+      option={option}
+    />
+  );
 };

@@ -25,4 +25,3 @@ export function InfoIcon({ className, isActive }: IconProps) {
     </svg>
   );
 }
-

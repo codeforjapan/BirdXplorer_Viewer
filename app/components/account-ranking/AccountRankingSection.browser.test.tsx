@@ -15,9 +15,24 @@ const mockResult: GraphFetchResult<TopNoteAccountDataItem[]> = {
   ok: true,
   updatedAt: "2024-01-01",
   data: [
-    { rank: 1, username: "テストユーザー1", noteCount: 544, noteCountChange: 12 },
-    { rank: 2, username: "テストユーザー2", noteCount: 521, noteCountChange: 6 },
-    { rank: 3, username: "テストユーザー3", noteCount: 500, noteCountChange: -3 },
+    {
+      rank: 1,
+      username: "テストユーザー1",
+      noteCount: 544,
+      noteCountChange: 12,
+    },
+    {
+      rank: 2,
+      username: "テストユーザー2",
+      noteCount: 521,
+      noteCountChange: 6,
+    },
+    {
+      rank: 3,
+      username: "テストユーザー3",
+      noteCount: 500,
+      noteCountChange: -3,
+    },
   ],
 };
 
@@ -87,7 +102,9 @@ describe("AccountRankingSection", () => {
 
     // Positive change should be green
     const positiveChange = screen.getByText("+12");
-    expect(positiveChange.element().classList.contains("text-green")).toBe(true);
+    expect(positiveChange.element().classList.contains("text-green")).toBe(
+      true,
+    );
 
     // Negative change should be red
     const negativeChange = screen.getByText("-3");
@@ -96,7 +113,10 @@ describe("AccountRankingSection", () => {
 
   it("should not set data-hover attribute on table rows", () => {
     const screen = renderWithDataRouter();
-    const rows = screen.getByRole("table").element().querySelectorAll("tbody tr");
+    const rows = screen
+      .getByRole("table")
+      .element()
+      .querySelectorAll("tbody tr");
 
     rows.forEach((row) => {
       expect(row.getAttribute("data-hover")).toBeNull();

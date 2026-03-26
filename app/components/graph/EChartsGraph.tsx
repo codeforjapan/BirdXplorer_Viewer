@@ -43,7 +43,7 @@ export const EChartsGraph = ({
             option: EChartsOption;
             style?: React.CSSProperties;
             onEvents?: Record<string, (params: unknown) => void>;
-          }>
+          }>,
       );
     };
     void loadECharts();
@@ -74,4 +74,3 @@ export const EChartsGraph = ({
     />
   );
 };
-

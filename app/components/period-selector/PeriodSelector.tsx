@@ -23,7 +23,7 @@ export type PeriodSelectorProps<T extends string = string> = {
  * - モバイル対応
  * - カスタム期間オプション対応
  */
-export const PeriodSelector = <T extends string = string,>({
+export const PeriodSelector = <T extends string = string>({
   value,
   onChange,
   periodOptions,

@@ -101,7 +101,7 @@ export const DateRangePicker = ({
           backgroundColor: "var(--color-gray-1)",
         },
         monthCell: {
-          color: "white",
+          "color": "white",
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -114,7 +114,7 @@ export const DateRangePicker = ({
           backgroundColor: "var(--color-gray-1)",
         },
         monthsListControl: {
-          color: "white",
+          "color": "white",
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
@@ -127,14 +127,14 @@ export const DateRangePicker = ({
           backgroundColor: "var(--color-gray-1)",
         },
         yearsListControl: {
-          color: "white",
+          "color": "white",
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",
           },
         },
         day: {
-          color: "white",
+          "color": "white",
           "&[data-selected]": {
             backgroundColor: "var(--color-primary)",
             color: "white",

@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 
-import type { NoteEvaluationData, RelativePeriodValue } from "~/components/graph";
+import type {
+  NoteEvaluationData,
+  RelativePeriodValue,
+} from "~/components/graph";
 import { getDefaultPeriodValue } from "~/components/graph";
 import { getRelativePeriodOptions } from "~/components/graph/periodOptions";
 import type { PeriodOption } from "~/components/graph/types";
@@ -33,7 +36,7 @@ const getPeriodScale = (period?: RelativePeriodValue): number => {
 
 const resolvePeriod = (
   period: RelativePeriodValue | undefined,
-  periodOptions: Array<PeriodOption<RelativePeriodValue>>
+  periodOptions: Array<PeriodOption<RelativePeriodValue>>,
 ): RelativePeriodValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
@@ -42,7 +45,7 @@ const resolvePeriod = (
 };
 
 export const generateMockData = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): NoteEvaluationData[] => {
   const result: NoteEvaluationData[] = [];
   const scale = getPeriodScale(period);
@@ -111,7 +114,7 @@ export const generateMockData = (
 };
 
 export const createMockResponse = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): NotesEvaluationApiResponse => {
   const resolvedPeriod = resolvePeriod(period, getRelativePeriodOptions());
 

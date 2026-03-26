@@ -128,9 +128,7 @@ export default function Search({
                     />
                   )}
 
-                  <Group
-                    gap="lg"
-                  >
+                  <Group gap="lg">
                     <Notes
                       notes={
                         // react-router の型がうまく機能せず notes[number].topics が unknown になったため
