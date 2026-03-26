@@ -1,6 +1,9 @@
 import { Outlet, useMatches } from "react-router";
 
-import { BreadCrumb, type BreadCrumbItem } from "~/components/BreadCrumb/BreadCrumb";
+import {
+  BreadCrumb,
+  type BreadCrumbItem,
+} from "~/components/BreadCrumb/BreadCrumb";
 import { PageTitle } from "~/components/PageTitle/PageTitle";
 
 export type LayoutHandle<T = unknown> = {
@@ -27,12 +30,12 @@ export default function Layout() {
       : handle.breadcrumb;
 
   return (
-    <div className="px-15 pt-10">
-      <div className="mb-9">
+    <div className="px-4 pt-6 md:px-15 md:pt-10">
+      <div className="mb-4 md:mb-9">
         <BreadCrumb items={breadcrumbItems} />
       </div>
 
-      <div className="mb-4.5">
+      <div className="mb-3 md:mb-4.5">
         <PageTitle
           icon={handle.pageTitle.icon}
           subtitle={handle.pageTitle.subtitle}

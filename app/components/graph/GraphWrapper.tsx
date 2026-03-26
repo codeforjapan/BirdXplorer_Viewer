@@ -73,7 +73,7 @@ export const GraphWrapper = <T extends string = string,>({
         align="flex-start"
         className={isMobile ? "mb-3" : "mb-4"}
         justify="space-between"
-        wrap="nowrap"
+        wrap={isMobile ? "wrap" : "nowrap"}
       >
         <Stack gap={4}>
           <Group align="center" gap="xs">

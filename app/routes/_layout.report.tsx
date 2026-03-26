@@ -78,7 +78,7 @@ export default function Report() {
 
   return (
     <Stack gap="lg">
-      <div className="flex justify-end">
+      <div className="flex justify-start md:justify-end">
         <PeriodSelector
           onChange={setPeriod}
           periodOptions={REPORT_PERIOD_OPTIONS}

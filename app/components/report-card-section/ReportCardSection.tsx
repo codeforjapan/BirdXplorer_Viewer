@@ -32,10 +32,14 @@ export const ReportCardSection = ({
           <span>View All</span>
         </a>
       </div>
-      <div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 md:p-6 lg:grid-cols-4">
-        {displayItems.map((item) => (
-          <ReportCard item={item} key={item.id} />
-        ))}
+      <div className="overflow-x-auto md:overflow-x-visible">
+        <div className="flex gap-4 py-4 md:grid md:grid-cols-2 md:gap-8 md:p-6 lg:grid-cols-4">
+          {displayItems.map((item) => (
+            <div className="w-[280px] shrink-0 md:w-auto" key={item.id}>
+              <ReportCard item={item} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

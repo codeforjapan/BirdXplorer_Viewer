@@ -8,7 +8,10 @@ import { BaseCard } from "~/components/BaseCard/BaseCard";
 import { DailyNotesCreationChart } from "~/components/daily-notes-creation-chart";
 import { DailyPostCountChart } from "~/components/daily-post-count-chart";
 import { ReportSummaryCard } from "~/components/feature/report-summary-card";
-import type { GraphFetchResult, GraphFetchResultWithMarkers } from "~/components/graph";
+import type {
+  GraphFetchResult,
+  GraphFetchResultWithMarkers,
+} from "~/components/graph";
 import type {
   DailyNotesCreationDataItem,
   DailyPostCountDataItem,
@@ -32,7 +35,10 @@ import { SectionTitle } from "~/components/SectionTitle";
 import { FEATURES } from "~/data/features";
 import type { Feature } from "~/data/features";
 import { WEB_PATHS } from "~/constants/paths";
-import { relativePeriodToTimestamps, timestampsToDateRange } from "~/utils/dateRange";
+import {
+  relativePeriodToTimestamps,
+  timestampsToDateRange,
+} from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { LayoutHandle } from "./_layout";
@@ -83,7 +89,10 @@ type GraphLoaderData = {
 
 const createFallbackError = <T,>(): GraphFetchResultWithMarkers<T> => ({
   ok: false,
-  error: { kind: "network", message: "通信エラーが発生しました。時間をおいて再試行してください。" },
+  error: {
+    kind: "network",
+    message: "通信エラーが発生しました。時間をおいて再試行してください。",
+  },
 });
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
@@ -98,19 +107,22 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   }
 
   const features = getAllFeatures();
-  const feature = features.find((f) => f.detail.href === `/feature/${year}/${slug}`);
+  const feature = features.find(
+    (f) => f.detail.href === `/feature/${year}/${slug}`,
+  );
 
   const status: StatusValue = "all";
   const language = feature?.language;
   const keywords = feature?.keywords;
 
   const defaultTimestamps = relativePeriodToTimestamps("6months");
-  const graphTimestamps = feature?.startDate && feature?.endDate
-    ? {
-        start_date: new Date(feature.startDate).getTime(),
-        end_date: new Date(feature.endDate).getTime(),
-      }
-    : defaultTimestamps;
+  const graphTimestamps =
+    feature?.startDate && feature?.endDate
+      ? {
+          start_date: new Date(feature.startDate).getTime(),
+          end_date: new Date(feature.endDate).getTime(),
+        }
+      : defaultTimestamps;
 
   const { start_date, end_date } = graphTimestamps;
 
@@ -137,7 +149,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
       limit: DEFAULT_GRAPH_LIMIT,
       language,
       keywords,
-    }
+    },
   );
   const postInfluenceKey = buildGraphCacheKey("post-influence", {
     start_date,
@@ -148,16 +160,14 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     keywords,
   });
 
-  const dailyNotesCached =
-    graphCache.get(dailyNotesKey) as
-      | GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>
-      | undefined;
-  const dailyPostsCached =
-    graphCache.get(dailyPostsKey) as
-      | GraphFetchResultWithMarkers<DailyPostCountDataItem[]>
-      | undefined;
+  const dailyNotesCached = graphCache.get(dailyNotesKey) as
+    | GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>
+    | undefined;
+  const dailyPostsCached = graphCache.get(dailyPostsKey) as
+    | GraphFetchResultWithMarkers<DailyPostCountDataItem[]>
+    | undefined;
   const notesEvaluationStatusCached = graphCache.get(
-    notesEvaluationStatusKey
+    notesEvaluationStatusKey,
   ) as GraphFetchResult<NoteEvaluationData[]> | undefined;
   const postInfluenceCached = graphCache.get(postInfluenceKey) as
     | GraphFetchResult<PostInfluenceData[]>
@@ -167,14 +177,26 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     dailyNotesCached
       ? Promise.resolve(dailyNotesCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyNotesGraph({ start_date, end_date, status, language, keywords });
+          const result = await fetchDailyNotesGraph({
+            start_date,
+            end_date,
+            status,
+            language,
+            keywords,
+          });
           if (result.ok) graphCache.set(dailyNotesKey, result);
           return result;
         }),
     dailyPostsCached
       ? Promise.resolve(dailyPostsCached)
       : safeGraphFetchWithMarkers(async () => {
-          const result = await fetchDailyPostsGraph({ start_date, end_date, status, language, keywords });
+          const result = await fetchDailyPostsGraph({
+            start_date,
+            end_date,
+            status,
+            language,
+            keywords,
+          });
           if (result.ok) graphCache.set(dailyPostsKey, result);
           return result;
         }),
@@ -210,13 +232,21 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
   const graphs: GraphLoaderData = {
     dailyNotes:
-      settled[0].status === "fulfilled" ? settled[0].value : createFallbackError(),
+      settled[0].status === "fulfilled"
+        ? settled[0].value
+        : createFallbackError(),
     dailyPosts:
-      settled[1].status === "fulfilled" ? settled[1].value : createFallbackError(),
+      settled[1].status === "fulfilled"
+        ? settled[1].value
+        : createFallbackError(),
     notesEvaluationStatus:
-      settled[2].status === "fulfilled" ? settled[2].value : createFallbackError(),
+      settled[2].status === "fulfilled"
+        ? settled[2].value
+        : createFallbackError(),
     postInfluence:
-      settled[3].status === "fulfilled" ? settled[3].value : createFallbackError(),
+      settled[3].status === "fulfilled"
+        ? settled[3].value
+        : createFallbackError(),
   };
 
   return {
@@ -232,12 +262,15 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
   currentUrl,
   nextUrl,
 }) => {
-
-  if (currentParams.year !== nextParams.year || currentParams.slug !== nextParams.slug) return true;
+  if (
+    currentParams.year !== nextParams.year ||
+    currentParams.slug !== nextParams.slug
+  )
+    return true;
 
   const graphKeys = ["period", "status", "range", "limit"];
   const hasGraphChange = graphKeys.some(
-    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key)
+    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key),
   );
   return hasGraphChange;
 };
@@ -263,7 +296,7 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
         {feature.detail.title}
       </h2>
       {/* ReportSummaryCardとグラフを2列に配置 */}
-      <Grid align="stretch" gutter="xl" py="md">
+      <Grid align="stretch" gutter={{ base: "md", md: "xl" }} py="md">
         <Grid.Col span={{ base: 12, md: 6 }}>
           <ReportSummaryCard
             className="h-full"
@@ -277,30 +310,40 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           <AccountRankingSection fixedTimestamps={graphTimestamps} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyPostCountChart initialDateRange={initialDateRange} initialResult={graphs?.dailyPosts} />
+          <DailyPostCountChart
+            initialDateRange={initialDateRange}
+            initialResult={graphs?.dailyPosts}
+          />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <DailyNotesCreationChart initialDateRange={initialDateRange} initialResult={graphs?.dailyNotes} />
+          <DailyNotesCreationChart
+            initialDateRange={initialDateRange}
+            initialResult={graphs?.dailyNotes}
+          />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <PostInfluenceChart initialDateRange={initialDateRange} initialResult={graphs?.postInfluence} />
+          <PostInfluenceChart
+            initialDateRange={initialDateRange}
+            initialResult={graphs?.postInfluence}
+          />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
-          <NotesEvaluationStatusChart initialDateRange={initialDateRange} initialResult={graphs?.notesEvaluationStatus} />
+          <NotesEvaluationStatusChart
+            initialDateRange={initialDateRange}
+            initialResult={graphs?.notesEvaluationStatus}
+          />
         </Grid.Col>
       </Grid>
 
-      {
-        feature.kouchouAiPath && (
-          <Box my="xl">
-            <AutoResizeIframe
-              sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
-              src={String(feature.kouchouAiPath)}
-              title="広聴AI"
-            />
-          </Box>
-        )
-      }
+      {feature.kouchouAiPath && (
+        <Box my="xl">
+          <AutoResizeIframe
+            sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
+            src={String(feature.kouchouAiPath)}
+            title="広聴AI"
+          />
+        </Box>
+      )}
 
       {/* 他の特集へのリンクなど */}
       <section className="py-4">

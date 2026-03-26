@@ -13,7 +13,10 @@ import {
   StackedBarLineChart,
   STATUS_COLORS,
 } from "~/components/graph";
-import { dateRangeToTimestamps, getDefault12MonthRange } from "~/utils/dateRange";
+import {
+  dateRangeToTimestamps,
+  getDefault12MonthRange,
+} from "~/utils/dateRange";
 
 /** 公開率の色（オレンジ） */
 const PUBLICATION_RATE_COLOR = "#ffa726";
@@ -125,7 +128,7 @@ export const NotesAnnualChartSection = ({
 
   const chartData = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
 
   const [visibility, setVisibility] = useState<SeriesVisibility>({
@@ -143,7 +146,7 @@ export const NotesAnnualChartSection = ({
   // グラフデータを変換（YYYY-MM → YYYY/MM に変換して表示）
   const categories = useMemo(
     () => chartData.map((d) => d.month.replace("-", "/")),
-    [chartData]
+    [chartData],
   );
   const barSeries = useMemo(
     () => [
@@ -173,7 +176,13 @@ export const NotesAnnualChartSection = ({
         visible: visibility.temporarilyPublished,
       },
     ],
-    [chartData, visibility.published, visibility.evaluating, visibility.unpublished, visibility.temporarilyPublished]
+    [
+      chartData,
+      visibility.published,
+      visibility.evaluating,
+      visibility.unpublished,
+      visibility.temporarilyPublished,
+    ],
   );
 
   const lineSeries = useMemo(
@@ -184,11 +193,11 @@ export const NotesAnnualChartSection = ({
       visible: visibility.publicationRate,
       unit: "%",
     }),
-    [chartData, visibility.publicationRate]
+    [chartData, visibility.publicationRate],
   );
 
   const footer = (
-    <Group gap="xl">
+    <Group gap="xl" wrap="wrap">
       <Group align="center" gap="xs">
         <Text c="white" fw={700} size="md">
           ステータス

@@ -9,7 +9,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
-import { SideMenu } from "./components/SideMenu";
+import { LogoIcon } from "./components/logo";
+import { MobileMenuButton, SideMenu } from "./components/SideMenu";
 import { mantineTheme } from "./config/mantine";
 
 dayjs.extend(customParseFormat);
@@ -40,8 +41,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <div className="flex min-h-dvh flex-col bg-black">
+      <header className="flex items-center justify-between bg-black px-5 py-4 md:hidden">
+        <a href="/">
+          <LogoIcon />
+        </a>
+        <MobileMenuButton />
+      </header>
       <div className="flex flex-1 bg-black">
-        <SideMenu />
+        <SideMenu className="hidden md:flex" />
         <main className="flex-1 bg-black">
           <Outlet />
         </main>
