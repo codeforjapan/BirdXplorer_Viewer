@@ -156,9 +156,9 @@ describe("resources.graphs.daily-notes loader", () => {
 
   it("uses separate cache for different parameters", async () => {
     const url1 =
-      "http://localhost/resources/graphs/daily-notes?period=1month&status=all";
+      "http://localhost/resources/graphs/daily-notes?start_date=1700000000000&end_date=1702592000000&status=all";
     const url2 =
-      "http://localhost/resources/graphs/daily-notes?period=3months&status=all";
+      "http://localhost/resources/graphs/daily-notes?start_date=1700000000000&end_date=1705184000000&status=all";
 
     await loader(createArgs(url1));
     expect(callCount).toBe(1);
