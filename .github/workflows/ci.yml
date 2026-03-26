@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -80,8 +82,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps
 
-      - name: Save Playwright Browser Cache if main branch
-        if: github.ref_name == 'main'
+      - name: Save Playwright Browser Cache if main or dev branch
+        if: github.ref_name == 'main' || github.ref_name == 'dev'
         id: save-pnpm-cache
         uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
