@@ -9,19 +9,20 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { Form, useNavigation } from "react-router";
 
-import { FormError } from "../../../components/FormError";
-import { DateRangePicker } from "../../../components/input/DateRangePicker";
-import { TextInput } from "../../../components/mantine/TextInput";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { mantineInputOrder } from "../../../config/mantine";
-import type { Topic } from "../../../generated/api/schemas";
-import { useMultiSelectInputControl } from "../../../hooks/useMultiSelectInputControl";
-import { containsNonNullValues } from "../../../utils/array";
-import { safeDateFromUnixMs } from "../../../utils/date";
-import { LANGUAGE_ID_TO_LABEL } from "../language";
-import type { NoteSearchParams } from "../types";
-import { useSimpleNoteSearchForm } from "../useForm";
-import { useLanguageLiteral } from "../useLanguageLiteral";
+import { FormError } from "~/components/FormError";
+import { DateRangePicker } from "~/components/input/DateRangePicker";
+import { TextInput } from "~/components/mantine/TextInput";
+import { SubmitButton } from "~/components/SubmitButton";
+import { mantineInputOrder } from "~/config/mantine";
+import { LANGUAGE_ID_TO_LABEL } from "~/feature/search/language";
+import type { NoteSearchParams } from "~/feature/search/types";
+import { useSimpleNoteSearchForm } from "~/feature/search/useForm";
+import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
+import type { Topic } from "~/generated/api/schemas";
+import { useMultiSelectInputControl } from "~/hooks/useMultiSelectInputControl";
+import { containsNonNullValues } from "~/utils/array";
+import { safeDateFromUnixMs } from "~/utils/date";
+
 import { AdvancedSearchForm } from "./AdvancedSearchForm";
 import { AdvancedSearchModal } from "./AdvancedSearchModal";
 import { LanguageSelect } from "./input/LanguageSelect";
@@ -110,6 +111,8 @@ export const SearchForm = (props: SearchFormProps) => {
         <Stack>
           <TextInput
             autoComplete="off"
+            c="white"
+            classNames={{ input: "!bg-gray-1 !border-gray-5" }}
             disabled={searchInProgress}
             error={
               containsNonNullValues(fields.note_includes_text.errors) && (
@@ -117,6 +120,14 @@ export const SearchForm = (props: SearchFormProps) => {
               )
             }
             label="コミュニティノートに含まれるテキスト"
+            styles={{
+              input: {
+                color: "white",
+              },
+              label: {
+                marginBottom: "8px",
+              },
+            }}
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
           <TopicSelect
@@ -141,6 +152,8 @@ export const SearchForm = (props: SearchFormProps) => {
             valueFormat="YYYY.MM.DD (ddd)"
           />
           <Autocomplete
+            c="white"
+            classNames={{ input: "!bg-gray-1 !border-gray-5" }}
             data={["10", "20", "50", "100"]}
             description="80: 1ページに最大 80 件のコミュニティノートを表示"
             disabled={searchInProgress}
@@ -152,6 +165,14 @@ export const SearchForm = (props: SearchFormProps) => {
             errorProps={{ component: "div" }}
             inputWrapperOrder={mantineInputOrder}
             label="1ページあたりの表示件数"
+            styles={{
+              input: {
+                color: "white",
+              },
+              label: {
+                marginBottom: "8px",
+              },
+            }}
             {...getInputProps(fields.limit, { type: "number" })}
           />
           {/**
@@ -235,19 +256,26 @@ export const SearchForm = (props: SearchFormProps) => {
               })}
             />
           </>
-          <div className="flex flex-col-reverse gap-y-4 md:flex-col">
+          <div className="pt-4 md:pt-5" />
+          <div className="flex flex-col-reverse gap-y-4 pt-3 md:flex-col">
             {/* 最後の入力の直後は必ず submit ボタンにフォーカスが当たるようにするために、
             DOM の順序は固定して flex direction で並べ替える
             */}
             <SubmitButton
-              color="pink"
+              c="white"
               disabled={!form.valid || searchInProgress}
               loading={searchInProgress}
+              styles={{
+                root: {
+                  backgroundColor: "var(--color-primary)",
+                  borderRadius: "9999px",
+                },
+              }}
             >
-              検索
+              Search
             </SubmitButton>
             <UnstyledButton
-              c="pink"
+              c="blue"
               className="ms-auto me-0"
               onClick={openAdvancedSearch}
               type="button"

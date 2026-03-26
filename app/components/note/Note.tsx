@@ -1,14 +1,15 @@
 import { Badge, Button, Card, Group, Stack, Text } from "@mantine/core";
 import { useMemo } from "react";
 
-import { LANGUAGE_ID_TO_LABEL } from "../../feature/search/language";
+import { Post } from "~/components/post/Post";
+import { LANGUAGE_ID_TO_LABEL } from "~/feature/search/language";
 import {
   birdWatchLinkFromPostId,
   postLinkFromPostId,
-} from "../../feature/twitter/link-builder";
-import type { SearchedNote } from "../../generated/api/schemas";
-import { isNonEmptyString } from "../../utils/string";
-import { Post } from "../post/Post";
+} from "~/feature/twitter/link-builder";
+import type { SearchedNote } from "~/generated/api/schemas";
+import { isNonEmptyString } from "~/utils/string";
+
 import { NoteStatus } from "./NoteStatus";
 import { NoteTopic } from "./NoteTopics";
 
@@ -32,20 +33,22 @@ export const Note = ({ note }: NoteProps) => {
 
   return (
     <Card
+      bg="var(--color-twitter-dark-1)"
       className="content-visibility-auto"
       component="article"
       padding="lg"
       radius="md"
       w="100%"
-      withBorder
     >
       <Stack gap="md">
-        <Group className="text-sm text-zinc-600" justify="space-between">
+        <Group className="text-sm text-white" justify="space-between">
           <span>NoteID: {note.noteId}</span>
           <span>ノートの作成日時: {dateString}</span>
         </Group>
         <Stack gap="xs">
-          <Text className="break-words">{note.summary}</Text>
+          <Text c="white" className="break-words">
+            {note.summary}
+          </Text>
           <NoteStatus status={note.currentStatus} />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-[auto_1fr] md:gap-4">
             <Badge
@@ -60,7 +63,7 @@ export const Note = ({ note }: NoteProps) => {
             <NoteTopic topics={note.topics} />
           </div>
         </Stack>
-        <Post post={note.post} />
+        {note.post && <Post post={note.post} />}
         {
           // ref: https://github.com/codeforjapan/BirdXplorer_Viewer/pull/32#discussion_r1978997326
           // API 側で Post 情報を非同期に取得する仕様変更が予定されているが、誤って postId が null になってしまう場合がありえるので
@@ -68,7 +71,7 @@ export const Note = ({ note }: NoteProps) => {
           isNonEmptyString(note.postId) && (
             <Group justify="flex-end">
               <Button
-                color="pink"
+                color="white"
                 component="a"
                 href={postLinkFromPostId(note.postId)}
                 size="xs"
@@ -78,7 +81,7 @@ export const Note = ({ note }: NoteProps) => {
                 ポストを見る
               </Button>
               <Button
-                color="pink"
+                color="white"
                 component="a"
                 href={birdWatchLinkFromPostId(note.postId)}
                 size="xs"

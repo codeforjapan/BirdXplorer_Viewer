@@ -1,4 +1,4 @@
-import type { NoteCurrentStatus } from "../../generated/api/schemas/noteCurrentStatus";
+import type { NoteCurrentStatus } from "~/generated/api/schemas/noteCurrentStatus";
 
 export const NOTE_CURRENT_STATUS = {
   CURRENTLY_RATED_HELPFUL: "現在のところ「役に立った」と評価されています",

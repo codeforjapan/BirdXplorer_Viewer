@@ -1,209 +1,155 @@
-import { parseWithZod } from "@conform-to/zod";
-import { Anchor, Card, Container, Divider, Group, Stack } from "@mantine/core";
-import { data, Link, redirect } from "react-router";
-import { getQuery, withQuery } from "ufo";
+import { Container, Grid, Stack } from "@mantine/core";
 
-import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
-
-import { Notes } from "../components/note/Notes";
-import { SearchForm } from "../feature/search/components/SearchForm";
-import { SearchPagination } from "../feature/search/components/SearchPagination";
-import { noteSearchParamSchema } from "../feature/search/validation";
+import { AboutSection } from "~/components/about-section";
+import { AccountRankingSection } from "~/components/account-ranking";
+import { AutoResizeIframe } from "~/components/auto-resize-iframe/AutoResizeIframe";
+import { FeatureSection } from "~/components/feature-section";
+import type { GraphFetchResult } from "~/components/graph";
+import type {
+  MonthlyNoteData,
+  NoteEvaluationData,
+  StatusValue,
+} from "~/components/graph";
 import {
-  getTopicsApiV1DataTopicsGet,
-  searchApiV1DataSearchGet,
-} from "../generated/api/client";
-import type { SearchedNote, Topic } from "../generated/api/schemas";
-import { useNetworkBusy } from "../hooks/useNetworkBusy";
+  DEFAULT_GRAPH_LIMIT,
+  fetchNotesAnnualGraph,
+  fetchNotesEvaluationGraph,
+  safeGraphFetch,
+} from "~/components/graph/graphFetchers";
+import { FeatureIcon } from "~/components/icons";
+import { NotesAnnualChartSection } from "~/components/notes-annual-chart";
+import { NotesEvaluationChartSection } from "~/components/notes-evaluation-chart";
+import { PageTitle } from "~/components/PageTitle";
+import { ReportCardSection } from "~/components/report-card-section/ReportCardSection";
+import {
+  getDefault12MonthRange,
+  getDefault14DayRange,
+} from "~/utils/dateRange";
+import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
+
 import type { Route } from "./+types/_index";
 
-export const meta: Route.MetaFunction = () => {
-  return [
-    { title: "BirdXplorer" },
-    {
-      name: "description",
-      content:
-        "BirdXplorer is software that helps users explore community notes data on X (formerly known as Twitter).",
-    },
-    {
-      name: "robots",
-      content: "noindex, nofollow",
-    },
-  ];
-};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const loader = async (_args: Route.LoaderArgs) => {
+  const status: StatusValue = "all";
 
-export const links: Route.LinksFunction = () => {
-  return [
-    {
-      rel: "canonical",
-      href: "https://birdxplorer.code4japan.org",
-    },
-  ];
-};
+  // デフォルトの日付範囲を設定
+  const defaultNotesAnnualTimestamps = getDefault12MonthRange();
+  const defaultEvaluationTimestamps = getDefault14DayRange();
 
-export const loader = async (args: Route.LoaderArgs) => {
-  const rawSearchParams = getQuery(args.request.url);
-  const searchQuery =
-    await noteSearchParamSchema.safeParseAsync(rawSearchParams);
+  // キャッシュキー構築
+  const notesAnnualKey = buildGraphCacheKey("notes-annual", {
+    start_date: defaultNotesAnnualTimestamps.start_date,
+    end_date: defaultNotesAnnualTimestamps.end_date,
+    status,
+  });
+  const notesEvaluationKey = buildGraphCacheKey("notes-evaluation", {
+    start_date: defaultEvaluationTimestamps.start_date,
+    end_date: defaultEvaluationTimestamps.end_date,
+    status,
+    limit: DEFAULT_GRAPH_LIMIT,
+  });
 
-  if (!searchQuery.success) {
-    return data(
-      {
-        data: {
-          searchQuery: null,
-          searchResults: {
-            data: [],
-            meta: {
-              next: null,
-              prev: null,
-            },
-          },
-          topics: [],
-        },
-        error: searchQuery.error.errors,
-      },
-      {
-        status: 400,
-        statusText: "Bad Request",
-      },
-    );
-  }
+  // キャッシュ確認
+  const notesAnnualCached = graphCache.get(notesAnnualKey) as
+    | GraphFetchResult<MonthlyNoteData[]>
+    | undefined;
+  const notesEvaluationCached = graphCache.get(notesEvaluationKey) as
+    | GraphFetchResult<NoteEvaluationData[]>
+    | undefined;
 
-  const [topics, response] = await Promise.all([
-    // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
-    getTopicsApiV1DataTopicsGet(),
-    searchApiV1DataSearchGet(searchQuery.data),
+  const settled = await Promise.allSettled([
+    notesAnnualCached
+      ? Promise.resolve(notesAnnualCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchNotesAnnualGraph({
+            start_date: defaultNotesAnnualTimestamps.start_date,
+            end_date: defaultNotesAnnualTimestamps.end_date,
+            status,
+          });
+          if (result.ok) graphCache.set(notesAnnualKey, result);
+          return result;
+        }),
+    notesEvaluationCached
+      ? Promise.resolve(notesEvaluationCached)
+      : safeGraphFetch(async () => {
+          const result = await fetchNotesEvaluationGraph({
+            start_date: defaultEvaluationTimestamps.start_date,
+            end_date: defaultEvaluationTimestamps.end_date,
+            status,
+            limit: DEFAULT_GRAPH_LIMIT,
+          });
+          if (result.ok) graphCache.set(notesEvaluationKey, result);
+          return result;
+        }),
   ]);
 
+  const notesAnnual =
+    settled[0].status === "fulfilled"
+      ? settled[0].value
+      : ({
+          ok: false,
+          error: {
+            kind: "network",
+            message:
+              "通信エラーが発生しました。時間をおいて再試行してください。",
+          },
+        } as GraphFetchResult<MonthlyNoteData[]>);
+  const notesEvaluation =
+    settled[1].status === "fulfilled"
+      ? settled[1].value
+      : ({
+          ok: false,
+          error: {
+            kind: "network",
+            message:
+              "通信エラーが発生しました。時間をおいて再試行してください。",
+          },
+        } as GraphFetchResult<NoteEvaluationData[]>);
+
   return {
-    data: {
-      searchQuery: searchQuery.data,
-      searchResults: response.data,
-      topics: topics.data.data,
+    graphs: {
+      notesAnnual,
+      notesEvaluation,
     },
-    error: null,
   };
 };
 
-export default function Index({
-  actionData,
-  loaderData,
-}: Route.ComponentProps) {
-  const isNetworkBusy = useNetworkBusy();
-
-  const {
-    topics,
-    searchQuery,
-    searchResults: { data: notes, meta: paginationMeta },
-  } = loaderData.data;
-
+export default function Index({ loaderData }: Route.ComponentProps) {
   return (
-    <>
-      <header className="border-b border-gray-300">
-        <Container className="p-4" size="lg">
-          <h1 className="text-2xl font-bold">BirdXplorer</h1>
-        </Container>
-      </header>
-      <main>
-        <Container className="p-4" size="md">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-            <div className="md:col-span-1">
-              <h2 className="sr-only">コミュニティノートを検索する</h2>
-              <SearchForm
-                defaultValue={searchQuery ?? undefined}
-                lastResult={actionData}
-                topics={
-                  // react-router の型がうまく機能せず topics が unknown になったため
-                  topics as Topic[]
-                }
+    <main>
+      <Container className="py-4 md:py-8" size="xl">
+        <Stack gap="xl">
+          <AboutSection />
+          <FeatureSection />
+          <ReportCardSection maxItems={4} />
+          <NotesAnnualChartSection
+            initialResult={loaderData.graphs.notesAnnual}
+          />
+          <Grid align="stretch" gutter="xl">
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <NotesEvaluationChartSection
+                className="h-full"
+                initialResult={loaderData.graphs.notesEvaluation}
               />
-            </div>
-            <Divider className="md:hidden" />
-            <div className="size-full md:col-span-2">
-              <h2 className="sr-only">コミュニティノートの検索結果</h2>
-              <Stack className="size-full">
-                {notes.length > 0 ? (
-                  <>
-                    {searchQuery && (
-                      <SearchPagination
-                        className="ms-auto me-0"
-                        currentQuery={searchQuery}
-                        loading={isNetworkBusy}
-                        meta={paginationMeta}
-                        visibleItemCount={notes.length}
-                      />
-                    )}
-                    <Group gap="lg">
-                      <Notes
-                        notes={
-                          // react-router の型がうまく機能せず notes[number].topics が unknown になったため
-                          notes as SearchedNote[]
-                        }
-                      />
-                    </Group>
-                    {searchQuery && (
-                      <SearchPagination
-                        className="ms-auto me-0"
-                        currentQuery={searchQuery}
-                        loading={isNetworkBusy}
-                        meta={paginationMeta}
-                        visibleItemCount={notes.length}
-                      />
-                    )}
-                  </>
-                ) : (
-                  <Card
-                    className="grid size-full place-content-center"
-                    padding="lg"
-                    radius="md"
-                    w="100%"
-                    withBorder
-                  >
-                    <div className="flex flex-col items-center justify-center gap-4 text-zinc-600">
-                      <Fa6SolidMagnifyingGlass className="text-4xl text-current" />
-                      <span className="text-center text-lg font-semibold text-balance">
-                        コミュニティノートが見つかりませんでした
-                      </span>
-                    </div>
-                  </Card>
-                )}
-              </Stack>
-            </div>
-          </div>
-        </Container>
-      </main>
-      <footer className="sticky top-full border-t border-zinc-300">
-        <Container className="flex justify-center p-4 md:justify-end" size="lg">
-          <p className="inline-flex flex-col items-center justify-center gap-2 text-sm font-semibold text-zinc-700 md:flex-row md:gap-4">
-            <span>© 2025 Code for Japan</span>
-            <Anchor
-              c="pink"
-              component={Link}
-              size="sm"
-              target="_blank"
-              to="https://www.code4japan.org/"
-              underline="hover"
-            >
-              一般社団法人 コード・フォー・ジャパン
-            </Anchor>
-          </p>
-        </Container>
-      </footer>
-    </>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <AccountRankingSection className="h-full" />
+            </Grid.Col>
+          </Grid>
+
+          <PageTitle
+            icon={<FeatureIcon isActive />}
+            subtitle="広聴AIによる可視化"
+            title="Overview"
+          />
+          <AutoResizeIframe
+            sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
+            src="/kouchou-ai/2026/01/d2ca1370-0e55-4e51-95e2-9dd3c105a202/index.html"
+            title="広聴AI"
+          />
+        </Stack>
+      </Container>
+    </main>
   );
 }
-
-export const action = async ({ request }: Route.ActionArgs) => {
-  const formData = await request.formData();
-  const submission = parseWithZod(formData, {
-    schema: noteSearchParamSchema,
-  });
-
-  if (submission.status !== "success") {
-    return submission.reply();
-  }
-
-  const destination = withQuery("/", submission.value);
-
-  return redirect(destination);
-};

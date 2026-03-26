@@ -5,13 +5,13 @@ import { Link } from "react-router";
 import { getQuery, withQuery } from "ufo";
 import type { z } from "zod";
 
+import { WEB_PATHS } from "~/constants/paths";
+import { buildPaginationMeta } from "~/feature/search/pagination";
+import type { noteSearchParamSchema } from "~/feature/search/validation";
+import type { PaginationMeta } from "~/generated/api/schemas/paginationMeta";
+import { useNetworkBusy } from "~/hooks/useNetworkBusy";
 import Fa6SolidAngleLeft from "~icons/fa6-solid/angle-left";
 import Fa6SolidAngleRight from "~icons/fa6-solid/angle-right";
-
-import type { PaginationMeta } from "../../../generated/api/schemas/paginationMeta";
-import { useNetworkBusy } from "../../../hooks/useNetworkBusy";
-import { buildPaginationMeta } from "../pagination";
-import type { noteSearchParamSchema } from "../validation";
 
 type PaginationProps = {
   meta: PaginationMeta;
@@ -38,11 +38,17 @@ export const SearchPagination = ({
   const totalDisplayedItems = currentQuery.offset + visibleItemCount;
 
   const prevTo = useMemo(
-    () => (pagination?.prev ? withQuery("/", getQuery(pagination.prev)) : null),
+    () =>
+      pagination?.prev
+        ? withQuery(WEB_PATHS.search.index, getQuery(pagination.prev))
+        : null,
     [pagination?.prev],
   );
   const nextTo = useMemo(
-    () => (pagination?.next ? withQuery("/", getQuery(pagination.next)) : null),
+    () =>
+      pagination?.next
+        ? withQuery(WEB_PATHS.search.index, getQuery(pagination.next))
+        : null,
     [pagination?.next],
   );
 
@@ -61,13 +67,13 @@ export const SearchPagination = ({
 
   return (
     <Group {...groupProps}>
-      <Text>
+      <Text c="white">
         {pageFirstItemIndex} ～ {totalDisplayedItems} 件目を表示中
+        {meta.total != null && `（全 ${meta.total} 件）`}
       </Text>
       {prevTo ? (
         <ActionIcon
           aria-label="前のページへ移動する"
-          color="pink"
           component={Link}
           disabled={isNetworkBusy}
           loading={prevLoading}
@@ -85,7 +91,6 @@ export const SearchPagination = ({
       {nextTo ? (
         <ActionIcon
           aria-label="次のページへ移動する"
-          color="pink"
           component={Link}
           disabled={isNetworkBusy}
           loading={nextLoading}

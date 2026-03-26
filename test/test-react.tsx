@@ -1,3 +1,5 @@
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 
 import { MantineProvider } from "@mantine/core";
@@ -6,26 +8,38 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import type { ReactElement } from "react";
 import type React from "react";
+import { MemoryRouter } from "react-router";
 import type { ComponentRenderOptions } from "vitest-browser-react";
 import { render } from "vitest-browser-react";
 
-import { mantineTheme } from "../app/config/mantine";
+import { mantineTheme } from "~/config/mantine";
 
 dayjs.extend(customParseFormat);
 
-const wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <MantineProvider theme={mantineTheme}>
-      <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
-        {children}
-      </DatesProvider>
-    </MantineProvider>
-  );
+type CustomRenderOptions = Omit<ComponentRenderOptions, "wrapper"> & {
+  initialEntries?: string[];
+  initialIndex?: number;
 };
 
 const customRender = (
   ui: ReactElement,
-  options?: Omit<ComponentRenderOptions, "wrapper">,
-) => render(ui, { wrapper, ...options });
+  options?: CustomRenderOptions,
+) => {
+  const { initialEntries, initialIndex, ...rest } = options ?? {};
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <MemoryRouter initialEntries={initialEntries} initialIndex={initialIndex}>
+        <MantineProvider theme={mantineTheme}>
+          <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
+            {children}
+          </DatesProvider>
+        </MantineProvider>
+      </MemoryRouter>
+    );
+  };
+
+  return render(ui, { wrapper, ...rest });
+};
 
 export { customRender as render };

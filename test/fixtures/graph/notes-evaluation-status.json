@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "noteId": "note-2",
+      "name": "note",
+      "helpfulCount": 8,
+      "notHelpfulCount": 3,
+      "impressionCount": 90,
+      "status": "evaluating"
+    }
+  ],
+  "updatedAt": "2025-01-01"
+}

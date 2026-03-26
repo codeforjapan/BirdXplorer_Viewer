@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "postId": "post-1",
+      "name": "post",
+      "repostCount": 5,
+      "likeCount": 20,
+      "impressionCount": 100,
+      "status": "published"
+    }
+  ],
+  "updatedAt": "2025-01-01"
+}
