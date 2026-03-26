@@ -81,8 +81,8 @@ export function AutoResizeIframe({ src, title, sandbox, minHeight = 400 }: Props
 
   return (
     <iframe
-      ref={iframeRef}
       height={height}
+      ref={iframeRef}
       sandbox={sandbox}
       src={src}
       style={{ display: "block" }}

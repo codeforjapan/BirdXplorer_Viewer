@@ -12,6 +12,7 @@ import {
   getPostInfluenceApiV1GraphsPostInfluenceGet,
   getTopNoteAccountsApiV1GraphsTopNoteAccountsGet,
 } from "~/generated/api/client";
+import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
 import {
   getDailyNotesApiV1GraphsDailyNotesGetResponse,
   getDailyPostsApiV1GraphsDailyPostsGetResponse,
@@ -45,7 +46,6 @@ import type {
   NoteEvaluationData,
   PostInfluenceData,
 } from "./types";
-import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
 
 export const DEFAULT_GRAPH_LIMIT = 200;
 
@@ -198,7 +198,7 @@ export const fetchDailyPostsGraph = async ({
     ] as const;
 
     const results = await Promise.allSettled(
-      specificStatuses.map((s) =>
+      specificStatuses.map(async (s) =>
         fetchGraphList(
           async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status: s, language, keywords }),
           getDailyPostsApiV1GraphsDailyPostsGetResponse,
@@ -361,7 +361,7 @@ export const fetchNotesEvaluationStatusGraph = async ({
     ] as const;
 
     const results = await Promise.allSettled(
-      specificStatuses.map((s) =>
+      specificStatuses.map(async (s) =>
         fetchGraphList(
           async () =>
             getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGet({
@@ -463,7 +463,7 @@ export const fetchPostInfluenceGraph = async ({
     ] as const;
 
     const results = await Promise.allSettled(
-      specificStatuses.map((s) =>
+      specificStatuses.map(async (s) =>
         fetchGraphList(
           async () =>
             getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status: s, limit, language, keywords }),

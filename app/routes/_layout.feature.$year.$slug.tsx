@@ -32,9 +32,9 @@ import { FeatureIcon, PlayButtonIcon } from "~/components/icons";
 import { NotesEvaluationStatusChart } from "~/components/notes-evaluation-status-chart";
 import { PostInfluenceChart } from "~/components/post-influence-chart";
 import { SectionTitle } from "~/components/SectionTitle";
-import { FEATURES } from "~/data/features";
-import type { Feature } from "~/data/features";
 import { WEB_PATHS } from "~/constants/paths";
+import type { Feature } from "~/data/features";
+import { FEATURES } from "~/data/features";
 import {
   relativePeriodToTimestamps,
   timestampsToDateRange,
@@ -43,7 +43,6 @@ import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature.$year.$slug";
-import { DEFAULT_KOUCHOU_AI_PATH } from "~/data/reports";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.feature) {
@@ -301,7 +300,6 @@ export default function FeatureDetail({ loaderData }: Route.ComponentProps) {
           <ReportSummaryCard
             className="h-full"
             description={feature.detail.description ?? ""}
-            href={`${WEB_PATHS.feature.index}/${feature.id}/report`}
             title="レポート"
             updatedAt="2025年1月15日更新"
           />
