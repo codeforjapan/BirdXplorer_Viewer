@@ -56,10 +56,11 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 
-export const handle: LayoutHandle = {
-  breadcrumb: [
+export const handle: LayoutHandle<{ feature: Feature | null }> = {
+  breadcrumb: (data: { feature: Feature | null } | undefined) => [
     { label: "TOP", href: WEB_PATHS.home },
     { label: "Feature", href: WEB_PATHS.feature.index },
+    { label: data?.feature?.detail.title ?? "特集" },
   ],
   pageTitle: {
     icon: <FeatureIcon isActive />,
