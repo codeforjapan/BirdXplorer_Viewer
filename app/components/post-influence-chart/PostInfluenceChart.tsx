@@ -2,8 +2,6 @@ import { Stack } from "@mantine/core";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
-import { postLinkFromPostId } from "~/feature/twitter/link-builder";
-
 import type { DateRange } from "~/components/date-range-selector";
 import {
   getStatusLabel,
@@ -21,6 +19,7 @@ import {
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
+import { postLinkFromPostId } from "~/feature/twitter/link-builder";
 import { dateRangeToTimestamps, getDefaultDateRange } from "~/utils/dateRange";
 import { getArrayMax, getArrayMin } from "~/utils/math";
 

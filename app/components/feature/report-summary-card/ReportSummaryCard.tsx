@@ -1,12 +1,9 @@
-import { Button } from "@mantine/core";
-
 import { GraphContainer } from "~/components/graph/GraphContainer";
 import { GraphWrapper } from "~/components/graph/GraphWrapper";
 
 export type ReportSummaryCardProps = {
   className?: string;
   description: string;
-  href: string;
   updatedAt: string;
   title?: string;
 };
@@ -14,7 +11,6 @@ export type ReportSummaryCardProps = {
 export const ReportSummaryCard = ({
   className,
   description,
-  href,
   updatedAt,
   title = "レポート",
 }: ReportSummaryCardProps) => {

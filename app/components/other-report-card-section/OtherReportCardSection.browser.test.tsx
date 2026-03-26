@@ -8,30 +8,35 @@ import { OtherReportCardSection } from "./OtherReportCardSection";
 describe("OtherReportCardSection", () => {
   it("should render the section title", () => {
     const screen = render(<OtherReportCardSection />);
-    expect(screen.getByText("その他の特集")).toBeTruthy();
+    expect(screen.getByText("その他のレポート")).toBeTruthy();
   });
 
   it("should render all report items when maxItems is not specified", () => {
     const screen = render(<OtherReportCardSection />);
-    expect(screen.getByText("2025年 9月レポート")).toBeTruthy();
-    expect(screen.getByText("2025年 8月レポート")).toBeTruthy();
-    expect(screen.getByText("2025年 7月レポート")).toBeTruthy();
-    expect(screen.getByText("2025年 6月レポート")).toBeTruthy();
+    for (const item of REPORT_ITEMS) {
+      expect(screen.getByText(item.title)).toBeTruthy();
+    }
   });
 
   it("should render only specified number of items when maxItems is set", () => {
-    const { container } = render(<OtherReportCardSection maxItems={2} />);
+    const maxItems = Math.min(2, REPORT_ITEMS.length);
+    const { container } = render(
+      <OtherReportCardSection maxItems={maxItems} />,
+    );
     const links = container.querySelectorAll('a[href^="/report/"]');
-    expect(links.length).toBe(2);
+    expect(links.length).toBe(maxItems);
   });
 
   it("should render report items with links", () => {
     const screen = render(<OtherReportCardSection />);
-    expect(screen.getByText("2025年 9月レポート")).toBeTruthy();
-    const reportLink = screen.container.querySelector(
-      `a[href="${REPORT_ITEMS[0]?.href}"]`,
-    );
-    expect(reportLink).toBeTruthy();
+    const firstItem = REPORT_ITEMS[0];
+    if (firstItem) {
+      expect(screen.getByText(firstItem.title)).toBeTruthy();
+      const reportLink = screen.container.querySelector(
+        `a[href="${firstItem.href}"]`,
+      );
+      expect(reportLink).toBeTruthy();
+    }
   });
 
   it("should apply custom className when provided", () => {
@@ -43,10 +48,13 @@ describe("OtherReportCardSection", () => {
   });
 
   it("should render PlayButtonIcon for each report item", () => {
-    const { container } = render(<OtherReportCardSection maxItems={2} />);
+    const maxItems = Math.min(2, REPORT_ITEMS.length);
+    const { container } = render(
+      <OtherReportCardSection maxItems={maxItems} />,
+    );
     const playIcons = container.querySelectorAll("svg");
-    // At least one icon per report item plus the ReportIcon in PageTitle
-    expect(playIcons.length).toBeGreaterThanOrEqual(2);
+    // At least one icon per report item
+    expect(playIcons.length).toBeGreaterThanOrEqual(maxItems);
   });
 
   it("should render descriptions with line-clamp", () => {

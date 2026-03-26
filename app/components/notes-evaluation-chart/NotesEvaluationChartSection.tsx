@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFetcher, useRevalidator } from "react-router";
 
-import { getNotesApiV1DataNotesGet } from "~/generated/api/client";
-import { postLinkFromPostId } from "~/feature/twitter/link-builder";
-
 import type { DateRange } from "~/components/date-range-selector";
 import {
   getStatusLabel,
@@ -19,6 +16,8 @@ import {
   type StatusValue,
 } from "~/components/graph";
 import type { ScatterDataItem } from "~/components/graph/ScatterBubbleChart";
+import { postLinkFromPostId } from "~/feature/twitter/link-builder";
+import { getNotesApiV1DataNotesGet } from "~/generated/api/client";
 import { dateRangeToTimestamps, getDefault14DayRange, timestampsToDateRange } from "~/utils/dateRange";
 import { getArrayMax } from "~/utils/math";
 

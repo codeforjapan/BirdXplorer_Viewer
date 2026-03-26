@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 
 import type { RelativePeriodValue } from "~/components/graph/constants";
-import type { PeriodRangeValue } from "~/components/graph/types";
 
 export type DateRangeTimestamps = {
   start_date: number;
