@@ -1,7 +1,7 @@
 import type { ImageProps } from "@mantine/core";
 import { Image } from "@mantine/core";
 
-import type { Media } from "../../generated/api/schemas";
+import type { Media } from "~/generated/api/schemas";
 
 type PostMediaProps = {
   media: Media;

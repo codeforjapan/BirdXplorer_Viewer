@@ -1,8 +1,8 @@
 import { Badge, Group } from "@mantine/core";
 
-import type { LanguageIdentifierLiteral } from "../../feature/search/language";
-import { useLanguageLiteral } from "../../feature/search/useLanguageLiteral";
-import type { Topic } from "../../generated/api/schemas";
+import type { LanguageIdentifierLiteral } from "~/feature/search/language";
+import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
+import type { Topic } from "~/generated/api/schemas";
 
 type NoteTopicProps = {
   topics: Topic[];
@@ -13,6 +13,7 @@ export const NoteTopic = ({ topics }: NoteTopicProps) => {
 
   return (
     <Group
+      className="text-white"
       component="ul"
       gap="sm"
       title="自動推定したコミュニティノートのトピック"
@@ -40,7 +41,7 @@ const TopicBadge = ({ topic, language }: TopicBadgeProps) => {
   const labelByLanguage = topic.label[language] ?? topic.label.en!;
 
   return (
-    <Badge color="green" component="li" radius="sm" size="lg" variant="light">
+    <Badge color="white" component="li" radius="sm" size="lg" variant="light">
       {labelByLanguage}
     </Badge>
   );

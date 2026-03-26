@@ -3,13 +3,14 @@ import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 import "./app.css";
 
-import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ColorSchemeScript, Container, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
-import { Favicons } from "./components/Favicon";
+import { LogoIcon } from "./components/logo";
+import { MobileMenuButton, SideMenu } from "./components/SideMenu";
 import { mantineTheme } from "./config/mantine";
 
 dayjs.extend(customParseFormat);
@@ -20,12 +21,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <Favicons />
         <Meta />
         <Links />
         <ColorSchemeScript />
       </head>
-      <body className="min-h-dvh">
+      <body>
         <MantineProvider theme={mantineTheme}>
           <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
             {children}
@@ -39,5 +39,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <div className="flex min-h-dvh flex-col bg-black">
+      <header className="flex items-center justify-between bg-black px-5 py-4 md:hidden">
+        <a href="/">
+          <LogoIcon />
+        </a>
+        <MobileMenuButton />
+      </header>
+      <div className="flex flex-1 bg-black">
+        <SideMenu className="hidden md:flex" />
+        <main className="flex-1 bg-black">
+          <Outlet />
+        </main>
+      </div>
+
+      <footer className="sticky top-full border border-gray-2 bg-black">
+        <Container className="flex justify-center p-4 md:justify-end" size="lg">
+          <p className="inline-flex flex-col items-center justify-center gap-2 text-sm font-semibold text-zinc-700 md:flex-row md:gap-4">
+            <span>Copyright BordXplorer © 2025 All Rights Reserved.</span>
+          </p>
+        </Container>
+      </footer>
+    </div>
+  );
 }

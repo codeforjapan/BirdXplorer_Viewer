@@ -1,3 +1,7 @@
 .mantine-Modal-body {
   padding-top: 0;
 }
+
+.mantine-Modal-content {
+  background-color: var(--color-gray-1);
+}

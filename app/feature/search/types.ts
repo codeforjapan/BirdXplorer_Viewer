@@ -1,4 +1,4 @@
-import type { SearchApiV1DataSearchGetParams } from "../../generated/api/schemas/searchApiV1DataSearchGetParams";
+import type { SearchApiV1DataSearchGetParams } from "~/generated/api/schemas/searchApiV1DataSearchGetParams";
 
 /**
  * @private

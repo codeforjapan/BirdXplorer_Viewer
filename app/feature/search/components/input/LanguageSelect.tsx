@@ -2,8 +2,8 @@ import { type FieldMetadata, getSelectProps } from "@conform-to/react";
 import { Select } from "@mantine/core";
 import { useMemo } from "react";
 
-import { FormError } from "../../../../components/FormError";
-import { containsNonNullValues } from "../../../../utils/array";
+import { FormError } from "~/components/FormError";
+import { containsNonNullValues } from "~/utils/array";
 
 type LanguageSelectProps = {
   disabled?: boolean;
@@ -33,6 +33,8 @@ export const LanguageSelect = ({
   return (
     <Select
       autoComplete="off"
+      c="white"
+      classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       data={languageData}
       data-1p-ignore
       disabled={disabled}
@@ -44,6 +46,14 @@ export const LanguageSelect = ({
       errorProps={{ component: "div" }}
       label={label}
       searchable
+      styles={{
+        input: {
+          color: "white",
+        },
+        label: {
+          marginBottom: "8px",
+        },
+      }}
       {...(getSelectProps(field) as Omit<
         ReturnType<typeof getSelectProps>,
         "defaultValue"

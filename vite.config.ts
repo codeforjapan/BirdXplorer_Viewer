@@ -23,6 +23,7 @@ export default defineConfig({
   test: {
     projects: [
       {
+        plugins: [tsconfigPaths()],
         test: {
           name: "Node",
           environment: "node",
@@ -30,6 +31,15 @@ export default defineConfig({
         },
       },
       {
+        plugins: [
+          react(),
+          tailwindcss(),
+          Icons({
+            compiler: "jsx",
+            jsx: "react",
+          }),
+          tsconfigPaths(),
+        ],
         test: {
           name: "Browser",
           browser: {

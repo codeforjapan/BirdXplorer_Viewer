@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 // /// <reference path="./eslint-typegen-generated.d.ts" />
 
 import js from "@eslint/js";
@@ -21,7 +20,7 @@ const jsxFiles = "**/*.{jsx,tsx}";
 export default typegen(
   defineConfig(
     gitignore(),
-    globalIgnores(["app/generated/**"]),
+    globalIgnores(["app/generated/**", "public/**"]),
     {
       files: [jsFiles],
       ...js.configs.recommended,
@@ -95,6 +94,18 @@ export default typegen(
       plugins: { "simple-import-sort": simpleImportSort },
       rules: {
         "simple-import-sort/imports": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: ["../"],
+          },
+        ],
+      },
+    },
+    {
+      files: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "test/**/*"],
+      rules: {
+        "no-restricted-imports": "off",
       },
     },
     {

@@ -5,7 +5,7 @@ import {
   searchApiV1DataSearchGetQueryLimitMax,
   searchApiV1DataSearchGetQueryOffsetMin,
   searchApiV1DataSearchGetQueryTopicIdsItemMin,
-} from "../../generated/api/zod/schema";
+} from "~/generated/api/zod/schema";
 
 const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
   return z.preprocess((data) => {

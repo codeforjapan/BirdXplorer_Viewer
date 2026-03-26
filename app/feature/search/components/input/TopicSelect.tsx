@@ -3,10 +3,10 @@ import { getSelectProps } from "@conform-to/react";
 import { MultiSelect } from "@mantine/core";
 import { useMemo } from "react";
 
-import { FormError } from "../../../../components/FormError";
-import type { Topic } from "../../../../generated/api/schemas";
-import { useMultiSelectInputControl } from "../../../../hooks/useMultiSelectInputControl";
-import { containsNonNullValues } from "../../../../utils/array";
+import { FormError } from "~/components/FormError";
+import type { Topic } from "~/generated/api/schemas";
+import { useMultiSelectInputControl } from "~/hooks/useMultiSelectInputControl";
+import { containsNonNullValues } from "~/utils/array";
 
 type TopicSelectProps = {
   disabled?: boolean;
@@ -62,6 +62,8 @@ export const TopicSelect = ({
 
   return (
     <MultiSelect
+      c="white"
+      classNames={{ input: "!bg-gray-1 !border-gray-5" }}
       data={topicsData}
       disabled={disabled}
       error={
@@ -76,6 +78,14 @@ export const TopicSelect = ({
       onChange={onChange}
       onFocus={onFocus}
       searchable
+      styles={{
+        input: {
+          color: "white",
+        },
+        label: {
+          marginBottom: "8px",
+        },
+      }}
       value={value}
       {...rest}
     />
