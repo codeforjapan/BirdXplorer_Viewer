@@ -33,7 +33,8 @@ export const meta: Route.MetaFunction = ({ data }) => {
 export const handle: LayoutHandle<{ report: ReportItem | null }> = {
   breadcrumb: (data: { report: ReportItem | null } | undefined) => [
     { label: "TOP", href: WEB_PATHS.home },
-    { label: data?.report?.title ?? "レポート", href: WEB_PATHS.report.index },
+    { label: "Report", href: WEB_PATHS.report.index },
+    { label: data?.report?.title ?? "レポート" },
   ],
   pageTitle: {
     icon: <ReportIcon isActive />,
@@ -57,9 +58,7 @@ export const loader = ({ params }: Route.LoaderArgs): LoaderData => {
   }
 
   const reports = getAllReports();
-  const report = reports.find(
-    (r) => r.href === `/report/${year}/${month}`,
-  );
+  const report = reports.find((r) => r.href === `/report/${year}/${month}`);
 
   return {
     report: report ?? null,
@@ -86,9 +85,7 @@ export default function ReportDetail({ loaderData }: Route.ComponentProps) {
         {report.title}
       </h2>
 
-      <p className="text-body-l mb-6 text-white">
-        {report.description}
-      </p>
+      <p className="text-body-l mb-6 text-white">{report.description}</p>
 
       <AutoResizeIframe
         sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
