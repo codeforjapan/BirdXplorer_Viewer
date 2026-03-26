@@ -38,13 +38,13 @@ const createEmptyStatusCounts = () => ({
 });
 
 export const toDailyNotesCreationData = (
-  items: ApiDailyNotesCreationDataItem[]
+  items: ApiDailyNotesCreationDataItem[],
 ): DailyNotesCreationDataItem[] => {
   return items;
 };
 
 export const toDailyPostCountData = (
-  items: ApiDailyPostCountDataItem[]
+  items: ApiDailyPostCountDataItem[],
 ): DailyPostCountDataItem[] => {
   const byDate = new Map<string, DailyPostCountDataItem>();
 
@@ -62,18 +62,18 @@ export const toDailyPostCountData = (
   });
 
   return Array.from(byDate.values()).sort((a, b) =>
-    a.date.localeCompare(b.date)
+    a.date.localeCompare(b.date),
   );
 };
 
 export const toMonthlyNoteData = (
-  items: MonthlyNoteDataItem[]
+  items: MonthlyNoteDataItem[],
 ): MonthlyNoteData[] => {
   return items;
 };
 
 export const toNoteEvaluationData = (
-  items: NoteEvaluationDataItem[]
+  items: NoteEvaluationDataItem[],
 ): NoteEvaluationData[] => {
   return items.map((item) => ({
     noteId: item.noteId,
@@ -86,7 +86,7 @@ export const toNoteEvaluationData = (
 };
 
 export const toPostInfluenceData = (
-  items: PostInfluenceDataItem[]
+  items: PostInfluenceDataItem[],
 ): PostInfluenceData[] => {
   return items.map((item) => ({
     postId: item.postId,

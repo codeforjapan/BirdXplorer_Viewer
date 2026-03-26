@@ -38,12 +38,12 @@ console.log("currentResult:", currentResult);
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| Resource Routeが応答しない | DevTools Network タブ | Resource Routeのloaderが正しく定義されているか確認 |
-| `Promise.allSettled`が解決しない | Loaderにログを追加 | 各fetchがrejectしていないか確認、タイムアウト設定 |
-| `fetcher.load()`が呼ばれていない | useEffectにログを追加 | 条件分岐（`hasMounted`等）を確認 |
-| 無限ループ | React DevTools | useEffectの依存配列を確認 |
+| 原因                             | 確認方法              | 解決策                                             |
+| -------------------------------- | --------------------- | -------------------------------------------------- |
+| Resource Routeが応答しない       | DevTools Network タブ | Resource Routeのloaderが正しく定義されているか確認 |
+| `Promise.allSettled`が解決しない | Loaderにログを追加    | 各fetchがrejectしていないか確認、タイムアウト設定  |
+| `fetcher.load()`が呼ばれていない | useEffectにログを追加 | 条件分岐（`hasMounted`等）を確認                   |
+| 無限ループ                       | React DevTools        | useEffectの依存配列を確認                          |
 
 #### 参照コード
 
@@ -81,12 +81,12 @@ useEffect(() => {
 
 ##### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| API未起動 | `curl` でエンドポイント確認 | バックエンド起動 |
-| CORS設定 | Consoleのエラーメッセージ | バックエンドのCORS設定確認 |
-| タイムアウト | Network タブの時間 | タイムアウト値調整またはバックエンド最適化 |
-| 環境変数未設定 | `.env`確認 | `API_BASE_URL`等を設定 |
+| 原因           | 確認方法                    | 解決策                                     |
+| -------------- | --------------------------- | ------------------------------------------ |
+| API未起動      | `curl` でエンドポイント確認 | バックエンド起動                           |
+| CORS設定       | Consoleのエラーメッセージ   | バックエンドのCORS設定確認                 |
+| タイムアウト   | Network タブの時間          | タイムアウト値調整またはバックエンド最適化 |
+| 環境変数未設定 | `.env`確認                  | `API_BASE_URL`等を設定                     |
 
 ##### 参照コード
 
@@ -113,12 +113,12 @@ console.log("Validation issues:", error.issues);
 
 ##### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| 不正なperiod値 | リクエストパラメータ確認 | `resolveRelativePeriod()`のバリデーション確認 |
-| 不正なstatus値 | リクエストパラメータ確認 | `resolveStatus()`のバリデーション確認 |
-| 不正なrange形式 | リクエストパラメータ確認 | `YYYY-MM_YYYY-MM`形式か確認 |
-| limit範囲外 | リクエストパラメータ確認 | `resolveLimit()`のデフォルト値確認 |
+| 原因            | 確認方法                 | 解決策                                        |
+| --------------- | ------------------------ | --------------------------------------------- |
+| 不正なperiod値  | リクエストパラメータ確認 | `resolveRelativePeriod()`のバリデーション確認 |
+| 不正なstatus値  | リクエストパラメータ確認 | `resolveStatus()`のバリデーション確認         |
+| 不正なrange形式 | リクエストパラメータ確認 | `YYYY-MM_YYYY-MM`形式か確認                   |
+| limit範囲外     | リクエストパラメータ確認 | `resolveLimit()`のデフォルト値確認            |
 
 ##### 参照コード
 
@@ -128,7 +128,7 @@ console.log("Validation issues:", error.issues);
 // graphFetchers.ts
 export const resolveRelativePeriod = (
   value?: string | null,
-  fallback?: RelativePeriodValue
+  fallback?: RelativePeriodValue,
 ): RelativePeriodValue => {
   if (value && RELATIVE_PERIOD_VALUES.includes(value as RelativePeriodValue)) {
     return value as RelativePeriodValue;
@@ -150,11 +150,11 @@ console.log("Server error status:", error.status);
 
 ##### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| バックエンド内部エラー | バックエンドログ | バックエンドを修正 |
-| データベース接続エラー | バックエンドログ | DB接続設定確認 |
-| 依存サービス障害 | バックエンドログ | 依存サービス復旧待ち |
+| 原因                   | 確認方法         | 解決策               |
+| ---------------------- | ---------------- | -------------------- |
+| バックエンド内部エラー | バックエンドログ | バックエンドを修正   |
+| データベース接続エラー | バックエンドログ | DB接続設定確認       |
+| 依存サービス障害       | バックエンドログ | 依存サービス復旧待ち |
 
 ##### 参照コード
 
@@ -173,11 +173,11 @@ console.log("Parse issues:", error.issues);
 
 ##### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| APIレスポンス構造変更 | 実際のレスポンスをログ | Orval再生成（`pnpm orval`） |
-| Zodスキーマ古い | `generated/api/zod/schema.ts`確認 | Orval再生成 |
-| 必須フィールド欠落 | Zodエラーメッセージ | バックエンドまたはスキーマ修正 |
+| 原因                  | 確認方法                          | 解決策                         |
+| --------------------- | --------------------------------- | ------------------------------ |
+| APIレスポンス構造変更 | 実際のレスポンスをログ            | Orval再生成（`pnpm orval`）    |
+| Zodスキーマ古い       | `generated/api/zod/schema.ts`確認 | Orval再生成                    |
+| 必須フィールド欠落    | Zodエラーメッセージ               | バックエンドまたはスキーマ修正 |
 
 ##### 参照コード
 
@@ -210,15 +210,16 @@ if (!parsed.success) {
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| キャッシュが有効 | 30秒未満の再アクセス | 30秒待つ |
-| `shouldRevalidate`がfalse | Loaderが呼ばれない | クエリパラメータに変更を含める |
-| `lastUrl`が同じ | fetcherが発火しない | パラメータ変更がURLに反映されているか確認 |
+| 原因                      | 確認方法             | 解決策                                    |
+| ------------------------- | -------------------- | ----------------------------------------- |
+| キャッシュが有効          | 30秒未満の再アクセス | 30秒待つ                                  |
+| `shouldRevalidate`がfalse | Loaderが呼ばれない   | クエリパラメータに変更を含める            |
+| `lastUrl`が同じ           | fetcherが発火しない  | パラメータ変更がURLに反映されているか確認 |
 
 #### 解決策
 
 **開発時のキャッシュクリア**:
+
 ```typescript
 // DevTools Console で実行
 import { graphCache } from "~/utils/graphCache";
@@ -226,6 +227,7 @@ graphCache.clear();
 ```
 
 **shouldRevalidateの確認**:
+
 ```typescript
 // _layout.feature.$id.tsx:218-232
 export const shouldRevalidate: ShouldRevalidateFunction = ({
@@ -234,7 +236,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }) => {
   const graphKeys = ["period", "status", "range", "limit"];
   const hasGraphChange = graphKeys.some(
-    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key)
+    (key) => currentUrl.searchParams.get(key) !== nextUrl.searchParams.get(key),
   );
   return hasGraphChange;
 };
@@ -254,17 +256,20 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 
 ```typescript
 // currentResultにeventMarkersがあるか
-console.log("eventMarkers:", currentResult?.ok ? currentResult.eventMarkers : "N/A");
+console.log(
+  "eventMarkers:",
+  currentResult?.ok ? currentResult.eventMarkers : "N/A",
+);
 ```
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| `safeGraphFetch`使用 | fetcher関数確認 | `safeGraphFetchWithMarkers`に変更 |
-| `getEventMarkersFor*Period`未呼び出し | fetcher関数確認 | マーカー生成関数を呼び出し |
-| マーカーが期間外 | データの日付範囲確認 | マーカー日付が範囲内か確認 |
-| 定数が空配列 | `constants.ts`確認 | `API_EVENT_MARKERS_*`にデータを設定 |
+| 原因                                  | 確認方法             | 解決策                              |
+| ------------------------------------- | -------------------- | ----------------------------------- |
+| `safeGraphFetch`使用                  | fetcher関数確認      | `safeGraphFetchWithMarkers`に変更   |
+| `getEventMarkersFor*Period`未呼び出し | fetcher関数確認      | マーカー生成関数を呼び出し          |
+| マーカーが期間外                      | データの日付範囲確認 | マーカー日付が範囲内か確認          |
+| 定数が空配列                          | `constants.ts`確認   | `API_EVENT_MARKERS_*`にデータを設定 |
 
 #### 参照コード
 
@@ -273,8 +278,8 @@ console.log("eventMarkers:", currentResult?.ok ? currentResult.eventMarkers : "N
 
 ```typescript
 // graphFetchers.ts
-export const safeGraphFetchWithMarkers = async <T,>(
-  action: () => Promise<GraphFetchResultWithMarkers<T>>
+export const safeGraphFetchWithMarkers = async <T>(
+  action: () => Promise<GraphFetchResultWithMarkers<T>>,
 ): Promise<GraphFetchResultWithMarkers<T>> => {
   // ...
 };
@@ -289,18 +294,21 @@ Mock/API切り替えが意図通り動作しない場合。
 #### まず確認
 
 ```typescript
-import { GRAPH_DATA_SOURCE, isGraphMockEnabled } from "~/config/graphDataSource";
+import {
+  GRAPH_DATA_SOURCE,
+  isGraphMockEnabled,
+} from "~/config/graphDataSource";
 console.log("GRAPH_DATA_SOURCE:", GRAPH_DATA_SOURCE);
 console.log("isGraphMockEnabled():", isGraphMockEnabled());
 ```
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| production環境判定 | `NODE_ENV`確認 | 開発環境で実行 |
-| `GRAPH_DATA_SOURCE`設定 | `graphDataSource.ts`確認 | `"mock"`または`"api"`に変更 |
-| Vite環境変数 | `import.meta.env.PROD`確認 | ビルド設定確認 |
+| 原因                    | 確認方法                   | 解決策                      |
+| ----------------------- | -------------------------- | --------------------------- |
+| production環境判定      | `NODE_ENV`確認             | 開発環境で実行              |
+| `GRAPH_DATA_SOURCE`設定 | `graphDataSource.ts`確認   | `"mock"`または`"api"`に変更 |
+| Vite環境変数            | `import.meta.env.PROD`確認 | ビルド設定確認              |
 
 #### 参照コード
 
@@ -334,24 +342,27 @@ export const isGraphMockEnabled = (): boolean =>
 ```typescript
 // キャッシュキーを確認
 import { buildGraphCacheKey } from "~/utils/graphCache";
-console.log("Cache key:", buildGraphCacheKey("daily-notes", { period, status }));
+console.log(
+  "Cache key:",
+  buildGraphCacheKey("daily-notes", { period, status }),
+);
 ```
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| パラメータの差異 | キャッシュキー比較 | 両ページで同じデフォルト値を使用 |
-| 型アサーションの不一致 | `graphCache.get()`の型 | 正しい型でアサーション |
-| インスタンスが別 | importパス確認 | 同じ`graphCache`をimport |
+| 原因                   | 確認方法               | 解決策                           |
+| ---------------------- | ---------------------- | -------------------------------- |
+| パラメータの差異       | キャッシュキー比較     | 両ページで同じデフォルト値を使用 |
+| 型アサーションの不一致 | `graphCache.get()`の型 | 正しい型でアサーション           |
+| インスタンスが別       | importパス確認         | 同じ`graphCache`をimport         |
 
 #### 解決策
 
 ```typescript
 // キャッシュキー生成を統一
 // 悪い例: パラメータ順序が異なる
-buildGraphCacheKey("daily-notes", { status, period });  // status=all&period=1month
-buildGraphCacheKey("daily-notes", { period, status });  // period=1month&status=all
+buildGraphCacheKey("daily-notes", { status, period }); // status=all&period=1month
+buildGraphCacheKey("daily-notes", { period, status }); // period=1month&status=all
 
 // URLSearchParamsはアルファベット順にならないので注意
 ```
@@ -373,12 +384,12 @@ buildGraphCacheKey("daily-notes", { period, status });  // period=1month&status=
 
 #### よくある原因
 
-| 原因 | 確認方法 | 解決策 |
-|------|---------|--------|
-| `GraphLoaderData`型に残骸 | 型定義確認 | プロパティを削除 |
-| `Promise.allSettled`インデックス不整合 | インデックス確認 | インデックスを詰める |
-| import文の残骸 | import確認 | 不要なimportを削除 |
-| 他ページでの参照 | grep検索 | 参照箇所を修正または削除 |
+| 原因                                   | 確認方法         | 解決策                   |
+| -------------------------------------- | ---------------- | ------------------------ |
+| `GraphLoaderData`型に残骸              | 型定義確認       | プロパティを削除         |
+| `Promise.allSettled`インデックス不整合 | インデックス確認 | インデックスを詰める     |
+| import文の残骸                         | import確認       | 不要なimportを削除       |
+| 他ページでの参照                       | grep検索         | 参照箇所を修正または削除 |
 
 #### 解決策
 
@@ -409,7 +420,10 @@ import { graphCache } from "~/utils/graphCache";
 console.log("Cache keys:", [...graphCache.keys()]);
 
 // 特定キーの値
-console.log("Cached value:", graphCache.get("daily-notes?period=1month&status=all"));
+console.log(
+  "Cached value:",
+  graphCache.get("daily-notes?period=1month&status=all"),
+);
 
 // キャッシュクリア
 graphCache.clear();
@@ -439,7 +453,10 @@ DevTools → Network → Fetch/XHR
 // graphFetchers.ts にログ追加
 export const fetchDailyNotesGraph = async (params) => {
   console.log("[fetchDailyNotesGraph] params:", params);
-  console.log("[fetchDailyNotesGraph] isGraphMockEnabled:", isGraphMockEnabled());
+  console.log(
+    "[fetchDailyNotesGraph] isGraphMockEnabled:",
+    isGraphMockEnabled(),
+  );
 
   // ...
 

@@ -1,7 +1,7 @@
 import type { PeriodOption } from "./types";
 
 export const getDefaultPeriodValue = <T extends string>(
-  options: Array<PeriodOption<T>>
+  options: Array<PeriodOption<T>>,
 ): T => {
   const value = options[0]?.value;
   if (!value) {

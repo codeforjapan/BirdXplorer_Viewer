@@ -17,9 +17,10 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const endDateParam = resolveDateTimestamp(params.get("end_date"));
 
   // パラメータがない場合はデフォルト期間（2025-02_2026-01）を使用
-  const { start_date, end_date } = startDateParam && endDateParam
-    ? { start_date: startDateParam, end_date: endDateParam }
-    : periodRangeToTimestamps("2025-02_2026-01");
+  const { start_date, end_date } =
+    startDateParam && endDateParam
+      ? { start_date: startDateParam, end_date: endDateParam }
+      : periodRangeToTimestamps("2025-02_2026-01");
 
   const status = resolveStatus(params.get("status"));
   const cacheKey = buildGraphCacheKey("daily-posts", {
@@ -31,7 +32,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   if (cached) return cached;
 
   const result = await safeGraphFetchWithMarkers(async () =>
-    fetchDailyPostsGraph({ start_date, end_date, status })
+    fetchDailyPostsGraph({ start_date, end_date, status }),
   );
   if (result.ok) graphCache.set(cacheKey, result);
   return result;

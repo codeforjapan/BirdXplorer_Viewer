@@ -8,10 +8,7 @@ describe("BreadCrumb", () => {
     const screen = render(
       <div style={{ padding: "16px", backgroundColor: "#808080" }}>
         <BreadCrumb
-          items={[
-            { label: "ホーム", href: "/" },
-            { label: "現在のページ" },
-          ]}
+          items={[{ label: "ホーム", href: "/" }, { label: "現在のページ" }]}
         />
       </div>,
     );

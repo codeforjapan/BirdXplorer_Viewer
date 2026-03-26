@@ -18,10 +18,7 @@ describe("Layout", () => {
   it("renders breadcrumb and page title from handle", async () => {
     const { useMatches } = await import("react-router");
     const mockHandle: LayoutHandle = {
-      breadcrumb: [
-        { label: "TOP", href: "/" },
-        { label: "Test Page" },
-      ],
+      breadcrumb: [{ label: "TOP", href: "/" }, { label: "Test Page" }],
       pageTitle: {
         icon: <InfoIcon isActive />,
         title: "Test Title",
@@ -63,6 +60,8 @@ describe("Layout", () => {
     const { container } = render(<Layout />);
 
     // BreadCrumbとPageTitleがレンダリングされないことを確認
-    expect(container.querySelector("[data-testid='breadcrumb-card']")).toBeNull();
+    expect(
+      container.querySelector("[data-testid='breadcrumb-card']"),
+    ).toBeNull();
   });
 });

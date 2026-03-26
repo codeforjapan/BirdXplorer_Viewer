@@ -62,7 +62,7 @@ const extractValidationIssues = (data: unknown): string[] | undefined => {
 
 export const toGraphApiErrorFromStatus = (
   status: number,
-  data?: unknown
+  data?: unknown,
 ): GraphApiError => {
   if (status === 400 || status === 422) {
     return buildGraphApiError({
@@ -75,9 +75,9 @@ export const toGraphApiErrorFromStatus = (
   return buildGraphApiError({ kind: "server", status });
 };
 
-export const parseGraphListResponse = <T,>(
+export const parseGraphListResponse = <T>(
   response: { status: number; data: unknown },
-  schema: ZodSchema<{ data: T[]; updatedAt: string }>
+  schema: ZodSchema<{ data: T[]; updatedAt: string }>,
 ): GraphFetchResult<T[]> => {
   if (response.status >= 200 && response.status < 300) {
     const parsed = schema.safeParse(response.data);
@@ -98,18 +98,24 @@ export const parseGraphListResponse = <T,>(
     };
   }
 
-  return { ok: false, error: toGraphApiErrorFromStatus(response.status, response.data) };
+  return {
+    ok: false,
+    error: toGraphApiErrorFromStatus(response.status, response.data),
+  };
 };
 
-export const fetchGraphList = async <T,>(
+export const fetchGraphList = async <T>(
   fetcher: () => Promise<{ status: number; data: unknown }>,
-  schema: ZodSchema<{ data: T[]; updatedAt: string }>
+  schema: ZodSchema<{ data: T[]; updatedAt: string }>,
 ): Promise<GraphFetchResult<T[]>> => {
   try {
     const response = await fetcher();
     return parseGraphListResponse(response, schema);
   } catch (error) {
     const message = error instanceof Error ? error.message : undefined;
-    return { ok: false, error: buildGraphApiError({ kind: "network", message }) };
+    return {
+      ok: false,
+      error: buildGraphApiError({ kind: "network", message }),
+    };
   }
 };

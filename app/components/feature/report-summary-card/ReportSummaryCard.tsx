@@ -15,11 +15,7 @@ export const ReportSummaryCard = ({
   title = "レポート",
 }: ReportSummaryCardProps) => {
   return (
-    <GraphWrapper
-      className={className}
-      title={title}
-      updatedAt={updatedAt}
-    >
+    <GraphWrapper className={className} title={title} updatedAt={updatedAt}>
       <GraphContainer>
         <p className="text-body-l line-height-170 line-clamp-16 whitespace-pre-wrap text-white">
           {description}

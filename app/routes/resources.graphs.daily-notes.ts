@@ -21,9 +21,10 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const endDateParam = resolveDateTimestamp(params.get("end_date"));
 
   // パラメータがない場合はデフォルト期間（直近6ヶ月）を使用
-  const { start_date, end_date } = startDateParam && endDateParam
-    ? { start_date: startDateParam, end_date: endDateParam }
-    : relativePeriodToTimestamps("6months");
+  const { start_date, end_date } =
+    startDateParam && endDateParam
+      ? { start_date: startDateParam, end_date: endDateParam }
+      : relativePeriodToTimestamps("6months");
 
   const status = resolveStatus(params.get("status"));
   const cacheKey = buildGraphCacheKey("daily-notes", {
@@ -37,7 +38,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   if (cached) return cached;
 
   const result = await safeGraphFetchWithMarkers(async () =>
-    fetchDailyNotesGraph({ start_date, end_date, status })
+    fetchDailyNotesGraph({ start_date, end_date, status }),
   );
   if (result.ok) graphCache.set(cacheKey, result);
   return result;

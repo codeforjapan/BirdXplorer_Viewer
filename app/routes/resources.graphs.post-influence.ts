@@ -19,9 +19,10 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const endDateParam = resolveDateTimestamp(params.get("end_date"));
 
   // パラメータがない場合はデフォルト期間（直近6ヶ月）を使用
-  const { start_date, end_date } = startDateParam && endDateParam
-    ? { start_date: startDateParam, end_date: endDateParam }
-    : relativePeriodToTimestamps("6months");
+  const { start_date, end_date } =
+    startDateParam && endDateParam
+      ? { start_date: startDateParam, end_date: endDateParam }
+      : relativePeriodToTimestamps("6months");
 
   const status = resolveStatus(params.get("status"));
   const limit = resolveLimit(params.get("limit"), DEFAULT_GRAPH_LIMIT);
@@ -35,7 +36,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   if (cached) return cached;
 
   const result = await safeGraphFetch(async () =>
-    fetchPostInfluenceGraph({ start_date, end_date, status, limit })
+    fetchPostInfluenceGraph({ start_date, end_date, status, limit }),
   );
   if (result.ok) graphCache.set(cacheKey, result);
   return result;

@@ -1,4 +1,3 @@
- 
 // /// <reference path="./eslint-typegen-generated.d.ts" />
 
 import js from "@eslint/js";

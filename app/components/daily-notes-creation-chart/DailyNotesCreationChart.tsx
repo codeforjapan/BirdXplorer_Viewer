@@ -35,7 +35,9 @@ export const DailyNotesCreationChart = ({
   initialResult,
   initialDateRange,
 }: DailyNotesCreationChartProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>(initialDateRange ?? getDefaultDateRange());
+  const [dateRange, setDateRange] = useState<DateRange>(
+    initialDateRange ?? getDefaultDateRange(),
+  );
   const [status, setStatus] = useState<StatusValue>("all");
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>>();
@@ -85,31 +87,38 @@ export const DailyNotesCreationChart = ({
 
   const rawData = useMemo(
     () => (currentResult?.ok ? currentResult.data : []),
-    [currentResult]
+    [currentResult],
   );
   const markers = useMemo<EventMarker[]>(
     () => (currentResult?.ok ? currentResult.eventMarkers : []),
-    [currentResult]
+    [currentResult],
   );
 
   const categories = useMemo(
     () => rawData.map((d) => dayjs(d.date).format("M/D")),
-    [rawData]
+    [rawData],
   );
 
   // イベントマーカーをMarkLineConfigに変換
   const markLines = useMemo<MarkLineConfig[]>(() => {
-    return markers?.length ? markers
-      .map((marker) => ({
-        xAxisValue: dayjs(marker.date).format("M/D"),
-        label: marker.label,
-      }))
-      .filter((m) => categories.includes(m.xAxisValue)) : [];
+    return markers?.length
+      ? markers
+          .map((marker) => ({
+            xAxisValue: dayjs(marker.date).format("M/D"),
+            label: marker.label,
+          }))
+          .filter((m) => categories.includes(m.xAxisValue))
+      : [];
   }, [markers, categories]);
 
   const seriesVisibility = useMemo(() => {
     if (status === "all") {
-      return { published: true, evaluating: true, unpublished: true, temporarilyPublished: true };
+      return {
+        published: true,
+        evaluating: true,
+        unpublished: true,
+        temporarilyPublished: true,
+      };
     }
     return {
       published: status === "published",
@@ -146,7 +155,7 @@ export const DailyNotesCreationChart = ({
         visible: seriesVisibility.temporarilyPublished,
       },
     ],
-    [rawData, seriesVisibility]
+    [rawData, seriesVisibility],
   );
 
   const footer = (

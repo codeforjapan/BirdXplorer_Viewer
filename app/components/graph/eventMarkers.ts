@@ -16,7 +16,7 @@ const RANGE_PERIOD_EVENT_MARKER_RATIOS = [0.4, 0.6] as const;
 const toEventMarkers = (
   start: dayjs.Dayjs,
   end: dayjs.Dayjs,
-  ratios: readonly number[]
+  ratios: readonly number[],
 ): EventMarker[] => {
   const totalDays = Math.max(1, end.diff(start, "day"));
 
@@ -58,7 +58,7 @@ const parseRangePeriod = (period: PeriodRangeValue) => {
 };
 
 export const getEventMarkersForRelativePeriod = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): EventMarker[] => {
   if (!isGraphMockEnabled()) return API_EVENT_MARKERS_RELATIVE;
   const { start, end } = parseRelativePeriod(period);
@@ -66,7 +66,7 @@ export const getEventMarkersForRelativePeriod = (
 };
 
 export const getEventMarkersForRangePeriod = (
-  period: PeriodRangeValue
+  period: PeriodRangeValue,
 ): EventMarker[] => {
   if (!isGraphMockEnabled()) return API_EVENT_MARKERS_RANGE;
   const { start, end } = parseRangePeriod(period);

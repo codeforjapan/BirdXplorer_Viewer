@@ -61,7 +61,9 @@ describe("FeatureCategoryCard", () => {
   });
 
   it("should apply category color to title", () => {
-    const { container } = render(<FeatureCategoryCard category={mockCategory} />);
+    const { container } = render(
+      <FeatureCategoryCard category={mockCategory} />,
+    );
     const titleWrapper = container.querySelector(".bg-green");
     expect(titleWrapper).not.toBeNull();
     expect(titleWrapper?.classList.contains("bg-green")).toBe(true);
@@ -83,7 +85,9 @@ describe("FeatureCategoryCard", () => {
       items: [{ title: "唯一のアイテム", href: "/test/single" }],
     };
 
-    const screen = render(<FeatureCategoryCard category={singleItemCategory} />);
+    const screen = render(
+      <FeatureCategoryCard category={singleItemCategory} />,
+    );
     expect(screen.getByText("唯一のアイテム")).toBeTruthy();
     const { container } = render(
       <FeatureCategoryCard category={singleItemCategory} />,

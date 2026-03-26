@@ -17,64 +17,64 @@ export default function Test() {
   //   [114,  99, 24, "非公開3", 0],  ← 3つ目のノート
   //   ...
   // ]
-  const data = React.useMemo<Array<[number, number, number, string, number]>>(
-    () => {
-      const result: Array<[number, number, number, string, number]> = [];
-      
-      // 非公開（青）- 左下に密集
-      for (let i = 0; i < 80; i++) {
-        result.push([
-          Math.random() * 400,
-          Math.random() * 200,
-          Math.random() * 300 + 10,
-          `非公開${i + 1}`,
-          0,
-        ]);
-      }
-      
-      // 評価中（水色）- 中央左寄り
-      for (let i = 0; i < 20; i++) {
-        result.push([
-          Math.random() * 800 + 200,
-          Math.random() * 400 + 100,
-          Math.random() * 400 + 15,
-          `評価中${i + 1}`,
-          1,
-        ]);
-      }
-      
-      // 公開済（紫）- 中央下
-      for (let i = 0; i < 15; i++) {
-        result.push([
-          Math.random() * 600 + 400,
-          Math.random() * 150,
-          Math.random() * 500 + 20,
-          `公開済${i + 1}`,
-          2,
-        ]);
-      }
-      
-      // 一時公開（ピンク）- 右側と中央下に散在
-      for (let i = 0; i < 10; i++) {
-        result.push([
-          Math.random() * 2000 + 1000,
-          Math.random() * 200,
-          Math.random() * 600 + 25,
-          `一時公開${i + 1}`,
-          3,
-        ]);
-      }
+  const data = React.useMemo<
+    Array<[number, number, number, string, number]>
+  >(() => {
+    const result: Array<[number, number, number, string, number]> = [];
 
-      return result;
-    },
-    [],
-  );
+    // 非公開（青）- 左下に密集
+    for (let i = 0; i < 80; i++) {
+      result.push([
+        Math.random() * 400,
+        Math.random() * 200,
+        Math.random() * 300 + 10,
+        `非公開${i + 1}`,
+        0,
+      ]);
+    }
+
+    // 評価中（水色）- 中央左寄り
+    for (let i = 0; i < 20; i++) {
+      result.push([
+        Math.random() * 800 + 200,
+        Math.random() * 400 + 100,
+        Math.random() * 400 + 15,
+        `評価中${i + 1}`,
+        1,
+      ]);
+    }
+
+    // 公開済（紫）- 中央下
+    for (let i = 0; i < 15; i++) {
+      result.push([
+        Math.random() * 600 + 400,
+        Math.random() * 150,
+        Math.random() * 500 + 20,
+        `公開済${i + 1}`,
+        2,
+      ]);
+    }
+
+    // 一時公開（ピンク）- 右側と中央下に散在
+    for (let i = 0; i < 10; i++) {
+      result.push([
+        Math.random() * 2000 + 1000,
+        Math.random() * 200,
+        Math.random() * 600 + 25,
+        `一時公開${i + 1}`,
+        3,
+      ]);
+    }
+
+    return result;
+  }, []);
 
   React.useEffect(() => {
     if (!ref.current || typeof window === "undefined") return;
 
     // 初期化（既にあれば再利用）
-    const inst = echarts.getInstanceByDom(ref.current) ?? echarts.init(ref.current);
+    const inst =
+      echarts.getInstanceByDom(ref.current) ?? echarts.init(ref.current);
     chartRef.current = inst;
 
     const statusColors = {

@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { fetchGraphList, parseGraphListResponse, toGraphApiErrorFromStatus } from "./api";
+import {
+  fetchGraphList,
+  parseGraphListResponse,
+  toGraphApiErrorFromStatus,
+} from "./api";
 
 describe("parseGraphListResponse", () => {
   const schema = z.object({
@@ -15,7 +19,7 @@ describe("parseGraphListResponse", () => {
         status: 200,
         data: { data: [{ value: 1 }], updatedAt: "2025-01-01" },
       },
-      schema
+      schema,
     );
 
     expect(result.ok).toBe(true);
@@ -28,7 +32,7 @@ describe("parseGraphListResponse", () => {
   it("returns parse error when schema fails", () => {
     const result = parseGraphListResponse(
       { status: 200, data: { data: [{ value: "bad" }], updatedAt: 123 } },
-      schema
+      schema,
     );
 
     expect(result.ok).toBe(false);
@@ -43,7 +47,7 @@ describe("parseGraphListResponse", () => {
         status: 422,
         data: { detail: [{ msg: "Invalid period" }, "Missing status"] },
       },
-      schema
+      schema,
     );
 
     expect(result.ok).toBe(false);
@@ -56,7 +60,7 @@ describe("parseGraphListResponse", () => {
   it("returns server error for non-2xx non-422", () => {
     const result = parseGraphListResponse(
       { status: 500, data: { message: "boom" } },
-      schema
+      schema,
     );
 
     expect(result.ok).toBe(false);

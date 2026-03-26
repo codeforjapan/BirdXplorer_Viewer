@@ -12,7 +12,12 @@ type Props = {
  * 同一オリジンの iframe (例: /kouchou-ai/...) でのみ動作する。
  * Next.js の非同期レンダリングにも ResizeObserver で追従する。
  */
-export function AutoResizeIframe({ src, title, sandbox, minHeight = 400 }: Props) {
+export function AutoResizeIframe({
+  src,
+  title,
+  sandbox,
+  minHeight = 400,
+}: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(minHeight);
   const observerRef = useRef<ResizeObserver | null>(null);

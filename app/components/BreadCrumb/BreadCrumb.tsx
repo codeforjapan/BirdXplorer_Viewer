@@ -71,8 +71,8 @@ export const BreadCrumb = ({ items }: BreadCrumbProps) => {
               key={index}
               styles={{
                 root: {
-                  color: "#1D9BF0",
-                  textDecoration: "none",
+                  "color": "#1D9BF0",
+                  "textDecoration": "none",
                   "&:hover": {
                     textDecoration: "underline",
                   },

@@ -36,7 +36,10 @@ import {
   type GraphFetchResultWithMarkers,
 } from "./api";
 import type { RelativePeriodValue, StatusValue } from "./constants";
-import { DEFAULT_GRAPH_ERROR_MESSAGES, RELATIVE_PERIOD_OPTIONS } from "./constants";
+import {
+  DEFAULT_GRAPH_ERROR_MESSAGES,
+  RELATIVE_PERIOD_OPTIONS,
+} from "./constants";
 import { getDefaultPeriodValue } from "./periodUtils";
 import type { PeriodOption, PeriodRangeValue } from "./types";
 import type {
@@ -67,7 +70,7 @@ const STATUS_VALUES: StatusValue[] = [
 
 export const resolveRelativePeriod = (
   value?: string | null,
-  fallback?: RelativePeriodValue
+  fallback?: RelativePeriodValue,
 ): RelativePeriodValue => {
   if (value && RELATIVE_PERIOD_VALUES.includes(value as RelativePeriodValue)) {
     return value as RelativePeriodValue;
@@ -78,7 +81,7 @@ export const resolveRelativePeriod = (
 
 export const resolveRangePeriod = (
   value: string | null | undefined,
-  options: Array<PeriodOption<PeriodRangeValue>>
+  options: Array<PeriodOption<PeriodRangeValue>>,
 ): PeriodRangeValue => {
   if (value && options.some((option) => option.value === value)) {
     return value as PeriodRangeValue;
@@ -95,7 +98,7 @@ export const resolveStatus = (value?: string | null): StatusValue => {
 
 export const resolveLimit = (
   value?: string | null,
-  fallback: number = DEFAULT_GRAPH_LIMIT
+  fallback: number = DEFAULT_GRAPH_LIMIT,
 ): number => {
   const parsed = value ? Number.parseInt(value, 10) : Number.NaN;
   if (Number.isFinite(parsed) && parsed > 0) return parsed;
@@ -104,7 +107,7 @@ export const resolveLimit = (
 
 export const resolveDateTimestamp = (
   value?: string | null,
-  fallback?: number
+  fallback?: number,
 ): number | undefined => {
   if (!value) return fallback;
   const parsed = Number.parseInt(value, 10);
@@ -112,7 +115,7 @@ export const resolveDateTimestamp = (
   return fallback;
 };
 
-const toNetworkError = <T,>(): GraphFetchResult<T> => ({
+const toNetworkError = <T>(): GraphFetchResult<T> => ({
   ok: false,
   error: {
     kind: "network",
@@ -147,7 +150,14 @@ export const fetchDailyNotesGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyNotesApiV1GraphsDailyNotesGet({ start_date, end_date, status, language, keywords }),
+    async () =>
+      getDailyNotesApiV1GraphsDailyNotesGet({
+        start_date,
+        end_date,
+        status,
+        language,
+        keywords,
+      }),
     getDailyNotesApiV1GraphsDailyNotesGetResponse,
   );
 
@@ -200,15 +210,23 @@ export const fetchDailyPostsGraph = async ({
     const results = await Promise.allSettled(
       specificStatuses.map(async (s) =>
         fetchGraphList(
-          async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status: s, language, keywords }),
+          async () =>
+            getDailyPostsApiV1GraphsDailyPostsGet({
+              start_date,
+              end_date,
+              status: s,
+              language,
+              keywords,
+            }),
           getDailyPostsApiV1GraphsDailyPostsGetResponse,
-        )
-      )
+        ),
+      ),
     );
 
     let updatedAt = "";
     let hasSuccess = false;
-    const allItems: Array<{ date: string; postCount: number; status: string }> = [];
+    const allItems: Array<{ date: string; postCount: number; status: string }> =
+      [];
 
     for (let i = 0; i < specificStatuses.length; i++) {
       const s = specificStatuses[i];
@@ -218,7 +236,11 @@ export const fetchDailyPostsGraph = async ({
         hasSuccess = true;
         updatedAt = r.value.updatedAt;
         for (const item of r.value.data) {
-          allItems.push({ date: item.date, postCount: item.postCount, status: s });
+          allItems.push({
+            date: item.date,
+            postCount: item.postCount,
+            status: s,
+          });
         }
       }
     }
@@ -226,7 +248,10 @@ export const fetchDailyPostsGraph = async ({
     if (!hasSuccess) {
       return {
         ok: false,
-        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+        error: {
+          kind: "network",
+          message: DEFAULT_GRAPH_ERROR_MESSAGES.network,
+        },
       };
     }
 
@@ -239,7 +264,14 @@ export const fetchDailyPostsGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getDailyPostsApiV1GraphsDailyPostsGet({ start_date, end_date, status, language, keywords }),
+    async () =>
+      getDailyPostsApiV1GraphsDailyPostsGet({
+        start_date,
+        end_date,
+        status,
+        language,
+        keywords,
+      }),
     getDailyPostsApiV1GraphsDailyPostsGetResponse,
   );
 
@@ -274,7 +306,8 @@ export const fetchNotesAnnualGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getNotesAnnualApiV1GraphsNotesAnnualGet({ start_date, end_date, status }),
+    async () =>
+      getNotesAnnualApiV1GraphsNotesAnnualGet({ start_date, end_date, status }),
     getNotesAnnualApiV1GraphsNotesAnnualGetResponse,
   );
 
@@ -299,7 +332,9 @@ export const fetchNotesEvaluationGraph = async ({
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
   if (isGraphMockEnabled()) {
-    const { createMockResponse } = await import("~/mocks/graph/notes-evaluation");
+    const { createMockResponse } = await import(
+      "~/mocks/graph/notes-evaluation"
+    );
     // モックの場合は従来のperiodを使用（後方互換性のため）
     const mock = createMockResponse("6months");
     return {
@@ -310,7 +345,13 @@ export const fetchNotesEvaluationGraph = async ({
   }
 
   const result = await fetchGraphList(
-    async () => getNotesEvaluationApiV1GraphsNotesEvaluationGet({ start_date, end_date, status, limit }),
+    async () =>
+      getNotesEvaluationApiV1GraphsNotesEvaluationGet({
+        start_date,
+        end_date,
+        status,
+        limit,
+      }),
     getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
   );
 
@@ -373,8 +414,8 @@ export const fetchNotesEvaluationStatusGraph = async ({
               keywords,
             }),
           getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
-        )
-      )
+        ),
+      ),
     );
 
     let updatedAt = "";
@@ -394,7 +435,10 @@ export const fetchNotesEvaluationStatusGraph = async ({
     if (!hasSuccess) {
       return {
         ok: false,
-        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+        error: {
+          kind: "network",
+          message: DEFAULT_GRAPH_ERROR_MESSAGES.network,
+        },
       };
     }
 
@@ -466,10 +510,17 @@ export const fetchPostInfluenceGraph = async ({
       specificStatuses.map(async (s) =>
         fetchGraphList(
           async () =>
-            getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status: s, limit, language, keywords }),
+            getPostInfluenceApiV1GraphsPostInfluenceGet({
+              start_date,
+              end_date,
+              status: s,
+              limit,
+              language,
+              keywords,
+            }),
           getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
-        )
-      )
+        ),
+      ),
     );
 
     let updatedAt = "";
@@ -489,7 +540,10 @@ export const fetchPostInfluenceGraph = async ({
     if (!hasSuccess) {
       return {
         ok: false,
-        error: { kind: "network", message: DEFAULT_GRAPH_ERROR_MESSAGES.network },
+        error: {
+          kind: "network",
+          message: DEFAULT_GRAPH_ERROR_MESSAGES.network,
+        },
       };
     }
 
@@ -502,7 +556,14 @@ export const fetchPostInfluenceGraph = async ({
 
   const result = await fetchGraphList(
     async () =>
-      getPostInfluenceApiV1GraphsPostInfluenceGet({ start_date, end_date, status, limit, language, keywords }),
+      getPostInfluenceApiV1GraphsPostInfluenceGet({
+        start_date,
+        end_date,
+        status,
+        limit,
+        language,
+        keywords,
+      }),
     getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
   );
 
@@ -538,8 +599,8 @@ export const getDefaultNotesAnnualRange = (): PeriodRangeValue =>
 export const getDefaultRelativePeriod = (): RelativePeriodValue =>
   getDefaultPeriodValue(RELATIVE_PERIOD_OPTIONS);
 
-export const safeGraphFetch = async <T,>(
-  action: () => Promise<GraphFetchResult<T>>
+export const safeGraphFetch = async <T>(
+  action: () => Promise<GraphFetchResult<T>>,
 ): Promise<GraphFetchResult<T>> => {
   try {
     return await action();
@@ -548,8 +609,8 @@ export const safeGraphFetch = async <T,>(
   }
 };
 
-export const safeGraphFetchWithMarkers = async <T,>(
-  action: () => Promise<GraphFetchResultWithMarkers<T>>
+export const safeGraphFetchWithMarkers = async <T>(
+  action: () => Promise<GraphFetchResultWithMarkers<T>>,
 ): Promise<GraphFetchResultWithMarkers<T>> => {
   try {
     return await action();

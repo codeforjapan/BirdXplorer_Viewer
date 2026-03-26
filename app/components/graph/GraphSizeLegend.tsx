@@ -93,10 +93,12 @@ export const GraphSizeLegend = ({
     const middleToUse =
       middleValues.length <= maxMiddleSteps
         ? middleValues
-        : middleValues.filter((_, i) => {
-            const interval = Math.ceil(middleValues.length / maxMiddleSteps);
-            return i % interval === 0;
-          }).slice(0, maxMiddleSteps);
+        : middleValues
+            .filter((_, i) => {
+              const interval = Math.ceil(middleValues.length / maxMiddleSteps);
+              return i % interval === 0;
+            })
+            .slice(0, maxMiddleSteps);
 
     for (const value of middleToUse) {
       const ratio = (value - min) / range;

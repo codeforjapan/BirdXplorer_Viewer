@@ -12,7 +12,7 @@ export type NotesAnnualApiResponse = {
 
 const resolvePeriod = (
   period: PeriodRangeValue | undefined,
-  periodOptions: Array<PeriodOption<PeriodRangeValue>>
+  periodOptions: Array<PeriodOption<PeriodRangeValue>>,
 ): PeriodRangeValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
@@ -20,7 +20,9 @@ const resolvePeriod = (
   return getDefaultPeriodValue(periodOptions);
 };
 
-export const generateMockData = (period?: PeriodRangeValue): MonthlyNoteData[] => {
+export const generateMockData = (
+  period?: PeriodRangeValue,
+): MonthlyNoteData[] => {
   const resolvedPeriod = resolvePeriod(period, getNotesAnnualPeriodOptions());
   const [startStr, endStr] = resolvedPeriod.split("_");
   const start = dayjs(startStr, "YYYY-MM");
@@ -51,7 +53,9 @@ export const generateMockData = (period?: PeriodRangeValue): MonthlyNoteData[] =
   return result;
 };
 
-export const createMockResponse = (period?: PeriodRangeValue): NotesAnnualApiResponse => {
+export const createMockResponse = (
+  period?: PeriodRangeValue,
+): NotesAnnualApiResponse => {
   const resolvedPeriod = resolvePeriod(period, getNotesAnnualPeriodOptions());
   const data = generateMockData(resolvedPeriod);
 

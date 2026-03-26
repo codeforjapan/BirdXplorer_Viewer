@@ -26,7 +26,7 @@ const PERIOD_OPTIONS: Array<{ value: AccountRankingPeriod; label: string }> = [
 ];
 
 const formatChange = (
-  change: number
+  change: number,
 ): { text: string; direction: "up" | "down" | "neutral" } => {
   if (change > 0) return { text: `+${change}`, direction: "up" };
   if (change < 0) return { text: String(change), direction: "down" };
@@ -45,7 +45,8 @@ export const AccountRankingSection = ({
   fixedTimestamps,
 }: AccountRankingSectionProps) => {
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
-  const [period, setPeriod] = React.useState<AccountRankingPeriod>(initialPeriod);
+  const [period, setPeriod] =
+    React.useState<AccountRankingPeriod>(initialPeriod);
   const fetcher = useFetcher<GraphFetchResult<TopNoteAccountDataItem[]>>();
   const revalidator = useRevalidator();
   const hasFetcherLoaded = React.useRef(false);
@@ -55,7 +56,8 @@ export const AccountRankingSection = ({
   const currentResult = fetcher.data ?? initialResult;
 
   React.useEffect(() => {
-    const { start_date, end_date } = fixedTimestamps ?? rankingPeriodToTimestamps(period);
+    const { start_date, end_date } =
+      fixedTimestamps ?? rankingPeriodToTimestamps(period);
     const nextUrl = `/resources/graphs/top-note-accounts?start_date=${start_date}&end_date=${end_date}`;
 
     if (!hasMounted.current) {

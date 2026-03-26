@@ -43,10 +43,26 @@ export type StatusValue =
  * ScatterBubbleChartのcategoriesに使用
  */
 export const STATUS_CATEGORIES: CategoryConfig[] = [
-  { key: "published", name: STATUS_LABELS.published, color: STATUS_COLORS.published },
-  { key: "evaluating", name: STATUS_LABELS.evaluating, color: STATUS_COLORS.evaluating },
-  { key: "unpublished", name: STATUS_LABELS.unpublished, color: STATUS_COLORS.unpublished },
-  { key: "temporarilyPublished", name: STATUS_LABELS.temporarilyPublished, color: STATUS_COLORS.temporarilyPublished },
+  {
+    key: "published",
+    name: STATUS_LABELS.published,
+    color: STATUS_COLORS.published,
+  },
+  {
+    key: "evaluating",
+    name: STATUS_LABELS.evaluating,
+    color: STATUS_COLORS.evaluating,
+  },
+  {
+    key: "unpublished",
+    name: STATUS_LABELS.unpublished,
+    color: STATUS_COLORS.unpublished,
+  },
+  {
+    key: "temporarilyPublished",
+    name: STATUS_LABELS.temporarilyPublished,
+    color: STATUS_COLORS.temporarilyPublished,
+  },
 ];
 
 /**
@@ -55,10 +71,26 @@ export const STATUS_CATEGORIES: CategoryConfig[] = [
  */
 export const STATUS_FILTER_OPTIONS = [
   { value: "all" as const, label: "全て" },
-  { value: "published" as const, label: STATUS_LABELS.published, color: STATUS_COLORS.published },
-  { value: "evaluating" as const, label: STATUS_LABELS.evaluating, color: STATUS_COLORS.evaluating },
-  { value: "unpublished" as const, label: STATUS_LABELS.unpublished, color: STATUS_COLORS.unpublished },
-  { value: "temporarilyPublished" as const, label: STATUS_LABELS.temporarilyPublished, color: STATUS_COLORS.temporarilyPublished },
+  {
+    value: "published" as const,
+    label: STATUS_LABELS.published,
+    color: STATUS_COLORS.published,
+  },
+  {
+    value: "evaluating" as const,
+    label: STATUS_LABELS.evaluating,
+    color: STATUS_COLORS.evaluating,
+  },
+  {
+    value: "unpublished" as const,
+    label: STATUS_LABELS.unpublished,
+    color: STATUS_COLORS.unpublished,
+  },
+  {
+    value: "temporarilyPublished" as const,
+    label: STATUS_LABELS.temporarilyPublished,
+    color: STATUS_COLORS.temporarilyPublished,
+  },
 ];
 
 /**
@@ -87,9 +119,17 @@ export const getStatusLabel = (status: string): string => {
   return STATUS_LABELS[status as StatusLabelKey] ?? status;
 };
 
-export type DefaultPeriodValue = "1week" | "1month" | "3months" | "6months" | "1year";
+export type DefaultPeriodValue =
+  | "1week"
+  | "1month"
+  | "3months"
+  | "6months"
+  | "1year";
 
-export const DEFAULT_PERIOD_OPTIONS: Array<{ value: DefaultPeriodValue; label: string }> = [
+export const DEFAULT_PERIOD_OPTIONS: Array<{
+  value: DefaultPeriodValue;
+  label: string;
+}> = [
   { value: "1week", label: "直近1週間" },
   { value: "1month", label: "直近1ヶ月" },
   { value: "3months", label: "直近3ヶ月" },
@@ -107,12 +147,13 @@ export type RelativePeriodValue =
   | "6months"
   | "1year";
 
-export const RELATIVE_PERIOD_OPTIONS: Array<PeriodOption<RelativePeriodValue>> = [
-  { value: "1month", label: "直近1ヶ月" },
-  { value: "3months", label: "直近3ヶ月" },
-  { value: "6months", label: "直近6ヶ月" },
-  { value: "1year", label: "直近1年" },
-];
+export const RELATIVE_PERIOD_OPTIONS: Array<PeriodOption<RelativePeriodValue>> =
+  [
+    { value: "1month", label: "直近1ヶ月" },
+    { value: "3months", label: "直近3ヶ月" },
+    { value: "6months", label: "直近6ヶ月" },
+    { value: "1year", label: "直近1年" },
+  ];
 
 export const DEFAULT_EVALUATION_PERIOD: RelativePeriodValue = "6months";
 

@@ -181,9 +181,9 @@ describe("Search Page", () => {
     if (!emptyStateCard) {
       throw new Error("search-empty-state card not found");
     }
-    expect(
-      window.getComputedStyle(emptyStateCard).backgroundColor,
-    ).toBe("rgb(21, 32, 43)");
+    expect(window.getComputedStyle(emptyStateCard).backgroundColor).toBe(
+      "rgb(21, 32, 43)",
+    );
   });
 
   it("renders Notes when search results exist", () => {

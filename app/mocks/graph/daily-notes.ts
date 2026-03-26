@@ -23,7 +23,7 @@ export type DailyNotesCreationApiResponse = {
  * 期間内に2つのマーカーを配置
  */
 const parsePeriod = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): { start: dayjs.Dayjs; end: dayjs.Dayjs } => {
   if (period?.includes("_")) {
     const [startStr, endStr] = period.split("_");
@@ -50,7 +50,7 @@ const parsePeriod = (
 
 const resolvePeriod = (
   period: RelativePeriodValue | undefined,
-  periodOptions: Array<PeriodOption<RelativePeriodValue>>
+  periodOptions: Array<PeriodOption<RelativePeriodValue>>,
 ): RelativePeriodValue => {
   if (period && periodOptions.some((option) => option.value === period)) {
     return period;
@@ -59,7 +59,7 @@ const resolvePeriod = (
 };
 
 export const generateMockData = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): DailyNotesCreationDataItem[] => {
   const { start, end } = parsePeriod(period);
 
@@ -75,19 +75,19 @@ export const generateMockData = (
 
     const published = Math.max(
       0,
-      Math.floor(baseFactor * 3 + Math.random() * 8 - 2)
+      Math.floor(baseFactor * 3 + Math.random() * 8 - 2),
     );
     const evaluating = Math.max(
       0,
-      Math.floor(baseFactor * 8 + Math.random() * 15 - 3)
+      Math.floor(baseFactor * 8 + Math.random() * 15 - 3),
     );
     const unpublished = Math.max(
       0,
-      Math.floor(baseFactor * 2 + Math.random() * 5 - 1)
+      Math.floor(baseFactor * 2 + Math.random() * 5 - 1),
     );
     const temporarilyPublished = Math.max(
       0,
-      Math.floor(baseFactor * 1.5 + Math.random() * 4 - 1)
+      Math.floor(baseFactor * 1.5 + Math.random() * 4 - 1),
     );
 
     days.push({
@@ -103,7 +103,7 @@ export const generateMockData = (
 };
 
 export const createMockResponse = (
-  period?: RelativePeriodValue
+  period?: RelativePeriodValue,
 ): DailyNotesCreationApiResponse => {
   const resolvedPeriod = resolvePeriod(period, getRelativePeriodOptions());
   const data = generateMockData(resolvedPeriod);
