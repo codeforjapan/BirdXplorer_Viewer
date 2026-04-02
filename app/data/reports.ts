@@ -25,6 +25,15 @@ const buildReportHref = (year: number, month: number): string => {
 
 export const REPORT_ITEMS: ReportItem[] = [
   {
+    id: "2",
+    title: "2026年 2月レポート",
+    description:
+      "社会的多様性や人権保障、感染症対策、情報の正確性、法的規制、経済政策、災害対策、食品安全、国際関係、医療情報、SNSの信頼性、外国人支援など多岐にわたるテーマが議論されています。特に、科学的根拠に基づく情報の重要性や、法的リスクへの警戒、地域振興に向けた制度改革の必要性が強調され、社会全体の透明性や公正性の確保が求められています。",
+    href: buildReportHref(2026, 2),
+    date: new Date("2026-02-01"),
+    kouchouAiPath: `/kouchou-ai/2026/02/2641c07e-ffa8-4309-b53d-e2e4547b0fc5/index.html`,
+  },
+  {
     id: "1",
     title: "2026年 1月レポート",
     description:
