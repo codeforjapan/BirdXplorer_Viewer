@@ -14,7 +14,7 @@ export const loader = () => {
 
 export default function NotFound() {
   return (
-    <Container className="py-8" size="xl">
+    <Container className="flex min-h-[60vh] items-center justify-center" size="xl">
       <div className="text-center text-white">
         <h1 className="text-heading-xl mb-4">404</h1>
         <p className="text-body-l mb-8">
