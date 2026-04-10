@@ -77,7 +77,7 @@ export const loader = async (args: Route.LoaderArgs) => {
   const [topics, response] = await Promise.all([
     // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
     getTopicsApiV1DataTopicsGet(),
-    searchApiV1DataSearchGet(searchQuery.data),
+    searchApiV1DataSearchGet({ ...searchQuery.data, include_total: false } as never),
   ]);
 
   return {
