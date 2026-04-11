@@ -14,13 +14,14 @@ export const loader = () => {
 
 export default function NotFound() {
   return (
-    <Container className="flex min-h-[60vh] items-center justify-center" size="xl">
+    <Container
+      className="flex min-h-[60vh] items-center justify-center"
+      size="xl"
+    >
       <div className="text-center text-white">
         <h1 className="text-heading-xl mb-4">404</h1>
-        <p className="text-body-l mb-8">
-          お探しのページが見つかりませんでした
-        </p>
-        <Link to="/" className="text-primary underline">
+        <p className="text-body-l mb-8">お探しのページが見つかりませんでした</p>
+        <Link className="text-primary underline" to="/">
           トップページに戻る
         </Link>
       </div>
