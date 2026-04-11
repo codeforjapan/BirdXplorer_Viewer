@@ -37,10 +37,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </head>
       <body className="overflow-x-hidden bg-black">
-        <MantineProvider theme={mantineTheme}>
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
           <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
             {children}
           </DatesProvider>
@@ -101,10 +101,10 @@ export function ErrorBoundary() {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </head>
       <body className="overflow-x-hidden bg-black">
-        <MantineProvider theme={mantineTheme}>
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
           <div className="flex min-h-dvh items-center justify-center bg-black text-white">
             <div className="text-center">
               <h1 className="mb-4 text-2xl font-bold">
