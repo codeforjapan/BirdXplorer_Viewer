@@ -22,8 +22,8 @@ describe("GraphState", () => {
       </GraphState>,
     );
 
-    const skeleton = screen.container.querySelector(".mantine-Skeleton-root");
-    expect(skeleton).toBeTruthy();
+    const loader = screen.container.querySelector(".mantine-Loader-root");
+    expect(loader).toBeTruthy();
   });
 
   it("renders empty message", () => {
