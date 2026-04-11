@@ -39,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
         <ColorSchemeScript />
       </head>
-      <body>
+      <body className="overflow-x-hidden bg-black">
         <MantineProvider theme={mantineTheme}>
           <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
             {children}
@@ -75,7 +75,7 @@ export default function App() {
       </header>
       <div className="flex flex-1 bg-black">
         <SideMenu className="hidden md:flex" />
-        <main className="flex-1 bg-black">
+        <main className="min-w-0 flex-1 overflow-hidden bg-black">
           <Outlet />
         </main>
       </div>
@@ -103,7 +103,7 @@ export function ErrorBoundary() {
         <Links />
         <ColorSchemeScript />
       </head>
-      <body>
+      <body className="overflow-x-hidden bg-black">
         <MantineProvider theme={mantineTheme}>
           <div className="flex min-h-dvh items-center justify-center bg-black text-white">
             <div className="text-center">
