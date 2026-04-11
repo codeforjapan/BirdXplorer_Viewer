@@ -1,11 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { parseWithZod } from "@conform-to/zod";
 import { Card, Container, Divider, Group, Stack } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { data, redirect } from "react-router";
 import { getQuery, withQuery } from "ufo";
 
 import { SearchIcon } from "~/components/icons";
 import { Notes } from "~/components/note/Notes";
+import { API_BASE_URL } from "~/constants";
 import { WEB_PATHS } from "~/constants/paths";
 import { SearchForm } from "~/feature/search/components/SearchForm";
 import { SearchPagination } from "~/feature/search/components/SearchPagination";
@@ -75,7 +77,10 @@ export const loader = async (args: Route.LoaderArgs) => {
   const [topics, response] = await Promise.all([
     // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
     getTopicsApiV1DataTopicsGet(),
-    searchApiV1DataSearchGet(searchQuery.data),
+    searchApiV1DataSearchGet({
+      ...searchQuery.data,
+      include_total: false,
+    } as never),
   ]);
 
   return {
@@ -98,6 +103,41 @@ export default function Search({
   const notes = "data" in searchResults ? searchResults.data : [];
   const paginationMeta =
     "meta" in searchResults ? searchResults.meta : { next: null, prev: null };
+
+  // 非同期件数取得
+  const [totalCount, setTotalCount] = useState<number | null | undefined>(null);
+  useEffect(() => {
+    setTotalCount(null);
+    if (!searchQuery) return;
+
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(searchQuery)) {
+      if (key === "offset" || key === "limit") continue;
+      if (value == null) continue;
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          params.append(key, String(v));
+        }
+      } else {
+        params.set(key, String(value));
+      }
+    }
+
+    const countUrl = `${API_BASE_URL}/api/v1/data/search/count?${params.toString()}`;
+    let cancelled = false;
+    void fetch(countUrl)
+      .then(async (res) => res.json() as Promise<{ total: number }>)
+      .then((data) => {
+        if (!cancelled) setTotalCount(data.total);
+      })
+      .catch(() => {
+        if (!cancelled) setTotalCount(undefined);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [searchQuery]);
 
   return (
     <main>
@@ -124,6 +164,7 @@ export default function Search({
                       currentQuery={searchQuery}
                       loading={isNetworkBusy}
                       meta={paginationMeta}
+                      totalCount={totalCount}
                       visibleItemCount={notes.length}
                     />
                   )}
@@ -143,6 +184,7 @@ export default function Search({
                       currentQuery={searchQuery}
                       loading={isNetworkBusy}
                       meta={paginationMeta}
+                      totalCount={totalCount}
                       visibleItemCount={notes.length}
                     />
                   )}
