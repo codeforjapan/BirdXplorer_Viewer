@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { Skeleton } from "@mantine/core";
 import type { EChartsOption } from "echarts";
 import { useEffect, useState } from "react";
 
@@ -50,12 +50,7 @@ export const EChartsGraph = ({
   }, []);
 
   const fallback = loadingFallback ?? (
-    <div
-      className="flex items-center justify-center"
-      style={{ height, minHeight }}
-    >
-      <Text c="dimmed">読み込み中...</Text>
-    </div>
+    <Skeleton height={minHeight} radius="md" />
   );
 
   if (!ReactECharts) {
