@@ -122,8 +122,8 @@ export default function Search({
 
     const countUrl = `${API_BASE_URL}/api/v1/data/search/count?${params.toString()}`;
     let cancelled = false;
-    fetch(countUrl)
-      .then((res) => res.json())
+    void fetch(countUrl)
+      .then(async (res) => res.json() as Promise<{ total: number }>)
       .then((data) => {
         if (!cancelled) setTotalCount(data.total);
       })
