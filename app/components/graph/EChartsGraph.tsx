@@ -1,4 +1,4 @@
-import { Skeleton } from "@mantine/core";
+import { Loader, Stack, Text } from "@mantine/core";
 import type { EChartsOption } from "echarts";
 import { useEffect, useState } from "react";
 
@@ -50,7 +50,21 @@ export const EChartsGraph = ({
   }, []);
 
   const fallback = loadingFallback ?? (
-    <Skeleton height={minHeight} radius="md" />
+    <Stack
+      align="center"
+      justify="center"
+      style={{
+        height,
+        minHeight,
+        borderRadius: "8px",
+        backgroundColor: "var(--color-gray-1)",
+      }}
+    >
+      <Loader color="blue" size="md" />
+      <Text c="dimmed" size="sm">
+        グラフを読み込み中...
+      </Text>
+    </Stack>
   );
 
   if (!ReactECharts) {
