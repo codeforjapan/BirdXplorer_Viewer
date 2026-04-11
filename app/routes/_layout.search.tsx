@@ -74,8 +74,8 @@ export const loader = async (args: Route.LoaderArgs) => {
     );
   }
 
-  const [topics, response] = await Promise.all([
-    // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
+  // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
+  const settled = await Promise.allSettled([
     getTopicsApiV1DataTopicsGet(),
     searchApiV1DataSearchGet({
       ...searchQuery.data,
@@ -83,11 +83,18 @@ export const loader = async (args: Route.LoaderArgs) => {
     } as never),
   ]);
 
+  const topics =
+    settled[0].status === "fulfilled" ? settled[0].value.data.data : [];
+  const searchResults =
+    settled[1].status === "fulfilled"
+      ? settled[1].value.data
+      : { data: [], meta: { next: null, prev: null } };
+
   return {
     data: {
       searchQuery: searchQuery.data,
-      searchResults: response.data,
-      topics: topics.data.data,
+      searchResults,
+      topics,
     },
     error: null,
   };

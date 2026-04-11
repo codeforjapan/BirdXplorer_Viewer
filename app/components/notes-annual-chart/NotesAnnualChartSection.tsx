@@ -249,6 +249,7 @@ export const NotesAnnualChartSection = ({
     >
       <GraphState
         error={currentResult?.ok ? undefined : currentResult?.error}
+        loadingHeight={400}
         onRetry={handleRetry}
         status={graphStatus}
       >
