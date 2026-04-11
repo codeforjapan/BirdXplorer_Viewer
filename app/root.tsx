@@ -3,11 +3,25 @@ import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 import "./app.css";
 
-import { ColorSchemeScript, Container, MantineProvider } from "@mantine/core";
+import {
+  ColorSchemeScript,
+  Container,
+  MantineProvider,
+  Progress,
+} from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import {
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useNavigation,
+  useRouteError,
+} from "react-router";
 
 import { LogoIcon } from "./components/logo";
 import { MobileMenuButton, SideMenu } from "./components/SideMenu";
@@ -39,8 +53,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const navigation = useNavigation();
+  const isNavigating = navigation.state !== "idle";
+
   return (
     <div className="flex min-h-dvh flex-col bg-black">
+      {isNavigating && (
+        <Progress
+          animated
+          className="fixed top-0 right-0 left-0 z-[9999]"
+          color="blue"
+          size="xs"
+          value={100}
+        />
+      )}
       <header className="flex items-center justify-between bg-black px-5 py-4 md:hidden">
         <a href="/">
           <LogoIcon />
@@ -62,5 +88,43 @@ export default function App() {
         </Container>
       </footer>
     </div>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <html lang="ja">
+      <head>
+        <meta charSet="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <Meta />
+        <Links />
+        <ColorSchemeScript />
+      </head>
+      <body>
+        <MantineProvider theme={mantineTheme}>
+          <div className="flex min-h-dvh items-center justify-center bg-black text-white">
+            <div className="text-center">
+              <h1 className="mb-4 text-2xl font-bold">
+                {isRouteErrorResponse(error)
+                  ? `${String(error.status)} Error`
+                  : "エラーが発生しました"}
+              </h1>
+              <p className="mb-8">
+                {isRouteErrorResponse(error)
+                  ? error.statusText
+                  : "予期しないエラーが発生しました。"}
+              </p>
+              <a className="text-blue-400 underline" href="/">
+                トップページに戻る
+              </a>
+            </div>
+          </div>
+        </MantineProvider>
+        <Scripts />
+      </body>
+    </html>
   );
 }
