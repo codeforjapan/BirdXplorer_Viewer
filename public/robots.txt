@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /search
+Disallow: /test
+Disallow: /test2
+Disallow: /kouchou-ai/
