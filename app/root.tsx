@@ -3,12 +3,7 @@ import "@mantine/dates/styles.css";
 import "dayjs/locale/ja";
 import "./app.css";
 
-import {
-  ColorSchemeScript,
-  Container,
-  MantineProvider,
-  Progress,
-} from "@mantine/core";
+import { ColorSchemeScript, Container, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -19,7 +14,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useNavigation,
   useRouteError,
 } from "react-router";
 
@@ -53,20 +47,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const navigation = useNavigation();
-  const isNavigating = navigation.state !== "idle";
-
   return (
     <div className="flex min-h-dvh flex-col bg-black">
-      {isNavigating && (
-        <Progress
-          animated
-          className="fixed top-0 right-0 left-0 z-[9999]"
-          color="blue"
-          size="xs"
-          value={100}
-        />
-      )}
       <header className="flex items-center justify-between bg-black px-5 py-4 md:hidden">
         <a href="/">
           <LogoIcon />
