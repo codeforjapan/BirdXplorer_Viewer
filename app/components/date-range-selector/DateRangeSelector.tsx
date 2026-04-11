@@ -2,6 +2,8 @@ import "dayjs/locale/ja";
 
 import { DatePickerInput, DatesProvider } from "@mantine/dates";
 import { useMediaQuery } from "@mantine/hooks";
+import dayjs from "dayjs";
+import { useMemo } from "react";
 
 import { MOBILE_BREAKPOINT } from "~/constants/breakpoints";
 import Fa6RegularCalendar from "~icons/fa6-regular/calendar";
@@ -19,6 +21,8 @@ export type DateRangeSelectorProps = {
   minDate?: Date;
   /** 選択可能な最大日付 */
   maxDate?: Date;
+  /** 選択可能な最大日数幅（開始日からの日数） */
+  maxRangeDays?: number;
 };
 
 /**
@@ -33,9 +37,18 @@ export const DateRangeSelector = ({
   placeholder = "期間を選択",
   minDate,
   maxDate,
+  maxRangeDays,
 }: DateRangeSelectorProps) => {
   // スマホ判定（640px以下）- SSR時はデスクトップ表示をデフォルトとする
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT) ?? false;
+
+  // 開始日が選択済みかつ終了日が未選択のとき、maxRangeDays に基づいて最大日付を制限する
+  const effectiveMaxDate = useMemo(() => {
+    if (!maxRangeDays || !value?.[0] || value[1]) return maxDate;
+    const rangeLimit = dayjs(value[0]).add(maxRangeDays, "day").toDate();
+    if (!maxDate) return rangeLimit;
+    return rangeLimit < maxDate ? rangeLimit : maxDate;
+  }, [maxRangeDays, value, maxDate]);
 
   return (
     <DatesProvider settings={{ locale: "ja" }}>
@@ -43,7 +56,7 @@ export const DateRangeSelector = ({
         allowSingleDateInRange
         clearable
         leftSection={<Fa6RegularCalendar className="size-4 text-primary" />}
-        maxDate={maxDate}
+        maxDate={effectiveMaxDate}
         minDate={minDate}
         onChange={onChange}
         placeholder={placeholder}
