@@ -85,6 +85,13 @@ export const TopicSelect = ({
         label: {
           marginBottom: "8px",
         },
+        dropdown: {
+          backgroundColor: "var(--color-gray-1)",
+          borderColor: "var(--color-gray-5)",
+        },
+        option: {
+          color: "white",
+        },
       }}
       value={value}
       {...rest}
