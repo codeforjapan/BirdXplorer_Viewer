@@ -12,14 +12,14 @@ importers:
   .:
     dependencies:
       '@conform-to/dom':
-        specifier: 1.5.1
-        version: 1.5.1
+        specifier: 1.18.0
+        version: 1.18.0
       '@conform-to/react':
-        specifier: 1.5.1
-        version: 1.5.1(react@19.0.0)
+        specifier: 1.18.0
+        version: 1.18.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@conform-to/zod':
-        specifier: 1.5.1
-        version: 1.5.1(zod@3.25.76)
+        specifier: 1.18.0
+        version: 1.18.0(zod@3.25.76)
       '@mantine/charts':
         specifier: 7.15.2
         version: 7.15.2(@mantine/core@7.15.2(@mantine/hooks@7.15.2(react@19.0.0))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@mantine/hooks@7.15.2(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(recharts@2.15.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
@@ -491,18 +491,19 @@ packages:
   '@bundled-es-modules/tough-cookie@0.1.6':
     resolution: {integrity: sha512-dvMHbL464C0zI+Yqxbz6kZ5TOEp7GLW+pry/RWndAR8MJQAXZ2rPmIs8tziTZjeIyhSNZgZbCePtfSbdWqStJw==}
 
-  '@conform-to/dom@1.5.1':
-    resolution: {integrity: sha512-QZeNJ+TC6NjBb8zHYHcXVxuFHxWLo8zYhJyHvKymkIqKwoDCnu6X8EheAbnKHh79PpgBttIu6gdjibEwUsBGuw==}
+  '@conform-to/dom@1.18.0':
+    resolution: {integrity: sha512-luccJjJJgvePp8mmU1plwEcofP0Gk/7a54ukSX1ta7K6J0Ep37nm18WK7gowrVCIHzCnR7iAdyjd+vGTpuI4zw==}
 
-  '@conform-to/react@1.5.1':
-    resolution: {integrity: sha512-dEKH81vm1+BphgFP9v7OkHxu4CDVq70yk4tApIFV2gqQAA0P7ZMrD4cu2e2o2TAYDiThPEuKxkcCmuAwbZTZbw==}
+  '@conform-to/react@1.18.0':
+    resolution: {integrity: sha512-k5CnPa/a6YOv1+cavx5DiW4yh9RxC148Xxir5p3dqJ6r20WD9MvhVDOSJ/qmIegkYoLKQhxnOw3RJoNFfEDKPw==}
     peerDependencies:
       react: '>=18'
+      react-dom: '>=18'
 
-  '@conform-to/zod@1.5.1':
-    resolution: {integrity: sha512-X89Asni+LlM5U7abJcD3OE/HLKB0SGqo9KVLGZsn/QUVXT+cJDVAXFz1TP6/zDEdsOkabDw+xBHQF2vPxkfrOg==}
+  '@conform-to/zod@1.18.0':
+    resolution: {integrity: sha512-ombphsARN/7QpjOOsk7QPHDvCK1dLr4PlTz6styUQoh9vt8FxTOuH64XdY0XGtwUCTSJ5/9lvBa75cyhDbYm1Q==}
     peerDependencies:
-      zod: ^3.21.0
+      zod: ^3.21.0 || ^4.0.0
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -5403,16 +5404,17 @@ snapshots:
       '@types/tough-cookie': 4.0.5
       tough-cookie: 4.1.4
 
-  '@conform-to/dom@1.5.1': {}
+  '@conform-to/dom@1.18.0': {}
 
-  '@conform-to/react@1.5.1(react@19.0.0)':
+  '@conform-to/react@1.18.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@conform-to/dom': 1.5.1
+      '@conform-to/dom': 1.18.0
       react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
-  '@conform-to/zod@1.5.1(zod@3.25.76)':
+  '@conform-to/zod@1.18.0(zod@3.25.76)':
     dependencies:
-      '@conform-to/dom': 1.5.1
+      '@conform-to/dom': 1.18.0
       zod: 3.25.76
 
   '@csstools/color-helpers@5.1.0':
