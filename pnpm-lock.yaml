@@ -52,7 +52,7 @@ importers:
         version: 4.2.2(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))
       '@vercel/react-router':
         specifier: 1.2.6
-        version: 1.2.6(@react-router/dev@7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@5.0.1(postcss@8.5.8))(typescript@5.9.3)(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(isbot@5.1.36)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 1.2.6(@react-router/dev@7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@5.0.1(postcss@8.5.8))(typescript@5.9.3)(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(isbot@5.1.37)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       dayjs:
         specifier: 1.11.20
         version: 1.11.20
@@ -63,8 +63,8 @@ importers:
         specifier: 3.0.2
         version: 3.0.2(echarts@6.0.0)(react@19.0.0)
       isbot:
-        specifier: 5.1.36
-        version: 5.1.36
+        specifier: 5.1.37
+        version: 5.1.37
       ohash:
         specifier: 2.0.11
         version: 2.0.11
@@ -3204,8 +3204,8 @@ packages:
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
-  isbot@5.1.36:
-    resolution: {integrity: sha512-C/ZtXyJqDPZ7G7JPr06ApWyYoHjYexQbS6hPYD4WYCzpv2Qes6Z+CCEfTX4Owzf+1EJ933PoI2p+B9v7wpGZBQ==}
+  isbot@5.1.37:
+    resolution: {integrity: sha512-5bcicX81xf6NlTEV8rWdg7Pk01LFizDetuYGHx6d/f6y3lR2/oo8IfxjzJqn1UdDEyCcwT9e7NRloj8DwCYujQ==}
     engines: {node: '>=18'}
 
   isexe@2.0.0:
@@ -6983,12 +6983,12 @@ snapshots:
       '@typescript-eslint/types': 8.39.0
       eslint-visitor-keys: 4.2.1
 
-  '@vercel/react-router@1.2.6(@react-router/dev@7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@5.0.1(postcss@8.5.8))(typescript@5.9.3)(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(isbot@5.1.36)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@vercel/react-router@1.2.6(@react-router/dev@7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@5.0.1(postcss@8.5.8))(typescript@5.9.3)(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(isbot@5.1.37)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-router/dev': 7.6.0(@react-router/serve@7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3))(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(sugarss@5.0.1(postcss@8.5.8))(typescript@5.9.3)(vite@6.3.5(@types/node@22.17.0)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.8))(yaml@2.7.1))(yaml@2.7.1)
       '@react-router/node': 7.6.0(react-router@7.6.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.9.3)
       '@vercel/static-config': 3.2.0
-      isbot: 5.1.36
+      isbot: 5.1.37
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       ts-morph: 12.0.0
@@ -8423,7 +8423,7 @@ snapshots:
 
   isarray@2.0.5: {}
 
-  isbot@5.1.36: {}
+  isbot@5.1.37: {}
 
   isexe@2.0.0: {}
 
