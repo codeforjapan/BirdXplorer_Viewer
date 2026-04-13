@@ -169,6 +169,7 @@ export const DailyNotesCreationChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
+      maxRangeDays={30}
       onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="コミュニティノートの日別作成数"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
