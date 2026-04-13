@@ -140,6 +140,7 @@ export const NotesEvaluationChartSection = ({
     <GraphWrapper
       className={className}
       dateRange={dateRange}
+      maxRangeDays={30}
       onDateRangeChange={setDateRange}
       title="コミュニティーノート評価分布図"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}

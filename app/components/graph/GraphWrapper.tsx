@@ -20,6 +20,8 @@ type GraphWrapperProps<T extends string = string> = {
   dateRange?: DateRange;
   /** DateRangeSelectorの変更コールバック */
   onDateRangeChange?: (value: DateRange) => void;
+  /** DateRangeSelectorの最大日数幅 */
+  maxRangeDays?: number;
   /** PeriodSelectorを使う場合の期間値（後方互換性のため） */
   onPeriodChange?: (value: T) => void;
   period?: T;
@@ -42,6 +44,7 @@ export const GraphWrapper = <T extends string = string>({
   helpText,
   dateRange,
   onDateRangeChange,
+  maxRangeDays,
   period,
   onPeriodChange,
   periodOptions,
@@ -105,7 +108,11 @@ export const GraphWrapper = <T extends string = string>({
 
         {/* DateRangeSelectorまたはPeriodSelectorを表示 */}
         {shouldShowDateRangeSelector ? (
-          <DateRangeSelector onChange={onDateRangeChange} value={dateRange} />
+          <DateRangeSelector
+            maxRangeDays={maxRangeDays}
+            onChange={onDateRangeChange}
+            value={dateRange}
+          />
         ) : shouldShowPeriodSelector ? (
           <PeriodSelector
             onChange={onPeriodChange}

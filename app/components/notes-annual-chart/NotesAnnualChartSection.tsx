@@ -243,6 +243,7 @@ export const NotesAnnualChartSection = ({
     <GraphWrapper
       dateRange={dateRange}
       helpText={helpText}
+      maxRangeDays={365}
       onDateRangeChange={setDateRange}
       title="1年間のコミュニティノート数と公開率"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}
