@@ -108,7 +108,11 @@ export const GraphWrapper = <T extends string = string>({
 
         {/* DateRangeSelectorまたはPeriodSelectorを表示 */}
         {shouldShowDateRangeSelector ? (
-          <DateRangeSelector maxRangeDays={maxRangeDays} onChange={onDateRangeChange} value={dateRange} />
+          <DateRangeSelector
+            maxRangeDays={maxRangeDays}
+            onChange={onDateRangeChange}
+            value={dateRange}
+          />
         ) : shouldShowPeriodSelector ? (
           <PeriodSelector
             onChange={onPeriodChange}
