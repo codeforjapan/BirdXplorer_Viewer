@@ -156,6 +156,7 @@ export const PostInfluenceChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
+      maxRangeDays={30}
       onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="ノートがついたポストの影響力"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}

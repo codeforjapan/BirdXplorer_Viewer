@@ -158,6 +158,7 @@ export const NotesEvaluationStatusChart = ({
   return (
     <GraphWrapper
       dateRange={dateRange}
+      maxRangeDays={30}
       onDateRangeChange={initialDateRange ? undefined : setDateRange}
       title="コミュニティノートの評価状況"
       updatedAt={currentResult?.ok ? currentResult.updatedAt : undefined}

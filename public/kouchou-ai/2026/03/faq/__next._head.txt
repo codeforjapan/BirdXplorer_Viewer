@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[26206,["/kouchou-ai/2026/03/_next/static/chunks/19cb5dea2714d8da.js","/kouchou-ai/2026/03/_next/static/chunks/1ebf711f9347ea9d.js"],"ViewportBoundary"]
+3:I[26206,["/kouchou-ai/2026/03/_next/static/chunks/19cb5dea2714d8da.js","/kouchou-ai/2026/03/_next/static/chunks/1ebf711f9347ea9d.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"gnwg-e6FF1thbL_-Gvg_O","rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[]}]}]}],null]}],"loading":null,"isPartial":false}

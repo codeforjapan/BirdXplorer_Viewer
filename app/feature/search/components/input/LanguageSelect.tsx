@@ -53,6 +53,13 @@ export const LanguageSelect = ({
         label: {
           marginBottom: "8px",
         },
+        dropdown: {
+          backgroundColor: "var(--color-gray-1)",
+          borderColor: "var(--color-gray-5)",
+        },
+        option: {
+          color: "white",
+        },
       }}
       {...(getSelectProps(field) as Omit<
         ReturnType<typeof getSelectProps>,

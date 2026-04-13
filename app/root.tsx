@@ -7,7 +7,15 @@ import { ColorSchemeScript, Container, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import {
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useRouteError,
+} from "react-router";
 
 import { LogoIcon } from "./components/logo";
 import { MobileMenuButton, SideMenu } from "./components/SideMenu";
@@ -23,10 +31,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </head>
-      <body>
-        <MantineProvider theme={mantineTheme}>
+      <body className="overflow-x-hidden bg-black">
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
           <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
             {children}
           </DatesProvider>
@@ -49,7 +57,7 @@ export default function App() {
       </header>
       <div className="flex flex-1 bg-black">
         <SideMenu className="hidden md:flex" />
-        <main className="flex-1 bg-black">
+        <main className="min-w-0 flex-1 overflow-hidden bg-black">
           <Outlet />
         </main>
       </div>
@@ -62,5 +70,43 @@ export default function App() {
         </Container>
       </footer>
     </div>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <html lang="ja">
+      <head>
+        <meta charSet="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <Meta />
+        <Links />
+        <ColorSchemeScript defaultColorScheme="dark" />
+      </head>
+      <body className="overflow-x-hidden bg-black">
+        <MantineProvider defaultColorScheme="dark" theme={mantineTheme}>
+          <div className="flex min-h-dvh items-center justify-center bg-black text-white">
+            <div className="text-center">
+              <h1 className="mb-4 text-2xl font-bold">
+                {isRouteErrorResponse(error)
+                  ? `${String(error.status)} Error`
+                  : "エラーが発生しました"}
+              </h1>
+              <p className="mb-8">
+                {isRouteErrorResponse(error)
+                  ? error.statusText
+                  : "予期しないエラーが発生しました。"}
+              </p>
+              <a className="text-blue-400 underline" href="/">
+                トップページに戻る
+              </a>
+            </div>
+          </div>
+        </MantineProvider>
+        <Scripts />
+      </body>
+    </html>
   );
 }

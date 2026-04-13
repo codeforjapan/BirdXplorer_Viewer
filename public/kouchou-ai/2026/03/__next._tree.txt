@@ -1,0 +1,3 @@
+:HL["/kouchou-ai/2026/03/_next/static/chunks/17e0d1fb4b7331df.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap","style"]
+0:{"buildId":"gnwg-e6FF1thbL_-Gvg_O","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}

@@ -21,6 +21,7 @@ type PaginationProps = {
    * 検索結果として表示している現在のページに表示しているデータの件数
    */
   visibleItemCount: number;
+  totalCount?: number | null; // null = ローディング中, undefined = 利用不可
 } & GroupProps;
 
 export const SearchPagination = ({
@@ -28,6 +29,7 @@ export const SearchPagination = ({
   meta,
   loading,
   visibleItemCount,
+  totalCount,
   ...groupProps
 }: PaginationProps) => {
   const isNetworkBusy = useNetworkBusy();
@@ -69,7 +71,9 @@ export const SearchPagination = ({
     <Group {...groupProps}>
       <Text c="white">
         {pageFirstItemIndex} ～ {totalDisplayedItems} 件目を表示中
-        {meta.total != null && `（全 ${meta.total} 件）`}
+        {totalCount === null
+          ? "（件数計算中...）"
+          : totalCount != null && `（全 ${totalCount.toLocaleString()} 件）`}
       </Text>
       {prevTo ? (
         <ActionIcon
