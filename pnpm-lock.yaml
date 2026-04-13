@@ -19,7 +19,7 @@ importers:
         version: 1.18.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@conform-to/zod':
         specifier: 1.18.0
-        version: 1.18.0(zod@3.25.76)
+        version: 1.18.0(zod@4.3.6)
       '@mantine/charts':
         specifier: 7.15.2
         version: 7.15.2(@mantine/core@7.15.2(@mantine/hooks@7.15.2(react@19.0.0))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@mantine/hooks@7.15.2(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(recharts@2.15.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
@@ -87,8 +87,8 @@ importers:
         specifier: 1.6.3
         version: 1.6.3
       zod:
-        specifier: 3.25.76
-        version: 3.25.76
+        specifier: 4.3.6
+        version: 4.3.6
     devDependencies:
       '@eslint/js':
         specifier: 9.32.0
@@ -5031,8 +5031,8 @@ packages:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
   zrender@6.0.0:
     resolution: {integrity: sha512-41dFXEEXuJpNecuUQq6JlbybmnHaqqpGlbH1yxnA5V9MMP4SbohSVZsJIwz+zdjQXSSlR1Vc34EgH1zxyTDvhg==}
@@ -5492,10 +5492,10 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  '@conform-to/zod@1.18.0(zod@3.25.76)':
+  '@conform-to/zod@1.18.0(zod@4.3.6)':
     dependencies:
       '@conform-to/dom': 1.18.0
-      zod: 3.25.76
+      zod: 4.3.6
 
   '@csstools/color-helpers@5.1.0':
     optional: true
@@ -10286,7 +10286,7 @@ snapshots:
 
   yoctocolors-cjs@2.1.2: {}
 
-  zod@3.25.76: {}
+  zod@4.3.6: {}
 
   zrender@6.0.0:
     dependencies:
