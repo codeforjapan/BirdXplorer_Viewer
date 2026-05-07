@@ -181,11 +181,11 @@ importers:
         specifier: 7.0.1
         version: 7.0.1(postcss@8.5.14)
       prettier:
-        specifier: 3.6.2
-        version: 3.6.2
+        specifier: 3.8.3
+        version: 3.8.3
       prettier-plugin-tailwindcss:
         specifier: 0.7.2
-        version: 0.7.2(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2)
+        version: 0.7.2(@prettier/plugin-oxc@0.0.4)(prettier@3.8.3)
       tailwindcss:
         specifier: 4.2.2
         version: 4.2.2
@@ -3959,8 +3959,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.6.2:
-    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -9135,15 +9135,15 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-tailwindcss@0.7.2(@prettier/plugin-oxc@0.0.4)(prettier@3.6.2):
+  prettier-plugin-tailwindcss@0.7.2(@prettier/plugin-oxc@0.0.4)(prettier@3.8.3):
     dependencies:
-      prettier: 3.6.2
+      prettier: 3.8.3
     optionalDependencies:
       '@prettier/plugin-oxc': 0.0.4
 
   prettier@2.8.8: {}
 
-  prettier@3.6.2: {}
+  prettier@3.8.3: {}
 
   pretty-format@27.5.1:
     dependencies:
