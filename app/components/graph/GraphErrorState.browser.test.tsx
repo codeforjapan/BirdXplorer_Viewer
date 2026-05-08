@@ -1,5 +1,5 @@
-import { userEvent } from "vitest/browser";
 import { describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 
 import { render } from "../../../test/test-react";
 import { GraphErrorState } from "./GraphErrorState";
