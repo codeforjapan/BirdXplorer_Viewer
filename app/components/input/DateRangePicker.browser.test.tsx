@@ -1,7 +1,7 @@
 import "~/app.css";
 
 import { getFormProps, useForm } from "@conform-to/react";
-import { userEvent } from "@vitest/browser/context";
+import { userEvent } from "vitest/browser";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { render } from "../../../test/test-react";

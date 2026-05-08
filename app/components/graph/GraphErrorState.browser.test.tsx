@@ -1,4 +1,4 @@
-import { userEvent } from "@vitest/browser/context";
+import { userEvent } from "vitest/browser";
 import { describe, expect, it, vi } from "vitest";
 
 import { render } from "../../../test/test-react";
