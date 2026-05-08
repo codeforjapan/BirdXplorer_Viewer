@@ -44,15 +44,15 @@ import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature.$year.$slug";
 
-export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.feature) {
+export const meta: Route.MetaFunction = ({ loaderData }) => {
+  if (!loaderData?.feature) {
     return [{ title: "特集が見つかりません - BirdXplorer" }];
   }
   return [
-    { title: `${data.feature.detail.title} - BirdXplorer` },
+    { title: `${loaderData.feature.detail.title} - BirdXplorer` },
     {
       name: "description",
-      content: `${data.feature.detail.title}の特集ページ`,
+      content: `${loaderData.feature.detail.title}の特集ページ`,
     },
     {
       name: "robots",
