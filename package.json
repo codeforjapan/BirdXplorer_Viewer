@@ -56,7 +56,7 @@
     "@react-router/fs-routes": "7.14.1",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "22.17.0",
+    "@types/node": "25.6.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.2.0",
