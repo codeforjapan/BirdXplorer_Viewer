@@ -332,9 +332,8 @@ export const fetchNotesEvaluationGraph = async ({
   limit: number;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
   if (isGraphMockEnabled()) {
-    const { createMockResponse } = await import(
-      "~/mocks/graph/notes-evaluation"
-    );
+    const { createMockResponse } =
+      await import("~/mocks/graph/notes-evaluation");
     // モックの場合は従来のperiodを使用（後方互換性のため）
     const mock = createMockResponse("6months");
     return {
@@ -380,9 +379,8 @@ export const fetchNotesEvaluationStatusGraph = async ({
   keywords?: string;
 }): Promise<GraphFetchResult<NoteEvaluationData[]>> => {
   if (isGraphMockEnabled()) {
-    const { createMockResponse } = await import(
-      "~/mocks/graph/notes-evaluation-status"
-    );
+    const { createMockResponse } =
+      await import("~/mocks/graph/notes-evaluation-status");
     const mock = createMockResponse();
     return {
       ok: true,
