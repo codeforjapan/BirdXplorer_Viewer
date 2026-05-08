@@ -26,7 +26,7 @@ export default function Layout() {
 
   const breadcrumbItems =
     typeof handle.breadcrumb === "function"
-      ? handle.breadcrumb(currentRoute?.data)
+      ? handle.breadcrumb(currentRoute?.loaderData)
       : handle.breadcrumb;
 
   return (

@@ -27,7 +27,6 @@ export default typegen(
     },
     {
       files: [tsFiles],
-      // @ts-expect-error type mismatch between eslint and typescript-eslint
       extends: [
         ...tseslint.configs.recommendedTypeChecked,
         ...tseslint.configs.stylisticTypeChecked,

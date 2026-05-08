@@ -15,7 +15,7 @@
       "@react-router/node",
       "vite/client",
       "unplugin-icons/types/react",
-      "@vitest/browser/providers/playwright"
+      "@vitest/browser-playwright"
     ],
     "isolatedModules": true,
     "esModuleInterop": true,

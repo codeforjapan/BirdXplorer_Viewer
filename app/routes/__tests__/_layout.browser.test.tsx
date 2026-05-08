@@ -32,6 +32,7 @@ describe("Layout", () => {
         pathname: "/test",
         params: {},
         data: undefined,
+        loaderData: undefined,
         handle: mockHandle,
       },
     ]);
@@ -53,6 +54,7 @@ describe("Layout", () => {
         pathname: "/test",
         params: {},
         data: undefined,
+        loaderData: undefined,
         handle: undefined,
       },
     ]);

@@ -4,6 +4,7 @@
 import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
+import { playwright } from "@vitest/browser-playwright";
 import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -44,8 +45,7 @@ export default defineConfig({
           name: "Browser",
           browser: {
             enabled: true,
-            provider: "playwright",
-            // https://vitest.dev/guide/browser/playwright
+            provider: playwright(),
             instances: [{ browser: "chromium" }],
             headless: true,
           },
