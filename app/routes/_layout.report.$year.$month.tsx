@@ -15,16 +15,16 @@ type LoaderData = {
   report: ReportItem | null;
 };
 
-export const meta: Route.MetaFunction = ({ data }) => {
-  const loaderData = data as LoaderData | undefined;
-  if (!loaderData?.report) {
+export const meta: Route.MetaFunction = ({ loaderData }) => {
+  const data = loaderData as LoaderData | undefined;
+  if (!data?.report) {
     return [{ title: "レポートが見つかりません - BirdXplorer" }];
   }
   return [
-    { title: `${loaderData.report.title} - BirdXplorer` },
+    { title: `${data.report.title} - BirdXplorer` },
     {
       name: "description",
-      content: `${loaderData.report.title}のレポートページ`,
+      content: `${data.report.title}のレポートページ`,
     },
     { name: "robots", content: "noindex, nofollow" },
   ];
