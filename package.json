@@ -50,7 +50,7 @@
   "devDependencies": {
     "@eslint/js": "9.32.0",
     "@faker-js/faker": "9.7.0",
-    "@iconify/json": "2.2.464",
+    "@iconify/json": "2.2.471",
     "@prettier/plugin-oxc": "0.1.4",
     "@react-router/dev": "7.14.1",
     "@react-router/fs-routes": "7.14.1",
