@@ -1,0 +1,98 @@
+name: Release PR
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  release-pr:
+    name: Create or Update Release PR
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+
+      - name: Create or update Release PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          git fetch origin main dev
+
+          MERGE_BASE=$(git merge-base origin/main origin/dev)
+          AHEAD=$(git rev-list --count origin/main..origin/dev)
+
+          if [ "$AHEAD" -eq 0 ]; then
+            echo "dev is up to date with main, skipping"
+            exit 0
+          fi
+
+          # Extract PR numbers from merge commits ("Merge pull request #NNN")
+          # and squash-merge commits ("feat: title (#NNN)")
+          PR_NUMS=$(git log "$MERGE_BASE"..origin/dev --format="%s" \
+            | grep -oE '#[0-9]+' \
+            | grep -oE '[0-9]+' \
+            | sort -un \
+            | sort -rn)
+
+          # Build PR body
+          {
+            echo "## リリース内容"
+            echo ""
+            if [ -n "$PR_NUMS" ]; then
+              echo "### Merged PRs"
+              echo ""
+              for NUM in $PR_NUMS; do
+                LINE=$(gh pr view "$NUM" --repo "$REPO" \
+                  --json number,title \
+                  --jq '"- #\(.number) \(.title)"' 2>/dev/null || true)
+                [ -n "$LINE" ] && echo "$LINE"
+              done
+            else
+              echo "### Commits"
+              echo ""
+              git log "$MERGE_BASE"..origin/dev --no-merges --format="- %s" | head -30
+            fi
+          } > /tmp/pr-body.md
+
+          TITLE="chore: release $(date +'%Y-%m-%d')"
+
+          # Check if PR already exists (dev -> main)
+          PR_NUM=$(gh pr list \
+            --repo "$REPO" \
+            --base main \
+            --head dev \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [ -z "$PR_NUM" ]; then
+            gh pr create \
+              --repo "$REPO" \
+              --base main \
+              --head dev \
+              --title "$TITLE" \
+              --body-file /tmp/pr-body.md
+            echo "Created new release PR"
+          else
+            gh pr edit "$PR_NUM" \
+              --repo "$REPO" \
+              --title "$TITLE" \
+              --body-file /tmp/pr-body.md
+            echo "Updated existing release PR #$PR_NUM"
+          fi
