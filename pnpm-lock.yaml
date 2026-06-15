@@ -97,8 +97,8 @@ importers:
         specifier: 9.7.0
         version: 9.7.0
       '@iconify/json':
-        specifier: 2.2.471
-        version: 2.2.471
+        specifier: 2.2.486
+        version: 2.2.486
       '@prettier/plugin-oxc':
         specifier: 0.1.4
         version: 0.1.4
@@ -834,8 +834,8 @@ packages:
     resolution: {integrity: sha512-3WK2FREmDA2aadCjD71PE7tx5evyvmhg80ts1kXp2IzXIA0ZJ7guGM66tj40kxaqwpMSGchwEnnfYswntav76g==}
     engines: {node: '>=16.0.0'}
 
-  '@iconify/json@2.2.471':
-    resolution: {integrity: sha512-9ZJ4l71MOGVQa/DJxPI5XJ49D5Ax+wOvCCw4ZPcGemP34rtWWFAPsfu2QyQLjEvedbrVmEJcomam3N0SsNgWDA==}
+  '@iconify/json@2.2.486':
+    resolution: {integrity: sha512-ybeEhKPvniErZvczHk0p3xZgG/uAYT2Lo9YwkJr57cr6lr7xq8ezVWzzoAGaxZnsxSF54cyYmyPT/QIi9cc9Uw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5520,7 +5520,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@iconify/json@2.2.471':
+  '@iconify/json@2.2.486':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
