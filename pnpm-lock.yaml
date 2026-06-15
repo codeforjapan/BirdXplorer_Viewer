@@ -51,8 +51,8 @@ importers:
         specifier: 4.3.0
         version: 4.3.0(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))
       '@vercel/react-router':
-        specifier: 1.2.6
-        version: 1.2.6(@react-router/dev@7.17.0(@react-router/serve@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(sugarss@5.0.1(postcss@8.5.14))(typescript@5.9.3)(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(isbot@5.1.40)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+        specifier: 1.3.1
+        version: 1.3.1(@react-router/dev@7.17.0(@react-router/serve@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(sugarss@5.0.1(postcss@8.5.14))(typescript@5.9.3)(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(isbot@5.1.40)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       dayjs:
         specifier: 1.11.20
         version: 1.11.20
@@ -1941,8 +1941,8 @@ packages:
     resolution: {integrity: sha512-f1WO2Lx8a9t8DARmcWAUPJbu0G20bJlj8L4z72K00TMeJAoyLr/tHhI/pzYBLrR4dXWkcxO1cWYZEOX8DKHTqA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@vercel/react-router@1.2.6':
-    resolution: {integrity: sha512-8+n/roFtLhpkq6dMAXXSWf4N5Uypckh2E8Uxduh+tdE+Z9AG4KXfFzGyHoyFYZqoUh6jgwsiFkDokSAymm4NHg==}
+  '@vercel/react-router@1.3.1':
+    resolution: {integrity: sha512-cDUoEJUjeC1nf5u+LIae5e2YFUWJhKT7EpDveys7uk6zxmAHCj6swkaEf5gZPN597wcc+O0aGeK7xt7J/TRRRA==}
     peerDependencies:
       '@react-router/dev': '7'
       '@react-router/node': '7'
@@ -1950,8 +1950,8 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@vercel/static-config@3.2.0':
-    resolution: {integrity: sha512-UpOEIgWxWx0M+mDe1IMdHS6JuWM/L5nNIJ4ixX8v9JgBAejymo88OkgnmfLCNMem0Wd+b5vcQPWLdZybCndlsA==}
+  '@vercel/static-config@3.4.0':
+    resolution: {integrity: sha512-wCq90CMUB//ggnFh77NQO1xaLFsS4LigQIqKrH6ohnr9Br/KI1FhlErx62WfCOuueWaW+LVsbLOqNXIUjK8t6A==}
 
   '@vitejs/plugin-react@5.2.0':
     resolution: {integrity: sha512-YmKkfhOAi3wsB1PhJq5Scj3GXMn3WvtQ/JC0xoopuHoXSdmtdStOpFrYaT1kie2YgFBcIe64ROzMYRjCrYOdYw==}
@@ -2755,8 +2755,8 @@ packages:
   fast-uri@3.0.6:
     resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
 
-  fastq@1.18.0:
-    resolution: {integrity: sha512-QKHXPW0hD8g4UET03SdOdunzSouc9N4AuHdsX8XNcTsuz+yYFILVNIX4l9yHABMhiEI9Db0JTTIpu0wB+Y1QQw==}
+  fastq@1.20.1:
+    resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
 
   fdir@6.4.4:
     resolution: {integrity: sha512-1NZP+GK4GfuAv3PqKvxQRDMjdSRZjnkq7KfhlNrCNNlZ0ygQFpebfrnfnq/W7fpUnAv9aGWmY1zKx7FYL3gwhg==}
@@ -4014,8 +4014,8 @@ packages:
     resolution: {integrity: sha512-U7WjGVG9sH8tvjW5SmGbQuui75FiyjAX72HX15DwBBwF9dNiQZRQAg9nnPhYy+TUnE0+VcrttuvNI8oSxZcocA==}
     hasBin: true
 
-  reusify@1.0.4:
-    resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
+  reusify@1.1.0:
+    resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
   rollup@4.40.2:
@@ -5691,7 +5691,7 @@ snapshots:
   '@nodelib/fs.walk@1.2.8':
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
-      fastq: 1.18.0
+      fastq: 1.20.1
 
   '@open-draft/deferred-promise@2.2.0': {}
 
@@ -6719,17 +6719,17 @@ snapshots:
       '@typescript-eslint/types': 8.58.2
       eslint-visitor-keys: 5.0.1
 
-  '@vercel/react-router@1.2.6(@react-router/dev@7.17.0(@react-router/serve@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(sugarss@5.0.1(postcss@8.5.14))(typescript@5.9.3)(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(isbot@5.1.40)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+  '@vercel/react-router@1.3.1(@react-router/dev@7.17.0(@react-router/serve@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(sugarss@5.0.1(postcss@8.5.14))(typescript@5.9.3)(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))(yaml@2.7.1))(@react-router/node@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(isbot@5.1.40)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
     dependencies:
       '@react-router/dev': 7.17.0(@react-router/serve@7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3))(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(sugarss@5.0.1(postcss@8.5.14))(typescript@5.9.3)(vite@6.3.5(@types/node@25.6.2)(jiti@2.6.1)(lightningcss@1.32.0)(sugarss@5.0.1(postcss@8.5.14))(yaml@2.7.1))(yaml@2.7.1)
       '@react-router/node': 7.17.0(react-router@7.17.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@5.9.3)
-      '@vercel/static-config': 3.2.0
+      '@vercel/static-config': 3.4.0
       isbot: 5.1.40
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
       ts-morph: 12.0.0
 
-  '@vercel/static-config@3.2.0':
+  '@vercel/static-config@3.4.0':
     dependencies:
       ajv: 8.6.3
       json-schema-to-ts: 1.6.4
@@ -7733,9 +7733,9 @@ snapshots:
 
   fast-uri@3.0.6: {}
 
-  fastq@1.18.0:
+  fastq@1.20.1:
     dependencies:
-      reusify: 1.0.4
+      reusify: 1.1.0
 
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
@@ -8961,7 +8961,7 @@ snapshots:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
-  reusify@1.0.4: {}
+  reusify@1.1.0: {}
 
   rollup@4.40.2:
     dependencies:
