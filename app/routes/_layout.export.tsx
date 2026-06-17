@@ -1,24 +1,27 @@
 /* eslint-disable react-refresh/only-export-components */
+import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { Button, Card, Container, Divider, Group, Stack, Text } from "@mantine/core";
 import { hash } from "ohash";
 import { useMemo } from "react";
-import { Form, data, redirect, useNavigation } from "react-router";
+import { data, Form, redirect, useNavigation } from "react-router";
 import { getQuery, withQuery } from "ufo";
+import type { z } from "zod";
 
 import { FormError } from "~/components/FormError";
-import { SubmitButton } from "~/components/SubmitButton";
 import { DateRangePicker } from "~/components/input/DateRangePicker";
 import { TextInput } from "~/components/mantine/TextInput";
 import { Notes } from "~/components/note/Notes";
+import { SubmitButton } from "~/components/SubmitButton";
 import { WEB_PATHS } from "~/constants/paths";
-import { csvExportParamSchema, parseKeywords } from "~/feature/export/validation";
 import type { CsvExportParams } from "~/feature/export/validation";
+import type { csvExportBaseSchema } from "~/feature/export/validation";
+import { csvExportParamSchema, parseKeywords } from "~/feature/export/validation";
 import { searchApiV1DataSearchGet } from "~/generated/api/client";
 import type { SearchedNote } from "~/generated/api/schemas";
-import { safeDateFromUnixMs } from "~/utils/date";
 import { containsNonNullValues } from "~/utils/array";
+import { safeDateFromUnixMs } from "~/utils/date";
 import Fa6SolidFileArrowDown from "~icons/fa6-solid/file-arrow-down";
 
 import type { LayoutHandle } from "./_layout";
@@ -59,12 +62,16 @@ export const loader = async (args: Route.LoaderArgs) => {
     note_created_at_from: exportQuery.data.note_created_at_from,
     note_created_at_to: exportQuery.data.note_created_at_to,
     limit: 25,
-  } as never).catch(() => null);
+  }).catch(() => null);
+
+  const apiData = previewResult?.data;
+  const previewNotes: SearchedNote[] =
+    apiData && "data" in apiData ? (apiData.data) : [];
 
   return {
     data: {
       exportQuery: exportQuery.data,
-      previewNotes: previewResult?.data.data ?? [],
+      previewNotes,
     },
     error: null,
   };
@@ -79,7 +86,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
 type ExportFormProps = {
   defaultValue?: Partial<CsvExportParams>;
-  lastResult?: Parameters<typeof useForm>[0]["lastResult"];
+  lastResult?: SubmissionResult<string[]> | null;
 };
 
 function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
@@ -88,7 +95,7 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
 
   const formId = useMemo(() => hash(defaultValue ?? {}), [defaultValue]);
 
-  const [form, fields] = useForm({
+  const [form, fields] = useForm<z.infer<typeof csvExportBaseSchema>>({
     id: formId,
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
@@ -147,15 +154,19 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
 }
 
 export default function Export({ actionData, loaderData }: Route.ComponentProps) {
-  const { exportQuery, previewNotes } = loaderData.data;
+  const { exportQuery, previewNotes } = loaderData.data as {
+    exportQuery: CsvExportParams | null;
+    previewNotes: SearchedNote[];
+  };
 
-  const csvUrl = exportQuery
-    ? `/export/csv?${new URLSearchParams({
-        keywords: exportQuery.keywords,
-        note_created_at_from: String(exportQuery.note_created_at_from),
-        note_created_at_to: String(exportQuery.note_created_at_to),
-      }).toString()}`
-    : null;
+  const csvUrl =
+    exportQuery?.note_created_at_from != null && exportQuery.note_created_at_to != null
+      ? `/export/csv?${new URLSearchParams({
+          keywords: exportQuery.keywords,
+          note_created_at_from: String(exportQuery.note_created_at_from),
+          note_created_at_to: String(exportQuery.note_created_at_to),
+        }).toString()}`
+      : null;
 
   return (
     <main>
@@ -186,7 +197,7 @@ export default function Export({ actionData, loaderData }: Route.ComponentProps)
                 </Group>
                 {previewNotes.length > 0 ? (
                   <Group gap="lg">
-                    <Notes notes={previewNotes as SearchedNote[]} />
+                    <Notes notes={previewNotes} />
                   </Group>
                 ) : (
                   <Card
