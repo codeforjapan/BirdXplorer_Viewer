@@ -72,16 +72,29 @@ export const loader = async (args: Route.LoaderArgs) => {
   }
 
   const keywords = parseKeywords(exportQuery.data.keywords);
-  const previewResult = await searchApiV1DataSearchGet({
-    note_includes_text: keywords[0],
-    note_created_at_from: exportQuery.data.note_created_at_from,
-    note_created_at_to: exportQuery.data.note_created_at_to,
-    limit: 25,
-  }).catch(() => null);
+  const perKeywordResults = await Promise.all(
+    keywords.map(async (kw) =>
+      searchApiV1DataSearchGet({
+        note_includes_text: kw,
+        note_created_at_from: exportQuery.data.note_created_at_from,
+        note_created_at_to: exportQuery.data.note_created_at_to,
+        limit: 25,
+      }).catch(() => null),
+    ),
+  );
 
-  const apiData = previewResult?.data;
-  const previewNotes: SearchedNote[] =
-    apiData && "data" in apiData ? apiData.data : [];
+  const seen = new Set<string>();
+  const previewNotes: SearchedNote[] = [];
+  for (const result of perKeywordResults) {
+    const notes =
+      result?.data && "data" in result.data ? (result.data.data) : [];
+    for (const note of notes) {
+      if (!seen.has(note.noteId) && previewNotes.length < 25) {
+        seen.add(note.noteId);
+        previewNotes.push(note);
+      }
+    }
+  }
 
   return {
     data: {
@@ -203,8 +216,7 @@ export default function Export({
               <Stack>
                 <Group align="center" justify="space-between">
                   <Text c="dimmed" size="sm">
-                    プレビュー（キーワード「
-                    {parseKeywords(exportQuery.keywords)[0]}」で表示）
+                    プレビュー（全キーワードOR検索・最大25件）
                   </Text>
                   <Button
                     component="a"
