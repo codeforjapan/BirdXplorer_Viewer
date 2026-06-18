@@ -86,8 +86,7 @@ export const loader = async (args: Route.LoaderArgs) => {
   const seen = new Set<string>();
   const previewNotes: SearchedNote[] = [];
   for (const result of perKeywordResults) {
-    const notes =
-      result?.data && "data" in result.data ? (result.data.data) : [];
+    const notes = result?.data && "data" in result.data ? result.data.data : [];
     for (const note of notes) {
       if (!seen.has(note.noteId) && previewNotes.length < 25) {
         seen.add(note.noteId);
