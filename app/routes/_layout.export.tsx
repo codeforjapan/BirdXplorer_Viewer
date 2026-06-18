@@ -55,7 +55,8 @@ export const handle: LayoutHandle = {
 
 export const loader = async (args: Route.LoaderArgs) => {
   const authError = checkBasicAuth(args.request);
-  if (authError) return authError;
+  // eslint-disable-next-line @typescript-eslint/only-throw-error
+  if (authError) throw authError;
 
   const rawSearchParams = getQuery(args.request.url);
 

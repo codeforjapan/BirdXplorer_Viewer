@@ -8,7 +8,8 @@ const API_BASE_URL =
 
 export async function loader({ request }: Route.LoaderArgs) {
   const authError = checkBasicAuth(request);
-  if (authError) return authError;
+  // eslint-disable-next-line @typescript-eslint/only-throw-error
+  if (authError) throw authError;
 
   const incomingUrl = new URL(request.url);
   const apiUrl = new URL(`${API_BASE_URL}/api/v1/data/export/csv`);
