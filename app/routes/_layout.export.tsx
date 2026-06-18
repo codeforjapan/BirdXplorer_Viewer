@@ -239,8 +239,16 @@ export default function Export({
                   </Text>
                   <Button
                     component="a"
-                    download
+                    disabled={!csvUrl}
                     href={csvUrl ?? "#"}
+                    onClick={(e) => {
+                      if (!csvUrl) {
+                        e.preventDefault();
+                        return;
+                      }
+                      window.location.href = csvUrl;
+                      e.preventDefault();
+                    }}
                     styles={{
                       root: { backgroundColor: "var(--color-primary)" },
                     }}
