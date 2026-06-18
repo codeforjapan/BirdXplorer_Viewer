@@ -1,20 +1,15 @@
-export function middleware(request: Request) {
-  const { pathname } = new URL(request.url);
-  if (!pathname.startsWith("/export")) {
-    return;
-  }
-
+export function checkBasicAuth(request: Request): Response | null {
   const user = process.env.EXPORT_BASIC_AUTH_USER;
   const pass = process.env.EXPORT_BASIC_AUTH_PASSWORD;
   if (!user || !pass) {
-    return;
+    return null;
   }
 
   const auth = request.headers.get("Authorization") ?? "";
   const [scheme, encoded] = auth.split(" ");
   const expected = btoa(`${user}:${pass}`);
   if (scheme === "Basic" && encoded === expected) {
-    return;
+    return null;
   }
 
   return new Response("Unauthorized", {
@@ -22,7 +17,3 @@ export function middleware(request: Request) {
     headers: { "WWW-Authenticate": 'Basic realm="BirdXplorer Export"' },
   });
 }
-
-export const config = {
-  matcher: ["/export/:path*"],
-};

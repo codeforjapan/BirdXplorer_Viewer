@@ -1,3 +1,5 @@
+import { checkBasicAuth } from "~/feature/export/auth";
+
 import type { Route } from "./+types/export.csv";
 
 const API_BASE_URL =
@@ -5,6 +7,9 @@ const API_BASE_URL =
   "https://dev.api-birdxplorer.code4japan.org";
 
 export async function loader({ request }: Route.LoaderArgs) {
+  const authError = checkBasicAuth(request);
+  if (authError) return authError;
+
   const incomingUrl = new URL(request.url);
   const apiUrl = new URL(`${API_BASE_URL}/api/v1/data/export/csv`);
 

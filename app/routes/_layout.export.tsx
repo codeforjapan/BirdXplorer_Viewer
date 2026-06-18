@@ -23,6 +23,7 @@ import { TextInput } from "~/components/mantine/TextInput";
 import { Notes } from "~/components/note/Notes";
 import { SubmitButton } from "~/components/SubmitButton";
 import { WEB_PATHS } from "~/constants/paths";
+import { checkBasicAuth } from "~/feature/export/auth";
 import type { CsvExportParams } from "~/feature/export/validation";
 import type { csvExportBaseSchema } from "~/feature/export/validation";
 import {
@@ -53,6 +54,9 @@ export const handle: LayoutHandle = {
 };
 
 export const loader = async (args: Route.LoaderArgs) => {
+  const authError = checkBasicAuth(args.request);
+  if (authError) return authError;
+
   const rawSearchParams = getQuery(args.request.url);
 
   if (!rawSearchParams.keywords) {
@@ -84,9 +88,7 @@ export const loader = async (args: Route.LoaderArgs) => {
   );
 
   const noteArrays = perKeywordResults.map((result) =>
-    result?.data && "data" in result.data
-      ? (result.data.data)
-      : [],
+    result?.data && "data" in result.data ? result.data.data : [],
   );
   const seen = new Set<string>();
   const previewNotes: SearchedNote[] = [];
@@ -96,7 +98,7 @@ export const loader = async (args: Route.LoaderArgs) => {
       if (i < notes.length) {
         advanced = true;
         const note = notes[i];
-        if (!seen.has(note.noteId)) {
+        if (note && !seen.has(note.noteId)) {
           seen.add(note.noteId);
           previewNotes.push(note);
           if (previewNotes.length >= 25) break;
