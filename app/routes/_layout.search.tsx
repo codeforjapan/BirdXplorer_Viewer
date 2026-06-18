@@ -177,9 +177,7 @@ export default function Search({
                   )}
 
                   <Group gap="lg">
-                    <Notes
-                      notes={notes}
-                    />
+                    <Notes notes={notes} />
                   </Group>
 
                   {searchQuery && (
