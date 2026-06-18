@@ -83,16 +83,27 @@ export const loader = async (args: Route.LoaderArgs) => {
     ),
   );
 
+  const noteArrays = perKeywordResults.map((result) =>
+    result?.data && "data" in result.data
+      ? (result.data.data)
+      : [],
+  );
   const seen = new Set<string>();
   const previewNotes: SearchedNote[] = [];
-  for (const result of perKeywordResults) {
-    const notes = result?.data && "data" in result.data ? result.data.data : [];
-    for (const note of notes) {
-      if (!seen.has(note.noteId) && previewNotes.length < 25) {
-        seen.add(note.noteId);
-        previewNotes.push(note);
+  for (let i = 0; previewNotes.length < 25; i++) {
+    let advanced = false;
+    for (const notes of noteArrays) {
+      if (i < notes.length) {
+        advanced = true;
+        const note = notes[i];
+        if (!seen.has(note.noteId)) {
+          seen.add(note.noteId);
+          previewNotes.push(note);
+          if (previewNotes.length >= 25) break;
+        }
       }
     }
+    if (!advanced) break;
   }
 
   return {
