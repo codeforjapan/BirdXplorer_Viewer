@@ -1,7 +1,8 @@
 import type { Route } from "./+types/export.csv";
 
 const API_BASE_URL =
-  process.env.BIRDXPLORER_API_URL ?? "https://dev.api-birdxplorer.code4japan.org";
+  process.env.BIRDXPLORER_API_URL ??
+  "https://dev.api-birdxplorer.code4japan.org";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const incomingUrl = new URL(request.url);

@@ -2,7 +2,15 @@
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { Button, Card, Container, Divider, Group, Stack, Text } from "@mantine/core";
+import {
+  Button,
+  Card,
+  Container,
+  Divider,
+  Group,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { hash } from "ohash";
 import { useMemo } from "react";
 import { data, Form, redirect, useNavigation } from "react-router";
@@ -17,7 +25,10 @@ import { SubmitButton } from "~/components/SubmitButton";
 import { WEB_PATHS } from "~/constants/paths";
 import type { CsvExportParams } from "~/feature/export/validation";
 import type { csvExportBaseSchema } from "~/feature/export/validation";
-import { csvExportParamSchema, parseKeywords } from "~/feature/export/validation";
+import {
+  csvExportParamSchema,
+  parseKeywords,
+} from "~/feature/export/validation";
 import { searchApiV1DataSearchGet } from "~/generated/api/client";
 import type { SearchedNote } from "~/generated/api/schemas";
 import { containsNonNullValues } from "~/utils/array";
@@ -48,10 +59,14 @@ export const loader = async (args: Route.LoaderArgs) => {
     return { data: { exportQuery: null, previewNotes: [] }, error: null };
   }
 
-  const exportQuery = await csvExportParamSchema.safeParseAsync(rawSearchParams);
+  const exportQuery =
+    await csvExportParamSchema.safeParseAsync(rawSearchParams);
   if (!exportQuery.success) {
     return data(
-      { data: { exportQuery: null, previewNotes: [] }, error: exportQuery.error.errors },
+      {
+        data: { exportQuery: null, previewNotes: [] },
+        error: exportQuery.error.errors,
+      },
       { status: 400 },
     );
   }
@@ -66,7 +81,7 @@ export const loader = async (args: Route.LoaderArgs) => {
 
   const apiData = previewResult?.data;
   const previewNotes: SearchedNote[] =
-    apiData && "data" in apiData ? (apiData.data) : [];
+    apiData && "data" in apiData ? apiData.data : [];
 
   return {
     data: {
@@ -153,14 +168,18 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
   );
 }
 
-export default function Export({ actionData, loaderData }: Route.ComponentProps) {
+export default function Export({
+  actionData,
+  loaderData,
+}: Route.ComponentProps) {
   const { exportQuery, previewNotes } = loaderData.data as {
     exportQuery: CsvExportParams | null;
     previewNotes: SearchedNote[];
   };
 
   const csvUrl =
-    exportQuery?.note_created_at_from != null && exportQuery.note_created_at_to != null
+    exportQuery?.note_created_at_from != null &&
+    exportQuery.note_created_at_to != null
       ? `/export/csv?${new URLSearchParams({
           keywords: exportQuery.keywords,
           note_created_at_from: String(exportQuery.note_created_at_from),
@@ -184,13 +203,16 @@ export default function Export({ actionData, loaderData }: Route.ComponentProps)
               <Stack>
                 <Group align="center" justify="space-between">
                   <Text c="dimmed" size="sm">
-                    プレビュー（キーワード「{parseKeywords(exportQuery.keywords)[0]}」で表示）
+                    プレビュー（キーワード「
+                    {parseKeywords(exportQuery.keywords)[0]}」で表示）
                   </Text>
                   <Button
                     component="a"
                     download
                     href={csvUrl ?? "#"}
-                    styles={{ root: { backgroundColor: "var(--color-primary)" } }}
+                    styles={{
+                      root: { backgroundColor: "var(--color-primary)" },
+                    }}
                   >
                     Export CSV
                   </Button>
@@ -226,7 +248,10 @@ export default function Export({ actionData, loaderData }: Route.ComponentProps)
                 w="100%"
                 withBorder
               >
-                <Text c="white" className="text-center text-lg font-semibold text-balance">
+                <Text
+                  c="white"
+                  className="text-center text-lg font-semibold text-balance"
+                >
                   キーワードと期間を入力して
                   <br />
                   プレビューを表示してください

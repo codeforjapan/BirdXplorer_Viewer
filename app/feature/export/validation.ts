@@ -19,45 +19,47 @@ export const csvExportBaseSchema = z.object({
     .optional(),
 });
 
-export const csvExportParamSchema = csvExportBaseSchema.superRefine((data, ctx) => {
-  const parsed = parseKeywords(data.keywords);
-  if (parsed.length === 0) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "キーワードを1つ以上入力してください",
-      path: ["keywords"],
-    });
-  }
-  if (parsed.length > MAX_KEYWORDS) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: `キーワードは最大${MAX_KEYWORDS}個です`,
-      path: ["keywords"],
-    });
-  }
-  if (data.note_created_at_from == null || data.note_created_at_to == null) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "日付範囲を入力してください",
-      path: ["note_created_at_from"],
-    });
-    return;
-  }
-  if (data.note_created_at_from > data.note_created_at_to) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "開始日時は終了日時より前にしてください",
-      path: ["note_created_at_from"],
-    });
-  }
-  if (data.note_created_at_to - data.note_created_at_from > THIRTY_DAYS_MS) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "期間は最大30日間です",
-      path: ["note_created_at_to"],
-    });
-  }
-});
+export const csvExportParamSchema = csvExportBaseSchema.superRefine(
+  (data, ctx) => {
+    const parsed = parseKeywords(data.keywords);
+    if (parsed.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "キーワードを1つ以上入力してください",
+        path: ["keywords"],
+      });
+    }
+    if (parsed.length > MAX_KEYWORDS) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `キーワードは最大${MAX_KEYWORDS}個です`,
+        path: ["keywords"],
+      });
+    }
+    if (data.note_created_at_from == null || data.note_created_at_to == null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "日付範囲を入力してください",
+        path: ["note_created_at_from"],
+      });
+      return;
+    }
+    if (data.note_created_at_from > data.note_created_at_to) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "開始日時は終了日時より前にしてください",
+        path: ["note_created_at_from"],
+      });
+    }
+    if (data.note_created_at_to - data.note_created_at_from > THIRTY_DAYS_MS) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "期間は最大30日間です",
+        path: ["note_created_at_to"],
+      });
+    }
+  },
+);
 
 export type CsvExportParams = z.infer<typeof csvExportParamSchema>;
 
