@@ -8,6 +8,11 @@ export default async function handleRequest(
   routerContext: EntryContext,
   loadContext?: AppLoadContext,
 ): Promise<Response> {
+  const { pathname } = new URL(request.url);
+  if (responseStatusCode === 401 && pathname.startsWith("/export")) {
+    responseHeaders.set("WWW-Authenticate", 'Basic realm="BirdXplorer Export"');
+  }
+
   const response = await vercelHandleRequest(
     request,
     responseStatusCode,
