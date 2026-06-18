@@ -12,7 +12,7 @@ import {
   Text,
 } from "@mantine/core";
 import { hash } from "ohash";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { data, Form, redirect, useNavigation } from "react-router";
 import { getQuery, withQuery } from "ufo";
 import type { z } from "zod";
@@ -208,6 +208,7 @@ export default function Export({
     exportQuery: CsvExportParams | null;
     previewNotes: SearchedNote[];
   };
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const csvUrl =
     exportQuery?.note_created_at_from != null &&
@@ -218,6 +219,27 @@ export default function Export({
           note_created_at_to: String(exportQuery.note_created_at_to),
         }).toString()}`
       : null;
+
+  const handleExport = async () => {
+    if (!csvUrl || isDownloading) return;
+    setIsDownloading(true);
+    try {
+      const res = await fetch(csvUrl);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      const disposition = res.headers.get("Content-Disposition") ?? "";
+      const match = /filename="([^"]+)"/.exec(disposition);
+      a.download = match?.[1] ?? "community_notes.csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <main>
@@ -238,17 +260,9 @@ export default function Export({
                     プレビュー（全キーワードOR検索・最大25件）
                   </Text>
                   <Button
-                    component="a"
-                    disabled={!csvUrl}
-                    href={csvUrl ?? "#"}
-                    onClick={(e) => {
-                      if (!csvUrl) {
-                        e.preventDefault();
-                        return;
-                      }
-                      window.location.href = csvUrl;
-                      e.preventDefault();
-                    }}
+                    disabled={!csvUrl || isDownloading}
+                    loading={isDownloading}
+                    onClick={() => void handleExport()}
                     styles={{
                       root: { backgroundColor: "var(--color-primary)" },
                     }}
