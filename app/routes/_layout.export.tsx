@@ -53,6 +53,12 @@ export const handle: LayoutHandle = {
   },
 };
 
+export function headers({ errorHeaders }: Route.HeadersArgs) {
+  const wwwAuth = errorHeaders?.get("WWW-Authenticate");
+  if (wwwAuth) return { "WWW-Authenticate": wwwAuth };
+  return {};
+}
+
 export const loader = async (args: Route.LoaderArgs) => {
   const authError = checkBasicAuth(args.request);
   // eslint-disable-next-line @typescript-eslint/only-throw-error
