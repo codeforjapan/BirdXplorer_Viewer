@@ -4,16 +4,16 @@ import { render } from "../../../test/test-react";
 import { BaseCard } from "./BaseCard";
 
 describe("BaseCard", () => {
-  it("renders title and body correctly", () => {
-    const screen = render(
+  it("renders title and body correctly", async () => {
+    const screen = await render(
       <BaseCard body={<div>Body Content</div>} title="Card Title" />,
     );
     expect(screen.getByText("Card Title")).toBeTruthy();
     expect(screen.getByText("Body Content")).toBeTruthy();
   });
 
-  it("applies default black background color to title", () => {
-    const { container } = render(
+  it("applies default black background color to title", async () => {
+    const { container } = await render(
       <BaseCard body={<div>Body</div>} title="Title" />,
     );
     const titleWrapper = container.querySelector(".bg-black");
@@ -21,8 +21,8 @@ describe("BaseCard", () => {
     expect(titleWrapper?.classList.contains("bg-black")).toBe(true);
   });
 
-  it("applies custom background color to title", () => {
-    const { container } = render(
+  it("applies custom background color to title", async () => {
+    const { container } = await render(
       <BaseCard
         body={<div>Body</div>}
         title="Title"
@@ -34,8 +34,8 @@ describe("BaseCard", () => {
     expect(titleWrapper?.classList.contains("bg-primary")).toBe(true);
   });
 
-  it("applies custom className to container", () => {
-    const { container } = render(
+  it("applies custom className to container", async () => {
+    const { container } = await render(
       <BaseCard
         body={<div>Body</div>}
         className="custom-class"
@@ -50,8 +50,8 @@ describe("BaseCard", () => {
     expect(element?.textContent).toContain("Body");
   });
 
-  it("renders complex ReactNode as title and body", () => {
-    const screen = render(
+  it("renders complex ReactNode as title and body", async () => {
+    const screen = await render(
       <BaseCard
         body={
           <div>

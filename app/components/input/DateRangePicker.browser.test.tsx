@@ -69,7 +69,9 @@ describe("DateRangePicker", () => {
   test("convert で指定した処理を用いて UI の値をフォームに反映できる", async () => {
     // 確実に 2025 年 1 月のカレンダーを表示するため、システム時刻を固定する
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
-    const screen = render(<Page defaultValue={{ start: null, end: null }} />);
+    const screen = await render(
+      <Page defaultValue={{ start: null, end: null }} />,
+    );
 
     const button = screen.getByRole("button", { name: "Date Range" });
     await userEvent.click(button);
@@ -88,8 +90,8 @@ describe("DateRangePicker", () => {
     expect(span).toHaveTextContent(`${expectedStart} – ${expectedEnd}`);
   });
 
-  test("convert で指定した処理を用いてフォームの値を UI に反映できる", () => {
-    const screen = render(
+  test("convert で指定した処理を用いてフォームの値を UI に反映できる", async () => {
+    const screen = await render(
       <Page
         defaultValue={{
           start: "2025-01-09T15:00:00.000Z",
@@ -106,7 +108,9 @@ describe("DateRangePicker", () => {
 
   test("日付セルhover時に背景色がグレーになる", async () => {
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
-    const screen = render(<Page defaultValue={{ start: null, end: null }} />);
+    const screen = await render(
+      <Page defaultValue={{ start: null, end: null }} />,
+    );
 
     const button = screen.getByRole("button", { name: "Date Range" });
     await userEvent.click(button);
@@ -121,7 +125,9 @@ describe("DateRangePicker", () => {
 
   test("範囲内日付hover時にも背景色がグレーになる", async () => {
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
-    const screen = render(<Page defaultValue={{ start: null, end: null }} />);
+    const screen = await render(
+      <Page defaultValue={{ start: null, end: null }} />,
+    );
 
     const button = screen.getByRole("button", { name: "Date Range" });
     await userEvent.click(button);

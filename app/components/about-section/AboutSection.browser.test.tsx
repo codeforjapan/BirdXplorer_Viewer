@@ -4,21 +4,21 @@ import { render } from "../../../test/test-react";
 import { AboutSection } from "./AboutSection";
 
 describe("AboutSection", () => {
-  it("should render the section title", () => {
-    const screen = render(<AboutSection />);
+  it("should render the section title", async () => {
+    const screen = await render(<AboutSection />);
     expect(
       screen.getByText("About us｜バードエクスプローラについて"),
     ).toBeTruthy();
   });
 
-  it("should render service description text", () => {
-    const screen = render(<AboutSection />);
+  it("should render service description text", async () => {
+    const screen = await render(<AboutSection />);
     const description = screen.getByText(/サービスに関する説明/);
     expect(description).toBeTruthy();
   });
 
-  it("should render Notion link", () => {
-    const screen = render(<AboutSection />);
+  it("should render Notion link", async () => {
+    const screen = await render(<AboutSection />);
     const notionLink = screen.getByText("Notionで詳細をみる");
     expect(notionLink).toBeTruthy();
     expect(notionLink.element().closest("a")?.getAttribute("href")).toBe(
@@ -32,8 +32,8 @@ describe("AboutSection", () => {
     );
   });
 
-  it("should render community notes link", () => {
-    const screen = render(<AboutSection />);
+  it("should render community notes link", async () => {
+    const screen = await render(<AboutSection />);
     const communityNotesLink = screen.getByText("コミュニティーノートとは？");
     expect(communityNotesLink).toBeTruthy();
     expect(
@@ -47,8 +47,10 @@ describe("AboutSection", () => {
     );
   });
 
-  it("should apply custom className when provided", () => {
-    const { container } = render(<AboutSection className="custom-class" />);
+  it("should apply custom className when provided", async () => {
+    const { container } = await render(
+      <AboutSection className="custom-class" />,
+    );
     const section = container.querySelector("section");
     expect(section?.classList.contains("custom-class")).toBe(true);
   });

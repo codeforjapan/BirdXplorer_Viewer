@@ -4,8 +4,8 @@ import { render } from "../../../test/test-react";
 import { BreadCrumb } from "./BreadCrumb";
 
 describe("BreadCrumb", () => {
-  test("2階層のパンくずリスト", () => {
-    const screen = render(
+  test("2階層のパンくずリスト", async () => {
+    const screen = await render(
       <div style={{ padding: "16px", backgroundColor: "#808080" }}>
         <BreadCrumb
           items={[{ label: "ホーム", href: "/" }, { label: "現在のページ" }]}
@@ -17,8 +17,8 @@ describe("BreadCrumb", () => {
     expect(card.element().outerHTML).toMatchSnapshot();
   });
 
-  test("3階層のパンくずリスト", () => {
-    const screen = render(
+  test("3階層のパンくずリスト", async () => {
+    const screen = await render(
       <div style={{ padding: "16px", backgroundColor: "#808080" }}>
         <BreadCrumb
           items={[
@@ -34,8 +34,8 @@ describe("BreadCrumb", () => {
     expect(card.element().outerHTML).toMatchSnapshot();
   });
 
-  test("4階層のパンくずリスト", () => {
-    const screen = render(
+  test("4階層のパンくずリスト", async () => {
+    const screen = await render(
       <div style={{ padding: "16px", backgroundColor: "#808080" }}>
         <BreadCrumb
           items={[
@@ -52,8 +52,8 @@ describe("BreadCrumb", () => {
     expect(card.element().outerHTML).toMatchSnapshot();
   });
 
-  test("長いテキストを含むパンくずリスト", () => {
-    const screen = render(
+  test("長いテキストを含むパンくずリスト", async () => {
+    const screen = await render(
       <div style={{ padding: "16px", backgroundColor: "#808080" }}>
         <BreadCrumb
           items={[
@@ -72,8 +72,8 @@ describe("BreadCrumb", () => {
     expect(card.element().outerHTML).toMatchSnapshot();
   });
 
-  test("リンクが正しく機能する", () => {
-    const screen = render(
+  test("リンクが正しく機能する", async () => {
+    const screen = await render(
       <BreadCrumb
         items={[
           { label: "ホーム", href: "/" },

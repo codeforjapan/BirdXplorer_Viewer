@@ -18,7 +18,7 @@ describe("DateRangeSelector", () => {
   test("日付セルhover時に背景色がグレーになる", async () => {
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
 
-    const screen = render(<DateRangeSelector onChange={vi.fn()} />);
+    const screen = await render(<DateRangeSelector onChange={vi.fn()} />);
     const button = screen.getByRole("button", { name: "期間を選択" });
     await userEvent.click(button);
 
@@ -35,7 +35,7 @@ describe("DateRangeSelector", () => {
 
     const onChange = vi.fn();
     // 開始日が1/5に選択済み、終了日は未選択
-    const screen = render(
+    const screen = await render(
       <DateRangeSelector
         maxRangeDays={7}
         onChange={onChange}
@@ -63,7 +63,7 @@ describe("DateRangeSelector", () => {
     vi.setSystemTime(new Date("2025-01-15T00:00:00Z"));
 
     const onChange = vi.fn();
-    const screen = render(
+    const screen = await render(
       <DateRangeSelector
         onChange={onChange}
         value={[new Date("2025-01-05T00:00:00Z"), null]}

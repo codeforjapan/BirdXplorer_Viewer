@@ -5,8 +5,8 @@ import type { GraphApiError } from "./api";
 import { GraphState } from "./GraphState";
 
 describe("GraphState", () => {
-  it("renders children on success", () => {
-    const screen = render(
+  it("renders children on success", async () => {
+    const screen = await render(
       <GraphState status="success">
         <div>success-content</div>
       </GraphState>,
@@ -15,8 +15,8 @@ describe("GraphState", () => {
     expect(screen.getByText("success-content")).toBeTruthy();
   });
 
-  it("renders loading state", () => {
-    const screen = render(
+  it("renders loading state", async () => {
+    const screen = await render(
       <GraphState status="loading">
         <div>success-content</div>
       </GraphState>,
@@ -26,8 +26,8 @@ describe("GraphState", () => {
     expect(loader).toBeTruthy();
   });
 
-  it("renders empty message", () => {
-    const screen = render(
+  it("renders empty message", async () => {
+    const screen = await render(
       <GraphState status="empty">
         <div>success-content</div>
       </GraphState>,
@@ -36,13 +36,13 @@ describe("GraphState", () => {
     expect(screen.getByText("表示できるデータがありません")).toBeTruthy();
   });
 
-  it("renders error message", () => {
+  it("renders error message", async () => {
     const error: GraphApiError = {
       kind: "server",
       message: "server error",
     };
 
-    const screen = render(
+    const screen = await render(
       <GraphState error={error} status="error">
         <div>success-content</div>
       </GraphState>,

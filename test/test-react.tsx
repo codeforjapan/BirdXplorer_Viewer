@@ -21,7 +21,10 @@ type CustomRenderOptions = Omit<ComponentRenderOptions, "wrapper"> & {
   initialIndex?: number;
 };
 
-const customRender = (ui: ReactElement, options?: CustomRenderOptions) => {
+const customRender = async (
+  ui: ReactElement,
+  options?: CustomRenderOptions,
+) => {
   const { initialEntries, initialIndex, ...rest } = options ?? {};
 
   const wrapper = ({ children }: { children: React.ReactNode }) => {

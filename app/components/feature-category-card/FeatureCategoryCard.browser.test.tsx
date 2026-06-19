@@ -16,20 +16,24 @@ const mockCategory: FeatureCategory = {
 };
 
 describe("FeatureCategoryCard", () => {
-  it("should render category title", () => {
-    const screen = render(<FeatureCategoryCard category={mockCategory} />);
+  it("should render category title", async () => {
+    const screen = await render(
+      <FeatureCategoryCard category={mockCategory} />,
+    );
     expect(screen.getByText("テストカテゴリ")).toBeTruthy();
   });
 
-  it("should render all items when maxItems is not specified", () => {
-    const screen = render(<FeatureCategoryCard category={mockCategory} />);
+  it("should render all items when maxItems is not specified", async () => {
+    const screen = await render(
+      <FeatureCategoryCard category={mockCategory} />,
+    );
     expect(screen.getByText("アイテム1")).toBeTruthy();
     expect(screen.getByText("アイテム2")).toBeTruthy();
     expect(screen.getByText("アイテム3")).toBeTruthy();
   });
 
-  it("should render only first item when maxItems is 1", () => {
-    const { container } = render(
+  it("should render only first item when maxItems is 1", async () => {
+    const { container } = await render(
       <FeatureCategoryCard category={mockCategory} maxItems={1} />,
     );
     const links = container.querySelectorAll("a");
@@ -37,8 +41,8 @@ describe("FeatureCategoryCard", () => {
     expect(links[0]?.textContent).toContain("アイテム1");
   });
 
-  it("should render first two items when maxItems is 2", () => {
-    const { container } = render(
+  it("should render first two items when maxItems is 2", async () => {
+    const { container } = await render(
       <FeatureCategoryCard category={mockCategory} maxItems={2} />,
     );
     const links = container.querySelectorAll("a");
@@ -47,8 +51,8 @@ describe("FeatureCategoryCard", () => {
     expect(links[1]?.textContent).toContain("アイテム2");
   });
 
-  it("should render items as links with correct href", () => {
-    const { container } = render(
+  it("should render items as links with correct href", async () => {
+    const { container } = await render(
       <FeatureCategoryCard category={mockCategory} />,
     );
     const link1 = container.querySelector('a[href="/test/item1"]');
@@ -60,8 +64,8 @@ describe("FeatureCategoryCard", () => {
     expect(link3).not.toBeNull();
   });
 
-  it("should apply category color to title", () => {
-    const { container } = render(
+  it("should apply category color to title", async () => {
+    const { container } = await render(
       <FeatureCategoryCard category={mockCategory} />,
     );
     const titleWrapper = container.querySelector(".bg-green");
@@ -69,8 +73,8 @@ describe("FeatureCategoryCard", () => {
     expect(titleWrapper?.classList.contains("bg-green")).toBe(true);
   });
 
-  it("should render PlayButtonIcon for each item", () => {
-    const { container } = render(
+  it("should render PlayButtonIcon for each item", async () => {
+    const { container } = await render(
       <FeatureCategoryCard category={mockCategory} />,
     );
     const playIcons = container.querySelectorAll("svg");
@@ -78,26 +82,26 @@ describe("FeatureCategoryCard", () => {
     expect(playIcons.length).toBe(3);
   });
 
-  it("should handle category with single item", () => {
+  it("should handle category with single item", async () => {
     const singleItemCategory: FeatureCategory = {
       title: "単一アイテム",
       color: "bg-blue",
       items: [{ title: "唯一のアイテム", href: "/test/single" }],
     };
 
-    const screen = render(
+    const screen = await render(
       <FeatureCategoryCard category={singleItemCategory} />,
     );
     expect(screen.getByText("唯一のアイテム")).toBeTruthy();
-    const { container } = render(
+    const { container } = await render(
       <FeatureCategoryCard category={singleItemCategory} />,
     );
     const links = container.querySelectorAll("a");
     expect(links.length).toBe(1);
   });
 
-  it("should handle maxItems greater than items length", () => {
-    const screen = render(
+  it("should handle maxItems greater than items length", async () => {
+    const screen = await render(
       <FeatureCategoryCard category={mockCategory} maxItems={10} />,
     );
     expect(screen.getByText("アイテム1")).toBeTruthy();
