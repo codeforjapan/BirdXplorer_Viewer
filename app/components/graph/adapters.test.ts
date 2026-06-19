@@ -20,7 +20,7 @@ describe("graph adapters", () => {
       { date: "2025-01-01", postCount: 2, status: "published" },
       { date: "2025-01-01", postCount: 3, status: "evaluating" },
       { date: "2025-01-01", postCount: 1 },
-      { date: "2025-01-02", postCount: 5, status: "unknown" as never },
+      { date: "2025-01-02", postCount: 5, status: "unknown" },
     ];
 
     expect(toDailyPostCountData(items)).toEqual([
@@ -64,7 +64,7 @@ describe("graph adapters", () => {
         helpfulCount: 12,
         notHelpfulCount: 4,
         impressionCount: 200,
-        status: "invalid" as never,
+        status: "invalid",
       },
     ];
 

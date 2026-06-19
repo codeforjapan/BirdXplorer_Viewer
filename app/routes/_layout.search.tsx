@@ -16,7 +16,7 @@ import {
   getTopicsApiV1DataTopicsGet,
   searchApiV1DataSearchGet,
 } from "~/generated/api/client";
-import type { SearchedNote, Topic } from "~/generated/api/schemas";
+import type { Topic } from "~/generated/api/schemas";
 import { useNetworkBusy } from "~/hooks/useNetworkBusy";
 import Fa6SolidMagnifyingGlass from "~icons/fa6-solid/magnifying-glass";
 
@@ -177,12 +177,7 @@ export default function Search({
                   )}
 
                   <Group gap="lg">
-                    <Notes
-                      notes={
-                        // react-router の型がうまく機能せず notes[number].topics が unknown になったため
-                        notes as SearchedNote[]
-                      }
-                    />
+                    <Notes notes={notes} />
                   </Group>
 
                   {searchQuery && (
