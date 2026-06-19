@@ -2,7 +2,7 @@ import type { MantineColor } from "@mantine/core";
 import { Indicator, Text } from "@mantine/core";
 
 import { convertNoteStatusToLabel } from "~/feature/search/status";
-import type { NoteCurrentStatus } from "~/generated/api/schemas";
+import type { SearchedNoteCurrentStatus as NoteCurrentStatus } from "~/generated/api/schemas";
 
 const convertNoteStatusToColor = (status: NoteCurrentStatus): MantineColor => {
   switch (status) {

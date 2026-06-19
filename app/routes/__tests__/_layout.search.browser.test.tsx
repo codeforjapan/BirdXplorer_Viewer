@@ -81,7 +81,7 @@ const mockNote: SearchedNote = {
   },
 };
 
-const renderWithRouter = (loaderData: any, actionData?: any) => {
+const renderWithRouter = async (loaderData: any, actionData?: any) => {
   const router = createMemoryRouter(
     [
       {
@@ -103,7 +103,7 @@ const renderWithRouter = (loaderData: any, actionData?: any) => {
     },
   );
 
-  return render(
+  return await render(
     <MantineProvider theme={mantineTheme}>
       <DatesProvider settings={{ locale: "ja", consistentWeeks: true }}>
         <RouterProvider router={router} />
@@ -113,7 +113,7 @@ const renderWithRouter = (loaderData: any, actionData?: any) => {
 };
 
 describe("Search Page", () => {
-  it("renders SearchForm", () => {
+  it("renders SearchForm", async () => {
     const mockLoaderData = {
       data: {
         topics: mockTopics,
@@ -132,7 +132,7 @@ describe("Search Page", () => {
       error: null,
     };
 
-    const screen = renderWithRouter(mockLoaderData);
+    const screen = await renderWithRouter(mockLoaderData);
 
     // SearchFormがレンダリングされることを確認
     expect(
@@ -159,7 +159,7 @@ describe("Search Page", () => {
       error: null,
     };
 
-    const screen = renderWithRouter(mockLoaderData);
+    const screen = await renderWithRouter(mockLoaderData);
 
     await vi.waitFor(() => {
       expect(screen.getByText("検索結果がありません").query()).toBeTruthy();
@@ -186,7 +186,7 @@ describe("Search Page", () => {
     );
   });
 
-  it("renders Notes when search results exist", () => {
+  it("renders Notes when search results exist", async () => {
     const mockLoaderData = {
       data: {
         topics: mockTopics,
@@ -206,13 +206,13 @@ describe("Search Page", () => {
       error: null,
     };
 
-    const screen = renderWithRouter(mockLoaderData);
+    const screen = await renderWithRouter(mockLoaderData);
 
     // 検索結果がレンダリングされることを確認
     expect(screen.getByText("テストサマリー")).toBeTruthy();
   });
 
-  it("renders SearchPagination when search query exists", () => {
+  it("renders SearchPagination when search query exists", async () => {
     const mockLoaderData = {
       data: {
         topics: mockTopics,
@@ -232,7 +232,7 @@ describe("Search Page", () => {
       error: null,
     };
 
-    const screen = renderWithRouter(mockLoaderData);
+    const screen = await renderWithRouter(mockLoaderData);
 
     // SearchPaginationがレンダリングされることを確認
     // "1 ～ 1 件目を表示中"というテキストが表示されていることを確認

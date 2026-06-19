@@ -16,15 +16,15 @@ describe("Report Page", () => {
     vi.useRealTimers();
   });
 
-  it("renders report items", () => {
-    const screen = render(<Report />, { initialEntries: ["/report"] });
+  it("renders report items", async () => {
+    const screen = await render(<Report />, { initialEntries: ["/report"] });
     for (const item of REPORT_ITEMS) {
       expect(screen.getByText(item.title)).toBeTruthy();
     }
   });
 
-  it("renders report descriptions", () => {
-    const screen = render(<Report />, { initialEntries: ["/report"] });
+  it("renders report descriptions", async () => {
+    const screen = await render(<Report />, { initialEntries: ["/report"] });
     const firstItem = REPORT_ITEMS[0];
     if (firstItem) {
       // Check that at least part of the description is rendered
@@ -34,15 +34,19 @@ describe("Report Page", () => {
     }
   });
 
-  it("renders period selector", () => {
-    const { container } = render(<Report />, { initialEntries: ["/report"] });
+  it("renders period selector", async () => {
+    const { container } = await render(<Report />, {
+      initialEntries: ["/report"],
+    });
     const selector = container.querySelector("input");
     expect(selector).not.toBeNull();
     expect(selector?.value).toBe("直近1年");
   });
 
-  it("renders report items as links", () => {
-    const { container } = render(<Report />, { initialEntries: ["/report"] });
+  it("renders report items as links", async () => {
+    const { container } = await render(<Report />, {
+      initialEntries: ["/report"],
+    });
     const links = container.querySelectorAll('a[href^="/report/"]');
     // Number of links should match the filtered report items
     expect(links.length).toBeGreaterThanOrEqual(1);
@@ -53,8 +57,10 @@ describe("Report Page", () => {
     });
   });
 
-  it("renders ReportCards in grid layout", () => {
-    const { container } = render(<Report />, { initialEntries: ["/report"] });
+  it("renders ReportCards in grid layout", async () => {
+    const { container } = await render(<Report />, {
+      initialEntries: ["/report"],
+    });
     const grid = container.querySelector(
       ".grid.grid-cols-1.gap-8.md\\:grid-cols-2.lg\\:grid-cols-4",
     );

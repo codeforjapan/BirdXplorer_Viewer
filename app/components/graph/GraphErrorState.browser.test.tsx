@@ -5,9 +5,9 @@ import { render } from "../../../test/test-react";
 import { GraphErrorState } from "./GraphErrorState";
 
 describe("GraphErrorState", () => {
-  it("renders error message and retry button", () => {
+  it("renders error message and retry button", async () => {
     const onRetry = vi.fn();
-    const screen = render(
+    const screen = await render(
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
@@ -18,8 +18,8 @@ describe("GraphErrorState", () => {
     expect(screen.getByText("再試行")).toBeTruthy();
   });
 
-  it("hides retry button when onRetry is absent", () => {
-    const screen = render(
+  it("hides retry button when onRetry is absent", async () => {
+    const screen = await render(
       <GraphErrorState error={{ kind: "server", message: "server error" }} />,
     );
 
@@ -29,7 +29,7 @@ describe("GraphErrorState", () => {
 
   it("calls onRetry when retry button is clicked", async () => {
     const onRetry = vi.fn();
-    const screen = render(
+    const screen = await render(
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
@@ -44,7 +44,7 @@ describe("GraphErrorState", () => {
 
   it("calls onRetry multiple times on multiple clicks", async () => {
     const onRetry = vi.fn();
-    const screen = render(
+    const screen = await render(
       <GraphErrorState
         error={{ kind: "network", message: "network error" }}
         onRetry={onRetry}
@@ -59,8 +59,8 @@ describe("GraphErrorState", () => {
     expect(onRetry).toHaveBeenCalledTimes(3);
   });
 
-  it("displays error issues when provided", () => {
-    const screen = render(
+  it("displays error issues when provided", async () => {
+    const screen = await render(
       <GraphErrorState
         error={{
           kind: "validation",
@@ -75,8 +75,8 @@ describe("GraphErrorState", () => {
     expect(screen.getByText("Missing status")).toBeTruthy();
   });
 
-  it("displays at most 3 issues", () => {
-    const screen = render(
+  it("displays at most 3 issues", async () => {
+    const screen = await render(
       <GraphErrorState
         error={{
           kind: "validation",
@@ -94,8 +94,8 @@ describe("GraphErrorState", () => {
     expect(screen.getByText("Issue 5").query()).toBeNull();
   });
 
-  it("does not render issues section when issues is empty", () => {
-    const screen = render(
+  it("does not render issues section when issues is empty", async () => {
+    const screen = await render(
       <GraphErrorState
         error={{
           kind: "server",
@@ -114,8 +114,8 @@ describe("GraphErrorState", () => {
     expect(textElements.length).toBe(1);
   });
 
-  it("does not render issues section when issues is undefined", () => {
-    const screen = render(
+  it("does not render issues section when issues is undefined", async () => {
+    const screen = await render(
       <GraphErrorState
         error={{
           kind: "server",

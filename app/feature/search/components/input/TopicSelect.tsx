@@ -48,7 +48,9 @@ export const TopicSelect = ({
       topics
         .map((t) => ({
           value: t.topicId.toString(),
-          label: t.label[currentLanguage] ?? t.topicId.toString(),
+          label:
+            t.label[currentLanguage as keyof typeof t.label] ??
+            t.topicId.toString(),
         }))
         .sort((a, b) => a.label.localeCompare(b.label)),
     [topics, currentLanguage],

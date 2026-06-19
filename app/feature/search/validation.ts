@@ -4,7 +4,7 @@ import { z } from "zod";
 import {
   searchApiV1DataSearchGetQueryLimitMax,
   searchApiV1DataSearchGetQueryOffsetMin,
-  searchApiV1DataSearchGetQueryTopicIdsItemMin,
+  searchApiV1DataSearchGetQueryTopicIdsOneItemMin,
 } from "~/generated/api/zod/schema";
 
 const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
@@ -56,7 +56,7 @@ export const noteSearchParamSchema = z.object({
   topic_ids: preprocessArray(
     z
       .array(
-        z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsItemMin),
+        z.coerce.number().min(searchApiV1DataSearchGetQueryTopicIdsOneItemMin),
       )
       .or(z.null()),
   ).optional(),

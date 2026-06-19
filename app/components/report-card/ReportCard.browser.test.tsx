@@ -14,32 +14,32 @@ const mockReportItem: ReportItem = {
 };
 
 describe("ReportCard", () => {
-  it("should render report title", () => {
-    const screen = render(<ReportCard item={mockReportItem} />);
+  it("should render report title", async () => {
+    const screen = await render(<ReportCard item={mockReportItem} />);
     expect(screen.getByText("テストレポート")).toBeTruthy();
   });
 
-  it("should render report description", () => {
-    const screen = render(<ReportCard item={mockReportItem} />);
+  it("should render report description", async () => {
+    const screen = await render(<ReportCard item={mockReportItem} />);
     expect(
       screen.getByText("これはテスト用のレポートです。内容は省略されます。"),
     ).toBeTruthy();
   });
 
-  it("should render description as a link", () => {
-    const { container } = render(<ReportCard item={mockReportItem} />);
+  it("should render description as a link", async () => {
+    const { container } = await render(<ReportCard item={mockReportItem} />);
     const link = container.querySelector('a[href="/report/test-1"]');
     expect(link).not.toBeNull();
   });
 
-  it("should render PlayButtonIcon", () => {
-    const { container } = render(<ReportCard item={mockReportItem} />);
+  it("should render PlayButtonIcon", async () => {
+    const { container } = await render(<ReportCard item={mockReportItem} />);
     const playIcon = container.querySelector("svg");
     expect(playIcon).not.toBeNull();
   });
 
-  it("should apply line-clamp-6 to description", () => {
-    const { container } = render(<ReportCard item={mockReportItem} />);
+  it("should apply line-clamp-6 to description", async () => {
+    const { container } = await render(<ReportCard item={mockReportItem} />);
     const description = container.querySelector(".line-clamp-6");
     expect(description).not.toBeNull();
     expect(description?.textContent).toContain("これはテスト用のレポートです");

@@ -6,8 +6,8 @@ import { MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import type { ReactElement } from "react";
 import type React from "react";
+import type { ReactElement } from "react";
 import { MemoryRouter } from "react-router";
 import type { ComponentRenderOptions } from "vitest-browser-react";
 import { render } from "vitest-browser-react";
@@ -21,7 +21,10 @@ type CustomRenderOptions = Omit<ComponentRenderOptions, "wrapper"> & {
   initialIndex?: number;
 };
 
-const customRender = (ui: ReactElement, options?: CustomRenderOptions) => {
+const customRender = async (
+  ui: ReactElement,
+  options?: CustomRenderOptions,
+) => {
   const { initialEntries, initialIndex, ...rest } = options ?? {};
 
   const wrapper = ({ children }: { children: React.ReactNode }) => {
