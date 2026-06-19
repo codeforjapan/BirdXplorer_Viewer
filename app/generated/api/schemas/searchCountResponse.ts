@@ -5,4 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type SearchedNoteCurrentStatusHistoryItem = { [key: string]: unknown };
+export interface SearchCountResponse {
+  /** 検索結果の総件数 */
+  total: number;
+}
