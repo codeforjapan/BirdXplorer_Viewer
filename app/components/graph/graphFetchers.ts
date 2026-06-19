@@ -14,13 +14,13 @@ import {
 } from "~/generated/api/client";
 import type { TopNoteAccountDataItem } from "~/generated/api/schemas/topNoteAccountDataItem";
 import {
-  getDailyNotesApiV1GraphsDailyNotesGetResponse,
-  getDailyPostsApiV1GraphsDailyPostsGetResponse,
-  getNotesAnnualApiV1GraphsNotesAnnualGetResponse,
-  getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
-  getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
-  getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
-  getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
+  GetDailyNotesApiV1GraphsDailyNotesGetResponse,
+  GetDailyPostsApiV1GraphsDailyPostsGetResponse,
+  GetNotesAnnualApiV1GraphsNotesAnnualGetResponse,
+  GetNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
+  GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
+  GetPostInfluenceApiV1GraphsPostInfluenceGetResponse,
+  GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
 } from "~/generated/api/zod/schema";
 
 import {
@@ -158,7 +158,7 @@ export const fetchDailyNotesGraph = async ({
         language,
         keywords,
       }),
-    getDailyNotesApiV1GraphsDailyNotesGetResponse,
+    GetDailyNotesApiV1GraphsDailyNotesGetResponse,
   );
 
   if (!result.ok) return result;
@@ -218,7 +218,7 @@ export const fetchDailyPostsGraph = async ({
               language,
               keywords,
             }),
-          getDailyPostsApiV1GraphsDailyPostsGetResponse,
+          GetDailyPostsApiV1GraphsDailyPostsGetResponse,
         ),
       ),
     );
@@ -272,7 +272,7 @@ export const fetchDailyPostsGraph = async ({
         language,
         keywords,
       }),
-    getDailyPostsApiV1GraphsDailyPostsGetResponse,
+    GetDailyPostsApiV1GraphsDailyPostsGetResponse,
   );
 
   if (!result.ok) return result;
@@ -308,7 +308,7 @@ export const fetchNotesAnnualGraph = async ({
   const result = await fetchGraphList(
     async () =>
       getNotesAnnualApiV1GraphsNotesAnnualGet({ start_date, end_date, status }),
-    getNotesAnnualApiV1GraphsNotesAnnualGetResponse,
+    GetNotesAnnualApiV1GraphsNotesAnnualGetResponse,
   );
 
   if (!result.ok) return result;
@@ -351,7 +351,7 @@ export const fetchNotesEvaluationGraph = async ({
         status,
         limit,
       }),
-    getNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
+    GetNotesEvaluationApiV1GraphsNotesEvaluationGetResponse,
   );
 
   if (!result.ok) return result;
@@ -411,7 +411,7 @@ export const fetchNotesEvaluationStatusGraph = async ({
               language,
               keywords,
             }),
-          getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
+          GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
         ),
       ),
     );
@@ -457,7 +457,7 @@ export const fetchNotesEvaluationStatusGraph = async ({
         language,
         keywords,
       }),
-    getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
+    GetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse,
   );
 
   if (!result.ok) return result;
@@ -516,7 +516,7 @@ export const fetchPostInfluenceGraph = async ({
               language,
               keywords,
             }),
-          getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
+          GetPostInfluenceApiV1GraphsPostInfluenceGetResponse,
         ),
       ),
     );
@@ -562,7 +562,7 @@ export const fetchPostInfluenceGraph = async ({
         language,
         keywords,
       }),
-    getPostInfluenceApiV1GraphsPostInfluenceGetResponse,
+    GetPostInfluenceApiV1GraphsPostInfluenceGetResponse,
   );
 
   if (!result.ok) return result;
@@ -584,7 +584,7 @@ export const fetchTopNoteAccountsGraph = async ({
   return fetchGraphList(
     async () =>
       getTopNoteAccountsApiV1GraphsTopNoteAccountsGet({ start_date, end_date }),
-    getTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
+    GetTopNoteAccountsApiV1GraphsTopNoteAccountsGetResponse,
   );
 };
 

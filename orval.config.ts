@@ -5,7 +5,7 @@ export default defineConfig({
     input: "https://dev.api-birdxplorer.code4japan.org/openapi.json",
     output: {
       clean: true,
-      prettier: true,
+      formatter: "prettier",
       mode: "split",
       schemas: "app/generated/api/schemas",
       target: "app/generated/api/client.ts",
@@ -14,9 +14,13 @@ export default defineConfig({
       baseUrl: "https://dev.api-birdxplorer.code4japan.org",
       urlEncodeParameters: true,
       mock: {
-        type: "msw",
-        useExamples: true,
-        locale: "ja",
+        generators: [
+          {
+            type: "msw",
+            useExamples: true,
+            locale: "ja",
+          },
+        ],
       },
     },
   },
@@ -24,7 +28,7 @@ export default defineConfig({
     input: "https://dev.api-birdxplorer.code4japan.org/openapi.json",
     output: {
       clean: true,
-      prettier: true,
+      formatter: "prettier",
       target: "app/generated/api/zod/schema.ts",
       client: "zod",
     },

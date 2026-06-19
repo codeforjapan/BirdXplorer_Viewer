@@ -29,7 +29,8 @@ export const Note = ({ note }: NoteProps) => {
     });
   }, [note.createdAt]);
 
-  const languageLabel = LANGUAGE_ID_TO_LABEL[note.language];
+  const languageLabel =
+    LANGUAGE_ID_TO_LABEL[note.language as keyof typeof LANGUAGE_ID_TO_LABEL];
 
   return (
     <Card
