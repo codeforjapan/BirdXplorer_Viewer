@@ -80,7 +80,7 @@ export const loader = async (args: Route.LoaderArgs) => {
     searchApiV1DataSearchGet({
       ...searchQuery.data,
       include_total: false,
-    } as never),
+    }),
   ]);
 
   const topics =
