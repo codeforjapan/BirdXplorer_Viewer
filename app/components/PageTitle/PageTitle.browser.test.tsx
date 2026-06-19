@@ -6,8 +6,8 @@ import { render } from "../../../test/test-react";
 import { PageTitle } from "./PageTitle";
 
 describe("PageTitle", () => {
-  it("renders icon, title and subtitle correctly", () => {
-    const screen = render(
+  it("renders icon, title and subtitle correctly", async () => {
+    const screen = await render(
       <PageTitle
         icon={<InfoIcon isActive />}
         subtitle="|　バードエクスプローラについて"
@@ -19,8 +19,8 @@ describe("PageTitle", () => {
     expect(screen.getByText("|　バードエクスプローラについて")).toBeDefined();
   });
 
-  it("applies custom className", () => {
-    const screen = render(
+  it("applies custom className", async () => {
+    const screen = await render(
       <PageTitle
         className="custom-class"
         icon={<InfoIcon isActive />}
@@ -33,8 +33,8 @@ describe("PageTitle", () => {
     expect(pageTitle).toBeTruthy();
   });
 
-  it("renders different titles correctly", () => {
-    const screen = render(
+  it("renders different titles correctly", async () => {
+    const screen = await render(
       <PageTitle
         icon={<InfoIcon isActive />}
         subtitle="特集"

@@ -37,7 +37,7 @@ describe("Layout", () => {
       },
     ]);
 
-    const screen = render(<Layout />);
+    const screen = await render(<Layout />);
 
     expect(screen.getByText("TOP")).toBeTruthy();
     expect(screen.getByText("Test Page")).toBeTruthy();
@@ -59,7 +59,7 @@ describe("Layout", () => {
       },
     ]);
 
-    const { container } = render(<Layout />);
+    const { container } = await render(<Layout />);
 
     // BreadCrumbとPageTitleがレンダリングされないことを確認
     expect(
