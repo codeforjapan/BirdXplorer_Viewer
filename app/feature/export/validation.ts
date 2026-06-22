@@ -5,6 +5,7 @@ const MAX_KEYWORDS = 50;
 
 export const csvExportBaseSchema = z.object({
   keywords: z.string().min(1, "キーワードを1つ以上入力してください"),
+  search_mode: z.enum(["or", "and"]).optional(),
   note_created_at_from: z.coerce
     .number()
     .min(0)

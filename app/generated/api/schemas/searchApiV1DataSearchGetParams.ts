@@ -10,9 +10,9 @@ import type { SortOrder } from "./sortOrder";
 export type SearchApiV1DataSearchGetParams = {
   /**
    *
-   * 指定した文字列を含む Note を検索して取得する。検索は Note の**Summaryに対して**行われる。
+   * 指定した文字列を含む Note を検索して取得する。検索は Note の**Summaryに対して**行われる。複数指定した場合は note_search_mode に従って AND/OR 検索を行う。
    */
-  note_includes_text?: string | null;
+  note_includes_texts?: string[] | null;
   /**
    *
    * 指定した文字列を含む Note を検索して取得する。検索は Note の**Summaryに対して**行われる。
@@ -20,14 +20,22 @@ export type SearchApiV1DataSearchGetParams = {
   note_excludes_text?: string | null;
   /**
    *
-   * 指定した文字列を含む Post を検索して取得する。検索は Post の**本文に対して**行われる。
+   * 指定した文字列を含む Post を検索して取得する。検索は Post の**本文に対して**行われる。複数指定した場合は post_search_mode に従って AND/OR 検索を行う。
    */
-  post_includes_text?: string | null;
+  post_includes_texts?: string[] | null;
   /**
    *
    * 指定した文字列を含む Post を検索して取得する。検索は Post の**本文に対して**行われる。
    */
   post_excludes_text?: string | null;
+  /**
+   * キーワードの結合方法（or: いずれかを含む / and: すべてを含む）
+   */
+  note_search_mode?: string | null;
+  /**
+   * キーワードの結合方法（or: いずれかを含む / and: すべてを含む）
+   */
+  post_search_mode?: string | null;
   /**
    *
    * 取得するコミュニティノートの言語。

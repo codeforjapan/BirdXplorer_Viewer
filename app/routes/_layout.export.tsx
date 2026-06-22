@@ -1,6 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps, useForm } from "@conform-to/react";
+import {
+  getFormProps,
+  getInputProps,
+  useForm,
+  useInputControl,
+} from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import {
   Button,
@@ -8,6 +13,7 @@ import {
   Container,
   Divider,
   Group,
+  SegmentedControl,
   Stack,
   Text,
 } from "@mantine/core";
@@ -83,37 +89,19 @@ export const loader = async (args: Route.LoaderArgs) => {
   }
 
   const keywords = parseKeywords(exportQuery.data.keywords);
-  const perKeywordResults = await Promise.all(
-    keywords.map(async (kw) =>
-      searchApiV1DataSearchGet({
-        note_includes_text: kw,
-        note_created_at_from: exportQuery.data.note_created_at_from,
-        note_created_at_to: exportQuery.data.note_created_at_to,
-        limit: 25,
-      }).catch(() => null),
-    ),
-  );
+  const searchMode = exportQuery.data.search_mode ?? "or";
+  const previewResult = await searchApiV1DataSearchGet({
+    note_includes_texts: keywords,
+    note_search_mode: searchMode,
+    note_created_at_from: exportQuery.data.note_created_at_from,
+    note_created_at_to: exportQuery.data.note_created_at_to,
+    limit: 25,
+  }).catch(() => null);
 
-  const noteArrays = perKeywordResults.map((result) =>
-    result?.data && "data" in result.data ? result.data.data : [],
-  );
-  const seen = new Set<string>();
-  const previewNotes: SearchedNote[] = [];
-  for (let i = 0; previewNotes.length < 25; i++) {
-    let advanced = false;
-    for (const notes of noteArrays) {
-      if (i < notes.length) {
-        advanced = true;
-        const note = notes[i];
-        if (note && !seen.has(note.noteId)) {
-          seen.add(note.noteId);
-          previewNotes.push(note);
-          if (previewNotes.length >= 25) break;
-        }
-      }
-    }
-    if (!advanced) break;
-  }
+  const previewNotes: SearchedNote[] =
+    previewResult?.data && "data" in previewResult.data
+      ? previewResult.data.data.slice(0, 25)
+      : [];
 
   return {
     data: {
@@ -153,6 +141,8 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
     defaultValue,
   });
 
+  const searchModeControl = useInputControl(fields.search_mode);
+
   return (
     <Form method="POST" preventScrollReset {...getFormProps(form)}>
       <Stack>
@@ -160,7 +150,7 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
           autoComplete="off"
           c="white"
           classNames={{ input: "!bg-gray-1 !border-gray-5" }}
-          description="カンマ区切りでOR検索（例: 医療,政治）最大50個"
+          description="カンマ区切りで複数キーワードを入力（例: 医療,政治）最大50個"
           disabled={isLoading}
           error={
             containsNonNullValues(fields.keywords.errors) && (
@@ -172,6 +162,23 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
           styles={{ input: { color: "white" }, label: { marginBottom: "8px" } }}
           {...getInputProps(fields.keywords, { type: "text" })}
         />
+        <div>
+          <Text c="white" size="sm" style={{ marginBottom: "8px" }}>
+            キーワードの結合方法
+          </Text>
+          <SegmentedControl
+            data={[
+              { label: "OR（いずれかを含む）", value: "or" },
+              { label: "AND（すべてを含む）", value: "and" },
+            ]}
+            disabled={isLoading}
+            onBlur={searchModeControl.blur}
+            onChange={searchModeControl.change}
+            onFocus={searchModeControl.focus}
+            styles={{ root: { backgroundColor: "var(--color-gray-2)" } }}
+            value={searchModeControl.value ?? "or"}
+          />
+        </div>
         <DateRangePicker
           convertFormValueToMantine={safeDateFromUnixMs}
           convertMantineValueToForm={(date) => date?.valueOf().toString()}
@@ -217,6 +224,9 @@ export default function Export({
           keywords: exportQuery.keywords,
           note_created_at_from: String(exportQuery.note_created_at_from),
           note_created_at_to: String(exportQuery.note_created_at_to),
+          ...(exportQuery.search_mode
+            ? { search_mode: exportQuery.search_mode }
+            : {}),
         }).toString()}`
       : null;
 
@@ -257,7 +267,11 @@ export default function Export({
               <Stack>
                 <Group align="center" justify="space-between">
                   <Text c="dimmed" size="sm">
-                    プレビュー（全キーワードOR検索・最大25件）
+                    プレビュー（
+                    {exportQuery.search_mode === "and"
+                      ? "AND検索"
+                      : "OR検索"}
+                    ・最大25件）
                   </Text>
                   <Button
                     disabled={!csvUrl || isDownloading}

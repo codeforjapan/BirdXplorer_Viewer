@@ -1,9 +1,11 @@
 import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps } from "@conform-to/react";
+import { getFormProps, getInputProps, useInputControl } from "@conform-to/react";
 import {
   Autocomplete,
   MultiSelect,
+  SegmentedControl,
   Stack,
+  Text,
   UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -60,6 +62,7 @@ export const SearchForm = (props: SearchFormProps) => {
     return !(
       [
         "note_includes_text",
+        "note_search_mode",
         "topic_ids",
         "language",
         "note_created_at_from",
@@ -72,6 +75,8 @@ export const SearchForm = (props: SearchFormProps) => {
       key,
     );
   });
+
+  const noteSearchModeControl = useInputControl(fields.note_search_mode);
 
   const { value: xUserNamesValue } = useMultiSelectInputControl({
     field: fields.x_user_names,
@@ -113,6 +118,7 @@ export const SearchForm = (props: SearchFormProps) => {
             autoComplete="off"
             c="white"
             classNames={{ input: "!bg-gray-1 !border-gray-5" }}
+            description="カンマ区切りで複数キーワードを入力（例: 医療,政治）"
             disabled={searchInProgress}
             error={
               containsNonNullValues(fields.note_includes_text.errors) && (
@@ -130,6 +136,22 @@ export const SearchForm = (props: SearchFormProps) => {
             }}
             {...getInputProps(fields.note_includes_text, { type: "text" })}
           />
+          <div>
+            <Text c="white" size="sm" style={{ marginBottom: "8px" }}>
+              キーワードの結合方法
+            </Text>
+            <SegmentedControl
+              data={[
+                { label: "OR（いずれかを含む）", value: "or" },
+                { label: "AND（すべてを含む）", value: "and" },
+              ]}
+              disabled={searchInProgress}
+              onBlur={noteSearchModeControl.blur}
+              onChange={noteSearchModeControl.change}
+              onFocus={noteSearchModeControl.focus}
+              value={noteSearchModeControl.value ?? "or"}
+            />
+          </div>
           <TopicSelect
             currentLanguage={shortLanguage}
             disabled={searchInProgress}
@@ -183,6 +205,13 @@ export const SearchForm = (props: SearchFormProps) => {
             <input
               value={fields.note_excludes_text.value}
               {...getInputProps(fields.note_excludes_text, {
+                type: "hidden",
+                value: false,
+              })}
+            />
+            <input
+              value={fields.post_search_mode.value}
+              {...getInputProps(fields.post_search_mode, {
                 type: "hidden",
                 value: false,
               })}

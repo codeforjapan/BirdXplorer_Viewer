@@ -74,11 +74,29 @@ export const loader = async (args: Route.LoaderArgs) => {
     );
   }
 
+  const { note_includes_text, post_includes_text, ...restSearchParams } =
+    searchQuery.data;
+  const searchApiParams = {
+    ...restSearchParams,
+    note_includes_texts: note_includes_text
+      ? note_includes_text
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : undefined,
+    post_includes_texts: post_includes_text
+      ? post_includes_text
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : undefined,
+  };
+
   // TODO: Topics を毎回 fetch するのは無駄なので、ハードナビゲーション時に fetch してブラウザ側で状態管理するように変更する
   const settled = await Promise.allSettled([
     getTopicsApiV1DataTopicsGet(),
     searchApiV1DataSearchGet({
-      ...searchQuery.data,
+      ...searchApiParams,
       include_total: false,
     }),
   ]);
@@ -121,6 +139,23 @@ export default function Search({
     for (const [key, value] of Object.entries(searchQuery)) {
       if (key === "offset" || key === "limit") continue;
       if (value == null) continue;
+
+      // Map frontend form param names to backend API param names
+      if (key === "note_includes_text" || key === "post_includes_text") {
+        const apiKey =
+          key === "note_includes_text"
+            ? "note_includes_texts"
+            : "post_includes_texts";
+        const texts = String(value)
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
+        for (const t of texts) {
+          params.append(apiKey, t);
+        }
+        continue;
+      }
+
       if (Array.isArray(value)) {
         for (const v of value) {
           params.append(key, String(v));
