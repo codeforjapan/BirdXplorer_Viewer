@@ -140,6 +140,12 @@ export const SearchForm = (props: SearchFormProps) => {
             <Text c="white" size="sm" style={{ marginBottom: "8px" }}>
               キーワードの結合方法
             </Text>
+            {/* hidden input is required for form submission; useInputControl only manages Conform state */}
+            <input
+              name={fields.note_search_mode.name}
+              type="hidden"
+              value={noteSearchModeControl.value ?? "or"}
+            />
             <SegmentedControl
               data={[
                 { label: "OR（いずれかを含む）", value: "or" },
@@ -209,13 +215,15 @@ export const SearchForm = (props: SearchFormProps) => {
                 value: false,
               })}
             />
-            <input
-              value={fields.post_search_mode.value}
-              {...getInputProps(fields.post_search_mode, {
-                type: "hidden",
-                value: false,
-              })}
-            />
+            {/* only render when set so we don't submit empty string against z.enum */}
+            {(fields.post_search_mode.value === "or" ||
+              fields.post_search_mode.value === "and") && (
+              <input
+                name={fields.post_search_mode.name}
+                type="hidden"
+                value={fields.post_search_mode.value}
+              />
+            )}
             <input
               value={fields.post_includes_text.value}
               {...getInputProps(fields.post_includes_text, {

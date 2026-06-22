@@ -172,6 +172,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 <Text size="sm" style={darkInputStyles.label}>
                   ノートキーワードの結合方法
                 </Text>
+                <input
+                  name={fields.note_search_mode.name}
+                  type="hidden"
+                  value={noteSearchModeControl.value ?? "or"}
+                />
                 <SegmentedControl
                   data={[
                     { label: "OR（いずれかを含む）", value: "or" },
@@ -221,6 +226,11 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 <Text size="sm" style={darkInputStyles.label}>
                   ポストキーワードの結合方法
                 </Text>
+                <input
+                  name={fields.post_search_mode.name}
+                  type="hidden"
+                  value={postSearchModeControl.value ?? "or"}
+                />
                 <SegmentedControl
                   data={[
                     { label: "OR（いずれかを含む）", value: "or" },

@@ -166,6 +166,12 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
           <Text c="white" size="sm" style={{ marginBottom: "8px" }}>
             キーワードの結合方法
           </Text>
+          {/* hidden input is required for form submission; useInputControl only manages Conform state */}
+          <input
+            name={fields.search_mode.name}
+            type="hidden"
+            value={searchModeControl.value ?? "or"}
+          />
           <SegmentedControl
             data={[
               { label: "OR（いずれかを含む）", value: "or" },
