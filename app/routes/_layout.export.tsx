@@ -91,7 +91,7 @@ export const loader = async (args: Route.LoaderArgs) => {
   const keywords = parseKeywords(exportQuery.data.keywords);
   const searchMode = exportQuery.data.search_mode ?? "or";
   const previewResult = await searchApiV1DataSearchGet({
-    note_includes_texts: keywords,
+    note_includes_text: keywords,
     note_search_mode: searchMode,
     note_created_at_from: exportQuery.data.note_created_at_from,
     note_created_at_to: exportQuery.data.note_created_at_to,

@@ -6,9 +6,9 @@
  */
 
 export type SearchCountApiV1DataSearchCountGetParams = {
-  note_includes_texts?: string[] | null;
+  note_includes_text?: string[] | null;
   note_excludes_text?: string | null;
-  post_includes_texts?: string[] | null;
+  post_includes_text?: string[] | null;
   post_excludes_text?: string | null;
   note_search_mode?: string | null;
   post_search_mode?: string | null;

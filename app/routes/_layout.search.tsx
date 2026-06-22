@@ -78,13 +78,13 @@ export const loader = async (args: Route.LoaderArgs) => {
     searchQuery.data;
   const searchApiParams = {
     ...restSearchParams,
-    note_includes_texts: note_includes_text
+    note_includes_text: note_includes_text
       ? note_includes_text
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean)
       : undefined,
-    post_includes_texts: post_includes_text
+    post_includes_text: post_includes_text
       ? post_includes_text
           .split(",")
           .map((s) => s.trim())
@@ -140,18 +140,13 @@ export default function Search({
       if (key === "offset" || key === "limit") continue;
       if (value == null) continue;
 
-      // Map frontend form param names to backend API param names
       if (key === "note_includes_text" || key === "post_includes_text") {
-        const apiKey =
-          key === "note_includes_text"
-            ? "note_includes_texts"
-            : "post_includes_texts";
         const texts = String(value)
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean);
         for (const t of texts) {
-          params.append(apiKey, t);
+          params.append(key, t);
         }
         continue;
       }
