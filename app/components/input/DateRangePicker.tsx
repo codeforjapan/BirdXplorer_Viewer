@@ -72,7 +72,7 @@ export const DateRangePicker = ({
       }
       getDayProps={getDayProps}
       label={label}
-      maxDate={new Date()}
+      maxDate={dayjs().format("YYYY-MM-DD")}
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
