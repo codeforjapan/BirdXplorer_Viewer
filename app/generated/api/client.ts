@@ -203,7 +203,11 @@ export const getGetNotesApiV1DataNotesGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -269,7 +273,11 @@ export const getGetPostsApiV1DataPostsGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -335,7 +343,11 @@ export const getSearchCountApiV1DataSearchCountGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -401,7 +413,11 @@ export const getSearchApiV1DataSearchGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -467,7 +483,11 @@ export const getExportCsvApiV1DataExportCsvGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -533,7 +553,11 @@ export const getGetDailyNotesApiV1GraphsDailyNotesGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -627,7 +651,11 @@ export const getGetDailyPostsApiV1GraphsDailyPostsGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -722,7 +750,11 @@ export const getGetNotesAnnualApiV1GraphsNotesAnnualGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -823,7 +855,11 @@ export const getGetNotesEvaluationApiV1GraphsNotesEvaluationGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -932,7 +968,11 @@ export const getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetUrl =
 
     Object.entries(params || {}).forEach(([key, value]) => {
       if (value !== undefined) {
-        normalizedParams.append(key, value === null ? "null" : String(value));
+        if (Array.isArray(value)) {
+          value.forEach((item) => normalizedParams.append(key, String(item)));
+        } else {
+          normalizedParams.append(key, value === null ? "null" : String(value));
+        }
       }
     });
 
@@ -1038,7 +1078,11 @@ export const getGetPostInfluenceApiV1GraphsPostInfluenceGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 
@@ -1144,7 +1188,11 @@ export const getGetTopNoteAccountsApiV1GraphsTopNoteAccountsGetUrl = (
 
   Object.entries(params || {}).forEach(([key, value]) => {
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
+      if (Array.isArray(value)) {
+        value.forEach((item) => normalizedParams.append(key, String(item)));
+      } else {
+        normalizedParams.append(key, value === null ? "null" : String(value));
+      }
     }
   });
 

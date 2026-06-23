@@ -1,6 +1,5 @@
-import type { SearchApiV1DataSearchGetParams } from "~/generated/api/schemas/searchApiV1DataSearchGetParams";
+import type { z } from "zod";
 
-/**
- * @private
- */
-export type NoteSearchParams = SearchApiV1DataSearchGetParams;
+import type { noteSearchParamSchema } from "./validation";
+
+export type NoteSearchParams = z.infer<typeof noteSearchParamSchema>;
