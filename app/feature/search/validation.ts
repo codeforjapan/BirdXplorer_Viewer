@@ -26,8 +26,16 @@ const preprocessArray = <T extends ZodTypeAny>(schema: T) => {
 export const noteSearchParamSchema = z.object({
   note_includes_text: z.string().or(z.null()).optional(),
   note_excludes_text: z.string().or(z.null()).optional(),
+  note_search_mode: z.preprocess(
+    (v) => (v === "" ? undefined : v),
+    z.enum(["or", "and"]).optional(),
+  ),
   post_includes_text: z.string().or(z.null()).optional(),
   post_excludes_text: z.string().or(z.null()).optional(),
+  post_search_mode: z.preprocess(
+    (v) => (v === "" ? undefined : v),
+    z.enum(["or", "and"]).optional(),
+  ),
   language: z
     .enum([
       "en",
