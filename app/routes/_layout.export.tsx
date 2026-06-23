@@ -39,7 +39,7 @@ import {
 import { searchApiV1DataSearchGet } from "~/generated/api/client";
 import type { SearchedNote } from "~/generated/api/schemas";
 import { containsNonNullValues } from "~/utils/array";
-import { safeDateFromUnixMs } from "~/utils/date";
+import { dateStrFromUnixMs } from "~/utils/date";
 import Fa6SolidFileArrowDown from "~icons/fa6-solid/file-arrow-down";
 
 import type { LayoutHandle } from "./_layout";
@@ -186,8 +186,8 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
           />
         </div>
         <DateRangePicker
-          convertFormValueToMantine={safeDateFromUnixMs}
-          convertMantineValueToForm={(date) => date?.valueOf().toString()}
+          convertFormValueToMantine={dateStrFromUnixMs}
+          convertMantineValueToForm={(date) => date ? String(new Date(date).valueOf()) : undefined}
           disabled={isLoading}
           fromField={fields.note_created_at_from}
           label="ノート作成期間（必須・最大30日間）"

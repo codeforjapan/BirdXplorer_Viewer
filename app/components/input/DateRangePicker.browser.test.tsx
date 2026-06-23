@@ -48,10 +48,8 @@ const Page = ({ defaultValue }: PageProps) => {
     <div>
       <form {...getFormProps(form)}>
         <DateRangePicker
-          convertFormValueToMantine={(value) =>
-            value ? new Date(value) : null
-          }
-          convertMantineValueToForm={(date) => date?.toISOString()}
+          convertFormValueToMantine={(value) => (value as string | null)}
+          convertMantineValueToForm={(date) => date ?? undefined}
           fromField={fields.start}
           label="Date Range"
           toField={fields.end}
@@ -84,25 +82,23 @@ describe("DateRangePicker", () => {
     const date2 = screen.getByRole("button", { name: "15 1月 2025" });
     await userEvent.click(date2);
 
-    const expectedStart = new Date(2025, 0, 10).toISOString();
-    const expectedEnd = new Date(2025, 0, 15).toISOString();
     const span = screen.getByLabelText("result");
-    expect(span).toHaveTextContent(`${expectedStart} – ${expectedEnd}`);
+    expect(span).toHaveTextContent("2025-01-10 – 2025-01-15");
   });
 
   test("convert で指定した処理を用いてフォームの値を UI に反映できる", async () => {
     const screen = await render(
       <Page
         defaultValue={{
-          start: "2025-01-09T15:00:00.000Z",
-          end: "2025-01-14T15:00:00.000Z",
+          start: "2025-01-09",
+          end: "2025-01-14",
         }}
       />,
     );
 
     const button = screen.getByRole("button", { name: "Date Range" });
     expect(button).toHaveTextContent(
-      `${formatDateLabel("2025-01-09T15:00:00.000Z")} – ${formatDateLabel("2025-01-14T15:00:00.000Z")}`,
+      `${formatDateLabel("2025-01-09")} – ${formatDateLabel("2025-01-14")}`,
     );
   });
 

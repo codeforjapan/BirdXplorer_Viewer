@@ -1,4 +1,5 @@
 import { DatePickerInput } from "@mantine/dates";
+import dayjs from "dayjs";
 
 import { FormError } from "~/components/FormError";
 import { useDateRangeInputControl } from "~/hooks/useDateRangeInputControl";
@@ -47,11 +48,10 @@ export const DateRangePicker = ({
     convertFormValueToMantine,
   });
 
-  const getDayProps = (date: Date) => {
+  const getDayProps = (date: string) => {
     const [from, to] = value ?? [null, null];
     if (from && !to) {
-      const diffMs = date.getTime() - from.getTime();
-      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      const diffDays = dayjs(date).diff(dayjs(from), "day");
       if (diffDays > maxRange || diffDays < -maxRange) {
         return { disabled: true };
       }
@@ -70,7 +70,6 @@ export const DateRangePicker = ({
           <FormError errors={[fromField.errors, toField.errors]} />
         )
       }
-      errorProps={{ component: "div" }}
       getDayProps={getDayProps}
       label={label}
       maxDate={new Date()}

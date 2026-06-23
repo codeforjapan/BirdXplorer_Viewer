@@ -7,28 +7,28 @@ type DateRangeInputControlOptions = {
   fromField: FieldMetadata<string | number | null | undefined>;
   toField: FieldMetadata<string | number | null | undefined>;
   /**
-   * DatePickerInput から送られてきた Date をフォームの文字列に変換する処理
+   * DatePickerInput から送られてきた日付文字列（YYYY-MM-DD）をフォームの文字列に変換する処理
    *
    * この処理は冪等である必要がある
    *
    * 空文字 or undefined を返すと、フォームの値が空になる
    */
-  convertMantineValueToForm: (date: Date | null) => string | undefined;
+  convertMantineValueToForm: (date: string | null) => string | undefined;
   /**
-   * フォームの文字列を DatePickerInput に渡す際に、Date に変換する処理
+   * フォームの文字列を DatePickerInput に渡す際に、日付文字列（YYYY-MM-DD）に変換する処理
    *
    * この処理は冪等性がある必要がある
    */
   convertFormValueToMantine: (
     formValue: FormValue<string | number | null | undefined>,
-  ) => Date | null;
+  ) => string | null;
 };
 
 type DateRangeInputControl = {
   change: (value: DatePickerValue<"range">) => void;
   blur: () => void;
   focus: () => void;
-  value: DatesRangeValue;
+  value: DatesRangeValue<string>;
 };
 
 /**
@@ -58,8 +58,10 @@ export const useDateRangeInputControl = (
 
   const change = useCallback(
     (dateRange: DatePickerValue<"range">) => {
-      fromControl.change(convertMantineValueToForm(dateRange[0]) ?? "");
-      toControl.change(convertMantineValueToForm(dateRange[1]) ?? "");
+      const toStr = (v: (typeof dateRange)[0]) =>
+        v instanceof Date ? null : v;
+      fromControl.change(convertMantineValueToForm(toStr(dateRange[0])) ?? "");
+      toControl.change(convertMantineValueToForm(toStr(dateRange[1])) ?? "");
     },
     [fromControl, toControl],
   );
@@ -78,6 +80,6 @@ export const useDateRangeInputControl = (
     blur,
     change,
     focus,
-    value: [fromValue, toValue] satisfies DatesRangeValue,
+    value: [fromValue, toValue] satisfies DatesRangeValue<string>,
   };
 };
