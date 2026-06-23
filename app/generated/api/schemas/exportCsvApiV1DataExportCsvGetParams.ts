@@ -18,4 +18,8 @@ export type ExportCsvApiV1DataExportCsvGetParams = {
    * ノート作成期間の終了(ミリ秒)
    */
   note_created_at_to: number;
+  /**
+   * キーワードの結合方法（or: いずれかを含む / and: すべてを含む）
+   */
+  search_mode?: string;
 };

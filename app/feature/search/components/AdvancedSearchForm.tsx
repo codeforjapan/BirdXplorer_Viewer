@@ -1,11 +1,16 @@
 import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps, getInputProps } from "@conform-to/react";
+import {
+  getFormProps,
+  getInputProps,
+  useInputControl,
+} from "@conform-to/react";
 import {
   Autocomplete,
   Divider,
   Group,
   ModalCloseButton,
   MultiSelect,
+  SegmentedControl,
   Stack,
   TagsInput,
   Text,
@@ -58,6 +63,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
     defaultValue,
     onSubmit,
   });
+
+  const noteSearchModeControl = useInputControl(fields.note_search_mode);
+  const postSearchModeControl = useInputControl(fields.post_search_mode);
 
   const {
     value: noteStatusValue,
@@ -151,6 +159,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 c="white"
                 classNames={darkInputClassNames}
+                description="カンマ区切りで複数キーワードを入力（例: 医療,政治）"
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.note_includes_text.errors) && (
@@ -163,6 +172,27 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   type: "text",
                 })}
               />
+              <div>
+                <Text size="sm" style={darkInputStyles.label}>
+                  ノートキーワードの結合方法
+                </Text>
+                <input
+                  name={fields.note_search_mode.name}
+                  type="hidden"
+                  value={noteSearchModeControl.value ?? "or"}
+                />
+                <SegmentedControl
+                  data={[
+                    { label: "OR（いずれかを含む）", value: "or" },
+                    { label: "AND（すべてを含む）", value: "and" },
+                  ]}
+                  disabled={searchInProgress}
+                  onBlur={noteSearchModeControl.blur}
+                  onChange={noteSearchModeControl.change}
+                  onFocus={noteSearchModeControl.focus}
+                  value={noteSearchModeControl.value ?? "or"}
+                />
+              </div>
               <TextInput
                 autoComplete="off"
                 c="white"
@@ -183,6 +213,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 autoComplete="off"
                 c="white"
                 classNames={darkInputClassNames}
+                description="カンマ区切りで複数キーワードを入力（例: 地震,津波）"
                 disabled={searchInProgress}
                 error={
                   containsNonNullValues(fields.post_includes_text.errors) && (
@@ -195,6 +226,27 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                   type: "text",
                 })}
               />
+              <div>
+                <Text size="sm" style={darkInputStyles.label}>
+                  ポストキーワードの結合方法
+                </Text>
+                <input
+                  name={fields.post_search_mode.name}
+                  type="hidden"
+                  value={postSearchModeControl.value ?? "or"}
+                />
+                <SegmentedControl
+                  data={[
+                    { label: "OR（いずれかを含む）", value: "or" },
+                    { label: "AND（すべてを含む）", value: "and" },
+                  ]}
+                  disabled={searchInProgress}
+                  onBlur={postSearchModeControl.blur}
+                  onChange={postSearchModeControl.change}
+                  onFocus={postSearchModeControl.focus}
+                  value={postSearchModeControl.value ?? "or"}
+                />
+              </div>
               <TextInput
                 autoComplete="off"
                 c="white"
