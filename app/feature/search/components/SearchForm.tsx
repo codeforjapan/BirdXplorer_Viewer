@@ -176,7 +176,9 @@ export const SearchForm = (props: SearchFormProps) => {
           />
           <DateRangePicker
             convertFormValueToMantine={dateStrFromUnixMs}
-            convertMantineValueToForm={(date) => date ? String(new Date(date).valueOf()) : undefined}
+            convertMantineValueToForm={(date) =>
+              date ? String(new Date(date).valueOf()) : undefined
+            }
             disabled={searchInProgress}
             fromField={fields.note_created_at_from}
             label="コミュニティノートの作成期間"

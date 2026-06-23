@@ -187,7 +187,9 @@ function ExportForm({ defaultValue, lastResult }: ExportFormProps) {
         </div>
         <DateRangePicker
           convertFormValueToMantine={dateStrFromUnixMs}
-          convertMantineValueToForm={(date) => date ? String(new Date(date).valueOf()) : undefined}
+          convertMantineValueToForm={(date) =>
+            date ? String(new Date(date).valueOf()) : undefined
+          }
           disabled={isLoading}
           fromField={fields.note_created_at_from}
           label="ノート作成期間（必須・最大30日間）"

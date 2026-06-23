@@ -48,7 +48,7 @@ const Page = ({ defaultValue }: PageProps) => {
     <div>
       <form {...getFormProps(form)}>
         <DateRangePicker
-          convertFormValueToMantine={(value) => (value as string | null)}
+          convertFormValueToMantine={(value) => value as string | null}
           convertMantineValueToForm={(date) => date ?? undefined}
           fromField={fields.start}
           label="Date Range"

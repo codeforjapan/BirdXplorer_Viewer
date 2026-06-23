@@ -295,7 +295,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     <FormError errors={[fields.note_status.errors]} />
                   )
                 }
-                    label="コミュニティノートのステータス"
+                label="コミュニティノートのステータス"
                 onBlur={blurNoteStatus}
                 onChange={changeNoteStatus}
                 onFocus={focusNoteStatus}
@@ -305,7 +305,9 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               />
               <DateRangePicker
                 convertFormValueToMantine={dateStrFromUnixMs}
-                convertMantineValueToForm={(date) => date ? String(new Date(date).valueOf()) : undefined}
+                convertMantineValueToForm={(date) =>
+                  date ? String(new Date(date).valueOf()) : undefined
+                }
                 disabled={searchInProgress}
                 fromField={fields.note_created_at_from}
                 label="コミュニティノートの作成期間"
