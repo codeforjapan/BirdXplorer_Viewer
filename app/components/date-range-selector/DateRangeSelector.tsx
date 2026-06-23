@@ -50,6 +50,9 @@ export const DateRangeSelector = ({
     return rangeLimit < maxDate ? rangeLimit : maxDate;
   }, [maxRangeDays, value, maxDate]);
 
+  const toDateStr = (d: Date | undefined): string | undefined =>
+    d ? dayjs(d).format("YYYY-MM-DD") : undefined;
+
   const mantineValue: [string | null, string | null] = [
     value?.[0] ? dayjs(value[0]).format("YYYY-MM-DD") : null,
     value?.[1] ? dayjs(value[1]).format("YYYY-MM-DD") : null,
@@ -68,8 +71,8 @@ export const DateRangeSelector = ({
         allowSingleDateInRange
         clearable
         leftSection={<Fa6RegularCalendar className="size-4 text-primary" />}
-        maxDate={effectiveMaxDate}
-        minDate={minDate}
+        maxDate={toDateStr(effectiveMaxDate)}
+        minDate={toDateStr(minDate)}
         onChange={handleChange}
         placeholder={placeholder}
         popoverProps={{
