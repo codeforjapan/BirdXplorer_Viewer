@@ -73,7 +73,7 @@ export const TopicSelect = ({
           <FormError errors={[field.errors]} />
         )
       }
-      errorProps={{ component: "div", id: field.errorId }}
+      errorProps={{ id: field.errorId }}
       label="トピック"
       labelProps={{ htmlFor: field.id }}
       onBlur={onBlur}

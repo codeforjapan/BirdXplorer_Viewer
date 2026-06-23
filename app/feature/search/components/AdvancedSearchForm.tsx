@@ -31,7 +31,7 @@ import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
 import type { Topic } from "~/generated/api/schemas";
 import { useMultiSelectInputControl } from "~/hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "~/utils/array";
-import { safeDateFromUnixMs } from "~/utils/date";
+import { dateStrFromUnixMs } from "~/utils/date";
 
 import { LanguageSelect } from "./input/LanguageSelect";
 import { TopicSelect } from "./input/TopicSelect";
@@ -147,7 +147,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 <FormError errors={[fields.limit.errors]} />
               )
             }
-            errorProps={{ component: "div" }}
             inputWrapperOrder={mantineInputOrder}
             label="1ページあたりの表示件数"
             styles={darkInputStyles}
@@ -296,7 +295,6 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                     <FormError errors={[fields.note_status.errors]} />
                   )
                 }
-                errorProps={{ component: "div" }}
                 label="コミュニティノートのステータス"
                 onBlur={blurNoteStatus}
                 onChange={changeNoteStatus}
@@ -306,8 +304,10 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
                 value={noteStatusValue}
               />
               <DateRangePicker
-                convertFormValueToMantine={safeDateFromUnixMs}
-                convertMantineValueToForm={(date) => date?.valueOf().toString()}
+                convertFormValueToMantine={dateStrFromUnixMs}
+                convertMantineValueToForm={(date) =>
+                  date ? String(new Date(date).valueOf()) : undefined
+                }
                 disabled={searchInProgress}
                 fromField={fields.note_created_at_from}
                 label="コミュニティノートの作成期間"
