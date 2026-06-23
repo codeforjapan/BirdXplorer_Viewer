@@ -274,9 +274,7 @@ export default function Export({
                 <Group align="center" justify="space-between">
                   <Text c="dimmed" size="sm">
                     プレビュー（
-                    {exportQuery.search_mode === "and"
-                      ? "AND検索"
-                      : "OR検索"}
+                    {exportQuery.search_mode === "and" ? "AND検索" : "OR検索"}
                     ・最大25件）
                   </Text>
                   <Button
