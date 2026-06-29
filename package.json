@@ -71,7 +71,7 @@
     "globals": "17.6.0",
     "jiti": "2.7.0",
     "msw": "2.14.6",
-    "orval": "8.18.0",
+    "orval": "8.19.0",
     "playwright": "1.59.1",
     "postcss": "8.5.14",
     "postcss-preset-mantine": "1.18.0",
