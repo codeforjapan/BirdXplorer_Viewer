@@ -1,14 +1,4 @@
 /**
- * unix timestamp らしき値から、安全な場合のみ Date オブジェクトを生成する
- * @param unixMs Unix timestamp らしき値
- * @returns 安全な値であれば Date オブジェクト、そうでなければ null
- */
-export const safeDateFromUnixMs = (
-  unixMs: string | number | null | undefined,
-) =>
-  unixMs && !Number.isNaN(Number(unixMs)) ? new Date(Number(unixMs)) : null;
-
-/**
  * unix timestamp らしき値から YYYY-MM-DD 文字列に変換する（@mantine/dates v8 向け）
  * @param unixMs Unix timestamp らしき値
  * @returns YYYY-MM-DD 文字列、変換できない場合は null
