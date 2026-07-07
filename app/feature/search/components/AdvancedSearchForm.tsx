@@ -31,7 +31,7 @@ import { useLanguageLiteral } from "~/feature/search/useLanguageLiteral";
 import type { Topic } from "~/generated/api/schemas";
 import { useMultiSelectInputControl } from "~/hooks/useMultiSelectInputControl";
 import { containsNonNullValues } from "~/utils/array";
-import { dateStrFromUnixMs } from "~/utils/date";
+import { dateStrFromUnixMs, unixMsFromDateStr } from "~/utils/date";
 
 import { LanguageSelect } from "./input/LanguageSelect";
 import { TopicSelect } from "./input/TopicSelect";
@@ -305,9 +305,7 @@ export const AdvancedSearchForm = (props: AdvancedSearchFormProps) => {
               />
               <DateRangePicker
                 convertFormValueToMantine={dateStrFromUnixMs}
-                convertMantineValueToForm={(date) =>
-                  date ? String(new Date(date).valueOf()) : undefined
-                }
+                convertMantineValueToForm={unixMsFromDateStr}
                 disabled={searchInProgress}
                 fromField={fields.note_created_at_from}
                 label="コミュニティノートの作成期間"
