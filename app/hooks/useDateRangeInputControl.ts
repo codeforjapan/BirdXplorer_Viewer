@@ -1,6 +1,7 @@
 import type { FormValue } from "@conform-to/dom";
 import { type FieldMetadata, useInputControl } from "@conform-to/react";
 import type { DatePickerValue, DatesRangeValue } from "@mantine/dates";
+import dayjs from "dayjs";
 import { useCallback, useMemo } from "react";
 
 type DateRangeInputControlOptions = {
@@ -49,21 +50,23 @@ export const useDateRangeInputControl = (
 
   const fromValue = useMemo(
     () => convertFormValueToMantine(fromField.value),
-    [fromField.value],
+    [fromField.value, convertFormValueToMantine],
   );
   const toValue = useMemo(
     () => convertFormValueToMantine(toField.value),
-    [toField.value],
+    [toField.value, convertFormValueToMantine],
   );
 
   const change = useCallback(
     (dateRange: DatePickerValue<"range">) => {
-      const toStr = (v: (typeof dateRange)[0]) =>
-        v instanceof Date ? null : v;
+      const toStr = (v: (typeof dateRange)[0]): string | null => {
+        if (v === null || v === undefined) return null;
+        return v instanceof Date ? dayjs(v).format("YYYY-MM-DD") : v;
+      };
       fromControl.change(convertMantineValueToForm(toStr(dateRange[0])) ?? "");
       toControl.change(convertMantineValueToForm(toStr(dateRange[1])) ?? "");
     },
-    [fromControl, toControl],
+    [fromControl, toControl, convertMantineValueToForm],
   );
 
   const focus = useCallback(() => {
