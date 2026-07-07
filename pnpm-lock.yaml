@@ -88,8 +88,8 @@ importers:
         specifier: 10.5.0
         version: 10.5.0
       '@iconify/json':
-        specifier: 2.2.488
-        version: 2.2.488
+        specifier: 2.2.492
+        version: 2.2.492
       '@prettier/plugin-oxc':
         specifier: 0.1.4
         version: 0.1.4
@@ -949,8 +949,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify/json@2.2.488':
-    resolution: {integrity: sha512-W2MfGS0n1GugWhQn7SLgRKNH1JonVsKG/O9vO/htP7j3k1bGt54R1mbN9uaZlQ99uCCu65IR5UgQM66E8Cm+Fw==}
+  '@iconify/json@2.2.492':
+    resolution: {integrity: sha512-0o4ds2QfkGzouKjvcgoLaN66aomwebydlIf3FsRETaJnFj7Qgx/1zH6LMJ7GlcRRzYp5EhpRkiyr8sgXWlcWlw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5529,7 +5529,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify/json@2.2.488':
+  '@iconify/json@2.2.492':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
