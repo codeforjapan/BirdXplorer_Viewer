@@ -43,7 +43,6 @@ export const LanguageSelect = ({
           <FormError errors={[field.errors]} />
         )
       }
-      errorProps={{ component: "div" }}
       label={label}
       searchable
       styles={{

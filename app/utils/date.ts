@@ -1,12 +1,42 @@
 /**
- * unix timestamp らしき値から、安全な場合のみ Date オブジェクトを生成する
+ * unix timestamp らしき値から YYYY-MM-DD 文字列に変換する（@mantine/dates v8 向け）
  * @param unixMs Unix timestamp らしき値
- * @returns 安全な値であれば Date オブジェクト、そうでなければ null
+ * @returns YYYY-MM-DD 文字列、変換できない場合は null
  */
-export const safeDateFromUnixMs = (
+export const dateStrFromUnixMs = (
   unixMs: string | number | null | undefined,
-) =>
-  unixMs && !Number.isNaN(Number(unixMs)) ? new Date(Number(unixMs)) : null;
+): string | null => {
+  if (!unixMs || Number.isNaN(Number(unixMs))) return null;
+  const d = new Date(Number(unixMs));
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+
+/**
+ * YYYY-MM-DD 文字列をローカルタイム 0 時の unix timestamp (ms) 文字列に変換する（@mantine/dates v8 向け）
+ *
+ * `new Date("YYYY-MM-DD")` は UTC 0 時として解釈されタイムゾーン分ずれるため使用しない
+ * @param dateStr YYYY-MM-DD 文字列
+ * @returns unix timestamp (ms) の文字列、変換できない場合は undefined
+ */
+export const unixMsFromDateStr = (
+  dateStr: string | null,
+): string | undefined => {
+  if (!dateStr) return undefined;
+  const [y, m, d] = dateStr.split("-").map(Number);
+  if (!y || !m || !d) return undefined;
+  const date = new Date(y, m - 1, d);
+  if (
+    date.getFullYear() !== y ||
+    date.getMonth() !== m - 1 ||
+    date.getDate() !== d
+  ) {
+    return undefined;
+  }
+  return String(date.valueOf());
+};
 
 const DEFAULT_DATE_LOCALE = "ja-JP";
 const DEFAULT_DATE_TIME_ZONE = "Asia/Tokyo";
