@@ -67,7 +67,11 @@ export function deriveTitleFromMessages(messages: unknown[]): string {
     const parts = m.parts;
     if (Array.isArray(parts)) {
       for (const part of parts as Array<{ type?: string; text?: string }>) {
-        if (part.type === "text" && typeof part.text === "string" && part.text.trim()) {
+        if (
+          part.type === "text" &&
+          typeof part.text === "string" &&
+          part.text.trim()
+        ) {
           return part.text.slice(0, 50);
         }
       }

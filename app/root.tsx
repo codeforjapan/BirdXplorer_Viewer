@@ -28,7 +28,9 @@ type RouteHandle = { standalone?: boolean };
 
 function useIsStandalone(): boolean {
   const matches = useMatches();
-  return matches.some((m) => (m.handle as RouteHandle | undefined)?.standalone === true);
+  return matches.some(
+    (m) => (m.handle as RouteHandle | undefined)?.standalone === true,
+  );
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

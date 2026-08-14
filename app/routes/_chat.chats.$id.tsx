@@ -1,6 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import { type UIMessage, useChat } from "@ai-sdk/react";
-import { ArrowLeftIcon, MessageSquareIcon, SendIcon, SquareIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  MessageSquareIcon,
+  SendIcon,
+  SquareIcon,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 
@@ -139,7 +144,7 @@ function ChatSession({ id }: { id: string }) {
       <div className="shrink-0 border-t border-gray-800 p-4">
         <div className="flex items-end gap-2">
           <textarea
-            className="flex-1 resize-none rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            className="flex-1 resize-none rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-sm text-white placeholder-gray-500 transition-colors outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             disabled={isStreaming}
             onChange={(e) => {
               setInput(e.target.value);

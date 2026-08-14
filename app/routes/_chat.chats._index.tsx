@@ -57,7 +57,7 @@ export default function ChatsIndexPage({
 
       <main className="flex-1 overflow-y-auto px-6 py-6">
         <div className="mx-auto max-w-2xl">
-          <p className="mb-4 text-body-l text-white/70">
+          <p className="text-body-l mb-4 text-white/70">
             {chats.length > 0
               ? `${String(chats.length)} 件のチャット`
               : "チャット履歴はありません"}

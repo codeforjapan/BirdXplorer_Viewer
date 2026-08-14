@@ -145,8 +145,16 @@ describe("deriveTitleFromMessages", () => {
 
   it("skips assistant messages", () => {
     const messages = [
-      { id: "m1", role: "assistant", parts: [{ type: "text", text: "I'm the AI" }] },
-      { id: "m2", role: "user", parts: [{ type: "text", text: "user first message" }] },
+      {
+        id: "m1",
+        role: "assistant",
+        parts: [{ type: "text", text: "I'm the AI" }],
+      },
+      {
+        id: "m2",
+        role: "user",
+        parts: [{ type: "text", text: "user first message" }],
+      },
     ];
     expect(deriveTitleFromMessages(messages)).toBe("user first message");
   });
