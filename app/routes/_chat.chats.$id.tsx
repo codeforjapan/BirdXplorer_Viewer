@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useChat } from "@ai-sdk/react";
-import type { UIMessage } from "@ai-sdk/react";
+import { type UIMessage, useChat } from "@ai-sdk/react";
 import { ArrowLeftIcon, MessageSquareIcon, SendIcon, SquareIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
@@ -69,8 +68,7 @@ function ChatSession({ id }: { id: string }) {
   const { messages, sendMessage, status, stop } = useChat({
     id,
     api: "/api/chat",
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    initialMessages: loadMessages(id) as any,
+    initialMessages: loadMessages(id) as UIMessage[],
   });
 
   const isStreaming = status === "streaming" || status === "submitted";
@@ -142,32 +140,32 @@ function ChatSession({ id }: { id: string }) {
         <div className="flex items-end gap-2">
           <textarea
             className="flex-1 resize-none rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            placeholder="メッセージを入力…（Shift+Enterで改行）"
-            rows={1}
-            style={{ maxHeight: "120px", overflowY: "auto" }}
-            value={input}
+            disabled={isStreaming}
             onChange={(e) => {
               setInput(e.target.value);
             }}
             onKeyDown={handleKeyDown}
-            disabled={isStreaming}
+            placeholder="メッセージを入力…（Shift+Enterで改行）"
+            rows={1}
+            style={{ maxHeight: "120px", overflowY: "auto" }}
+            value={input}
           />
           {isStreaming ? (
             <button
-              type="button"
-              onClick={stop}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white transition-colors hover:bg-red-500"
               aria-label="生成を停止"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white transition-colors hover:bg-red-500"
+              onClick={stop}
+              type="button"
             >
               <SquareIcon size={16} />
             </button>
           ) : (
             <button
-              type="button"
+              aria-label="送信"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white transition-colors hover:bg-blue-500 disabled:opacity-40"
               disabled={!input.trim()}
               onClick={handleSend}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white transition-colors hover:bg-blue-500 disabled:opacity-40"
-              aria-label="送信"
+              type="button"
             >
               <SendIcon size={16} />
             </button>

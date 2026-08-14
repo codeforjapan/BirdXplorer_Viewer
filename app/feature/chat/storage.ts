@@ -63,7 +63,7 @@ export function saveMessages(chatId: string, messages: unknown[]): void {
 export function deriveTitleFromMessages(messages: unknown[]): string {
   for (const msg of messages) {
     const m = msg as Record<string, unknown> | null | undefined;
-    if (!m || m.role !== "user") continue;
+    if (m?.role !== "user") continue;
     const parts = m.parts;
     if (Array.isArray(parts)) {
       for (const part of parts as Array<{ type?: string; text?: string }>) {
