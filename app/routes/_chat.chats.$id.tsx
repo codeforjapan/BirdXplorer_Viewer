@@ -1,12 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { type UIMessage, useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import {
   ArrowLeftIcon,
   MessageSquareIcon,
   SendIcon,
   SquareIcon,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 
 import { WEB_PATHS } from "~/constants/paths";
@@ -70,10 +71,15 @@ function ChatSession({ id }: { id: string }) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
 
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: "/api/chat" }),
+    [],
+  );
+
   const { messages, sendMessage, status, stop } = useChat({
     id,
-    api: "/api/chat",
-    initialMessages: loadMessages(id) as UIMessage[],
+    messages: loadMessages(id) as UIMessage[],
+    transport,
   });
 
   const isStreaming = status === "streaming" || status === "submitted";
