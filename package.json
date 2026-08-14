@@ -26,7 +26,7 @@
     "@mantine/core": "8.3.18",
     "@mantine/dates": "8.3.18",
     "@mantine/hooks": "8.3.18",
-    "@radix-ui/react-tooltip": "1.2.10",
+    "@radix-ui/react-tooltip": "1.2.12",
     "@react-router/node": "7.17.0",
     "@react-router/serve": "7.17.0",
     "@tailwindcss/vite": "4.3.1",
