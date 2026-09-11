@@ -21,12 +21,14 @@ cp .env.example .env
 
 `.env` を開き、以下を設定してください。
 
-| 変数名                        | 必須           | 説明                                               |
-| ----------------------------- | -------------- | -------------------------------------------------- |
-| `CLOUDFLARE_ACCOUNT_ID`       | チャット使用時 | Cloudflare アカウント ID                           |
-| `CLOUDFLARE_API_TOKEN`        | チャット使用時 | Cloudflare API トークン（Workers AI 権限必要）     |
-| `CLOUDFLARE_WORKERS_AI_MODEL` | -              | 使用モデル (デフォルト: `@cf/openai/gpt-oss-120b`) |
-| `BIRDXPLORER_API_URL`         | -              | BirdXplorer API のベース URL                       |
+| 変数名                         | 必須           | 説明                                                               |
+| ------------------------------ | -------------- | ------------------------------------------------------------------ |
+| `CLOUDFLARE_ACCOUNT_ID`        | チャット使用時 | Cloudflare アカウント ID                                           |
+| `CLOUDFLARE_API_TOKEN`         | チャット使用時 | Cloudflare API トークン（Workers AI 権限必要）                     |
+| `CLOUDFLARE_WORKERS_AI_MODEL`  | -              | 使用モデル (デフォルト: `@cf/openai/gpt-oss-120b`)                 |
+| `CLOUDFLARE_MAX_OUTPUT_TOKENS` | -              | 最大生成トークン数 (デフォルト: `8192`)                            |
+| `BIRDXPLORER_MCP_URL`          | -              | BirdXplorer MCP サーバー URL (デフォルト: 本番 MCP エンドポイント) |
+| `BIRDXPLORER_API_URL`          | -              | BirdXplorer REST API のベース URL（チャット以外のページで使用）    |
 
 Cloudflare API トークンは https://dash.cloudflare.com/ → My Profile → API Tokens から発行してください。
 

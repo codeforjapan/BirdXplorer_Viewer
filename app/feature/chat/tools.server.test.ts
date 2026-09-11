@@ -8,20 +8,73 @@ import {
   describe,
   expect,
   it,
+  vi,
 } from "vitest";
 
+// Reset the module cache between tests so each test gets a fresh MCP client
+vi.mock("@ai-sdk/mcp", () => {
+  const tools: Record<string, { description: string }> = {
+    bx_topics_list: { description: "トピック一覧" },
+    bx_notes_list: { description: "ノート一覧" },
+    bx_posts_list: { description: "ポスト一覧" },
+    bx_search: { description: "検索" },
+    bx_search_keyword: { description: "キーワード検索" },
+    bx_semantic_search: { description: "セマンティック検索" },
+    bx_similar_notes: { description: "類似ノート" },
+    bx_count: { description: "件数" },
+    bx_note_requests: { description: "ノートリクエスト" },
+    bx_note_requests_count: { description: "ノートリクエスト件数" },
+    // Excluded tools
+    bx_system_ping: { description: "ヘルスチェック" },
+    bx_user_enrollment_get: { description: "エンロールメント" },
+    bx_export_csv: { description: "CSV エクスポート" },
+  };
+
+  return {
+    createMCPClient: vi.fn().mockResolvedValue({
+      instructions: "テスト用 MCP 補足情報",
+      tools: vi.fn().mockResolvedValue(tools),
+      close: vi.fn(),
+    }),
+  };
+});
+
+// Must import AFTER the vi.mock so the mock is applied
 import { getChatTools } from "./tools.server";
 
-const API_BASE = "https://dev.api-birdxplorer.code4japan.org";
+const MCP_URL = "https://birdxplorer-mcp.code4japan.org/mcp";
 
-const server = setupServer();
+const server = setupServer(
+  // MCP initialize
+  http.post(MCP_URL, async ({ request }) => {
+    const body = (await request.json()) as { method?: string };
+    if (body.method === "initialize") {
+      return new HttpResponse(
+        `event: message\ndata: ${JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          result: {
+            protocolVersion: "2025-06-18",
+            capabilities: { tools: {} },
+            serverInfo: { name: "test-mcp", version: "1.0.0" },
+          },
+        })}\n\n`,
+        { status: 200, headers: { "Content-Type": "text/event-stream" } },
+      );
+    }
+    return HttpResponse.json({});
+  }),
+);
 
 beforeAll(() => {
-  server.listen({ onUnhandledRequest: "error" });
+  server.listen({ onUnhandledRequest: "bypass" });
 });
 
 afterEach(() => {
   server.resetHandlers();
+  vi.clearAllMocks();
+  // Reset module-level cache between tests
+  vi.resetModules();
 });
 
 afterAll(() => {
@@ -29,150 +82,40 @@ afterAll(() => {
 });
 
 describe("getChatTools", () => {
-  it("returns the four expected tools", async () => {
-    const tools = await getChatTools();
-    expect(Object.keys(tools).sort()).toEqual([
-      "count_notes",
-      "get_daily_notes_stats",
-      "list_topics",
-      "search_notes",
+  beforeEach(() => {
+    vi.stubEnv("BIRDXPLORER_MCP_URL", MCP_URL);
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("returns only the allowed tools (excludes ping, enrollment, csv)", async () => {
+    const { tools } = await getChatTools();
+    const names = Object.keys(tools).sort();
+    expect(names).toEqual([
+      "bx_count",
+      "bx_note_requests",
+      "bx_note_requests_count",
+      "bx_notes_list",
+      "bx_posts_list",
+      "bx_search",
+      "bx_search_keyword",
+      "bx_semantic_search",
+      "bx_similar_notes",
+      "bx_topics_list",
     ]);
   });
-});
 
-describe("list_topics tool", () => {
-  beforeEach(() => {
-    server.use(
-      http.get(`${API_BASE}/api/v1/data/topics`, () =>
-        HttpResponse.json({
-          data: [
-            {
-              topicId: 1,
-              label: { ja: "政治", en: "Politics" },
-              referenceCount: 100,
-            },
-            {
-              topicId: 2,
-              label: { ja: "科学", en: "Science" },
-              referenceCount: 50,
-            },
-          ],
-        }),
-      ),
-    );
+  it("excludes bx_system_ping, bx_user_enrollment_get, bx_export_csv", async () => {
+    const { tools } = await getChatTools();
+    expect(tools).not.toHaveProperty("bx_system_ping");
+    expect(tools).not.toHaveProperty("bx_user_enrollment_get");
+    expect(tools).not.toHaveProperty("bx_export_csv");
   });
 
-  it("returns mapped topic list", async () => {
-    const tools = await getChatTools();
-    const result = await (
-      tools.list_topics as unknown as { execute: () => Promise<unknown> }
-    ).execute();
-    expect(result).toEqual([
-      { id: 1, label_ja: "政治", label_en: "Politics", noteCount: 100 },
-      { id: 2, label_ja: "科学", label_en: "Science", noteCount: 50 },
-    ]);
-  });
-});
-
-describe("count_notes tool", () => {
-  beforeEach(() => {
-    server.use(
-      http.get(`${API_BASE}/api/v1/data/search/count`, () =>
-        HttpResponse.json({ total: 42 }),
-      ),
-    );
-  });
-
-  it("returns count", async () => {
-    const tools = await getChatTools();
-    const result = await (
-      tools.count_notes as unknown as {
-        execute: (args: Record<string, unknown>) => Promise<unknown>;
-      }
-    ).execute({});
-    expect(result).toEqual({ total: 42 });
-  });
-});
-
-describe("search_notes tool", () => {
-  beforeEach(() => {
-    server.use(
-      http.get(`${API_BASE}/api/v1/data/search`, () =>
-        HttpResponse.json({
-          data: [
-            {
-              noteId: "1234567890123456789",
-              summary: "これはテストノートです",
-              language: "ja",
-              topics: [{ topicId: 1, label: { ja: "政治" } }],
-              currentStatus: "CURRENTLY_RATED_HELPFUL",
-              createdAt: 1700000000000,
-              helpfulCount: 10,
-              notHelpfulCount: 1,
-              rateCount: 11,
-              post: { text: "テストツイート" },
-            },
-          ],
-          meta: { total: 1 },
-        }),
-      ),
-    );
-  });
-
-  it("returns mapped notes", async () => {
-    const tools = await getChatTools();
-    const result = await (
-      tools.search_notes as unknown as {
-        execute: (
-          args: Record<string, unknown>,
-        ) => Promise<{ total?: number; notes: unknown[] }>;
-      }
-    ).execute({ limit: 10 });
-    expect(result.total).toBe(1);
-    expect(result.notes).toHaveLength(1);
-    const note = result.notes[0] as {
-      noteId: string;
-      language: string;
-      status: string;
-    };
-    expect(note.noteId).toBe("1234567890123456789");
-    expect(note.language).toBe("ja");
-    expect(note.status).toBe("CURRENTLY_RATED_HELPFUL");
-  });
-});
-
-describe("get_daily_notes_stats tool", () => {
-  beforeEach(() => {
-    server.use(
-      http.get(`${API_BASE}/api/v1/graphs/daily-notes`, () =>
-        HttpResponse.json({
-          data: [
-            {
-              date: "2025-01-01",
-              published: 5,
-              evaluating: 3,
-              unpublished: 1,
-              temporarilyPublished: 0,
-            },
-          ],
-          updatedAt: "2025-01-02",
-        }),
-      ),
-    );
-  });
-
-  it("returns daily stats with total", async () => {
-    const tools = await getChatTools();
-    const result = await (
-      tools.get_daily_notes_stats as unknown as {
-        execute: (args: Record<string, unknown>) => Promise<{
-          updatedAt: string;
-          items: Array<{ date: string; total: number }>;
-        }>;
-      }
-    ).execute({ start_date: 1700000000000, end_date: 1702592000000 });
-    expect(result.updatedAt).toBe("2025-01-02");
-    expect(result.items).toHaveLength(1);
-    expect(result.items[0]?.total).toBe(9);
+  it("returns instructions from MCP server", async () => {
+    const { instructions } = await getChatTools();
+    expect(instructions).toBe("テスト用 MCP 補足情報");
   });
 });

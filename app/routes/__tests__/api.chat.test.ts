@@ -13,13 +13,15 @@ import {
 
 import { action } from "../api.chat";
 
-const BX_API = "https://dev.api-birdxplorer.code4japan.org";
+// Mock the MCP tools so we don't hit the real MCP server in unit tests
+vi.mock("~/feature/chat/tools.server", () => ({
+  getChatTools: vi.fn().mockResolvedValue({
+    tools: {},
+    instructions: undefined,
+  }),
+}));
 
-const server = setupServer(
-  http.get(`${BX_API}/api/v1/data/topics`, () =>
-    HttpResponse.json({ data: [] }),
-  ),
-);
+const server = setupServer();
 
 beforeAll(() => {
   server.listen({ onUnhandledRequest: "bypass" });
@@ -27,7 +29,7 @@ beforeAll(() => {
 
 afterEach(() => {
   server.resetHandlers();
-  vi.unstubAllEnvs();
+  vi.clearAllMocks();
 });
 
 afterAll(() => {
@@ -39,6 +41,10 @@ describe("action /api/chat", () => {
     vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "test-account");
     vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-token");
     vi.stubEnv("CLOUDFLARE_WORKERS_AI_MODEL", "@cf/openai/gpt-oss-120b");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it("returns 200 streaming response for valid messages", async () => {
