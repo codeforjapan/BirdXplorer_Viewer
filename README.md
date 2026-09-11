@@ -5,11 +5,38 @@ X（旧Twitter）の Community Notes データを可視化・検索するため�
 ## 技術スタック
 
 - [React Router](https://reactrouter.com/) v7 (SSR)
-- [Mantine UI](https://mantine.dev/) v7
+- [Mantine UI](https://mantine.dev/) v8
 - [Tailwind CSS](https://tailwindcss.com/) v4
+- [assistant-ui](https://www.assistant-ui.com/) + [Vercel AI SDK](https://sdk.vercel.ai/) v7
+- [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/)
 - [Vite](https://vite.dev/)
 - [Vitest](https://vitest.dev/) + [Playwright](https://playwright.dev/)
 - デプロイ: [Vercel](https://vercel.com/)
+
+## 環境変数の設定
+
+```bash
+cp .env.example .env
+```
+
+`.env` を開き、以下を設定してください。
+
+| 変数名                         | 必須           | 説明                                                               |
+| ------------------------------ | -------------- | ------------------------------------------------------------------ |
+| `CLOUDFLARE_ACCOUNT_ID`        | チャット使用時 | Cloudflare アカウント ID                                           |
+| `CLOUDFLARE_API_TOKEN`         | チャット使用時 | Cloudflare API トークン（Workers AI 権限必要）                     |
+| `CLOUDFLARE_WORKERS_AI_MODEL`  | -              | 使用モデル (デフォルト: `@cf/openai/gpt-oss-120b`)                 |
+| `CLOUDFLARE_MAX_OUTPUT_TOKENS` | -              | 最大生成トークン数 (デフォルト: `8192`)                            |
+| `BIRDXPLORER_MCP_URL`          | -              | BirdXplorer MCP サーバー URL (デフォルト: 本番 MCP エンドポイント) |
+| `BIRDXPLORER_API_URL`          | -              | BirdXplorer REST API のベース URL（チャット以外のページで使用）    |
+
+Cloudflare API トークンは https://dash.cloudflare.com/ → My Profile → API Tokens から発行してください。
+
+## チャット機能 (`/chats`)
+
+`/chats` でチャット一覧、`/chats/:id` で会話画面が表示されます。  
+LLM は Cloudflare Workers AI を使用し、BirdXplorer の REST API をツールとして呼び出します。  
+チャット履歴はブラウザの localStorage に保存されます（端末間で共有されません）。
 
 ## 開発
 
