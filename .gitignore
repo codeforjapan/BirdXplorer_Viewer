@@ -3,6 +3,8 @@ node_modules
 /.cache
 /build
 .env
+.env.local
+.env.*.local
 
 .vscode/*
 !.vscode/settings.example.json
