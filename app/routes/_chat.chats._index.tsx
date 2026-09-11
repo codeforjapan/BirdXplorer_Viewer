@@ -40,7 +40,7 @@ export default function ChatsIndexPage({
 
   return (
     <div className="flex h-dvh flex-col bg-black text-white">
-      <header className="flex items-center justify-between border-b border-gray-2 px-6 py-4">
+      <header className="flex items-center justify-between border-b border-gray-2 px-4 py-4 md:px-15">
         <div className="flex items-center gap-3">
           <MessageSquareIcon className="text-primary" size={20} />
           <h1 className="text-heading-m text-white">偽情報検索</h1>
@@ -55,8 +55,8 @@ export default function ChatsIndexPage({
         </button>
       </header>
 
-      <main className="flex-1 overflow-y-auto px-6 py-6">
-        <div className="mx-auto max-w-2xl">
+      <main className="flex-1 overflow-y-auto px-4 py-6 md:px-15">
+        <div className="mx-auto w-full max-w-[96rem]">
           <p className="text-body-l mb-4 text-white/70">
             {chats.length > 0
               ? `${String(chats.length)} 件のチャット`
