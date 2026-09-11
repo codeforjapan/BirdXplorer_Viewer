@@ -4,6 +4,7 @@ import {
   createUIMessageStreamResponse,
   stepCountIs,
   streamText,
+  type ToolSet,
   toUIMessageStream,
 } from "ai";
 import { createWorkersAI } from "workers-ai-provider";
@@ -27,11 +28,19 @@ export async function action({ request }: { request: Request }) {
     process.env.CLOUDFLARE_WORKERS_AI_MODEL ?? "@cf/openai/gpt-oss-120b",
   );
 
-  const chatTools = await getChatTools();
+  const { tools: chatTools, instructions: mcpInstructions } =
+    await getChatTools();
+
+  // Append MCP server instructions (pagination rules, search constraints, etc.)
+  // after the base system prompt so the model is aware of data constraints.
+  const baseSystem = system ?? SYSTEM_PROMPT;
+  const effectiveSystem = mcpInstructions
+    ? `${baseSystem}\n\n## MCP サーバーからの補足情報\n${mcpInstructions}`
+    : baseSystem;
 
   const result = streamText({
     model,
-    system: system ?? SYSTEM_PROMPT,
+    system: effectiveSystem,
     messages: await convertToModelMessages(
       messages as Parameters<typeof convertToModelMessages>[0],
     ),
@@ -39,12 +48,19 @@ export async function action({ request }: { request: Request }) {
       ...(tools
         ? frontendTools(tools as Parameters<typeof frontendTools>[0])
         : {}),
-      ...chatTools,
+      ...(chatTools as ToolSet),
     },
-    stopWhen: stepCountIs(6),
+    maxOutputTokens: Number(process.env.CLOUDFLARE_MAX_OUTPUT_TOKENS ?? 8192),
+    stopWhen: stepCountIs(12),
+    onError: ({ error }) => {
+      console.error("[api/chat] streamText error:", error);
+    },
   });
 
   return createUIMessageStreamResponse({
-    stream: toUIMessageStream({ stream: result.stream }),
+    stream: toUIMessageStream({
+      stream: result.stream,
+      onError: (e) => (e instanceof Error ? e.message : String(e)),
+    }),
   });
 }
