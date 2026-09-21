@@ -65,7 +65,7 @@
   "devDependencies": {
     "@eslint/js": "9.39.4",
     "@faker-js/faker": "10.5.0",
-    "@iconify/json": "2.2.492",
+    "@iconify/json": "2.2.529",
     "@prettier/plugin-oxc": "0.1.4",
     "@react-router/dev": "7.17.0",
     "@react-router/fs-routes": "7.17.0",
@@ -99,7 +99,7 @@
     "tailwindcss": "4.3.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.62.0",
-    "unplugin-icons": "23.0.1",
+    "unplugin-icons": "24.0.0",
     "vite": "8.1.3",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.1.9",
