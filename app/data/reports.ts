@@ -25,6 +25,16 @@ const buildReportHref = (year: number, month: number): string => {
 
 export const REPORT_ITEMS: ReportItem[] = [
   {
+    id: "9",
+    title: "2026年 9月レポート",
+    description:
+      "各クラスタは、政治的表現や国際政治、安全保障、オンライン詐欺、経済政策、サイバー攻撃、生成AI、情報の透明性、著作権、食品安全、SNSのスパム、社会的ルール、法的制度など、現代社会における多様な課題を扱っています。特に、情報の信頼性や透明性、社会的責任、消費者保護、医療の倫理、著作権の重要性が強調されており、これらのテーマは相互に関連し合っています。各クラスタは、社会の理解を深め、問題解決に向けた意見や提案を提供することを目的としています。全体として、現代社会の複雑な問題に対する多角的な視点が示されています。",
+    href: buildReportHref(2026, 9),
+    date: new Date("2026-09-01"),
+    kouchouAiPath: `/kouchou-ai/2026/09/f3ff3325-8b09-449c-8853-d55273f83600/index.html`,
+  },
+
+  {
     id: "8",
     title: "2026年 8月レポート",
     description:
