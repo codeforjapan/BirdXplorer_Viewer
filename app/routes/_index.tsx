@@ -54,7 +54,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           />
           <AutoResizeIframe
             sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
-            src="/kouchou-ai/2026/07/6f3b66d1-8002-46da-96b5-d64beacb51a0/index.html"
+            src="/kouchou-ai/2026/09/f3ff3325-8b09-449c-8853-d55273f83600/index.html"
             title="広聴AI"
           />
         </Stack>

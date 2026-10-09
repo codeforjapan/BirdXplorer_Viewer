@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 import {
+  ChatIcon,
   DashboardIcon,
   FeatureIcon,
   ReportIcon,
@@ -8,13 +9,14 @@ import {
 } from "~/components/icons";
 
 export type SideBarNavProps = {
-  icon: "dashboard" | "feature" | "report" | "search";
+  icon: "chat" | "dashboard" | "feature" | "report" | "search";
   label: string;
   href: string;
   isActive?: boolean;
 };
 
 const iconMap = {
+  chat: ChatIcon,
   dashboard: DashboardIcon,
   feature: FeatureIcon,
   report: ReportIcon,

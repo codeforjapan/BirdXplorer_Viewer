@@ -14,6 +14,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
   useRouteError,
 } from "react-router";
 
@@ -23,9 +24,18 @@ import { mantineTheme } from "./config/mantine";
 
 dayjs.extend(customParseFormat);
 
+type RouteHandle = { standalone?: boolean };
+
+function useIsStandalone(): boolean {
+  const matches = useMatches();
+  return matches.some(
+    (m) => (m.handle as RouteHandle | undefined)?.standalone === true,
+  );
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html className="dark" lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -47,6 +57,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const standalone = useIsStandalone();
+
+  if (standalone) {
+    return <Outlet />;
+  }
+
   return (
     <div className="flex min-h-dvh flex-col bg-black">
       <header className="flex items-center justify-between bg-black px-5 py-4 md:hidden">
@@ -77,7 +93,7 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   return (
-    <html lang="ja">
+    <html className="dark" lang="ja">
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
