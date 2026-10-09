@@ -1,0 +1,4 @@
+:HL["/kouchou-ai/2026/09/_next/static/chunks/17e0d1fb4b7331df.css","style"]
+:HL["/kouchou-ai/2026/09/_next/static/chunks/e0c387d9ec032745.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap","style"]
+0:{"buildId":"enqp7MFdyHCfryoZ51g6A","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"slug","paramType":"d","paramKey":"f3ff3325-8b09-449c-8853-d55273f83600","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
