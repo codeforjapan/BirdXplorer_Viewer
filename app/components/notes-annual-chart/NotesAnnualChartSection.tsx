@@ -16,6 +16,7 @@ import {
 import {
   dateRangeToTimestamps,
   getDefault12MonthRange,
+  timestampsToDateRange,
 } from "~/utils/dateRange";
 
 /** 公開率の色（オレンジ） */
@@ -77,10 +78,9 @@ export const NotesAnnualChartSection = ({
 }: NotesAnnualChartSectionProps) => {
   // デフォルトの日付範囲を設定（今月を含む過去12ヶ月）
   const defaultTimestamps = useMemo(() => getDefault12MonthRange(), []);
-  const [dateRange, setDateRange] = useState<DateRange>([
-    new Date(defaultTimestamps.start_date),
-    new Date(defaultTimestamps.end_date),
-  ]);
+  const [dateRange, setDateRange] = useState<DateRange>(
+    timestampsToDateRange(defaultTimestamps),
+  );
   const fetcher = useFetcher<GraphFetchResult<MonthlyNoteData[]>>();
   const revalidator = useRevalidator();
   const hasFetcherLoaded = useRef(false);
