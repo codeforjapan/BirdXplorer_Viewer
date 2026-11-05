@@ -599,15 +599,19 @@ export const getDefaultRelativePeriod = (): RelativePeriodValue =>
 
 type RetryableResult = {
   ok: boolean;
-  error?: { kind: string };
+  error?: { kind: string; status?: number };
 };
 
-const isRetryable = (result: RetryableResult): boolean =>
-  !result.ok &&
-  (result.error?.kind === "server" || result.error?.kind === "network");
+const isRetryable = (result: RetryableResult): boolean => {
+  if (result.ok) return false;
+  const { kind, status } = result.error ?? {};
+  if (kind === "network") return true;
+  return kind === "server" && status !== undefined && status >= 500;
+};
 
 /**
- * action を実行し、server/network エラーまたは例外なら1回だけ再実行する。
+ * action を実行し、5xx の server エラー・network エラー・例外なら1回だけ再実行する。
+ * status が不明な server エラーは再試行しない。
  * 例外が2回続いた場合は network エラーを返す。
  */
 const runWithSingleRetry = async <R extends RetryableResult>(

@@ -16,10 +16,10 @@ export const jstStartOfDayMs = (ymd: string): number =>
   dayjs.tz(ymd, JST_TZ).valueOf();
 
 /**
- * JST のその日の 23:59:59.999 をUNIXミリ秒で返す
+ * JST のその日の 23:59:59.999 をUNIXミリ秒で返す（翌日の 0 時の1ミリ秒前）
  */
 export const jstEndOfDayMs = (ymd: string): number =>
-  dayjs.tz(ymd, JST_TZ).endOf("day").valueOf();
+  jstStartOfDayMs(addDaysYmd(ymd, 1)) - 1;
 
 /**
  * 実行環境のローカルの年月日を "YYYY-MM-DD" にする（日付選択の Date を「選んだ日」として読む）

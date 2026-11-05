@@ -26,7 +26,23 @@ describe("jst", () => {
       "2026-03-08",
       "2026-03-29",
       "2026-01-19",
+      "2026-03-07",
+      "2026-10-31",
+      "2026-03-28",
+      "2026-10-24",
     ]) {
+      expect(jstStartOfDayMs(ymd)).toBe(Date.parse(`${ymd}T00:00:00+09:00`));
+      expect(jstEndOfDayMs(ymd)).toBe(Date.parse(`${ymd}T23:59:59.999+09:00`));
+    }
+  });
+
+  it("2026年の全日で JST の日の境界がずれない", () => {
+    for (
+      let d = Date.UTC(2026, 0, 1);
+      d < Date.UTC(2027, 0, 1);
+      d += 86_400_000
+    ) {
+      const ymd = new Date(d).toISOString().slice(0, 10);
       expect(jstStartOfDayMs(ymd)).toBe(Date.parse(`${ymd}T00:00:00+09:00`));
       expect(jstEndOfDayMs(ymd)).toBe(Date.parse(`${ymd}T23:59:59.999+09:00`));
     }
