@@ -146,12 +146,13 @@ describe("resources.graphs.daily-notes loader", () => {
 
     const first = await loader(createArgs(url));
     expect(first.ok).toBe(false);
-    expect(callCount).toBe(1);
+    // server エラーは1回再試行される
+    expect(callCount).toBe(2);
 
     // エラーはキャッシュされないので、再度APIが呼ばれる
     const second = await loader(createArgs(url));
     expect(second.ok).toBe(false);
-    expect(callCount).toBe(2);
+    expect(callCount).toBe(4);
   });
 
   it("uses separate cache for different parameters", async () => {

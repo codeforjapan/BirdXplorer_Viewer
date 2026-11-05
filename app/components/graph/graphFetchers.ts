@@ -597,28 +597,46 @@ export const getDefaultNotesAnnualRange = (): PeriodRangeValue =>
 export const getDefaultRelativePeriod = (): RelativePeriodValue =>
   getDefaultPeriodValue(RELATIVE_PERIOD_OPTIONS);
 
+type RetryableResult = {
+  ok: boolean;
+  error?: { kind: string };
+};
+
+const isRetryable = (result: RetryableResult): boolean =>
+  !result.ok &&
+  (result.error?.kind === "server" || result.error?.kind === "network");
+
+/**
+ * action を実行し、server/network エラーまたは例外なら1回だけ再実行する。
+ * 例外が2回続いた場合は network エラーを返す。
+ */
+const runWithSingleRetry = async <R extends RetryableResult>(
+  action: () => Promise<R>,
+  onThrow: () => R,
+): Promise<R> => {
+  const attempt = async (): Promise<R> => {
+    try {
+      return await action();
+    } catch {
+      return onThrow();
+    }
+  };
+  const first = await attempt();
+  return isRetryable(first) ? attempt() : first;
+};
+
 export const safeGraphFetch = async <T>(
   action: () => Promise<GraphFetchResult<T>>,
-): Promise<GraphFetchResult<T>> => {
-  try {
-    return await action();
-  } catch {
-    return toNetworkError<T>();
-  }
-};
+): Promise<GraphFetchResult<T>> =>
+  runWithSingleRetry(action, () => toNetworkError<T>());
 
 export const safeGraphFetchWithMarkers = async <T>(
   action: () => Promise<GraphFetchResultWithMarkers<T>>,
-): Promise<GraphFetchResultWithMarkers<T>> => {
-  try {
-    return await action();
-  } catch {
-    return {
-      ok: false,
-      error: {
-        kind: "network",
-        message: DEFAULT_GRAPH_ERROR_MESSAGES.network,
-      },
-    };
-  }
-};
+): Promise<GraphFetchResultWithMarkers<T>> =>
+  runWithSingleRetry(action, () => ({
+    ok: false,
+    error: {
+      kind: "network",
+      message: DEFAULT_GRAPH_ERROR_MESSAGES.network,
+    },
+  }));
