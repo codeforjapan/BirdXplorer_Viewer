@@ -13,7 +13,7 @@ const YMD_FORMAT = "YYYY-MM-DD";
  * JST のその日の 00:00:00.000 をUNIXミリ秒で返す
  */
 export const jstStartOfDayMs = (ymd: string): number =>
-  dayjs.tz(ymd, JST_TZ).startOf("day").valueOf();
+  dayjs.tz(ymd, JST_TZ).valueOf();
 
 /**
  * JST のその日の 23:59:59.999 をUNIXミリ秒で返す

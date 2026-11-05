@@ -19,6 +19,19 @@ describe("jst", () => {
     expect(jstEndOfDayMs("2025-12-01")).toBe(1764601199999);
   });
 
+  it("実行環境の夏時間の切り替え日でも JST の日の境界がずれない", () => {
+    for (const ymd of [
+      "2026-11-01",
+      "2026-10-25",
+      "2026-03-08",
+      "2026-03-29",
+      "2026-01-19",
+    ]) {
+      expect(jstStartOfDayMs(ymd)).toBe(Date.parse(`${ymd}T00:00:00+09:00`));
+      expect(jstEndOfDayMs(ymd)).toBe(Date.parse(`${ymd}T23:59:59.999+09:00`));
+    }
+  });
+
   it("ミリ秒を JST の日付に変換する", () => {
     expect(msToJstYmd(1764514799999)).toBe("2025-11-30");
     expect(msToJstYmd(1764514800000)).toBe("2025-12-01");
