@@ -23,6 +23,7 @@ import {
 import {
   dateRangeToTimestamps,
   periodRangeToTimestamps,
+  timestampsToDateRange,
 } from "~/utils/dateRange";
 
 export type DailyPostCountChartProps = {
@@ -41,10 +42,7 @@ export const DailyPostCountChart = ({
   // デフォルトの日付範囲を設定（2025-02_2026-01）
   const defaultTimestamps = periodRangeToTimestamps("2025-02_2026-01");
   const [dateRange, setDateRange] = useState<DateRange>(
-    initialDateRange ?? [
-      new Date(defaultTimestamps.start_date),
-      new Date(defaultTimestamps.end_date),
-    ],
+    initialDateRange ?? timestampsToDateRange(defaultTimestamps),
   );
   const fetcher =
     useFetcher<GraphFetchResultWithMarkers<DailyPostCountDataItem[]>>();
