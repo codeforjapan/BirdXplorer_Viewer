@@ -14,9 +14,11 @@
     "typecheck": "pnpm run typegen && tsc --noEmit",
     "typegen": "react-router typegen",
     "orval": "orval",
-    "test": "TZ=UTC vitest --run",
-    "test:node": "pnpm run test --project node",
-    "test:browser": "pnpm run test --project browser",
+    "test:utc": "TZ=UTC vitest --run",
+    "test:tz": "TZ=America/New_York vitest --run --project node app/utils/jst.test.ts app/utils/dateRange.test.ts && TZ=Europe/London vitest --run --project node app/utils/jst.test.ts app/utils/dateRange.test.ts",
+    "test": "pnpm run test:utc && pnpm run test:tz",
+    "test:node": "pnpm run test:utc --project node && pnpm run test:tz",
+    "test:browser": "pnpm run test:utc --project browser",
     "check": "pnpm typecheck && pnpm build && pnpm lint && pnpm format:ci && pnpm test"
   },
   "dependencies": {

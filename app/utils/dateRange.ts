@@ -1,6 +1,16 @@
-import dayjs from "dayjs";
-
 import type { RelativePeriodValue } from "~/components/graph/constants";
+import {
+  addDaysYmd,
+  addMonthsYmd,
+  dateToYmd,
+  endOfMonthYmd,
+  jstEndOfDayMs,
+  jstStartOfDayMs,
+  jstTodayYmd,
+  jstYmdToLocalDate,
+  msToJstYmd,
+  startOfMonthYmd,
+} from "~/utils/jst";
 
 export type DateRangeTimestamps = {
   start_date: number;
@@ -8,7 +18,7 @@ export type DateRangeTimestamps = {
 };
 
 /**
- * Dateオブジェクトの範囲をUNIXミリ秒に変換
+ * Dateオブジェクトの範囲をUNIXミリ秒に変換（選んだ日を JST の日として扱う）
  */
 export const dateRangeToTimestamps = (
   dateRange: [Date | null, Date | null],
@@ -17,8 +27,8 @@ export const dateRangeToTimestamps = (
   if (!start || !end) return null;
 
   return {
-    start_date: dayjs(start).startOf("day").valueOf(),
-    end_date: dayjs(end).endOf("day").valueOf(),
+    start_date: jstStartOfDayMs(dateToYmd(start)),
+    end_date: jstEndOfDayMs(dateToYmd(end)),
   };
 };
 
@@ -28,33 +38,32 @@ export const dateRangeToTimestamps = (
 export const relativePeriodToTimestamps = (
   period: RelativePeriodValue,
 ): DateRangeTimestamps => {
-  const now = dayjs();
-  const end = now.endOf("day");
+  const today = jstTodayYmd();
 
-  let start: dayjs.Dayjs;
+  let start: string;
   switch (period) {
     case "1week":
-      start = now.subtract(1, "week").startOf("day");
+      start = addDaysYmd(today, -7);
       break;
     case "1month":
-      start = now.subtract(1, "month").startOf("day");
+      start = addMonthsYmd(today, -1);
       break;
     case "3months":
-      start = now.subtract(3, "month").startOf("day");
+      start = addMonthsYmd(today, -3);
       break;
     case "6months":
-      start = now.subtract(6, "month").startOf("day");
+      start = addMonthsYmd(today, -6);
       break;
     case "1year":
-      start = now.subtract(1, "year").startOf("day");
+      start = addMonthsYmd(today, -12);
       break;
     default:
-      start = now.subtract(6, "month").startOf("day");
+      start = addMonthsYmd(today, -6);
   }
 
   return {
-    start_date: start.valueOf(),
-    end_date: end.valueOf(),
+    start_date: jstStartOfDayMs(start),
+    end_date: jstEndOfDayMs(today),
   };
 };
 
@@ -64,24 +73,21 @@ export const relativePeriodToTimestamps = (
 export const periodRangeToTimestamps = (range: string): DateRangeTimestamps => {
   const [startMonth, endMonth] = range.split("_");
 
-  const start = dayjs(startMonth, "YYYY-MM").startOf("month");
-  const end = dayjs(endMonth, "YYYY-MM").endOf("month");
-
   return {
-    start_date: start.valueOf(),
-    end_date: end.valueOf(),
+    start_date: jstStartOfDayMs(`${startMonth}-01`),
+    end_date: jstEndOfDayMs(endOfMonthYmd(`${endMonth}-01`)),
   };
 };
 
 /**
- * UNIXミリ秒の範囲をDateオブジェクトの範囲に変換
+ * UNIXミリ秒の範囲をDateオブジェクトの範囲に変換（JST の日付をローカルの Date にする）
  */
 export const timestampsToDateRange = (
   timestamps: DateRangeTimestamps,
 ): [Date, Date] => {
   return [
-    dayjs(timestamps.start_date).toDate(),
-    dayjs(timestamps.end_date).toDate(),
+    jstYmdToLocalDate(msToJstYmd(timestamps.start_date)),
+    jstYmdToLocalDate(msToJstYmd(timestamps.end_date)),
   ];
 };
 
@@ -97,10 +103,10 @@ export const getDefaultDateRange = (): [Date, Date] => {
  * コミュニティノート評価分布図のデフォルト範囲を取得（3日前〜17日前）
  */
 export const getDefault14DayRange = (): DateRangeTimestamps => {
-  const now = dayjs();
+  const today = jstTodayYmd();
   return {
-    start_date: now.subtract(17, "day").startOf("day").valueOf(),
-    end_date: now.subtract(3, "day").endOf("day").valueOf(),
+    start_date: jstStartOfDayMs(addDaysYmd(today, -17)),
+    end_date: jstEndOfDayMs(addDaysYmd(today, -3)),
   };
 };
 
@@ -108,12 +114,10 @@ export const getDefault14DayRange = (): DateRangeTimestamps => {
  * 年次グラフのデフォルト範囲を取得（今月を含む過去12ヶ月）
  */
 export const getDefault12MonthRange = (): DateRangeTimestamps => {
-  const now = dayjs();
-  const end = now.endOf("month");
-  const start = now.subtract(11, "month").startOf("month");
+  const today = jstTodayYmd();
   return {
-    start_date: start.valueOf(),
-    end_date: end.valueOf(),
+    start_date: jstStartOfDayMs(startOfMonthYmd(addMonthsYmd(today, -11))),
+    end_date: jstEndOfDayMs(endOfMonthYmd(today)),
   };
 };
 
@@ -126,8 +130,7 @@ export type AccountRankingPeriod = "1week" | "2weeks" | "1month";
 export const rankingPeriodToTimestamps = (
   period: AccountRankingPeriod,
 ): DateRangeTimestamps => {
-  const now = dayjs();
-  const end = now.subtract(2, "day").endOf("day");
+  const today = jstTodayYmd();
 
   let startDaysAgo: number;
   switch (period) {
@@ -145,7 +148,7 @@ export const rankingPeriodToTimestamps = (
   }
 
   return {
-    start_date: now.subtract(startDaysAgo, "day").startOf("day").valueOf(),
-    end_date: end.valueOf(),
+    start_date: jstStartOfDayMs(addDaysYmd(today, -startDaysAgo)),
+    end_date: jstEndOfDayMs(addDaysYmd(today, -2)),
   };
 };

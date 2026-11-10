@@ -40,6 +40,7 @@ import {
   timestampsToDateRange,
 } from "~/utils/dateRange";
 import { buildGraphCacheKey, graphCache } from "~/utils/graphCache";
+import { jstEndOfDayMs, jstStartOfDayMs } from "~/utils/jst";
 
 import type { LayoutHandle } from "./_layout";
 import type { Route } from "./+types/_layout.feature.$year.$slug";
@@ -118,8 +119,8 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   const graphTimestamps =
     feature?.startDate && feature?.endDate
       ? {
-          start_date: new Date(feature.startDate).getTime(),
-          end_date: new Date(feature.endDate).getTime(),
+          start_date: jstStartOfDayMs(feature.startDate),
+          end_date: jstEndOfDayMs(feature.endDate),
         }
       : defaultTimestamps;
 
