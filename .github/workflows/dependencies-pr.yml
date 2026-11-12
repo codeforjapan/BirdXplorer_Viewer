@@ -4,6 +4,9 @@ on:
   pull_request_target:
     types: [opened, reopened, synchronize]
 
+# Slack への通知だけで GITHUB_TOKEN は使わない
+permissions: {}
+
 jobs:
   call-reusable-workflow:
     if: github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]'
