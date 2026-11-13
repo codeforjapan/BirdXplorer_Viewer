@@ -463,10 +463,7 @@ type PostInfluenceData = {
 
 ```typescript
 type NoteStatus =
-  | "published"
-  | "evaluating"
-  | "unpublished"
-  | "temporarilyPublished";
+  "published" | "evaluating" | "unpublished" | "temporarilyPublished";
 ```
 
 | 値                       | 意味     | 説明                               |

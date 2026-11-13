@@ -34,8 +34,7 @@ export const loader = async ({ request }: { request: Request }) => {
     end_date,
   });
   const cached = graphCache.get(cacheKey) as
-    | GraphFetchResult<TopNoteAccountDataItem[]>
-    | undefined;
+    GraphFetchResult<TopNoteAccountDataItem[]> | undefined;
   if (cached) return cached;
 
   const result = await safeGraphFetch(async () =>
