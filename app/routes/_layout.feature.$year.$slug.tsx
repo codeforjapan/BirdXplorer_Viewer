@@ -161,17 +161,14 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   });
 
   const dailyNotesCached = graphCache.get(dailyNotesKey) as
-    | GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>
-    | undefined;
+    GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]> | undefined;
   const dailyPostsCached = graphCache.get(dailyPostsKey) as
-    | GraphFetchResultWithMarkers<DailyPostCountDataItem[]>
-    | undefined;
+    GraphFetchResultWithMarkers<DailyPostCountDataItem[]> | undefined;
   const notesEvaluationStatusCached = graphCache.get(
     notesEvaluationStatusKey,
   ) as GraphFetchResult<NoteEvaluationData[]> | undefined;
   const postInfluenceCached = graphCache.get(postInfluenceKey) as
-    | GraphFetchResult<PostInfluenceData[]>
-    | undefined;
+    GraphFetchResult<PostInfluenceData[]> | undefined;
 
   const settled = await Promise.allSettled([
     dailyNotesCached

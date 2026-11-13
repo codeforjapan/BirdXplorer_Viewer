@@ -32,11 +32,7 @@ export type StatusLabelKey = keyof typeof STATUS_LABELS;
  * "all" を含む
  */
 export type StatusValue =
-  | "all"
-  | "published"
-  | "evaluating"
-  | "unpublished"
-  | "temporarilyPublished";
+  "all" | "published" | "evaluating" | "unpublished" | "temporarilyPublished";
 
 /**
  * バブルチャート用カテゴリ設定（4種類）
@@ -120,11 +116,7 @@ export const getStatusLabel = (status: string): string => {
 };
 
 export type DefaultPeriodValue =
-  | "1week"
-  | "1month"
-  | "3months"
-  | "6months"
-  | "1year";
+  "1week" | "1month" | "3months" | "6months" | "1year";
 
 export const DEFAULT_PERIOD_OPTIONS: Array<{
   value: DefaultPeriodValue;
@@ -141,11 +133,7 @@ export const DEFAULT_PERIOD_OPTIONS: Array<{
  * 相対期間の値（フロントエンドで管理）
  */
 export type RelativePeriodValue =
-  | "1week"
-  | "1month"
-  | "3months"
-  | "6months"
-  | "1year";
+  "1week" | "1month" | "3months" | "6months" | "1year";
 
 export const RELATIVE_PERIOD_OPTIONS: Array<PeriodOption<RelativePeriodValue>> =
   [
