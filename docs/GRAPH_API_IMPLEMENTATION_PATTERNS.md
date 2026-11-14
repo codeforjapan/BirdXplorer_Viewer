@@ -111,8 +111,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const cacheKey = buildGraphCacheKey("daily-notes", { period, status });
 
   const cached = graphCache.get(cacheKey) as
-    | GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]>
-    | undefined;
+    GraphFetchResultWithMarkers<DailyNotesCreationDataItem[]> | undefined;
   if (cached) return cached;
 
   const result = await safeGraphFetchWithMarkers(async () =>
