@@ -218,8 +218,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
   // キャッシュ確認
   const cached = graphCache.get(cacheKey) as
-    | GraphFetchResult<UserActivityData[]>
-    | undefined;
+    GraphFetchResult<UserActivityData[]> | undefined;
   if (cached) return cached;
 
   // データ取得
@@ -369,8 +368,7 @@ const userActivityKey = buildGraphCacheKey("user-activity", {
 
 // 3. キャッシュ確認
 const userActivityCached = graphCache.get(userActivityKey) as
-  | GraphFetchResult<UserActivityData[]>
-  | undefined;
+  GraphFetchResult<UserActivityData[]> | undefined;
 
 // 4. Promise.allSettledに追加
 const settled = await Promise.allSettled([

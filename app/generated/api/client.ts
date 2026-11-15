@@ -94,9 +94,8 @@ export type getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantI
   };
 
 export type getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponse =
-
-    | getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccess
-    | getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseError;
+  | getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseSuccess
+  | getUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetResponseError;
 
 export const getGetUserEnrollmentByParticipantIdApiV1DataUserEnrollmentsParticipantIdGetUrl =
   (participantId: string) => {
@@ -956,9 +955,8 @@ export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseE
   };
 
 export type getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponse =
-
-    | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseSuccess
-    | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseError;
+  | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseSuccess
+  | getNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetResponseError;
 
 export const getGetNotesEvaluationStatusApiV1GraphsNotesEvaluationStatusGetUrl =
   (

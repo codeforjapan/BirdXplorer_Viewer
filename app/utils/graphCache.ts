@@ -9,8 +9,7 @@ export const GRAPH_CACHE_TTL_MS = 30_000;
 const GRAPH_CACHE_MAX_ENTRIES = 100;
 
 type GraphCacheValue =
-  | GraphFetchResult<unknown>
-  | GraphFetchResultWithMarkers<unknown>;
+  GraphFetchResult<unknown> | GraphFetchResultWithMarkers<unknown>;
 
 export const graphCache = createMemoryCache<GraphCacheValue>({
   ttlMs: GRAPH_CACHE_TTL_MS,

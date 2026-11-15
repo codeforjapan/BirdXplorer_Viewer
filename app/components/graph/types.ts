@@ -5,10 +5,7 @@
 
 /** APIデータ用のステータス型（フィルター用の"all"を含まない） */
 export type NoteStatus =
-  | "published"
-  | "evaluating"
-  | "unpublished"
-  | "temporarilyPublished";
+  "published" | "evaluating" | "unpublished" | "temporarilyPublished";
 
 /** 公開ステータス別の件数 */
 export type StatusCounts = {
