@@ -33,7 +33,7 @@
     "@mantine/core": "8.3.18",
     "@mantine/dates": "8.3.18",
     "@mantine/hooks": "8.3.18",
-    "@radix-ui/react-avatar": "1.2.6",
+    "@radix-ui/react-avatar": "1.3.1",
     "@radix-ui/react-collapsible": "1.1.20",
     "@radix-ui/react-dialog": "1.1.23",
     "@radix-ui/react-slot": "1.3.3",
